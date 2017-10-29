@@ -22,7 +22,8 @@ namespace archilab.Excel
             {
                 var ws = wb.Worksheet(worksheetName);
 
-                InternalWorksheet = ws ?? throw new Exception("Worksheet with given name was not found.");
+                if (ws == null) throw new Exception("Worksheet with given name was not found.");
+                InternalWorksheet = ws;
 
                 var r = ws.RangeUsed();
                 var rowNumber = r.RangeAddress.FirstAddress.RowNumber;
