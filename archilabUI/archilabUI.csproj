@@ -158,6 +158,11 @@
       <DependentUpon>BuiltInParamSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BuiltInParamSelector\BuiltInParamSelectorViewCustomization.cs" />
+    <Compile Include="DropdownListSelector\DropdownListSelector.cs" />
+    <Compile Include="DropdownListSelector\DropdownListSelectorView.xaml.cs">
+      <DependentUpon>DropdownListSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DropdownListSelector\DropdownListSelectorViewCustomization.cs" />
     <Compile Include="Dropdowns.cs" />
     <Compile Include="DropdownToList.cs" />
     <Compile Include="DSDropDownBase.cs" />
@@ -167,6 +172,7 @@
     </Compile>
     <Compile Include="ListSelector\ListSelectorViewCustomization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\ListItemWrapper.cs" />
     <Compile Include="Utilities\UtilitiesUI.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +180,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="BuiltInParamSelector\BuiltInParamSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DropdownListSelector\DropdownListSelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

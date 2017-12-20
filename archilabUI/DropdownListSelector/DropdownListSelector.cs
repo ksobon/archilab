@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using Dynamo.Graph.Nodes;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Xml;
+using archilabUI.Utilities;
 using Autodesk.DesignScript.Runtime;
 using Dynamo.Engine;
 using Dynamo.Graph;
+using Dynamo.Graph.Nodes;
 using Dynamo.UI.Commands;
 using ProtoCore.AST.AssociativeAST;
-using archilabUI.Utilities;
 
-namespace archilabUI.ListSelector
+namespace archilabUI.DropdownListSelector
 {
-    [NodeName("List Selector")]
+    [NodeName("Dropdown List Selector")]
     [NodeCategory("archilab.Core.Lists")]
     [NodeDescription("Use this node to select multiple items from a list.")]
     [IsDesignScriptCompatible]
@@ -24,7 +24,7 @@ namespace archilabUI.ListSelector
     [OutPortNames("List")]
     [OutPortTypes("Object")]
     [OutPortDescriptions("Selected items.")]
-    public class ListSelector : NodeModel
+    public class DropdownListSelector : NodeModel
     {
         public event Action UpdateItemsCollection;
         internal EngineController EngineController { get; set; }
@@ -33,7 +33,7 @@ namespace archilabUI.ListSelector
         [IsVisibleInDynamoLibrary(false)]
         public DelegateCommand OnItemChecked { get; set; }
 
-        public ListSelector()
+        public DropdownListSelector()
         {
             RegisterAllPorts();
             ArgumentLacing = LacingStrategy.Disabled;
@@ -130,7 +130,7 @@ namespace archilabUI.ListSelector
                 wrapperIndex.SetAttribute("index" + counter, item.Index.ToString());
                 counter++;
             }
-            
+
             nodeElement.AppendChild(wrapperName);
             nodeElement.AppendChild(wrapperSelected);
             nodeElement.AppendChild(wrapperIndex);
@@ -153,7 +153,7 @@ namespace archilabUI.ListSelector
                 var name = wrapperName.Attributes[i].Value;
                 var selected = wrapperSelected.Attributes[i].Value == "True";
                 var index = int.Parse(wrapperIndex.Attributes[i].Value);
-                var itemWrapper = new ListItemWrapper{ Name = name, IsSelected = selected, Index = index};
+                var itemWrapper = new ListItemWrapper { Name = name, IsSelected = selected, Index = index };
                 ItemsCollection.Add(itemWrapper);
             }
         }
@@ -168,7 +168,7 @@ namespace archilabUI.ListSelector
                     AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), AstFactory.BuildNullNode())
                 };
             }
-            
+
             var inputIdentifier = (inputAstNodes[0] as IdentifierNode)?.Value;
             return new[]
             {
