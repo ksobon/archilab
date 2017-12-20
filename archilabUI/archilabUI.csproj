@@ -118,7 +118,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -172,6 +174,11 @@
     </Compile>
     <Compile Include="ListSelector\ListSelectorViewCustomization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextNotePlus\TextNotePlus.cs" />
+    <Compile Include="TextNotePlus\TextNotePlusView.xaml.cs">
+      <DependentUpon>TextNotePlusView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TextNotePlus\TextNotePlusViewCustomization.cs" />
     <Compile Include="Utilities\ListItemWrapper.cs" />
     <Compile Include="Utilities\UtilitiesUI.cs" />
   </ItemGroup>
@@ -188,6 +195,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ListSelector\ListSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TextNotePlus\TextNotePlusView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
