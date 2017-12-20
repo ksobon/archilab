@@ -5,20 +5,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="200"
+             d:DesignHeight="100" d:DesignWidth="200"
              MouseDown="OnNoteMouseDown"
              PreviewMouseMove="window_PreviewMouseMove">
     <Grid x:Name="GridResize">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
         <Border x:Name="ResizeGrip" 
+                Grid.Row="1"
                 Focusable="True" 
-                Background="Black" 
+                Background="Red" 
                 BorderBrush="Red" 
                 BorderThickness="5" 
                 Opacity="0.2"  
-                HorizontalAlignment="Stretch" 
+                Width="25"
+                HorizontalAlignment="Right" 
                 VerticalAlignment="Stretch" 
                 PreviewMouseLeftButtonDown="ResizeGrip_OnPreviewMouseLeftButtonDown"
-                PreviewMouseLeftButtonUp="ResizeGrip_OnPreviewMouseLeftButtonUp">
+                PreviewMouseLeftButtonUp="ResizeGrip_OnPreviewMouseLeftButtonUp" Grid.RowSpan="2">
             <Border.Style>
                 <Style TargetType="Border">
                     <Style.Triggers>
