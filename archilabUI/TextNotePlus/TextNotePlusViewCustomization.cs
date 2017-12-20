@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 using archilabUI.ListSelector;
 using Dynamo.Controls;
@@ -28,20 +29,33 @@ namespace archilabUI.TextNotePlus
             _viewModel.EngineController = nodeView.ViewModel.DynamoViewModel.EngineController;
             _view = new TextNotePlusView
             {
-                DataContext = model,
-                MaxHeight = 300,
-                MaxWidth = 300
+                DataContext = model
             };
             nodeView.inputGrid.Children.Add(_view);
+
+            // (Konrad) Minimize node name and glyphs below.
+            // Turn off the slide out when hovered over.
             var children = nodeView.grid.Children;
             foreach (var child in children)
             {
                 var e = child as FrameworkElement;
                 if(e == null) continue;
-                var name = e.Name;
-                if (name == "expansionBay") e.Visibility = Visibility.Collapsed;
-            }
 
+                if (e.Name == "nickNameBlock")
+                {
+                    var rows = ((Grid)e.Parent).RowDefinitions;
+                    for (var i = 0; i < rows.Count; i++)
+                    {
+                        if (i == 2) continue;
+                        var row = rows[i];
+                        row.Height = new GridLength(0);
+                    }
+                }
+                else if (e.Name == "expansionBay")
+                {
+                    e.Visibility = Visibility.Collapsed;
+                }
+            }
 
             //model.UpdateItemsCollection += UpdateCollection;
             //UpdateCollection();

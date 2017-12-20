@@ -5,8 +5,37 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <xctk:RichTextBox x:Name="RichTextBox" BorderBrush="Gray" Padding="10" Text="{Binding Notes}" VerticalScrollBarVisibility="Auto"/>
+             d:DesignHeight="50" d:DesignWidth="200"
+             MouseDown="OnNoteMouseDown"
+             PreviewMouseMove="window_PreviewMouseMove">
+    <Grid x:Name="GridResize">
+        <Border x:Name="ResizeGrip" 
+                Focusable="True" 
+                Background="Black" 
+                BorderBrush="Red" 
+                BorderThickness="5" 
+                Opacity="0.2"  
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch" 
+                PreviewMouseLeftButtonDown="ResizeGrip_OnPreviewMouseLeftButtonDown"
+                PreviewMouseLeftButtonUp="ResizeGrip_OnPreviewMouseLeftButtonUp">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter  Property="Opacity" Value="1.0"/>
+                            <Setter Property="Cursor" Value="SizeNWSE"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <xctk:RichTextBox x:Name="RichTextBox" 
+                              FontSize="12"
+                              BorderThickness="0"
+                              Padding="10" 
+                              LostFocus="RichTextBox_OnLostFocus"
+                              Text="{Binding Notes}" 
+                              VerticalScrollBarVisibility="Auto"/>
+        </Border>
     </Grid>
 </UserControl>

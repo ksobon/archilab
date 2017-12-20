@@ -23,7 +23,14 @@ namespace archilabUI.TextNotePlus
         //public event Action UpdateItemsCollection;
         internal EngineController EngineController { get; set; }
 
-        public string Notes { get; set; }
+        public string Notes { get; set; } = "Please enter text here...";
+
+        private bool _isEnabled = false;
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { _isEnabled = value; RaisePropertyChanged("IsEnabled"); }
+        }
         //public ObservableCollection<ListItemWrapper> ItemsCollection { get; set; }
 
         //[IsVisibleInDynamoLibrary(false)]
@@ -110,49 +117,25 @@ namespace archilabUI.TextNotePlus
         //    }
         //}
 
-        //protected override void SerializeCore(XmlElement nodeElement, SaveContext context)
-        //{
-        //    base.SerializeCore(nodeElement, context);
-        //    if (nodeElement.OwnerDocument == null) return;
+        protected override void SerializeCore(XmlElement nodeElement, SaveContext context)
+        {
+            base.SerializeCore(nodeElement, context);
+            if (nodeElement.OwnerDocument == null) return;
 
-        //    var counter = 0;
-        //    var wrapperName = nodeElement.OwnerDocument.CreateElement("listWrapper_name");
-        //    var wrapperSelected = nodeElement.OwnerDocument.CreateElement("listWrapper_selected");
-        //    var wrapperIndex = nodeElement.OwnerDocument.CreateElement("listWrapper_index");
-        //    foreach (var item in ItemsCollection)
-        //    {
-        //        wrapperName.SetAttribute("name" + counter, item.Name);
-        //        wrapperSelected.SetAttribute("selected" + counter, item.IsSelected.ToString());
-        //        wrapperIndex.SetAttribute("index" + counter, item.Index.ToString());
-        //        counter++;
-        //    }
+            var wrapper = nodeElement.OwnerDocument.CreateElement("notes");
+            wrapper.InnerText = Notes;
+            nodeElement.AppendChild(wrapper);
+        }
 
-        //    nodeElement.AppendChild(wrapperName);
-        //    nodeElement.AppendChild(wrapperSelected);
-        //    nodeElement.AppendChild(wrapperIndex);
-        //}
+        protected override void DeserializeCore(XmlElement nodeElement, SaveContext context)
+        {
+            base.DeserializeCore(nodeElement, context);
 
-        //protected override void DeserializeCore(XmlElement nodeElement, SaveContext context)
-        //{
-        //    base.DeserializeCore(nodeElement, context);
-        //    var wrapperName = nodeElement.ChildNodes.Cast<XmlNode>().FirstOrDefault(x => x.Name == "listWrapper_name");
-        //    var wrapperSelected = nodeElement.ChildNodes.Cast<XmlNode>().FirstOrDefault(x => x.Name == "listWrapper_selected");
-        //    var wrapperIndex = nodeElement.ChildNodes.Cast<XmlNode>().FirstOrDefault(x => x.Name == "listWrapper_index");
+            var colorNode = nodeElement.ChildNodes.Cast<XmlNode>().FirstOrDefault(x => x.Name == "notes");
+            if (colorNode == null) return;
 
-        //    if (wrapperName == null || wrapperSelected == null || wrapperIndex == null) return;
-        //    if (wrapperName.Attributes == null || wrapperName.Attributes.Count <= 0) return;
-        //    if (wrapperSelected.Attributes == null || wrapperSelected.Attributes.Count <= 0) return;
-        //    if (wrapperIndex.Attributes == null || wrapperIndex.Attributes.Count <= 0) return;
-
-        //    for (var i = 0; i <= wrapperName.Attributes.Count - 1; i++)
-        //    {
-        //        var name = wrapperName.Attributes[i].Value;
-        //        var selected = wrapperSelected.Attributes[i].Value == "True";
-        //        var index = int.Parse(wrapperIndex.Attributes[i].Value);
-        //        var itemWrapper = new ListItemWrapper { Name = name, IsSelected = selected, Index = index };
-        //        ItemsCollection.Add(itemWrapper);
-        //    }
-        //}
+            Notes = colorNode.InnerText;
+        }
 
         [IsVisibleInDynamoLibrary(false)]
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
