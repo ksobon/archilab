@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
-using Xceed.Wpf.Toolkit;
+using System.Windows.Controls.Primitives;
 
 namespace archilabUI.TextNotePlus
 {
@@ -10,25 +10,38 @@ namespace archilabUI.TextNotePlus
     /// </summary>
     public partial class TextNotePlusView
     {
+        private Cursor _cursor;
+        public Grid MainGrid;
+
         public TextNotePlusView()
         {
-            try
-            {
-                InitializeComponent();
-                RichTextBox.IsEnabled = false;
-            }
-            catch (Exception ex)
-            {
-                var msg = ex.Message;
-            }
+            InitializeComponent();
+            RichTextBox.IsEnabled = false;
+            MainGrid = sizableContent;
         }
 
-        private void OnNoteMouseDown(object sender, MouseButtonEventArgs e)
+        private void OnResizeThumbDragStarted(object sender, DragStartedEventArgs e)
         {
-            if (e.ClickCount < 2) return;
+            _cursor = Cursor;
+            Cursor = Cursors.SizeNWSE;
+        }
 
-            RichTextBox.IsEnabled = true;
-            e.Handled = true;
+        private void OnResizeThumbDragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            Cursor = _cursor;
+        }
+
+        private void OnResizeThumbDragDelta(object sender, DragDeltaEventArgs e)
+        {
+            var yAdjust = MainGrid.Height + e.VerticalChange;
+            var xAdjust = MainGrid.Width + e.HorizontalChange;
+
+            //make sure not to resize to negative width or heigth            
+            xAdjust = (MainGrid.ActualWidth + xAdjust) > MainGrid.MinWidth ? xAdjust : MainGrid.MinWidth;
+            yAdjust = (MainGrid.ActualHeight + yAdjust) > MainGrid.MinHeight ? yAdjust : MainGrid.MinHeight;
+
+            MainGrid.Width = xAdjust;
+            MainGrid.Height = yAdjust;
         }
 
         private void RichTextBox_OnLostFocus(object sender, RoutedEventArgs e)
@@ -37,35 +50,14 @@ namespace archilabUI.TextNotePlus
             e.Handled = true;
         }
 
-        public Point StartPosition;
-        private bool _isResizing;
-        private void ResizeGrip_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void OnNoteMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!Mouse.Capture(ResizeGrip)) return;
-
-            _isResizing = true;
-            StartPosition = Mouse.GetPosition(this);
-        }
-
-        private void window_PreviewMouseMove(object sender, MouseEventArgs e)
-        {
-            if (!_isResizing) return;
-
-            var currentPosition = Mouse.GetPosition(this);
-            var diffX = currentPosition.X - StartPosition.X;
-            var diffY = currentPosition.Y - StartPosition.Y;
-            var currentLeft = GridResize.Margin.Left;
-            var currentTop = GridResize.Margin.Top;
-            GridResize.Margin = new Thickness(currentLeft + diffX, currentTop + diffY, 0, 0);
-            StartPosition = currentPosition;
-        }
-
-        private void ResizeGrip_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!_isResizing) return;
-
-            _isResizing = false;
-            Mouse.Capture(null);
+            if (e.ClickCount >= 2)
+            {
+                RichTextBox.IsEnabled = true;
+                RichTextBox.Focus();
+                e.Handled = true;
+            }
         }
     }
 }

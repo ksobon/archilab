@@ -25,12 +25,13 @@ namespace archilabUI.TextNotePlus
 
         public string Notes { get; set; } = "Please enter text here...";
 
-        private bool _isEnabled = false;
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set { _isEnabled = value; RaisePropertyChanged("IsEnabled"); }
+        private bool _readOnly = false;
+        public bool ReadOnly {
+            get { return _readOnly; }
+            set { _readOnly = value; RaisePropertyChanged("ReadOnly"); }
         }
+
+        
         //public ObservableCollection<ListItemWrapper> ItemsCollection { get; set; }
 
         //[IsVisibleInDynamoLibrary(false)]

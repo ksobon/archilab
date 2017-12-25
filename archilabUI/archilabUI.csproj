@@ -174,6 +174,7 @@
     </Compile>
     <Compile Include="ListSelector\ListSelectorViewCustomization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextNotePlus\BoolToColorConverter.cs" />
     <Compile Include="TextNotePlus\TextNotePlus.cs" />
     <Compile Include="TextNotePlus\TextNotePlusView.xaml.cs">
       <DependentUpon>TextNotePlusView.xaml</DependentUpon>

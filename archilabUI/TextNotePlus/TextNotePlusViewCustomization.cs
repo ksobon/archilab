@@ -29,8 +29,16 @@ namespace archilabUI.TextNotePlus
             _viewModel.EngineController = nodeView.ViewModel.DynamoViewModel.EngineController;
             _view = new TextNotePlusView
             {
-                DataContext = model
+                DataContext = model,
+                MaxHeight = 1000,
+                MaxWidth = 1000,
+                MainGrid =
+                {
+                    Width = 220,
+                    Height = 60
+                }
             };
+
             nodeView.inputGrid.Children.Add(_view);
 
             // (Konrad) Minimize node name and glyphs below.

@@ -1,47 +1,83 @@
 ﻿<UserControl x:Class="archilabUI.TextNotePlus.TextNotePlusView"
+             x:Name="UserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:textNotePlus="clr-namespace:archilabUI.TextNotePlus"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="200"
              MouseDown="OnNoteMouseDown"
-             PreviewMouseMove="window_PreviewMouseMove">
-    <Grid x:Name="GridResize">
+             LostFocus="RichTextBox_OnLostFocus"
+             d:DesignHeight="150" d:DesignWidth="250">
+    <Grid x:Name="sizableContent" MinWidth="220" MinHeight="60">
+        <Grid.Resources>
+            <textNotePlus:BoolToColorConverter x:Key="BoolToColor" />
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <Border x:Name="ResizeGrip" 
-                Grid.Row="1"
-                Focusable="True" 
-                Background="Red" 
-                BorderBrush="Red" 
-                BorderThickness="5" 
-                Opacity="0.2"  
-                Width="25"
-                HorizontalAlignment="Right" 
-                VerticalAlignment="Stretch" 
-                PreviewMouseLeftButtonDown="ResizeGrip_OnPreviewMouseLeftButtonDown"
-                PreviewMouseLeftButtonUp="ResizeGrip_OnPreviewMouseLeftButtonUp" Grid.RowSpan="2">
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter  Property="Opacity" Value="1.0"/>
-                            <Setter Property="Cursor" Value="SizeNWSE"/>
-                        </Trigger>
-                    </Style.Triggers>
+        <xctk:RichTextBox x:Name="RichTextBox" 
+                          FontSize="12"
+                          Grid.Row="0"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="2"
+                          BorderThickness="0"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          Padding="10" 
+                          LostFocus="RichTextBox_OnLostFocus"
+                          Text="{Binding Notes}" 
+                          VerticalScrollBarVisibility="Auto">
+            <xctk:RichTextBox.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Margin" Value="0"/>
                 </Style>
-            </Border.Style>
-            <xctk:RichTextBox x:Name="RichTextBox" 
-                              FontSize="12"
-                              BorderThickness="0"
-                              Padding="10" 
-                              LostFocus="RichTextBox_OnLostFocus"
-                              Text="{Binding Notes}" 
-                              VerticalScrollBarVisibility="Auto"/>
-        </Border>
+            </xctk:RichTextBox.Resources>
+        </xctk:RichTextBox>
+        <Rectangle Fill="{Binding ElementName=RichTextBox, Path=IsEnabled, Converter={StaticResource BoolToColor}}" 
+                   Grid.Row="1" 
+                   Grid.ColumnSpan="2" 
+                   Grid.Column="0" />
+        <Thumb VerticalAlignment="Bottom" 
+               Margin="0,0,1,1"
+               DragDelta="OnResizeThumbDragDelta" 
+               DragStarted="OnResizeThumbDragStarted" 
+               DragCompleted="OnResizeThumbDragCompleted"
+               Grid.Row="1" Grid.Column="1">
+            <Thumb.Style>
+                <Style TargetType="{x:Type Thumb}" BasedOn="{x:Null}">
+                    <Style.Setters>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Grid x:Name="resizeVisual" DockPanel.Dock="Right" VerticalAlignment="Bottom"  >
+                                        <Line X1="6" Y1="18" X2="18" Y2="6" Stroke="DarkGray" StrokeThickness="1.5"/>
+                                        <!--smallest/right|bottom most-->
+                                        <Line X1="10" Y1="18" X2="18" Y2="10" Stroke="DarkGray" StrokeThickness="1.5"/>
+                                        <Line X1="14" Y1="18" X2="18" Y2="14" Stroke="DarkGray" StrokeThickness="1.5"/>
+                                        <!--longers/left|top most-->
+                                        <Grid.Style>
+                                            <Style TargetType="{x:Type Grid}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Cursor" Value="SizeNWSE"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Grid.Style>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style.Setters>
+                </Style>
+            </Thumb.Style>
+        </Thumb>
     </Grid>
 </UserControl>
