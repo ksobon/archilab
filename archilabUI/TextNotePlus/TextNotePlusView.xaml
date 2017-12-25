@@ -10,7 +10,11 @@
              MouseDown="OnNoteMouseDown"
              LostFocus="RichTextBox_OnLostFocus"
              d:DesignHeight="150" d:DesignWidth="250">
-    <Grid x:Name="sizableContent" MinWidth="220" MinHeight="60">
+    <Grid x:Name="sizableContent" 
+          MinWidth="225" 
+          MinHeight="60" 
+          Width="{Binding NoteWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          Height="{Binding NoteHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         <Grid.Resources>
             <textNotePlus:BoolToColorConverter x:Key="BoolToColor" />
         </Grid.Resources>
@@ -32,8 +36,11 @@
                           VerticalAlignment="Stretch"
                           Padding="10" 
                           LostFocus="RichTextBox_OnLostFocus"
-                          Text="{Binding Notes}" 
+                          Text="{Binding Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                           VerticalScrollBarVisibility="Auto">
+            <xctk:RichTextBox.TextFormatter>
+                <xctk:PlainTextFormatter />
+            </xctk:RichTextBox.TextFormatter>
             <xctk:RichTextBox.Resources>
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="Margin" Value="0"/>
