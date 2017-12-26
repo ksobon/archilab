@@ -17,8 +17,7 @@ namespace archilabUI.TextNotePlus
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return null;
+            throw new NotImplementedException();
         }
-        
     }
 }

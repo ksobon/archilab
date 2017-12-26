@@ -13,7 +13,6 @@ namespace archilabUI.TextNotePlus
         public void CustomizeView(TextNotePlus model, NodeView nodeView)
         {
             _viewModel = model;
-            _viewModel.EngineController = nodeView.ViewModel.DynamoViewModel.EngineController;
             _view = new TextNotePlusView
             {
                 DataContext = model,
@@ -26,6 +25,7 @@ namespace archilabUI.TextNotePlus
                 }
             };
 
+            _viewModel.TextBox = _view.TextBox;
             nodeView.inputGrid.Children.Add(_view);
 
             // (Konrad) Minimize node name and glyphs below.

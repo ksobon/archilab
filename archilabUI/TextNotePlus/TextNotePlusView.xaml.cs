@@ -12,12 +12,14 @@ namespace archilabUI.TextNotePlus
     {
         private Cursor _cursor;
         public Grid MainGrid;
+        public Xceed.Wpf.Toolkit.RichTextBox TextBox;
 
         public TextNotePlusView()
         {
             InitializeComponent();
             RichTextBox.IsEnabled = false;
             MainGrid = sizableContent;
+            TextBox = RichTextBox;
         }
 
         private void OnResizeThumbDragStarted(object sender, DragStartedEventArgs e)

@@ -17,6 +17,7 @@
           Height="{Binding NoteHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         <Grid.Resources>
             <textNotePlus:BoolToColorConverter x:Key="BoolToColor" />
+            <textNotePlus:BoolToGridRowHeightConverter x:Key="BoolToHeight" />
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -25,6 +26,7 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="20"/>
+            <RowDefinition Height="{Binding IsHiddenRow, Converter={StaticResource BoolToHeight}}"/>
         </Grid.RowDefinitions>
         <xctk:RichTextBox x:Name="RichTextBox" 
                           FontSize="12"
@@ -48,7 +50,8 @@
             </xctk:RichTextBox.Resources>
         </xctk:RichTextBox>
         <Rectangle Fill="{Binding ElementName=RichTextBox, Path=IsEnabled, Converter={StaticResource BoolToColor}}" 
-                   Grid.Row="1" 
+                   Grid.Row="1"
+                   Grid.RowSpan="2"
                    Grid.ColumnSpan="2" 
                    Grid.Column="0" />
         <Thumb VerticalAlignment="Bottom" 
@@ -86,5 +89,16 @@
                 </Style>
             </Thumb.Style>
         </Thumb>
+        <ComboBox x:Name="ComboBoxTextSize" 
+                  ItemsSource="{Binding TextSizes}"
+                  HorizontalAlignment="Left" 
+                  IsEditable="True"
+                  Text="{Binding SelectedTextSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  Margin="100,2,0,0" 
+                  Grid.Row="2" 
+                  Grid.Column="0"
+                  VerticalAlignment="Top" 
+                  Width="40"/>
+        <Button x:Name="ButtonFoldout" Content=">" HorizontalAlignment="Left" Command="{Binding ShowHideRow}" Margin="2,0,0,0" Grid.Row="1" Width="20"/>
     </Grid>
 </UserControl>
