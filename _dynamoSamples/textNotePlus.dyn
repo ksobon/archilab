@@ -1,11 +1,13 @@
-<Workspace Version="1.3.0.875" X="0" Y="0" zoom="1" ScaleFactor="1" Name="Home" Description="" RunType="Automatic" RunPeriod="1000" HasRunWithoutCrash="True">
+<Workspace Version="1.3.0.875" X="-334.355656712178" Y="-249.235913570868" zoom="1.47618023926361" ScaleFactor="1" Name="Home" Description="" RunType="Automatic" RunPeriod="1000" HasRunWithoutCrash="True">
   <NamespaceResolutionMap />
   <Elements>
-    <archilabUI.TextNotePlus.TextNotePlus guid="7ee4cc72-d87d-45b3-9c9e-1ce07f471228" type="archilabUI.TextNotePlus.TextNotePlus" nickname="Text Note Plus" x="235.5" y="162" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
-      <notes>This is some awesome text formatting...
+    <archilabUI.TextNotePlus.TextNotePlus guid="182f6c90-47bb-44e5-a605-010de0519792" type="archilabUI.TextNotePlus.TextNotePlus" nickname="Text Note Plus" x="404.957820382811" y="226.921804366573" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" isPinned="false">
+      <notes>This is a note. I am trying to save this.
+This is another line.
+Yet another line.
 </notes>
-      <noteWidth>285</noteWidth>
-      <noteHeight>122</noteHeight>
+      <noteWidth>7</noteWidth>
+      <noteHeight>70</noteHeight>
     </archilabUI.TextNotePlus.TextNotePlus>
   </Elements>
   <Connectors />

@@ -26,6 +26,9 @@ namespace archilabUI.TextNotePlus
             };
 
             _viewModel.TextBox = _view.TextBox;
+            _viewModel.MainGrid = _view.MainGrid;
+            _viewModel.Cursor = _view.Cursor;
+
             nodeView.inputGrid.Children.Add(_view);
 
             // (Konrad) Minimize node name and glyphs below.

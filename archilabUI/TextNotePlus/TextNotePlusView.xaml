@@ -6,13 +6,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:textNotePlus="clr-namespace:archilabUI.TextNotePlus"
+             xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              MouseDown="OnNoteMouseDown"
              LostFocus="RichTextBox_OnLostFocus"
-             d:DesignHeight="150" d:DesignWidth="250">
-    <Grid x:Name="sizableContent" 
+             d:DesignHeight="164.5" d:DesignWidth="250">
+    <Grid x:Name="SizableContent" 
           MinWidth="225" 
-          MinHeight="60" 
+          MinHeight="90" 
           Width="{Binding NoteWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
           Height="{Binding NoteHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         <Grid.Resources>
@@ -24,7 +26,7 @@
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="4*"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="{Binding IsHiddenRow, Converter={StaticResource BoolToHeight}}"/>
         </Grid.RowDefinitions>
@@ -56,10 +58,19 @@
                    Grid.Column="0" />
         <Thumb VerticalAlignment="Bottom" 
                Margin="0,0,1,1"
-               DragDelta="OnResizeThumbDragDelta" 
-               DragStarted="OnResizeThumbDragStarted" 
-               DragCompleted="OnResizeThumbDragCompleted"
-               Grid.Row="1" Grid.Column="1">
+               Grid.Row="1" 
+               Grid.Column="1">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="DragDelta">
+                    <cmd:EventToCommand Command="{Binding ResizeThumbDragDelta, Mode=OneWay}" PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="DragStarted">
+                    <cmd:EventToCommand Command="{Binding ResizeThumbDragStarted, Mode=OneWay}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="DragCompleted">
+                    <cmd:EventToCommand Command="{Binding ResizeThumbDragCompleted, Mode=OneWay}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <Thumb.Style>
                 <Style TargetType="{x:Type Thumb}" BasedOn="{x:Null}">
                     <Style.Setters>
@@ -67,10 +78,10 @@
                             <Setter.Value>
                                 <ControlTemplate>
                                     <Grid x:Name="resizeVisual" DockPanel.Dock="Right" VerticalAlignment="Bottom"  >
-                                        <Line X1="6" Y1="18" X2="18" Y2="6" Stroke="DarkGray" StrokeThickness="1.5"/>
+                                        <Line X1="6" Y1="18" X2="18" Y2="6" Stroke="#555555" StrokeThickness="1.5"/>
                                         <!--smallest/right|bottom most-->
-                                        <Line X1="10" Y1="18" X2="18" Y2="10" Stroke="DarkGray" StrokeThickness="1.5"/>
-                                        <Line X1="14" Y1="18" X2="18" Y2="14" Stroke="DarkGray" StrokeThickness="1.5"/>
+                                        <Line X1="10" Y1="18" X2="18" Y2="10" Stroke="#555555" StrokeThickness="1.5"/>
+                                        <Line X1="14" Y1="18" X2="18" Y2="14" Stroke="#555555" StrokeThickness="1.5"/>
                                         <!--longers/left|top most-->
                                         <Grid.Style>
                                             <Style TargetType="{x:Type Grid}">
@@ -89,16 +100,104 @@
                 </Style>
             </Thumb.Style>
         </Thumb>
+        <Button Name="ButtonHideShow" 
+                Grid.Row="1" 
+                Grid.Column="0"
+                ToolTip="Select All Snapshots."
+                Command="{Binding ShowHideRow, Mode=OneWay}" 
+                Margin="2" 
+                Cursor="Hand" 
+                Background="Transparent" 
+                Visibility="Visible" 
+                HorizontalAlignment="Left" 
+                Width="18">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <StackPanel>
+                        <Image Name="image1" Height="18" Width="18" Source="../Resources/icons_arrowDown_24x24.png"  Visibility="Visible" />
+                        <Image Name="image2" Height="18" Width="18" Source="../Resources/icons_arrowDownHover_24x24.png" Visibility="Collapsed" />
+                        <Image Name="image3" Height="18" Width="18" Source="../Resources/icons_arrowUp_24x24.png" Visibility="Collapsed" />
+                        <Image Name="image4" Height="18" Width="18" Source="../Resources/icons_arrowUpHover_24x24.png" Visibility="Collapsed" />
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsHiddenRow}" Value="True"/>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True"/>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter TargetName="image1" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="image2" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="image3" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="image4" Property="Visibility" Value="Visible" />
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsHiddenRow}" Value="False"/>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True"/>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter TargetName="image1" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="image2" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="image3" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="image4" Property="Visibility" Value="Collapsed" />
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsHiddenRow}" Value="True"/>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter TargetName="image1" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="image2" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="image3" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="image4" Property="Visibility" Value="Collapsed" />
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsHiddenRow}" Value="False"/>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter TargetName="image1" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="image2" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="image3" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="image4" Property="Visibility" Value="Collapsed" />
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Rectangle Fill="#555555" 
+                   Grid.Row="2"
+                   Grid.ColumnSpan="2" 
+                   VerticalAlignment="Top"
+                   Grid.Column="0" 
+                   Margin="5,0" 
+                   Height="2"/>
+        <ComboBox x:Name="ComboBoxTextFont" 
+                  ItemsSource="{Binding TextFonts}"
+                  HorizontalAlignment="Left" 
+                  IsEditable="True"
+                  Text="{Binding SelectedTextFont, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  Margin="5,4,0,0" 
+                  Grid.Row="2" 
+                  Grid.Column="0"
+                  VerticalAlignment="Top" 
+                  Width="100"/>
         <ComboBox x:Name="ComboBoxTextSize" 
                   ItemsSource="{Binding TextSizes}"
                   HorizontalAlignment="Left" 
                   IsEditable="True"
                   Text="{Binding SelectedTextSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  Margin="100,2,0,0" 
+                  Margin="110,4,0,0" 
                   Grid.Row="2" 
                   Grid.Column="0"
                   VerticalAlignment="Top" 
-                  Width="40"/>
-        <Button x:Name="ButtonFoldout" Content=">" HorizontalAlignment="Left" Command="{Binding ShowHideRow}" Margin="2,0,0,0" Grid.Row="1" Width="20"/>
+                  Width="50"/>
     </Grid>
 </UserControl>
