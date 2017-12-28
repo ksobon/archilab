@@ -75,6 +75,14 @@
     <Reference Include="DynamoUtilities, Version=1.3.0.961, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamoVisualProgramming.Core.1.3.0\lib\net45\DynamoUtilities.dll</HintPath>
     </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.3.0.19026, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.3.0.19032, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
@@ -84,8 +92,9 @@
     <Reference Include="Microsoft.Practices.Prism.Interactivity, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="NodeServices2, Version=1.3.0.961, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamoVisualProgramming.DynamoServices.1.3.0\lib\net45\NodeServices2.dll</HintPath>
@@ -118,9 +127,12 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -172,10 +184,19 @@
     </Compile>
     <Compile Include="ListSelector\ListSelectorViewCustomization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextNotePlus\BoolToColorConverter.cs" />
+    <Compile Include="TextNotePlus\BoolToGridRowHeightConverter.cs" />
+    <Compile Include="TextNotePlus\TextNotePlus.cs" />
+    <Compile Include="TextNotePlus\TextNotePlusView.xaml.cs">
+      <DependentUpon>TextNotePlusView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TextNotePlus\TextNotePlusViewCustomization.cs" />
     <Compile Include="Utilities\ListItemWrapper.cs" />
+    <Compile Include="Utilities\ParameterWrapper.cs" />
     <Compile Include="Utilities\UtilitiesUI.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +212,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TextNotePlus\TextNotePlusView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\archilab\archilab.csproj">
@@ -198,8 +223,18 @@
       <Name>archilab</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons_arrowDown_24x24.png" />
+    <Resource Include="Resources\icons_arrowUp_24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons_arrowDownHover_24x24.png" />
+    <Resource Include="Resources\icons_arrowUpHover_24x24.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetPath)" "%25APPDATA%25\Dynamo\Dynamo Revit\1.3\packages\archi-lab.net\bin"</PostBuildEvent>
+    <PostBuildEvent>copy /Y "$(TargetPath)" "%25APPDATA%25\Dynamo\Dynamo Revit\1.3\packages\archi-lab.net\bin"
+copy /Y "$(TargetDir)GalaSoft.MvvmLight.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\1.3\packages\archi-lab.net\bin"
+copy /Y "$(TargetDir)GalaSoft.MvvmLight.Platform.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\1.3\packages\archi-lab.net\bin"</PostBuildEvent>
   </PropertyGroup>
 </Project>
