@@ -11,7 +11,7 @@
              mc:Ignorable="d" 
              MouseDown="OnNoteMouseDown"
              LostFocus="RichTextBox_OnLostFocus"
-             d:DesignHeight="164.5" d:DesignWidth="250">
+             d:DesignHeight="164.5" d:DesignWidth="225">
     <Grid x:Name="SizableContent" 
           MinWidth="225" 
           MinHeight="90" 
@@ -38,12 +38,11 @@
                           BorderThickness="0"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
-                          Padding="10" 
-                          LostFocus="RichTextBox_OnLostFocus"
+                          Padding="4" 
                           Text="{Binding Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                           VerticalScrollBarVisibility="Auto">
             <xctk:RichTextBox.TextFormatter>
-                <xctk:PlainTextFormatter />
+                <xctk:RtfFormatter />
             </xctk:RichTextBox.TextFormatter>
             <xctk:RichTextBox.Resources>
                 <Style TargetType="{x:Type Paragraph}">
@@ -57,7 +56,8 @@
                    Grid.ColumnSpan="2" 
                    Grid.Column="0" />
         <Thumb VerticalAlignment="Bottom" 
-               Margin="0,0,1,1"
+               Margin="0,0,2,2"
+               ToolTip="Click and drag to resize text note."
                Grid.Row="1" 
                Grid.Column="1">
             <i:Interaction.Triggers>
@@ -103,7 +103,7 @@
         <Button Name="ButtonHideShow" 
                 Grid.Row="1" 
                 Grid.Column="0"
-                ToolTip="Select All Snapshots."
+                ToolTip="Show/Hide formatting tools."
                 Command="{Binding ShowHideRow, Mode=OneWay}" 
                 Margin="2" 
                 Cursor="Hand" 
@@ -172,32 +172,50 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Rectangle Fill="#555555" 
+        <Rectangle Fill="#7f7e7d" 
                    Grid.Row="2"
                    Grid.ColumnSpan="2" 
                    VerticalAlignment="Top"
                    Grid.Column="0" 
                    Margin="5,0" 
                    Height="2"/>
-        <ComboBox x:Name="ComboBoxTextFont" 
-                  ItemsSource="{Binding TextFonts}"
-                  HorizontalAlignment="Left" 
-                  IsEditable="True"
-                  Text="{Binding SelectedTextFont, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  Margin="5,4,0,0" 
-                  Grid.Row="2" 
-                  Grid.Column="0"
-                  VerticalAlignment="Top" 
-                  Width="100"/>
-        <ComboBox x:Name="ComboBoxTextSize" 
-                  ItemsSource="{Binding TextSizes}"
-                  HorizontalAlignment="Left" 
-                  IsEditable="True"
-                  Text="{Binding SelectedTextSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  Margin="110,4,0,0" 
-                  Grid.Row="2" 
-                  Grid.Column="0"
-                  VerticalAlignment="Top" 
-                  Width="50"/>
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="5,4">
+            <Border BorderThickness="1" BorderBrush="#7f7e7d">
+                <ComboBox x:Name="ComboBoxTextFont" 
+                          ItemsSource="{Binding TextFonts}"
+                          IsEditable="True"
+                          BorderThickness="0"
+                          Text="{Binding SelectedTextFont, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Width="105"/>
+            </Border>
+            <Border BorderThickness="1" BorderBrush="#7f7e7d" Margin="4,0,0,0">
+                <ComboBox x:Name="ComboBoxTextSize" 
+                          BorderThickness="0"
+                          ItemsSource="{Binding TextSizes}"
+                          IsEditable="True"
+                          Text="{Binding SelectedTextSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Width="50"/>
+            </Border>
+            <ToggleButton x:Name="ButtonBold" 
+                          Content="B" 
+                          Margin="4,0,0,0"
+                          BorderBrush="#7f7e7d"
+                          FontWeight="Bold"
+                          Foreground="#7f7e7d"
+                          Background="White"
+                          Command="{Binding TextBold, Mode=OneWay}"
+                          CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}"
+                          Width="22"/>
+            <ToggleButton x:Name="ButtonItalic" 
+                          Content="I" 
+                          Margin="4,0,0,0"
+                          BorderBrush="#7f7e7d"
+                          FontStyle="Italic"
+                          Foreground="#7f7e7d"
+                          Background="White"
+                          Command="{Binding TextItalic, Mode=OneWay}"
+                          CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}"
+                          Width="22"/>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Drawing.Text;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Xml;
 using Autodesk.DesignScript.Runtime;
 using Dynamo.Graph;
@@ -16,41 +18,29 @@ using RichTextBox = Xceed.Wpf.Toolkit.RichTextBox;
 namespace archilabUI.TextNotePlus
 {
     [NodeName("Text Note Plus")]
-    [NodeCategory("archilab.Core.Lists")]
+    [NodeCategory("archilab.Core.Utilities")]
     [NodeDescription("Use this node to create a resizable text note.")]
     [IsDesignScriptCompatible]
     public class TextNotePlus : NodeModel
     {
+        #region Properties
+
         public RichTextBox TextBox { get; set; }
         public Grid MainGrid { get; set; }
-        public Cursor Cursor { get; set; }
         private Cursor _cursor;
-        private const string DefaultText = "<Section xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" " +
-                                           "xml:space=\"preserve\" TextAlignment=\"Left\" LineHeight=\"Auto\" IsHyphenationEnabled=\"False\" " +
-                                           "xml:lang=\"en-us\" FlowDirection=\"LeftToRight\" NumberSubstitution.CultureSource=\"User\" " +
-                                           "NumberSubstitution.Substitution=\"AsCulture\" FontFamily=\"Segoe UI\" FontStyle=\"Normal\" " +
-                                           "FontWeight=\"Normal\" FontStretch=\"Normal\" FontSize=\"12\" Foreground=\"#FF000000\" " +
-                                           "Typography.StandardLigatures=\"True\" Typography.ContextualLigatures=\"True\" " +
-                                           "Typography.DiscretionaryLigatures=\"False\" Typography.HistoricalLigatures=\"False\" " +
-                                           "Typography.AnnotationAlternates=\"0\" Typography.ContextualAlternates=\"True\" " +
-                                           "Typography.HistoricalForms=\"False\" Typography.Kerning=\"True\" Typography.CapitalSpacing=\"False\" " +
-                                           "Typography.CaseSensitiveForms=\"False\" Typography.StylisticSet1=\"False\" Typography.StylisticSet2=\"False\" " +
-                                           "Typography.StylisticSet3=\"False\" Typography.StylisticSet4=\"False\" Typography.StylisticSet5=\"False\" " +
-                                           "Typography.StylisticSet6=\"False\" Typography.StylisticSet7=\"False\" Typography.StylisticSet8=\"False\" " +
-                                           "Typography.StylisticSet9=\"False\" Typography.StylisticSet10=\"False\" Typography.StylisticSet11=\"False\" " +
-                                           "Typography.StylisticSet12=\"False\" Typography.StylisticSet13=\"False\" Typography.StylisticSet14=\"False\" " +
-                                           "Typography.StylisticSet15=\"False\" Typography.StylisticSet16=\"False\" Typography.StylisticSet17=\"False\" " +
-                                           "Typography.StylisticSet18=\"False\" Typography.StylisticSet19=\"False\" Typography.StylisticSet20=\"False\" " +
-                                           "Typography.Fraction=\"Normal\" Typography.SlashedZero=\"False\" Typography.MathematicalGreek=\"False\" " +
-                                           "Typography.EastAsianExpertForms=\"False\" Typography.Variants=\"Normal\" Typography.Capitals=\"Normal\" " +
-                                           "Typography.NumeralStyle=\"Normal\" Typography.NumeralAlignment=\"Normal\" Typography.EastAsianWidths=\"Normal\" " +
-                                           "Typography.EastAsianLanguage=\"Normal\" Typography.StandardSwashes=\"0\" Typography.ContextualSwashes=\"0\"" +
-                                           " Typography.StylisticAlternates=\"0\">This is the <Run FontWeight=\"Bold\">RichTextBox";
+        public Cursor Cursor { get; set; }
 
-        public string Notes { get; set; } = "Note...";
+        private const string DefaultValue =
+                "{\\rtf1\\ansi\\ansicpg1252\\uc1\\htmautsp\\deff2{\\fonttbl{\\f0\\fcharset0 Times New Roman;}" +
+                "{\\f2\\fcharset0 ../../Fonts/#Open Sans;}}" +
+                "{\\colortbl\\red0\\green0\\blue0;\\red255\\green255\\blue255;}\\loch\\hich\\dbch\\pard\\plain\\ltrpar\\itap0" +
+                "{\\lang1033\\fs18\\f2\\cf0 \\cf0\\ql{\\f2 {\\ltrch New Note Plus}\\li0\\ri0\\sa0\\sb0\\fi0\\ql\\par}\r\n}\r\n}";
+
+        public string Notes { get; set; } = DefaultValue;
         public int NoteWidth { get; set; } = 225;
         public int NoteHeight { get; set; } = 90;
-        public ObservableCollection<string> TextSizes { get; set; } = new ObservableCollection<string>
+        public List<string> TextFonts { get; set; }
+        public List<string> TextSizes { get; set; } = new List<string>
         {
             "8","9","10","11","12","14","16","18","20","22","24","26","28","36","48","72"
         };
@@ -59,6 +49,8 @@ namespace archilabUI.TextNotePlus
         public RelayCommand<DragDeltaEventArgs> ResizeThumbDragDelta { get; set; }
         public RelayCommand ResizeThumbDragStarted { get; set; }
         public RelayCommand ResizeThumbDragCompleted { get; set; }
+        public RelayCommand<bool> TextBold { get; set; }
+        public RelayCommand<bool> TextItalic { get; set; }
 
         private string _selectedTextSize = "11";
         public string SelectedTextSize {
@@ -67,7 +59,19 @@ namespace archilabUI.TextNotePlus
             {
                 _selectedTextSize = value;
                 RaisePropertyChanged("SelectedTextSize");
-                OnTextSizeChanged(value);
+                OnTextFormattingChanged(value, FormattingAction.ChangeFontSize);
+            }
+        }
+
+        private string _selectedTextFont = "Arial";
+        public string SelectedTextFont
+        {
+            get { return _selectedTextFont; }
+            set
+            {
+                _selectedTextFont = value;
+                RaisePropertyChanged("SelectedTextFont");
+                OnTextFormattingChanged(value, FormattingAction.ChangeFontFamily);
             }
         }
 
@@ -77,70 +81,164 @@ namespace archilabUI.TextNotePlus
             set { _isHiddenRow = value; RaisePropertyChanged("IsHiddenRow"); }
         }
 
-        private void OnShowHideRow()
-        {
-            NoteHeight = NoteHeight + 30;
-            IsHiddenRow = !IsHiddenRow;
-        }
-
-        private void OnTextSizeChanged(string input)
-        {
-            if (TextBox == null) return;
-            if (string.IsNullOrEmpty(input)) return;
-
-            var value = double.Parse(input);
-            var target = TextBox;
-
-            // Make sure we have a selection. Should have one even if there is no text selected.
-            if (target.Selection != null)
-            {
-                // Check whether there is text selected or just sitting at cursor
-                if (target.Selection.IsEmpty)
-                {
-                    // Check to see if we are at the start of the textbox and nothing has been added yet
-                    if (target.Selection.Start.Paragraph == null)
-                    {
-                        // Add a new paragraph object to the richtextbox with the fontsize
-                        var p = new Paragraph {FontSize = value};
-                        target.Document.Blocks.Add(p);
-                    }
-                    else
-                    {
-                        // Get current position of cursor
-                        var curCaret = target.CaretPosition;
-                        // Get the current block object that the cursor is in
-                        var curBlock = target.Document.Blocks.FirstOrDefault(x => x.ContentStart.CompareTo(curCaret) == -1 && x.ContentEnd.CompareTo(curCaret) == 1);
-                        if (curBlock != null)
-                        {
-                            var curParagraph = curBlock as Paragraph;
-                            // Create a new run object with the fontsize, and add it to the current block
-                            var newRun = new Run {FontSize = value};
-                            curParagraph?.Inlines.Add(newRun);
-                            // Reset the cursor into the new block. 
-                            // If we don't do this, the font size will default again when you start typing.
-                            target.CaretPosition = newRun.ElementStart;
-                        }
-                    }
-                }
-                else // There is selected text, so change the fontsize of the selection
-                {
-                    var selectionTextRange = new TextRange(target.Selection.Start, target.Selection.End);
-                    selectionTextRange.ApplyPropertyValue(TextElement.FontSizeProperty, value);
-                }
-            }
-            // Reset the focus onto the richtextbox after selecting the font in a toolbar etc
-            target.Focus();
-        }
+        #endregion
 
         public TextNotePlus()
         {
             RegisterAllPorts();
             ArgumentLacing = LacingStrategy.Disabled;
 
+            TextFonts = CollectInstalledFonts();
+
             ShowHideRow = new RelayCommand(OnShowHideRow);
             ResizeThumbDragDelta = new RelayCommand<DragDeltaEventArgs>(OnResizeThumbDragDelta);
             ResizeThumbDragStarted = new RelayCommand(OnResizeThumbDragStarted);
             ResizeThumbDragCompleted = new RelayCommand(OnResizeThumbDragCompleted);
+            TextBold = new RelayCommand<bool>(OnTextBold);
+            TextItalic = new RelayCommand<bool>(OnTextItalic);
+        }
+
+        #region UI Methods
+
+        /// <summary>
+        /// Changes text to Italic/Normal.
+        /// </summary>
+        private void OnTextItalic(bool isChecked)
+        {
+            OnTextFormattingChanged("do not use", FormattingAction.ChangeItalic, isChecked);
+        }
+
+        /// <summary>
+        /// Changes text to Bold/Normal.
+        /// </summary>
+        private void OnTextBold(bool isChecked)
+        {
+            OnTextFormattingChanged("do not use", FormattingAction.ChangeBold, isChecked);
+        }
+
+        /// <summary>
+        /// Toggles the formatting menu on/off.
+        /// </summary>
+        private void OnShowHideRow()
+        {
+            NoteHeight = NoteHeight + 30;
+            IsHiddenRow = !IsHiddenRow;
+        }
+
+        /// <summary>
+        /// Sets proper formatting to text in the RichTexBox.
+        /// </summary>
+        /// <param name="input">Property used by dropdowns passing through selected value.</param>
+        /// <param name="action">Type of formatting to be applied to the text.</param>
+        /// <param name="isChecked">Property used by button actions indicating whether toggled button is checked or not.</param>
+        private void OnTextFormattingChanged(string input, FormattingAction action, bool isChecked = false)
+        {
+            if (TextBox == null) return;
+            if (string.IsNullOrEmpty(input)) return;
+
+            var target = TextBox;
+
+            // Check whether there is text selected or just sitting at cursor
+            if (target.Selection.IsEmpty)
+            {
+                // Check to see if we are at the start of the textbox and nothing has been added yet
+                if (target.Selection.Start.Paragraph == null)
+                {
+                    // Add a new paragraph object to the richtextbox with the fontsize
+                    var p = new Paragraph();
+
+                    switch (action)
+                    {
+                        case FormattingAction.ChangeFontSize:
+                            p.FontSize = double.Parse(input);
+                            break;
+                        case FormattingAction.ChangeFontFamily:
+                            p.FontFamily = new FontFamily(input);
+                            break;
+                        case FormattingAction.ChangeBold:
+                            p.FontWeight = isChecked ? FontWeights.Bold : FontWeights.Normal;
+                            break;
+                        case FormattingAction.ChangeItalic:
+                            p.FontStyle = isChecked ? FontStyles.Italic : FontStyles.Normal;
+                            break;
+                    }
+
+                    target.Document.Blocks.Add(p);
+                }
+                else
+                {
+                    // Get current position of cursor
+                    var curCaret = target.CaretPosition;
+                    // Get the current block object that the cursor is in
+                    var curBlock = target.Document.Blocks.FirstOrDefault(x => x.ContentStart.CompareTo(curCaret) == -1 && x.ContentEnd.CompareTo(curCaret) == 1);
+                    if (curBlock != null)
+                    {
+                        var curParagraph = curBlock as Paragraph;
+                        // Create a new run object with the fontsize, and add it to the current block
+                        var newRun = new Run();
+
+                        switch (action)
+                        {
+                            case FormattingAction.ChangeFontSize:
+                                newRun.FontSize = double.Parse(input);
+                                break;
+                            case FormattingAction.ChangeFontFamily:
+                                newRun.FontFamily = new FontFamily(input);
+                                break;
+                            case FormattingAction.ChangeBold:
+                                newRun.FontWeight = isChecked ? FontWeights.Bold : FontWeights.Normal;
+                                break;
+                            case FormattingAction.ChangeItalic:
+                                newRun.FontStyle = isChecked ? FontStyles.Italic : FontStyles.Normal;
+                                break;
+                        }
+
+                        curParagraph?.Inlines.Add(newRun);
+                        // Reset the cursor into the new block. 
+                        // If we don't do this, the font size will default again when you start typing.
+                        target.CaretPosition = newRun.ElementStart;
+                    }
+                }
+            }
+            else // There is selected text, so change the fontsize of the selection
+            {
+                var selectionTextRange = new TextRange(target.Selection.Start, target.Selection.End);
+
+                switch (action)
+                {
+                    case FormattingAction.ChangeFontSize:
+                        selectionTextRange.ApplyPropertyValue(TextElement.FontSizeProperty, double.Parse(input));
+                        break;
+                    case FormattingAction.ChangeFontFamily:
+                        selectionTextRange.ApplyPropertyValue(TextElement.FontFamilyProperty, new FontFamily(input));
+                        break;
+                    case FormattingAction.ChangeBold:
+                        selectionTextRange.ApplyPropertyValue(TextElement.FontWeightProperty,
+                            isChecked ? FontWeights.Bold : FontWeights.Normal);
+                        break;
+                    case FormattingAction.ChangeItalic:
+                        selectionTextRange.ApplyPropertyValue(TextElement.FontStyleProperty,
+                            isChecked ? FontStyles.Italic : FontStyles.Normal);
+                        break;
+                }
+            }
+            // Reset the focus onto the richtextbox after selecting the font in a toolbar etc
+            target.Focus();
+        }
+
+        /// <summary>
+        /// Collects all installed fonts from user machine.
+        /// </summary>
+        /// <returns>List of installed font names.</returns>
+        public List<string> CollectInstalledFonts()
+        {
+            var fonts = new List<string>();
+            using (var fontsCollection = new InstalledFontCollection())
+            {
+                var fontFamilies = fontsCollection.Families;
+                fonts.AddRange(fontFamilies.Select(font => font.Name));
+            }
+            return fonts;
         }
 
         /// <summary>
@@ -177,6 +275,10 @@ namespace archilabUI.TextNotePlus
             MainGrid.Height = yAdjust;
         }
 
+        #endregion
+
+        #region Dynamo Serialization
+
         protected override void SerializeCore(XmlElement nodeElement, SaveContext context)
         {
             base.SerializeCore(nodeElement, context);
@@ -200,7 +302,12 @@ namespace archilabUI.TextNotePlus
         {
             base.DeserializeCore(nodeElement, context);
 
-            var note = nodeElement.ChildNodes.Cast<XmlNode>().FirstOrDefault(x => x.Name == "notes")?.InnerText ?? "Please enter text here...";
+            const string defaultValue = "{\\rtf1\\ansi\\ansicpg1252\\uc1\\htmautsp\\deff2{\\fonttbl{\\f0\\fcharset0 Times New Roman;}" +
+                                        "{\\f2\\fcharset0 ../../Fonts/#Open Sans;}}" +
+                                        "{\\colortbl\\red0\\green0\\blue0;\\red255\\green255\\blue255;}\\loch\\hich\\dbch\\pard\\plain\\ltrpar\\itap0" +
+                                        "{\\lang1033\\fs18\\f2\\cf0 \\cf0\\ql{\\f2 {\\ltrch New Note Plus}\\li0\\ri0\\sa0\\sb0\\fi0\\ql\\par}\r\n}\r\n}";
+
+            var note = nodeElement.ChildNodes.Cast<XmlNode>().FirstOrDefault(x => x.Name == "notes")?.InnerText ?? defaultValue;
             var noteWidth = nodeElement.ChildNodes.Cast<XmlNode>().FirstOrDefault(x => x.Name == "noteWidth")?.InnerText ?? "225";
             var noteHeight = nodeElement.ChildNodes.Cast<XmlNode>().FirstOrDefault(x => x.Name == "noteHeight")?.InnerText ?? "60";
 
@@ -208,6 +315,8 @@ namespace archilabUI.TextNotePlus
             NoteWidth = int.Parse(noteWidth);
             NoteHeight = int.Parse(noteHeight);
         }
+
+        #endregion
 
         [IsVisibleInDynamoLibrary(false)]
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
@@ -217,5 +326,16 @@ namespace archilabUI.TextNotePlus
                 AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), AstFactory.BuildNullNode())
             };
         }
+    }
+
+    /// <summary>
+    /// Types of formatting actions that can be applied to RichTextBox.
+    /// </summary>
+    public enum FormattingAction
+    {
+        ChangeFontSize,
+        ChangeFontFamily,
+        ChangeBold,
+        ChangeItalic
     }
 }

@@ -4,13 +4,13 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Xml;
-using archilabUI.Utilities;
 using Autodesk.DesignScript.Runtime;
 using Dynamo.Engine;
 using Dynamo.Graph;
 using Dynamo.Graph.Nodes;
 using Dynamo.UI.Commands;
 using ProtoCore.AST.AssociativeAST;
+using archilabUI.Utilities;
 
 namespace archilabUI.DropdownListSelector
 {
@@ -46,6 +46,8 @@ namespace archilabUI.DropdownListSelector
 
             OnItemChecked = new DelegateCommand(ItemChecked, CanCheckItem);
         }
+
+        #region UI Methods
 
         private static bool CanCheckItem(object obj)
         {
@@ -114,6 +116,10 @@ namespace archilabUI.DropdownListSelector
             }
         }
 
+        #endregion
+
+        #region Node Serialization/Deserialization
+
         protected override void SerializeCore(XmlElement nodeElement, SaveContext context)
         {
             base.SerializeCore(nodeElement, context);
@@ -157,6 +163,8 @@ namespace archilabUI.DropdownListSelector
                 ItemsCollection.Add(itemWrapper);
             }
         }
+
+        #endregion
 
         [IsVisibleInDynamoLibrary(false)]
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)

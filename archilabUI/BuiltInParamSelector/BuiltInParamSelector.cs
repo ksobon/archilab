@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Xml;
+using archilabUI.Utilities;
 using Autodesk.DesignScript.Runtime;
 using Dynamo.Engine;
 using Dynamo.Graph;
@@ -13,24 +14,6 @@ using RevitServices.Persistence;
 
 namespace archilabUI.BuiltInParamSelector
 {
-    internal class ParameterWrapper
-    {
-        public string Name { get; set; }
-        public string BipName { get; set; }
-
-        public override bool Equals(object obj)
-        {
-            var item = obj as ParameterWrapper;
-
-            return item != null && BipName.Equals(item.BipName);
-        }
-
-        public override int GetHashCode()
-        {
-            return BipName.GetHashCode();
-        }
-    }
-
     [NodeCategory("archilab.Revit.Parameter")]
     [NodeDescription("Allows you to select a BuiltInParameter name for use with GetBuiltInParameter node.")]
     [NodeName("Get BipParameter Name")]
@@ -43,30 +26,22 @@ namespace archilabUI.BuiltInParamSelector
     [IsDesignScriptCompatible]
     internal class BuiltInParamSelector : NodeModel
     {
+        #region Properties
+
         public event Action RequestChangeBuiltInParamSelector;
         internal EngineController EngineController { get; set; }
 
         private ObservableCollection<ParameterWrapper> _itemsCollection;
         public ObservableCollection<ParameterWrapper> ItemsCollection
         {
-            get
-            {
-                return _itemsCollection;
-            }
-            set
-            {
-                _itemsCollection = value;
-                RaisePropertyChanged("ItemsCollection");
-            }
+            get { return _itemsCollection; }
+            set { _itemsCollection = value; RaisePropertyChanged("ItemsCollection"); }
         }
 
         private ParameterWrapper _selectedItem;
         public ParameterWrapper SelectedItem
         {
-            get
-            {
-                return _selectedItem;
-            }
+            get { return _selectedItem; }
             set
             {
                 _selectedItem = value;
@@ -75,10 +50,7 @@ namespace archilabUI.BuiltInParamSelector
             }
         }
 
-        protected virtual void OnRequestChangeBuiltInParamSelector()
-        {
-            RequestChangeBuiltInParamSelector?.Invoke();
-        }
+        #endregion
 
         public BuiltInParamSelector()
         {
@@ -88,6 +60,13 @@ namespace archilabUI.BuiltInParamSelector
                 current.Connectors.CollectionChanged += Connectors_CollectionChanged;
             }
             ItemsCollection = new ObservableCollection<ParameterWrapper>();
+        }
+
+        #region UI Methods
+
+        protected virtual void OnRequestChangeBuiltInParamSelector()
+        {
+            RequestChangeBuiltInParamSelector?.Invoke();
         }
 
         private void Connectors_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -169,21 +148,9 @@ namespace archilabUI.BuiltInParamSelector
             }
         }
 
-        [IsVisibleInDynamoLibrary(false)]
-        public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
-        {
-            var list = new List<AssociativeNode>();
-            if (!HasConnectedInput(0) || SelectedItem == null)
-            {
-                list.Add(AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), AstFactory.BuildNullNode()));
-            }
-            else
-            {
-                AssociativeNode associativeNode = AstFactory.BuildStringNode(SelectedItem.BipName);
-                list.Add(AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), associativeNode));
-            }
-            return list;
-        }
+        #endregion
+
+        #region Node Serialization/Deserialization
 
         private string SerializeValue()
         {
@@ -232,6 +199,24 @@ namespace archilabUI.BuiltInParamSelector
                 return;
             }
             SelectedItem = deserialized;
+        }
+
+        #endregion
+
+        [IsVisibleInDynamoLibrary(false)]
+        public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
+        {
+            var list = new List<AssociativeNode>();
+            if (!HasConnectedInput(0) || SelectedItem == null)
+            {
+                list.Add(AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), AstFactory.BuildNullNode()));
+            }
+            else
+            {
+                AssociativeNode associativeNode = AstFactory.BuildStringNode(SelectedItem.BipName);
+                list.Add(AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), associativeNode));
+            }
+            return list;
         }
     }
 }

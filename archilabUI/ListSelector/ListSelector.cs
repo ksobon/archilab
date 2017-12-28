@@ -47,6 +47,8 @@ namespace archilabUI.ListSelector
             OnItemChecked = new DelegateCommand(ItemChecked, CanCheckItem);
         }
 
+        #region UI Methods
+
         private static bool CanCheckItem(object obj)
         {
             return true;
@@ -114,6 +116,10 @@ namespace archilabUI.ListSelector
             }
         }
 
+        #endregion
+
+        #region Node Serialization/Deserialization
+
         protected override void SerializeCore(XmlElement nodeElement, SaveContext context)
         {
             base.SerializeCore(nodeElement, context);
@@ -130,7 +136,7 @@ namespace archilabUI.ListSelector
                 wrapperIndex.SetAttribute("index" + counter, item.Index.ToString());
                 counter++;
             }
-            
+
             nodeElement.AppendChild(wrapperName);
             nodeElement.AppendChild(wrapperSelected);
             nodeElement.AppendChild(wrapperIndex);
@@ -153,10 +159,12 @@ namespace archilabUI.ListSelector
                 var name = wrapperName.Attributes[i].Value;
                 var selected = wrapperSelected.Attributes[i].Value == "True";
                 var index = int.Parse(wrapperIndex.Attributes[i].Value);
-                var itemWrapper = new ListItemWrapper{ Name = name, IsSelected = selected, Index = index};
+                var itemWrapper = new ListItemWrapper { Name = name, IsSelected = selected, Index = index };
                 ItemsCollection.Add(itemWrapper);
             }
         }
+
+        #endregion
 
         [IsVisibleInDynamoLibrary(false)]
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)

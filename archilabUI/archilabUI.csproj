@@ -192,6 +192,7 @@
     </Compile>
     <Compile Include="TextNotePlus\TextNotePlusViewCustomization.cs" />
     <Compile Include="Utilities\ListItemWrapper.cs" />
+    <Compile Include="Utilities\ParameterWrapper.cs" />
     <Compile Include="Utilities\UtilitiesUI.cs" />
   </ItemGroup>
   <ItemGroup>

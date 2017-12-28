@@ -16,8 +16,6 @@ namespace archilabUI.TextNotePlus
             _view = new TextNotePlusView
             {
                 DataContext = model,
-                MaxHeight = 1000,
-                MaxWidth = 1000,
                 MainGrid =
                 {
                     Width = _viewModel.NoteWidth,
