@@ -178,6 +178,12 @@
     <Compile Include="Dropdowns.cs" />
     <Compile Include="DropdownToList.cs" />
     <Compile Include="DSDropDownBase.cs" />
+    <Compile Include="InputToggle\BoolToStringConverter.cs" />
+    <Compile Include="InputToggle\InputToggle.cs" />
+    <Compile Include="InputToggle\InputToggleView.xaml.cs">
+      <DependentUpon>InputToggleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InputToggle\InputToggleViewCustomization.cs" />
     <Compile Include="ListSelector\ListSelector.cs" />
     <Compile Include="ListSelector\ListSelectorView.xaml.cs">
       <DependentUpon>ListSelectorView.xaml</DependentUpon>
@@ -205,6 +211,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DropdownListSelector\DropdownListSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InputToggle\InputToggleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
