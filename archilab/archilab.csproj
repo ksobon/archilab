@@ -125,8 +125,8 @@
     <Compile Include="Revit\Elements\Warnings.cs" />
     <Compile Include="Revit\Elements\Workset.cs" />
     <Compile Include="Revit\Selection\Selection.cs" />
-    <Compile Include="Revit\Views\Sheet.cs" />
-    <Compile Include="Revit\Views\View.cs" />
+    <Compile Include="Revit\Views\Sheets.cs" />
+    <Compile Include="Revit\Views\Views.cs" />
     <Compile Include="Revit\Views\ViewTemplate.cs" />
     <Compile Include="Utilities\Utilities.cs" />
   </ItemGroup>
