@@ -1,5 +1,6 @@
 ﻿using System;
 using DynamoServices;
+using Revit.Elements;
 using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
@@ -11,7 +12,7 @@ namespace archilab.Revit.Elements
     /// Wrapper class for Family Instancess.
     /// </summary>
     [RegisterForTrace]
-    public class FamilyInstance : global::Revit.Elements.AbstractFamilyInstance
+    public class FamilyInstances : AbstractFamilyInstance
     {
         internal Autodesk.Revit.DB.FamilyInstance InternalFamilyInstance { get; private set; }
 
@@ -19,12 +20,12 @@ namespace archilab.Revit.Elements
         /// 
         /// </summary>
         /// <param name="instance"></param>
-        protected FamilyInstance(Autodesk.Revit.DB.FamilyInstance instance)
+        protected FamilyInstances(Autodesk.Revit.DB.FamilyInstance instance)
         {
             SafeInit(() => InitFamilyInstance(instance));
         }
 
-        internal FamilyInstance(Autodesk.Revit.DB.FamilySymbol fs, Autodesk.Revit.DB.Line line, Autodesk.Revit.DB.Level level)
+        internal FamilyInstances(Autodesk.Revit.DB.FamilySymbol fs, Autodesk.Revit.DB.Line line, Autodesk.Revit.DB.Level level)
         {
             SafeInit(() => InitFamilyInstance(fs, line, level));
         }
@@ -96,7 +97,7 @@ namespace archilab.Revit.Elements
         /// <param name="line">Line to place Family Instance at.</param>
         /// <param name="level">Level to associate Family Instance with.</param>
         /// <returns>New Family Instance.</returns>
-        public static FamilyInstance ByLine(global::Revit.Elements.FamilyType familyType, Line line, global::Revit.Elements.Level level)
+        public static Element ByLine(FamilyType familyType, Line line, Level level)
         {
             if (familyType == null)
             {
@@ -107,7 +108,7 @@ namespace archilab.Revit.Elements
             var locationLine = line.ToRevitType() as Autodesk.Revit.DB.Line;
             var hostLevel = level.InternalElement as Autodesk.Revit.DB.Level;
 
-            return new FamilyInstance(symbol, locationLine, hostLevel);
+            return new FamilyInstances(symbol, locationLine, hostLevel);
         }
     }
 }

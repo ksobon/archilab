@@ -16,7 +16,7 @@ using archilab.Revit.Elements;
 namespace archilabUI
 {
     [NodeName("Box Placement Types")]
-    [NodeCategory("archilab.Revit.View")]
+    [NodeCategory("archilab.Revit.Views")]
     [NodeDescription("Retrieve all available Box Placement Types")]
     [IsDesignScriptCompatible]
     public class BoxPlacementTypeUi : CustomGenericEnumerationDropDown
@@ -70,7 +70,7 @@ namespace archilabUI
     }
 
     [NodeName("Image Resolution")]
-    [NodeCategory("archilab.Revit.View")]
+    [NodeCategory("archilab.Revit.Views")]
     [NodeDescription("Retrieve all available Image Resolutions from Revit project.")]
     [IsDesignScriptCompatible]
     public class ImageResolutionUi : CustomGenericEnumerationDropDown
@@ -79,7 +79,7 @@ namespace archilabUI
     }
 
     [NodeName("Zoom Fit Type")]
-    [NodeCategory("archilab.Revit.View")]
+    [NodeCategory("archilab.Revit.Views")]
     [NodeDescription("Retrieve all available Zoom Fit Types from Revit project.")]
     [IsDesignScriptCompatible]
     public class ZoomFitTypeUi : CustomGenericEnumerationDropDown
@@ -88,7 +88,7 @@ namespace archilabUI
     }
 
     [NodeName("Image File Type")]
-    [NodeCategory("archilab.Revit.View")]
+    [NodeCategory("archilab.Revit.Views")]
     [NodeDescription("Retrieve all available Image File Types from Revit project.")]
     [IsDesignScriptCompatible]
     public class ImageFileTypeUi : CustomGenericEnumerationDropDown
@@ -97,7 +97,7 @@ namespace archilabUI
     }
 
     [NodeName("Export Range")]
-    [NodeCategory("archilab.Revit.View")]
+    [NodeCategory("archilab.Revit.Views")]
     [NodeDescription("Retrieve all available Export Ranges from Revit project.")]
     [IsDesignScriptCompatible]
     public class ExportRangeUi : CustomGenericEnumerationDropDown
@@ -289,7 +289,7 @@ namespace archilabUI
     }
 
     [NodeName("Line Styles")]
-    [NodeCategory("archilab.Revit.View")]
+    [NodeCategory("archilab.Revit.Views")]
     [NodeDescription("Retrieve all available Line Styles.")]
     [IsDesignScriptCompatible]
     public class LineStyleUi : RevitDropDownBase
@@ -483,7 +483,7 @@ namespace archilabUI
     }
 
     [NodeName("View Type")]
-    [NodeCategory("archilab.Revit.View")]
+    [NodeCategory("archilab.Revit.Views")]
     [NodeDescription("Retrieve all available View Types.")]
     [IsDesignScriptCompatible]
     public class ViewTypesUi : RevitDropDownBase
@@ -554,7 +554,7 @@ namespace archilabUI
     }
 
     [NodeName("Phase Filters")]
-    [NodeCategory("archilab.Revit.View")]
+    [NodeCategory("archilab.Revit.Views")]
     [NodeDescription("Retrieve all available Phase Filters.")]
     [IsDesignScriptCompatible]
     public class PhaseFilterUi : CustomRevitElementDropDown
@@ -581,7 +581,7 @@ namespace archilabUI
     }
 
     [NodeName("Duplicate Options")]
-    [NodeCategory("archilab.Revit.View")]
+    [NodeCategory("archilab.Revit.Views")]
     [NodeDescription("Retrieve all available View Duplication Options.")]
     [IsDesignScriptCompatible]
     public class DuplicateOptionsUi : CustomGenericEnumerationDropDown
