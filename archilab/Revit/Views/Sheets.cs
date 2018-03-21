@@ -5,6 +5,7 @@ using DynamoServices;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
 using Revit.Elements;
+using Revit.Elements.Views;
 
 namespace archilab.Revit.Views
 {
@@ -12,7 +13,7 @@ namespace archilab.Revit.Views
     /// Wrapper class for View Sheets.
     /// </summary>
     [RegisterForTrace]
-    public class Sheet : Element
+    public class Sheets : Element
     {
         internal Autodesk.Revit.DB.ViewSheet InternalViewSheet { get; private set; }
 
@@ -24,7 +25,7 @@ namespace archilab.Revit.Views
             get { return InternalViewSheet; }
         }
 
-        private Sheet(string nameOfSheet, string numberOfSheet)
+        private Sheets(string nameOfSheet, string numberOfSheet)
         {
             SafeInit(() => InitSheet(nameOfSheet, numberOfSheet));
         }
@@ -89,7 +90,7 @@ namespace archilab.Revit.Views
         /// </summary>
         /// <param name="sheet">View Sheet.</param>
         /// <returns name="Element">Revisions on Sheet.</returns>
-        public static List<Element> Revisions(global::Revit.Elements.Views.Sheet sheet)
+        public static List<Element> Revisions(Sheet sheet)
         {
             var vs = sheet.InternalElement as Autodesk.Revit.DB.ViewSheet;
             var revIds = vs?.GetAllRevisionIds();
@@ -107,7 +108,7 @@ namespace archilab.Revit.Views
         /// </summary>
         /// <param name="sheet">View Sheet.</param>
         /// <returns name="Element">Viewports on Sheet.</returns>
-        public static List<Element> Viewports(global::Revit.Elements.Views.Sheet sheet)
+        public static List<Element> Viewports(Sheet sheet)
         {
             var vs = sheet.InternalElement as Autodesk.Revit.DB.ViewSheet;
             var viewports = vs?.GetAllViewports();
@@ -126,7 +127,7 @@ namespace archilab.Revit.Views
         /// <param name="name"></param>
         /// <param name="number"></param>
         /// <returns name="Sheet">View sheet</returns>
-        public static global::Revit.Elements.Views.Sheet CreatePlaceholder(string number, string name)
+        public static Sheet CreatePlaceholder(string number, string name)
         {
             if (name == null)
             {
@@ -137,9 +138,9 @@ namespace archilab.Revit.Views
                 throw new ArgumentNullException(nameof(number));
             }
 
-            var newSheet = new Sheet(name, number);
+            var newSheet = new Sheets(name, number);
 
-            return (global::Revit.Elements.Views.Sheet)newSheet.InternalViewSheet.ToDSType(true);
+            return (Sheet)newSheet.InternalViewSheet.ToDSType(true);
         }
     }
 }

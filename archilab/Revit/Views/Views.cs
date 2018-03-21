@@ -8,6 +8,7 @@ using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
 using Revit.Elements;
+using Revit.Elements.Views;
 
 namespace archilab.Revit.Views
 {
@@ -15,25 +16,11 @@ namespace archilab.Revit.Views
     /// Wrapper class for Views.
     /// </summary>
     [RegisterForTrace]
-    public class View
+    public class Views
     {
-        internal View()
+        internal Views()
         {
         }
-
-        #region Utilities
-
-        /// <summary>
-        ///     Get Null
-        /// </summary>
-        /// <returns></returns>
-        [IsVisibleInDynamoLibrary(false)]
-        public static object GetNull()
-        {
-            return null;
-        }
-
-        #endregion
 
         /// <summary>
         ///     Remove view filter from view.
@@ -42,7 +29,7 @@ namespace archilab.Revit.Views
         /// <param name="viewFilter">View filter to be removed.</param>
         /// <returns name="view">View that filter was removed from.</returns>
         /// <search>view, filter, remove, delete</search>
-        public static global::Revit.Elements.Views.View RemoveFilter(global::Revit.Elements.Views.View view, List<global::Revit.Elements.Element> viewFilter)
+        public static View RemoveFilter(View view, List<Element> viewFilter)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var v = (Autodesk.Revit.DB.View)view.InternalElement;
@@ -70,7 +57,7 @@ namespace archilab.Revit.Views
         /// <param name="view">View to retrieve View Template from.</param>
         /// <returns name="view">View Template applied to view.</returns>
         /// <search>view, template</search>
-        public static object ViewTemplate(global::Revit.Elements.Views.View view)
+        public static object ViewTemplate(View view)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var v = (Autodesk.Revit.DB.View)view.InternalElement;
@@ -86,7 +73,7 @@ namespace archilab.Revit.Views
         /// <param name="viewTemplate">View Template that will be applied to View.</param>
         /// <returns name="view"></returns>
         /// <search>set, view, template</search>
-        public static global::Revit.Elements.Views.View SetViewTemplate(global::Revit.Elements.Views.View view, global::Revit.Elements.Views.View viewTemplate)
+        public static View SetViewTemplate(View view, View viewTemplate)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var v = (Autodesk.Revit.DB.View)view.InternalElement;
@@ -112,7 +99,7 @@ namespace archilab.Revit.Views
         /// <param name="view">View to remove View Template from.</param>
         /// <returns name="view">View that template was removed from.</returns>
         /// <search>view, template, remove, delete</search>
-        public static global::Revit.Elements.Views.View RemoveViewTemplate(global::Revit.Elements.Views.View view)
+        public static View RemoveViewTemplate(View view)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var v = (Autodesk.Revit.DB.View)view.InternalElement;
@@ -140,10 +127,10 @@ namespace archilab.Revit.Views
         /// 3D View Templates will be excluded from returned View Templates (currently a Dynamo limitation).</param>
         /// <returns name="view">Views that match view type.</returns>
         /// <search>view, get all views, view type</search>
-        public static List<global::Revit.Elements.Element> GetByType(string viewType)
+        public static List<Element> GetByType(string viewType)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
-            var vList = new List<global::Revit.Elements.Element>();
+            var vList = new List<Element>();
 
             if (viewType != "View Template")
             {
@@ -182,7 +169,7 @@ namespace archilab.Revit.Views
         /// </summary>
         /// <param name="view"></param>
         /// <returns></returns>
-        public static bool IsTitleblockSchedule(global::Revit.Elements.Element view)
+        public static bool IsTitleblockSchedule(Element view)
         {
             try
             {
@@ -203,7 +190,7 @@ namespace archilab.Revit.Views
         /// <param name="worksets">Worksets to set the visibility for.</param>
         /// <param name="visibility">Visibility setting. Ex: Hide.</param>
         /// <returns name="view">View</returns>
-        public static global::Revit.Elements.Views.View SetWorksetVisibility(global::Revit.Elements.Views.View view, List<Workset> worksets, string visibility)
+        public static View SetWorksetVisibility(View view, List<Workset> worksets, string visibility)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var v = (Autodesk.Revit.DB.View)view.InternalElement;
@@ -226,7 +213,7 @@ namespace archilab.Revit.Views
         /// <param name="name">Name to be assigned to new view.</param>
         /// <param name="options">Duplicate options. Ex: Duplicate as Dependant.</param>
         /// <returns name="view">New View.</returns>
-        public static global::Revit.Elements.Views.View Duplicate(global::Revit.Elements.Views.View view, string name, string options)
+        public static View Duplicate(View view, string name, string options)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var v = (Autodesk.Revit.DB.View)view.InternalElement;
@@ -237,7 +224,7 @@ namespace archilab.Revit.Views
             newView.Name = name;
             TransactionManager.Instance.TransactionTaskDone();
 
-            return newView.ToDSType(true) as global::Revit.Elements.Views.View;
+            return newView.ToDSType(true) as View;
         }
 
         /// <summary>
@@ -247,8 +234,8 @@ namespace archilab.Revit.Views
         /// <param name="viewFamilyType"></param>
         /// <param name="extents"></param>
         /// <returns></returns>
-        public static global::Revit.Elements.Views.View CreateCallout(global::Revit.Elements.Views.View view,
-            global::Revit.Elements.Element viewFamilyType, Autodesk.DesignScript.Geometry.Rectangle extents)
+        public static View CreateCallout(View view,
+            Element viewFamilyType, Autodesk.DesignScript.Geometry.Rectangle extents)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var v = (Autodesk.Revit.DB.View)view.InternalElement;
@@ -274,7 +261,32 @@ namespace archilab.Revit.Views
             }
             TransactionManager.Instance.TransactionTaskDone();
 
-            return (global::Revit.Elements.Views.View)newView.ToDSType(true);
+            return (View)newView.ToDSType(true);
         }
+
+        /// <summary>
+        /// Retrieves Template Parameter Ids.
+        /// </summary>
+        /// <param name="view">View to get the Parameter Ids from.</param>
+        /// <returns>List of Parameter Ids.</returns>
+        public static List<int> GetTemplateParameterIds(View view)
+        {
+            var v = (Autodesk.Revit.DB.View) view.InternalElement;
+            return v.GetTemplateParameterIds().Select(x => x.IntegerValue).ToList();
+        }
+
+        #region Utilities
+
+        /// <summary>
+        ///     Get Null
+        /// </summary>
+        /// <returns></returns>
+        [IsVisibleInDynamoLibrary(false)]
+        public static object GetNull()
+        {
+            return null;
+        }
+
+        #endregion
     }
 }
