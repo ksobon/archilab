@@ -124,8 +124,8 @@ namespace archilab.Revit.Views
         /// <summary>
         /// Create Placeholder sheet.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="number"></param>
+        /// <param name="name">Name of the Sheet to be created.</param>
+        /// <param name="number">Number of the Sheet to be created.</param>
         /// <returns name="Sheet">View sheet</returns>
         public static Sheet CreatePlaceholder(string number, string name)
         {
@@ -141,6 +141,17 @@ namespace archilab.Revit.Views
             var newSheet = new Sheets(name, number);
 
             return (Sheet)newSheet.InternalViewSheet.ToDSType(true);
+        }
+
+        /// <summary>
+        /// Returns True if Sheet is Placeholder.
+        /// </summary>
+        /// <param name="sheet">View Sheet.</param>
+        /// <returns>True if Sheet is Placeholder, otherwise false.</returns>
+        public static bool IsPlaceholder(Sheet sheet)
+        {
+            var vs = sheet.InternalElement as Autodesk.Revit.DB.ViewSheet;
+            return vs != null && vs.IsPlaceholder;
         }
     }
 }
