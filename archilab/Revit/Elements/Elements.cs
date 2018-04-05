@@ -22,7 +22,7 @@ namespace archilab.Revit.Elements
         /// <param name="element">Element to analyze.</param>
         /// <returns>Information about the Elements Owner, Creator etc.</returns>
         [MultiReturn("Creator", "Owner", "LastChangedBy")]
-        public static Dictionary<string, string> GetWorksharingTooltipInfo(global::Revit.Elements.Element element)
+        public static Dictionary<string, string> GetWorksharingTooltipInfo(Element element)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var tooltipInfo = Autodesk.Revit.DB.WorksharingUtils.GetWorksharingTooltipInfo(doc, element.InternalElement.Id);
@@ -39,7 +39,7 @@ namespace archilab.Revit.Elements
         /// </summary>
         /// <param name="element"></param>
         /// <returns name="Phase"></returns>
-        public static int PhaseDemolished(global::Revit.Elements.Element element)
+        public static int PhaseDemolished(Element element)
         {
             return element.InternalElement.DemolishedPhaseId.IntegerValue;
         }
@@ -50,7 +50,7 @@ namespace archilab.Revit.Elements
         /// <param name="element"></param>
         /// <returns name="Type"></returns>
         /// <search>element, type</search>
-        public static global::Revit.Elements.Element Type(global::Revit.Elements.Element element)
+        public static Element Type(Element element)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var e = element.InternalElement;
@@ -64,15 +64,16 @@ namespace archilab.Revit.Elements
         /// <param name="element">Element to delete.</param>
         /// <returns></returns>
         /// <search>delete, remove, element</search>
-        public static bool Delete(global::Revit.Elements.Element element)
+        public static bool Delete(Element element)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var e = element.InternalElement;
 
-            TransactionManager.Instance.EnsureInTransaction(doc);
             try
             {
+                TransactionManager.Instance.EnsureInTransaction(doc);
                 doc.Delete(e.Id);
+                TransactionManager.Instance.TransactionTaskDone();
                 return true;
             }
             catch (Exception) { return false; }

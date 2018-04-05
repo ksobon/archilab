@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Autodesk.Revit.DB;
+using Revit.Elements;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
-using Element = Revit.Elements.Element;
 
-namespace archilab.Revit.ViewSets
+namespace archilab.Revit.Views
 {
     /// <summary>
     /// Methods and properties typically associated with View Sets in Revit
@@ -31,14 +30,14 @@ namespace archilab.Revit.ViewSets
 
             var doc = DocumentManager.Instance.CurrentDBDocument;
 
-            var viewSet = new ViewSet();
+            var viewSet = new Autodesk.Revit.DB.ViewSet();
             foreach (var v in views)
             {
-                viewSet.Insert((View) v.InternalElement);
+                viewSet.Insert((Autodesk.Revit.DB.View) v.InternalElement);
             }
 
             var printManager = doc.PrintManager;
-            printManager.PrintRange = PrintRange.Select;
+            printManager.PrintRange = Autodesk.Revit.DB.PrintRange.Select;
 
             var settings = printManager.ViewSheetSetting;
             settings.CurrentViewSheetSet.Views = viewSet;
