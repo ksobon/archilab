@@ -4,6 +4,7 @@ using Dynamo.Graph.Nodes;
 using Dynamo.ViewModels;
 using ProtoCore.AST.AssociativeAST;
 using GalaSoft.MvvmLight.Command;
+using Newtonsoft.Json;
 
 namespace archilabUI.InputToggle
 {
@@ -29,6 +30,9 @@ namespace archilabUI.InputToggle
 
             ToggleInput = new RelayCommand(OnToggleInput);
         }
+
+        [JsonConstructor]
+        protected InputToggle(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts, outPorts) { }
 
         private void OnToggleInput()
         {

@@ -11,6 +11,7 @@ using Dynamo.Graph.Nodes;
 using Dynamo.UI.Commands;
 using ProtoCore.AST.AssociativeAST;
 using archilabUI.Utilities;
+using Newtonsoft.Json;
 
 namespace archilabUI.DropdownListSelector
 {
@@ -18,12 +19,12 @@ namespace archilabUI.DropdownListSelector
     [NodeCategory("archilab.Core.Lists")]
     [NodeDescription("Use this node to select multiple items from a list.")]
     [IsDesignScriptCompatible]
-    [InPortNames("List")]
-    [InPortTypes("Object")]
-    [InPortDescriptions("Input List.")]
-    [OutPortNames("List")]
-    [OutPortTypes("Object")]
-    [OutPortDescriptions("Selected items.")]
+    //[InPortNames("List")]
+    //[InPortTypes("Object")]
+    //[InPortDescriptions("Input List.")]
+    //[OutPortNames("List")]
+    //[OutPortTypes("Object")]
+    //[OutPortDescriptions("Selected items.")]
     public class DropdownListSelector : NodeModel
     {
         public event Action UpdateItemsCollection;
@@ -35,6 +36,8 @@ namespace archilabUI.DropdownListSelector
 
         public DropdownListSelector()
         {
+            InPorts.Add(new PortModel(PortType.Input, this, new PortData("List", "Input List.")));
+            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("List", "Selected Items.")));
             RegisterAllPorts();
             ArgumentLacing = LacingStrategy.Disabled;
 
@@ -46,6 +49,9 @@ namespace archilabUI.DropdownListSelector
 
             OnItemChecked = new DelegateCommand(ItemChecked, CanCheckItem);
         }
+
+        [JsonConstructor]
+        protected DropdownListSelector(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts, outPorts) { }
 
         #region UI Methods
 
@@ -79,7 +85,7 @@ namespace archilabUI.DropdownListSelector
 
         public void PopulateItems(System.Collections.IList selectedItems)
         {
-            if (!HasConnectedInput(0)) return;
+            //if (!HasConnectedInput(0)) return;
 
             var owner = InPorts[0].Connectors[0].Start.Owner;
             var index = InPorts[0].Connectors[0].Start.Index;
@@ -169,7 +175,8 @@ namespace archilabUI.DropdownListSelector
         [IsVisibleInDynamoLibrary(false)]
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
         {
-            if (!HasConnectedInput(0) || ItemsCollection.Count == 0 || ItemsCollection.Count == -1)
+            //if (!HasConnectedInput(0) || ItemsCollection.Count == 0 || ItemsCollection.Count == -1)
+            if (ItemsCollection.Count == 0 || ItemsCollection.Count == -1)
             {
                 return new[]
                 {

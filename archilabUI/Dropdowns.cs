@@ -12,6 +12,7 @@ using RevitServices.Persistence;
 using Category = Autodesk.Revit.DB.Category;
 using ElementSelector = Revit.Elements.ElementSelector;
 using archilab.Revit.Elements;
+using Newtonsoft.Json;
 
 namespace archilabUI
 {
@@ -489,8 +490,12 @@ namespace archilabUI
     public class ViewTypesUi : RevitDropDownBase
     {
         private const string NoFamilyTypes = "No types were found.";
+        private const string OutputName = "viewType";
 
         public ViewTypesUi() : base("viewType") { }
+
+        [JsonConstructor]
+        public ViewTypesUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(OutputName, inPorts, outPorts) { }
 
         // Get Data Class that holds dictionary
         public static ViewTypes VTypes = new ViewTypes();

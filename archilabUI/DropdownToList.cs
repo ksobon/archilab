@@ -9,6 +9,7 @@ using Dynamo.Models;
 using Dynamo.Scheduler;
 using Dynamo.ViewModels;
 using Dynamo.Wpf;
+using Newtonsoft.Json;
 using ProtoCore.AST.AssociativeAST;
 
 namespace archilabUI
@@ -17,12 +18,6 @@ namespace archilabUI
     [NodeCategory("archilab.Core.Lists")]
     [NodeDescription("Do something.")]
     [IsDesignScriptCompatible]
-    [InPortNames("dropdown")]
-    [InPortTypes("enum")]
-    [InPortDescriptions("Feed in a dropdown node.")]
-    [OutPortTypes("list")]
-    [OutPortNames("List")]
-    [OutPortDescriptions("No one knows for sure what this does...")]
     public class DropdownToListNodeModel : NodeModel
     {
         public event Action RequestUpdateNode;
@@ -47,6 +42,8 @@ namespace archilabUI
 
         public DropdownToListNodeModel()
         {
+            InPorts.Add(new PortModel(PortType.Input, this, new PortData("dropdown", "Feed in a dropdown node.")));
+            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("List", "No one knows for sure what this does...")));
             RegisterAllPorts();
             ArgumentLacing = LacingStrategy.Disabled;
 
@@ -56,7 +53,10 @@ namespace archilabUI
             }
         }
 
-        void Connectors_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        [JsonConstructor]
+        protected DropdownToListNodeModel(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts, outPorts) { }
+
+        private void Connectors_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             OnRequestUpdateNode();
         }
@@ -64,7 +64,7 @@ namespace archilabUI
         public List<object> GetInputString(EngineController engine)
         {
             var output = new List<object>();
-            if (!HasConnectedInput(0)) return output;
+            //if (!HasConnectedInput(0)) return output;
 
             var node = InPorts[0].Connectors[0].Start.Owner as DSDropDownBase;
             if (node != null) output = node.Items.Select(x => x.Item).ToList();
