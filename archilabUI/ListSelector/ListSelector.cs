@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using Dynamo.Graph.Nodes;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Xml;
-using Autodesk.DesignScript.Runtime;
 using Dynamo.Engine;
 using Dynamo.Graph;
 using Dynamo.UI.Commands;
+using Dynamo.Graph.Nodes;
 using ProtoCore.AST.AssociativeAST;
-using archilabUI.Utilities;
+using Autodesk.DesignScript.Runtime;
 using Newtonsoft.Json;
+using archilabUI.Utilities;
 
 namespace archilabUI.ListSelector
 {
@@ -25,6 +25,7 @@ namespace archilabUI.ListSelector
         internal EngineController EngineController { get; set; }
         public ObservableCollection<ListItemWrapper> ItemsCollection { get; set; }
 
+        [JsonIgnore]
         [IsVisibleInDynamoLibrary(false)]
         public DelegateCommand OnItemChecked { get; set; }
 
@@ -45,7 +46,16 @@ namespace archilabUI.ListSelector
         }
 
         [JsonConstructor]
-        protected ListSelector(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts, outPorts) { }
+        protected ListSelector(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts,
+            outPorts)
+        {
+            foreach (var port in InPorts)
+            {
+                port.Connectors.CollectionChanged += Connectors_CollectionChanged;
+            }
+
+            OnItemChecked = new DelegateCommand(ItemChecked, CanCheckItem);
+        }
 
         #region UI Methods
 
@@ -79,8 +89,6 @@ namespace archilabUI.ListSelector
 
         public void PopulateItems(System.Collections.IList selectedItems)
         {
-            //if (!HasConnectedInput(0)) return;
-
             var owner = InPorts[0].Connectors[0].Start.Owner;
             var index = InPorts[0].Connectors[0].Start.Index;
             var mirrorName = owner.GetAstIdentifierForOutputIndex(index).Name;
@@ -169,7 +177,6 @@ namespace archilabUI.ListSelector
         [IsVisibleInDynamoLibrary(false)]
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
         {
-            //if (!HasConnectedInput(0) || ItemsCollection.Count == 0 || ItemsCollection.Count == -1)
             if (ItemsCollection.Count == 0 || ItemsCollection.Count == -1)
             {
                 return new[]

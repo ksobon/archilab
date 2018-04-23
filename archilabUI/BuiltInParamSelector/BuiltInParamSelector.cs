@@ -1,17 +1,17 @@
 ﻿using System;
+using System.Linq;
+using System.Xml;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Xml;
-using archilabUI.Utilities;
-using Autodesk.DesignScript.Runtime;
 using Dynamo.Engine;
 using Dynamo.Graph;
 using Dynamo.Graph.Nodes;
-using Newtonsoft.Json;
 using ProtoCore.AST.AssociativeAST;
 using RevitServices.Persistence;
+using Autodesk.DesignScript.Runtime;
+using Newtonsoft.Json;
+using archilabUI.Utilities;
 
 namespace archilabUI.BuiltInParamSelector
 {
@@ -62,7 +62,14 @@ namespace archilabUI.BuiltInParamSelector
         }
 
         [JsonConstructor]
-        protected BuiltInParamSelector(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts, outPorts) { }
+        protected BuiltInParamSelector(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts,
+            outPorts)
+        {
+            foreach (var current in InPorts)
+            {
+                current.Connectors.CollectionChanged += Connectors_CollectionChanged;
+            }
+        }
 
         #region UI Methods
 
@@ -105,7 +112,6 @@ namespace archilabUI.BuiltInParamSelector
         private Autodesk.Revit.DB.Element GetInputElement()
         {
             Autodesk.Revit.DB.Element e = null;
-            //if (!HasConnectedInput(0)) return null;
 
             var owner = InPorts[0].Connectors[0].Start.Owner;
             var index = InPorts[0].Connectors[0].Start.Index;
@@ -209,7 +215,6 @@ namespace archilabUI.BuiltInParamSelector
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
         {
             var list = new List<AssociativeNode>();
-            //if (!HasConnectedInput(0) || SelectedItem == null)
             if (SelectedItem == null)
             {
                 list.Add(AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), AstFactory.BuildNullNode()));
