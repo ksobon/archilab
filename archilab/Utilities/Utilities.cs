@@ -68,7 +68,7 @@ namespace archilab.Utilities
     public static class ElementSelector
     {
         /// <summary>
-        ///     Workset selector.
+        /// Workset selector.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -87,9 +87,9 @@ namespace archilab.Utilities
     }
 
     /// <summary>
-    ///     Parameter Filter Numeric Rules.
+    /// Parameter Filter Numeric Rules.
     /// </summary>
-    [IsVisibleInDynamoLibrary(false)]
+    [SupressImportIntoVM]
     public enum FilterNumericValueRule
     {
         /// <summary>
@@ -111,7 +111,7 @@ namespace archilab.Utilities
     }
 
     /// <summary>
-    ///     Parameter Filter String Rules.
+    /// Parameter Filter String Rules.
     /// </summary>
     [IsVisibleInDynamoLibrary(false)]
     public class FilterStringRuleEvaluator

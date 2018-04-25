@@ -92,6 +92,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -135,6 +136,13 @@
     <Content Include="archilab_DynamoCustomization.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\archilab.Core.DateTimes.FromUnixTime.Small.png" />
+    <None Include="Resources\archilab.Core.DateTimes.FromUnixTime.Large.png" />
+    <None Include="Resources\DefaultCustomNode.Small.png" />
+    <None Include="Resources\DefaultCustomNode.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="archilabImages.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -146,6 +154,16 @@ copy /Y "$(TargetDir)LumenWorks.Framework.IO.dll" "%25APPDATA%25\Dynamo\Dynamo R
 copy /Y "$(TargetDir)DocumentFormat.OpenXml.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin"
 copy /Y "$(TargetDir)ClosedXML.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin"
 copy /Y "$(TargetDir)RestSharp.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin"
-copy /Y "$(TargetDir)FastMember.Signed.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin"</PostBuildEvent>
+copy /Y "$(TargetDir)FastMember.Signed.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin"
+copy /Y "$(TargetDir)archilab.customization.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin"</PostBuildEvent>
   </PropertyGroup>
+  <Target Name="BeforeBuild">
+    <GetReferenceAssemblyPaths TargetFrameworkMoniker=".NETFramework, Version=v2.0">
+      <Output TaskParameter="FullFrameworkReferenceAssemblyPaths" PropertyName="FrameworkAssembliesPath" />
+    </GetReferenceAssemblyPaths>
+    <GenerateResource UseSourcePath="true" Sources="$(ProjectDir)archilabImages.resx" OutputResources="$(ProjectDir)archilabImages.resources" References="$(FrameworkAssembliesPath)System.Drawing.dll" />
+    <AL TargetType="library" EmbedResources="$(ProjectDir)archilabImages.resources" OutputAssembly="$(OutDir)archilab.customization.dll" />
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
 </Project>
