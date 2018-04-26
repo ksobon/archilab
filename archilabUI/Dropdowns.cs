@@ -11,7 +11,6 @@ using RestSharp;
 using Newtonsoft.Json;
 using archilab.Utilities;
 using archilab.Revit.Elements;
-using Autodesk.DesignScript.Runtime;
 using Category = Autodesk.Revit.DB.Category;
 using ElementSelector = Revit.Elements.ElementSelector;
 
@@ -28,7 +27,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public BoxPlacementTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.BoxPlacement), inPorts, outPorts) { }
     }
 
     [NodeName("Parameter Groups")]
@@ -42,7 +41,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public ParameterGroupUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.BuiltInParameterGroup), inPorts, outPorts) { }
     }
 
     [NodeName("Fill Pattern Targets")]
@@ -56,7 +55,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public FillPatternTargetUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.FillPatternTarget), inPorts, outPorts) { }
     }
 
     [NodeName("Parameter Types")]
@@ -70,7 +69,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public ParameterTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.ParameterType), inPorts, outPorts) { }
     }
 
     [NodeName("Print Range")]
@@ -84,7 +83,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public PrintRangeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.PrintRange), inPorts, outPorts) { }
     }
 
     [NodeName("Fit Direction Type")]
@@ -98,7 +97,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public FitDirectionTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.FitDirectionType), inPorts, outPorts) { }
     }
 
     [NodeName("Image Resolution")]
@@ -112,7 +111,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public ImageResolutionUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.ImageResolution), inPorts, outPorts) { }
     }
 
     [NodeName("Zoom Fit Type")]
@@ -126,7 +125,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public ZoomFitTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.ZoomFitType), inPorts, outPorts) { }
     }
 
     [NodeName("Image File Type")]
@@ -140,7 +139,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public ImageFileTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.ImageFileType), inPorts, outPorts) { }
     }
 
     [NodeName("Export Range")]
@@ -154,7 +153,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public ExportRangeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.ExportRange), inPorts, outPorts) { }
     }
 
     [NodeName("Print Settings")]
@@ -168,7 +167,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public PrintSettingUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.PrintSetting), inPorts, outPorts) { }
     }
 
     [NodeName("View Sets")]
@@ -182,7 +181,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public ViewSetUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.ViewSheetSet), inPorts, outPorts) { }
     }
 
     [NodeName("Schedule Heading Orientations")]
@@ -196,7 +195,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public ScheduleHeadingOrientationUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.ScheduleHeadingOrientation), inPorts, outPorts) { }
     }
 
     [NodeName("Schedule Horizontal Alignment")]
@@ -210,7 +209,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public ScheduleHorizontalAlignmentUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.ScheduleHorizontalAlignment), inPorts, outPorts) { }
     }
 
     [NodeName("Horizontal Alignment Style")]
@@ -224,9 +223,8 @@ namespace archilabUI
 
         [JsonConstructor]
         public HorizontalAlignmentStyleUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.HorizontalAlignmentStyle), inPorts, outPorts) { }
     }
-
 
     [NodeName("Vertical Alignment Style")]
     [NodeCategory("archilab.Revit.Schedule")]
@@ -239,7 +237,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public VerticalAlignmentStyleUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.VerticalAlignmentStyle), inPorts, outPorts) { }
     }
 
     [NodeName("Schedule Sort Order")]
@@ -253,7 +251,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public ScheduleSortOrderUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.ScheduleSortOrder), inPorts, outPorts) { }
     }
 
     [NodeName("Numeric Rule Evaluators")]
@@ -385,7 +383,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public FilterNumericValueRuleUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(FilterNumericValueRule), inPorts, outPorts) { }
     }
 
     [NodeName("Line Styles")]
@@ -679,7 +677,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public PhaseFilterUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.PhaseFilter), inPorts, outPorts) { }
     }
 
     [NodeName("Workset Kind")]
@@ -693,7 +691,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public WorksetKindUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.WorksetKind), inPorts, outPorts) { }
     }
 
     [NodeName("Workset Visibility")]
@@ -707,7 +705,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public WorksetVisibilityUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.WorksetVisibility), inPorts, outPorts) { }
     }
 
     [NodeName("Duplicate Options")]
@@ -721,7 +719,7 @@ namespace archilabUI
 
         [JsonConstructor]
         public DuplicateOptionsUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.ViewDuplicateOption), inPorts, outPorts) { }
     }
 
     [NodeName("Method Types")]
@@ -735,6 +733,6 @@ namespace archilabUI
 
         [JsonConstructor]
         public HttpMethodType(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Revit.Filter.FilterRule.RuleType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Method), inPorts, outPorts) { }
     }
 }
