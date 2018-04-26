@@ -1,30 +1,25 @@
 ﻿using System;
+using System.Linq;
+using System.Xml;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Xml;
-using archilabUI.Utilities;
-using Autodesk.DesignScript.Runtime;
 using Dynamo.Engine;
 using Dynamo.Graph;
 using Dynamo.Graph.Nodes;
 using ProtoCore.AST.AssociativeAST;
 using RevitServices.Persistence;
+using Autodesk.DesignScript.Runtime;
+using Newtonsoft.Json;
+using archilabUI.Utilities;
 
 namespace archilabUI.BuiltInParamSelector
 {
     [NodeCategory("archilab.Revit.Parameter")]
     [NodeDescription("Allows you to select a BuiltInParameter name for use with GetBuiltInParameter node.")]
     [NodeName("Get BipParameter Name")]
-    [InPortDescriptions("Input element.")]
-    [InPortNames("Element")]
-    [InPortTypes("var")]
-    [OutPortDescriptions("Name of the BuiltInParameter selected.")]
-    [OutPortNames("bipName")]
-    [OutPortTypes("var")]
     [IsDesignScriptCompatible]
-    internal class BuiltInParamSelector : NodeModel
+    public class BuiltInParamSelector : NodeModel
     {
         #region Properties
 
@@ -54,12 +49,26 @@ namespace archilabUI.BuiltInParamSelector
 
         public BuiltInParamSelector()
         {
+            InPorts.Add(new PortModel(PortType.Input, this, new PortData("Element", "Input Element.")));
+            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("bipName", "Name of the BuiltInParameter selected.")));
             RegisterAllPorts();
+            ArgumentLacing = LacingStrategy.Disabled;
+
             foreach (var current in InPorts)
             {
                 current.Connectors.CollectionChanged += Connectors_CollectionChanged;
             }
             ItemsCollection = new ObservableCollection<ParameterWrapper>();
+        }
+
+        [JsonConstructor]
+        protected BuiltInParamSelector(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts,
+            outPorts)
+        {
+            foreach (var current in InPorts)
+            {
+                current.Connectors.CollectionChanged += Connectors_CollectionChanged;
+            }
         }
 
         #region UI Methods
@@ -83,7 +92,7 @@ namespace archilabUI.BuiltInParamSelector
             }
         }
 
-        private List<ParameterWrapper> GetParameters(Autodesk.Revit.DB.Element e, string prefix)
+        private static IEnumerable<ParameterWrapper> GetParameters(Autodesk.Revit.DB.Element e, string prefix)
         {
             var items = new List<ParameterWrapper>();
             foreach (Autodesk.Revit.DB.Parameter p in e.Parameters)
@@ -103,7 +112,6 @@ namespace archilabUI.BuiltInParamSelector
         private Autodesk.Revit.DB.Element GetInputElement()
         {
             Autodesk.Revit.DB.Element e = null;
-            if (!HasConnectedInput(0)) return null;
 
             var owner = InPorts[0].Connectors[0].Start.Owner;
             var index = InPorts[0].Connectors[0].Start.Index;
@@ -207,7 +215,7 @@ namespace archilabUI.BuiltInParamSelector
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
         {
             var list = new List<AssociativeNode>();
-            if (!HasConnectedInput(0) || SelectedItem == null)
+            if (SelectedItem == null)
             {
                 list.Add(AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), AstFactory.BuildNullNode()));
             }

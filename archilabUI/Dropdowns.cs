@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using archilab.Utilities;
 using CoreNodeModels;
 using DSRevitNodesUI;
 using Dynamo.Graph.Nodes;
 using Dynamo.Utilities;
 using ProtoCore.AST.AssociativeAST;
-using RestSharp;
 using RevitServices.Persistence;
+using RestSharp;
+using Newtonsoft.Json;
+using archilab.Utilities;
+using archilab.Revit.Elements;
 using Category = Autodesk.Revit.DB.Category;
 using ElementSelector = Revit.Elements.ElementSelector;
-using archilab.Revit.Elements;
 
 namespace archilabUI
 {
@@ -21,7 +22,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class BoxPlacementTypeUi : CustomGenericEnumerationDropDown
     {
-        public BoxPlacementTypeUi() : base("boxPlacementType", typeof(Autodesk.Revit.DB.BoxPlacement)) { }
+        private const string OutputName = "boxPlacementType";
+        public BoxPlacementTypeUi() : base(OutputName, typeof(Autodesk.Revit.DB.BoxPlacement)) { }
+
+        [JsonConstructor]
+        public BoxPlacementTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.BoxPlacement), inPorts, outPorts) { }
     }
 
     [NodeName("Parameter Groups")]
@@ -30,7 +36,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class ParameterGroupUi : CustomGenericEnumerationDropDown
     {
-        public ParameterGroupUi() : base("parameterGroup", typeof(Autodesk.Revit.DB.BuiltInParameterGroup)) { }
+        private const string OutputName = "parameterGroup";
+        public ParameterGroupUi() : base(OutputName, typeof(Autodesk.Revit.DB.BuiltInParameterGroup)) { }
+
+        [JsonConstructor]
+        public ParameterGroupUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.BuiltInParameterGroup), inPorts, outPorts) { }
     }
 
     [NodeName("Fill Pattern Targets")]
@@ -39,7 +50,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class FillPatternTargetUi : CustomGenericEnumerationDropDown
     {
-        public FillPatternTargetUi() : base("fillPatternTarget", typeof(Autodesk.Revit.DB.FillPatternTarget)) { }
+        private const string OutputName = "fillPatternTarget";
+        public FillPatternTargetUi() : base(OutputName, typeof(Autodesk.Revit.DB.FillPatternTarget)) { }
+
+        [JsonConstructor]
+        public FillPatternTargetUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.FillPatternTarget), inPorts, outPorts) { }
     }
 
     [NodeName("Parameter Types")]
@@ -48,7 +64,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class ParameterTypeUi : CustomGenericEnumerationDropDown
     {
-        public ParameterTypeUi() : base("parameterType", typeof(Autodesk.Revit.DB.ParameterType)) { }
+        private const string OutputName = "parameterType";
+        public ParameterTypeUi() : base(OutputName, typeof(Autodesk.Revit.DB.ParameterType)) { }
+
+        [JsonConstructor]
+        public ParameterTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.ParameterType), inPorts, outPorts) { }
     }
 
     [NodeName("Print Range")]
@@ -57,7 +78,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class PrintRangeUi : CustomGenericEnumerationDropDown
     {
-        public PrintRangeUi() : base("printRange", typeof(Autodesk.Revit.DB.PrintRange)) { }
+        private const string OutputName = "printRange";
+        public PrintRangeUi() : base(OutputName, typeof(Autodesk.Revit.DB.PrintRange)) { }
+
+        [JsonConstructor]
+        public PrintRangeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.PrintRange), inPorts, outPorts) { }
     }
 
     [NodeName("Fit Direction Type")]
@@ -66,7 +92,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class FitDirectionTypeUi : CustomGenericEnumerationDropDown
     {
-        public FitDirectionTypeUi() : base("fitDirectionType", typeof(Autodesk.Revit.DB.FitDirectionType)) { }
+        private const string OutputName = "fitDirectionType";
+        public FitDirectionTypeUi() : base(OutputName, typeof(Autodesk.Revit.DB.FitDirectionType)) { }
+
+        [JsonConstructor]
+        public FitDirectionTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.FitDirectionType), inPorts, outPorts) { }
     }
 
     [NodeName("Image Resolution")]
@@ -75,7 +106,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class ImageResolutionUi : CustomGenericEnumerationDropDown
     {
-        public ImageResolutionUi() : base("imageResolution", typeof(Autodesk.Revit.DB.ImageResolution)) { }
+        private const string OutputName = "imageResolution";
+        public ImageResolutionUi() : base(OutputName, typeof(Autodesk.Revit.DB.ImageResolution)) { }
+
+        [JsonConstructor]
+        public ImageResolutionUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.ImageResolution), inPorts, outPorts) { }
     }
 
     [NodeName("Zoom Fit Type")]
@@ -84,7 +120,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class ZoomFitTypeUi : CustomGenericEnumerationDropDown
     {
-        public ZoomFitTypeUi() : base("zoomFitType", typeof(Autodesk.Revit.DB.ZoomFitType)) { }
+        private const string OutputName = "zoomFitType";
+        public ZoomFitTypeUi() : base(OutputName, typeof(Autodesk.Revit.DB.ZoomFitType)) { }
+
+        [JsonConstructor]
+        public ZoomFitTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.ZoomFitType), inPorts, outPorts) { }
     }
 
     [NodeName("Image File Type")]
@@ -93,7 +134,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class ImageFileTypeUi : CustomGenericEnumerationDropDown
     {
-        public ImageFileTypeUi() : base("imageFileType", typeof(Autodesk.Revit.DB.ImageFileType)) { }
+        private const string OutputName = "imageFileType";
+        public ImageFileTypeUi() : base(OutputName, typeof(Autodesk.Revit.DB.ImageFileType)) { }
+
+        [JsonConstructor]
+        public ImageFileTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.ImageFileType), inPorts, outPorts) { }
     }
 
     [NodeName("Export Range")]
@@ -102,7 +148,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class ExportRangeUi : CustomGenericEnumerationDropDown
     {
-        public ExportRangeUi() : base("exportRange", typeof(Autodesk.Revit.DB.ExportRange)) { }
+        private const string OutputName = "exportRange";
+        public ExportRangeUi() : base(OutputName, typeof(Autodesk.Revit.DB.ExportRange)) { }
+
+        [JsonConstructor]
+        public ExportRangeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.ExportRange), inPorts, outPorts) { }
     }
 
     [NodeName("Print Settings")]
@@ -111,7 +162,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class PrintSettingUi : CustomRevitElementDropDown
     {
-        public PrintSettingUi() : base("printSetting", typeof(Autodesk.Revit.DB.PrintSetting)) { }
+        private const string OutputName = "printSetting";
+        public PrintSettingUi() : base(OutputName, typeof(Autodesk.Revit.DB.PrintSetting)) { }
+
+        [JsonConstructor]
+        public PrintSettingUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.PrintSetting), inPorts, outPorts) { }
     }
 
     [NodeName("View Sets")]
@@ -120,7 +176,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class ViewSetUi : CustomRevitElementDropDown
     {
-        public ViewSetUi() : base("viewSet", typeof(Autodesk.Revit.DB.ViewSheetSet)) { }
+        private const string OutputName = "viewSet";
+        public ViewSetUi() : base(OutputName, typeof(Autodesk.Revit.DB.ViewSheetSet)) { }
+
+        [JsonConstructor]
+        public ViewSetUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.ViewSheetSet), inPorts, outPorts) { }
     }
 
     [NodeName("Schedule Heading Orientations")]
@@ -129,7 +190,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class ScheduleHeadingOrientationUi : CustomGenericEnumerationDropDown
     {
-        public ScheduleHeadingOrientationUi() : base("scheduleHeadingOrientation", typeof(Autodesk.Revit.DB.ScheduleHeadingOrientation)) { }
+        private const string OutputName = "scheduleHeadingOrientation";
+        public ScheduleHeadingOrientationUi() : base(OutputName, typeof(Autodesk.Revit.DB.ScheduleHeadingOrientation)) { }
+
+        [JsonConstructor]
+        public ScheduleHeadingOrientationUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.ScheduleHeadingOrientation), inPorts, outPorts) { }
     }
 
     [NodeName("Schedule Horizontal Alignment")]
@@ -138,7 +204,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class ScheduleHorizontalAlignmentUi : CustomGenericEnumerationDropDown
     {
-        public ScheduleHorizontalAlignmentUi() : base("scheduleHorizontalAlignment", typeof(Autodesk.Revit.DB.ScheduleHorizontalAlignment)) { }
+        private const string OutputName = "scheduleHorizontalAlignment";
+        public ScheduleHorizontalAlignmentUi() : base(OutputName, typeof(Autodesk.Revit.DB.ScheduleHorizontalAlignment)) { }
+
+        [JsonConstructor]
+        public ScheduleHorizontalAlignmentUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.ScheduleHorizontalAlignment), inPorts, outPorts) { }
     }
 
     [NodeName("Horizontal Alignment Style")]
@@ -147,9 +218,13 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class HorizontalAlignmentStyleUi : CustomGenericEnumerationDropDown
     {
-        public HorizontalAlignmentStyleUi() : base("horizontalAlignmentStyle", typeof(Autodesk.Revit.DB.HorizontalAlignmentStyle)) { }
-    }
+        private const string OutputName = "horizontalAlignmentStyle";
+        public HorizontalAlignmentStyleUi() : base(OutputName, typeof(Autodesk.Revit.DB.HorizontalAlignmentStyle)) { }
 
+        [JsonConstructor]
+        public HorizontalAlignmentStyleUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.HorizontalAlignmentStyle), inPorts, outPorts) { }
+    }
 
     [NodeName("Vertical Alignment Style")]
     [NodeCategory("archilab.Revit.Schedule")]
@@ -157,7 +232,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class VerticalAlignmentStyleUi : CustomGenericEnumerationDropDown
     {
-        public VerticalAlignmentStyleUi() : base("verticalAlignmentStyle", typeof(Autodesk.Revit.DB.VerticalAlignmentStyle)) { }
+        private const string OutputName = "verticalAlignmentStyle";
+        public VerticalAlignmentStyleUi() : base(OutputName, typeof(Autodesk.Revit.DB.VerticalAlignmentStyle)) { }
+
+        [JsonConstructor]
+        public VerticalAlignmentStyleUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.VerticalAlignmentStyle), inPorts, outPorts) { }
     }
 
     [NodeName("Schedule Sort Order")]
@@ -166,7 +246,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class ScheduleSortOrderUi : CustomGenericEnumerationDropDown
     {
-        public ScheduleSortOrderUi() : base("scheduleSortOrder", typeof(Autodesk.Revit.DB.ScheduleSortOrder)) { }
+        private const string OutputName = "scheduleSortOrder";
+        public ScheduleSortOrderUi() : base(OutputName, typeof(Autodesk.Revit.DB.ScheduleSortOrder)) { }
+
+        [JsonConstructor]
+        public ScheduleSortOrderUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.ScheduleSortOrder), inPorts, outPorts) { }
     }
 
     [NodeName("Numeric Rule Evaluators")]
@@ -175,9 +260,13 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class FilterNumericRuleEvaluatorUi : RevitDropDownBase
     {
+        private const string OutputName = "evaluator";
         private const string NoFamilyTypes = "No types were found.";
 
-        public FilterNumericRuleEvaluatorUi() : base("evaluator") { }
+        public FilterNumericRuleEvaluatorUi() : base(OutputName) { }
+
+        [JsonConstructor]
+        public FilterNumericRuleEvaluatorUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(OutputName, inPorts, outPorts) { }
 
         // Get Data Class that holds dictionary
         public static FilterNumericRuleEvaluator WTypes = new FilterNumericRuleEvaluator();
@@ -230,9 +319,13 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class FilterStringRuleEvaluatorUi : RevitDropDownBase
     {
+        private const string OutputName = "evaluator";
         private const string NoFamilyTypes = "No types were found.";
 
-        public FilterStringRuleEvaluatorUi() : base("evaluator") { }
+        public FilterStringRuleEvaluatorUi() : base(OutputName) { }
+
+        [JsonConstructor]
+        public FilterStringRuleEvaluatorUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(OutputName, inPorts, outPorts) { }
 
         // Get Data Class that holds dictionary
         public static FilterStringRuleEvaluator WTypes = new FilterStringRuleEvaluator();
@@ -285,7 +378,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class FilterNumericValueRuleUi : CustomGenericEnumerationDropDown
     {
-        public FilterNumericValueRuleUi() : base("filterNumericValueRule", typeof(FilterNumericValueRule)) { }
+        private const string OutputName = "filterNumericValueRule";
+        public FilterNumericValueRuleUi() : base(OutputName, typeof(FilterNumericValueRule)) { }
+
+        [JsonConstructor]
+        public FilterNumericValueRuleUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(FilterNumericValueRule), inPorts, outPorts) { }
     }
 
     [NodeName("Line Styles")]
@@ -294,9 +392,13 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class LineStyleUi : RevitDropDownBase
     {
+        private const string OutputName = "lineStyle";
         private const string NoFamilyTypes = "No types were found.";
 
-        public LineStyleUi() : base("lineStyle") { }
+        public LineStyleUi() : base(OutputName) { }
+
+        [JsonConstructor]
+        public LineStyleUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(OutputName, inPorts, outPorts) { }
 
         protected override SelectionState PopulateItemsCore(string currentSelection)
         {
@@ -355,16 +457,19 @@ namespace archilabUI
         }
     }
 
-
     [NodeName("View Templates")]
     [NodeCategory("archilab.Revit.ViewTemplate")]
     [NodeDescription("Retrieve all available View Templates (except 3D view based due to Dynamo limitation).")]
     [IsDesignScriptCompatible]
     public class ViewTemplatesUi : RevitDropDownBase
     {
+        private const string OutputName = "viewTemplate";
         private const string NoFamilyTypes = "No types were found.";
 
-        public ViewTemplatesUi() : base("viewTemplate") { }
+        public ViewTemplatesUi() : base(OutputName) { }
+
+        [JsonConstructor]
+        public ViewTemplatesUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(OutputName, inPorts, outPorts) { }
 
         protected override SelectionState PopulateItemsCore(string currentSelection)
         {
@@ -427,9 +532,13 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class WorksetUi : RevitDropDownBase
     {
+        private const string OutputName = "workset";
         private const string NoFamilyTypes = "No types were found.";
 
-        public WorksetUi() : base("workset") { }
+        public WorksetUi() : base(OutputName) { }
+
+        [JsonConstructor]
+        public WorksetUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(OutputName, inPorts, outPorts) { }
 
         protected override SelectionState PopulateItemsCore(string currentSelection)
         {
@@ -489,8 +598,12 @@ namespace archilabUI
     public class ViewTypesUi : RevitDropDownBase
     {
         private const string NoFamilyTypes = "No types were found.";
+        private const string OutputName = "viewType";
 
         public ViewTypesUi() : base("viewType") { }
+
+        [JsonConstructor]
+        public ViewTypesUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(OutputName, inPorts, outPorts) { }
 
         // Get Data Class that holds dictionary
         public static ViewTypes VTypes = new ViewTypes();
@@ -559,7 +672,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class PhaseFilterUi : CustomRevitElementDropDown
     {
-        public PhaseFilterUi() : base("phaseFilter", typeof(Autodesk.Revit.DB.PhaseFilter)) { }
+        private const string OutputName = "phaseFilter";
+        public PhaseFilterUi() : base(OutputName, typeof(Autodesk.Revit.DB.PhaseFilter)) { }
+
+        [JsonConstructor]
+        public PhaseFilterUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.PhaseFilter), inPorts, outPorts) { }
     }
 
     [NodeName("Workset Kind")]
@@ -568,7 +686,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class WorksetKindUi : CustomGenericEnumerationDropDown
     {
-        public WorksetKindUi() : base("kind", typeof(Autodesk.Revit.DB.WorksetKind)) { }
+        private const string OutputName = "kind";
+        public WorksetKindUi() : base(OutputName, typeof(Autodesk.Revit.DB.WorksetKind)) { }
+
+        [JsonConstructor]
+        public WorksetKindUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.WorksetKind), inPorts, outPorts) { }
     }
 
     [NodeName("Workset Visibility")]
@@ -577,7 +700,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class WorksetVisibilityUi : CustomGenericEnumerationDropDown
     {
-        public WorksetVisibilityUi() : base("visibility", typeof(Autodesk.Revit.DB.WorksetVisibility)) { }
+        private const string OutputName = "visibility";
+        public WorksetVisibilityUi() : base(OutputName, typeof(Autodesk.Revit.DB.WorksetVisibility)) { }
+
+        [JsonConstructor]
+        public WorksetVisibilityUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.WorksetVisibility), inPorts, outPorts) { }
     }
 
     [NodeName("Duplicate Options")]
@@ -586,7 +714,12 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class DuplicateOptionsUi : CustomGenericEnumerationDropDown
     {
-        public DuplicateOptionsUi() : base("options", typeof(Autodesk.Revit.DB.ViewDuplicateOption)) { }
+        private const string OutputName = "options";
+        public DuplicateOptionsUi() : base(OutputName, typeof(Autodesk.Revit.DB.ViewDuplicateOption)) { }
+
+        [JsonConstructor]
+        public DuplicateOptionsUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Autodesk.Revit.DB.ViewDuplicateOption), inPorts, outPorts) { }
     }
 
     [NodeName("Method Types")]
@@ -595,6 +728,11 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class HttpMethodType : CustomGenericEnumerationDropDown
     {
-        public HttpMethodType() : base("methodType", typeof(Method)) { }
+        private const string OutputName = "methodType";
+        public HttpMethodType() : base(OutputName, typeof(Method)) { }
+
+        [JsonConstructor]
+        public HttpMethodType(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
+            : base(OutputName, typeof(Method), inPorts, outPorts) { }
     }
 }

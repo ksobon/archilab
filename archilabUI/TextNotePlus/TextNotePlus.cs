@@ -12,6 +12,7 @@ using Autodesk.DesignScript.Runtime;
 using Dynamo.Graph;
 using Dynamo.Graph.Nodes;
 using GalaSoft.MvvmLight.Command;
+using Newtonsoft.Json;
 using ProtoCore.AST.AssociativeAST;
 using RichTextBox = Xceed.Wpf.Toolkit.RichTextBox;
 
@@ -97,6 +98,9 @@ namespace archilabUI.TextNotePlus
             TextBold = new RelayCommand<bool>(OnTextBold);
             TextItalic = new RelayCommand<bool>(OnTextItalic);
         }
+
+        [JsonConstructor]
+        protected TextNotePlus(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts, outPorts) { }
 
         #region UI Methods
 

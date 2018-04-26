@@ -1,0 +1,816 @@
+{
+  "Uuid": "356d46b3-057b-4f21-86ed-35011ee7934a",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "listNodes",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "archilabUI.ViewTypesUi, archilabUI",
+      "SelectedIndex": 7,
+      "NodeType": "ExtensionNode",
+      "Id": "730130a8ef8c4cd383475c9ba8e8da1b",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f498d7599dab4ac0b482af5b867855eb",
+          "Name": "viewType",
+          "Description": "The selected viewType",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Retrieve all available View Types."
+    },
+    {
+      "ConcreteType": "archilabUI.DropdownToListNodeModel, archilabUI",
+      "Input": [
+        "AreaPlan",
+        "CeilingPlan",
+        "ColumnSchedule",
+        "CostReport",
+        "Detail",
+        "DraftingView",
+        "DrawingSheet",
+        "Elevation",
+        "EngineeringPlan",
+        "FloorPlan",
+        "Internal",
+        "Legend",
+        "LoadsReport",
+        "PanelSchedule",
+        "PresureLossReport",
+        "ProjectBrowser",
+        "Rendering",
+        "Report",
+        "Schedule",
+        "Section",
+        "SystemBrowser",
+        "ThreeD",
+        "Undefined",
+        "View Template",
+        "Walkthrough"
+      ],
+      "NodeType": "ExtensionNode",
+      "Id": "2d8e349f30e34c19bd41d9dad8be34dd",
+      "Inputs": [
+        {
+          "Id": "4e2caf2493884b54bdf032b9b1781dbd",
+          "Name": "dropdown",
+          "Description": "Feed in a dropdown node.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "7ba93706fa484f0993e8135ff377f5be",
+          "Name": "List",
+          "Description": "No one knows for sure what this does...",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Do something."
+    },
+    {
+      "ConcreteType": "archilabUI.ListSelector.ListSelector, archilabUI",
+      "ItemsCollection": [
+        {
+          "Name": "AreaPlan",
+          "Index": 0,
+          "IsSelected": false
+        },
+        {
+          "Name": "CeilingPlan",
+          "Index": 1,
+          "IsSelected": false
+        },
+        {
+          "Name": "ColumnSchedule",
+          "Index": 2,
+          "IsSelected": false
+        },
+        {
+          "Name": "CostReport",
+          "Index": 3,
+          "IsSelected": false
+        },
+        {
+          "Name": "Detail",
+          "Index": 4,
+          "IsSelected": false
+        },
+        {
+          "Name": "DraftingView",
+          "Index": 5,
+          "IsSelected": true
+        },
+        {
+          "Name": "DrawingSheet",
+          "Index": 6,
+          "IsSelected": true
+        },
+        {
+          "Name": "Elevation",
+          "Index": 7,
+          "IsSelected": false
+        },
+        {
+          "Name": "EngineeringPlan",
+          "Index": 8,
+          "IsSelected": false
+        },
+        {
+          "Name": "FloorPlan",
+          "Index": 9,
+          "IsSelected": false
+        },
+        {
+          "Name": "Internal",
+          "Index": 10,
+          "IsSelected": false
+        },
+        {
+          "Name": "Legend",
+          "Index": 11,
+          "IsSelected": true
+        },
+        {
+          "Name": "LoadsReport",
+          "Index": 12,
+          "IsSelected": false
+        },
+        {
+          "Name": "PanelSchedule",
+          "Index": 13,
+          "IsSelected": false
+        },
+        {
+          "Name": "PresureLossReport",
+          "Index": 14,
+          "IsSelected": false
+        },
+        {
+          "Name": "ProjectBrowser",
+          "Index": 15,
+          "IsSelected": false
+        },
+        {
+          "Name": "Rendering",
+          "Index": 16,
+          "IsSelected": false
+        },
+        {
+          "Name": "Report",
+          "Index": 17,
+          "IsSelected": false
+        },
+        {
+          "Name": "Schedule",
+          "Index": 18,
+          "IsSelected": false
+        },
+        {
+          "Name": "Section",
+          "Index": 19,
+          "IsSelected": false
+        },
+        {
+          "Name": "SystemBrowser",
+          "Index": 20,
+          "IsSelected": false
+        },
+        {
+          "Name": "ThreeD",
+          "Index": 21,
+          "IsSelected": false
+        },
+        {
+          "Name": "Undefined",
+          "Index": 22,
+          "IsSelected": false
+        },
+        {
+          "Name": "View Template",
+          "Index": 23,
+          "IsSelected": false
+        },
+        {
+          "Name": "Walkthrough",
+          "Index": 24,
+          "IsSelected": false
+        }
+      ],
+      "NodeType": "ExtensionNode",
+      "Id": "399d52b5e4f541b8abb478a98d19303d",
+      "Inputs": [
+        {
+          "Id": "928eddce4dcc418c92711d3bd82afa14",
+          "Name": "List",
+          "Description": "Input List.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "cf63703db9284eed8d515ffcccb261bb",
+          "Name": "List",
+          "Description": "Selected Items.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Use this node to select multiple items from a list."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "f548dca2d2264b0e81e1385aad45a3d5",
+      "Inputs": [
+        {
+          "Id": "cf28112abd5c4c418656f988ff5a8a93",
+          "Name": "",
+          "Description": "Node to evaluate.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "321d26e2d5484426a6a06939a42b33cb",
+          "Name": "",
+          "Description": "Watch contents.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the output of node."
+    },
+    {
+      "ConcreteType": "archilabUI.DropdownListSelector.DropdownListSelector, archilabUI",
+      "ItemsCollection": [
+        {
+          "Name": "AreaPlan",
+          "Index": 0,
+          "IsSelected": false
+        },
+        {
+          "Name": "CeilingPlan",
+          "Index": 1,
+          "IsSelected": false
+        },
+        {
+          "Name": "ColumnSchedule",
+          "Index": 2,
+          "IsSelected": false
+        },
+        {
+          "Name": "CostReport",
+          "Index": 3,
+          "IsSelected": false
+        },
+        {
+          "Name": "Detail",
+          "Index": 4,
+          "IsSelected": false
+        },
+        {
+          "Name": "DraftingView",
+          "Index": 5,
+          "IsSelected": true
+        },
+        {
+          "Name": "DrawingSheet",
+          "Index": 6,
+          "IsSelected": true
+        },
+        {
+          "Name": "Elevation",
+          "Index": 7,
+          "IsSelected": false
+        },
+        {
+          "Name": "EngineeringPlan",
+          "Index": 8,
+          "IsSelected": false
+        },
+        {
+          "Name": "FloorPlan",
+          "Index": 9,
+          "IsSelected": false
+        },
+        {
+          "Name": "Internal",
+          "Index": 10,
+          "IsSelected": false
+        },
+        {
+          "Name": "Legend",
+          "Index": 11,
+          "IsSelected": true
+        },
+        {
+          "Name": "LoadsReport",
+          "Index": 12,
+          "IsSelected": false
+        },
+        {
+          "Name": "PanelSchedule",
+          "Index": 13,
+          "IsSelected": false
+        },
+        {
+          "Name": "PresureLossReport",
+          "Index": 14,
+          "IsSelected": false
+        },
+        {
+          "Name": "ProjectBrowser",
+          "Index": 15,
+          "IsSelected": false
+        },
+        {
+          "Name": "Rendering",
+          "Index": 16,
+          "IsSelected": false
+        },
+        {
+          "Name": "Report",
+          "Index": 17,
+          "IsSelected": false
+        },
+        {
+          "Name": "Schedule",
+          "Index": 18,
+          "IsSelected": false
+        },
+        {
+          "Name": "Section",
+          "Index": 19,
+          "IsSelected": false
+        },
+        {
+          "Name": "SystemBrowser",
+          "Index": 20,
+          "IsSelected": false
+        },
+        {
+          "Name": "ThreeD",
+          "Index": 21,
+          "IsSelected": false
+        },
+        {
+          "Name": "Undefined",
+          "Index": 22,
+          "IsSelected": false
+        },
+        {
+          "Name": "View Template",
+          "Index": 23,
+          "IsSelected": false
+        },
+        {
+          "Name": "Walkthrough",
+          "Index": 24,
+          "IsSelected": false
+        }
+      ],
+      "NodeType": "ExtensionNode",
+      "Id": "67a931e7001545b69261708329115482",
+      "Inputs": [
+        {
+          "Id": "0e2a8480fa7e4abc8555d561bbf0ac31",
+          "Name": "List",
+          "Description": "Input List.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "425cfb2036874b6189d8c3c1ed96d54d",
+          "Name": "List",
+          "Description": "Selected Items.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Use this node to select multiple items from a list."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "410683c15e0c4723a662b871cc59b246",
+      "Inputs": [
+        {
+          "Id": "61b5a70db51948a0bcc54ab63ea54890",
+          "Name": "",
+          "Description": "Node to evaluate.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "7c6c8886392a41ebbf40799a674db749",
+          "Name": "",
+          "Description": "Watch contents.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the output of node."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.WallTypes, DSRevitNodesUI",
+      "SelectedIndex": 2,
+      "NodeType": "ExtensionNode",
+      "Id": "8e1c3774ebaa4a1a9f3b36d2742bb9f6",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "d289da7b94a74a64b59d6bfdba5a9d60",
+          "Name": "Wall Type",
+          "Description": "The selected Wall Type",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All wall types available in the document."
+    },
+    {
+      "ConcreteType": "archilabUI.BuiltInParamSelector.BuiltInParamSelector, archilabUI",
+      "ItemsCollection": [
+        {
+          "Name": "Instance | Absorptance",
+          "BipName": "ANALYTICAL_ABSORPTANCE"
+        },
+        {
+          "Name": "Instance | Assembly Code",
+          "BipName": "UNIFORMAT_CODE"
+        },
+        {
+          "Name": "Instance | Assembly Description",
+          "BipName": "UNIFORMAT_DESCRIPTION"
+        },
+        {
+          "Name": "Instance | Category",
+          "BipName": "ELEM_CATEGORY_PARAM"
+        },
+        {
+          "Name": "Instance | Category",
+          "BipName": "ELEM_CATEGORY_PARAM_MT"
+        },
+        {
+          "Name": "Instance | Coarse Scale Fill Color",
+          "BipName": "COARSE_SCALE_FILL_PATTERN_COLOR"
+        },
+        {
+          "Name": "Instance | Coarse Scale Fill Pattern",
+          "BipName": "COARSE_SCALE_FILL_PATTERN_ID_PARAM"
+        },
+        {
+          "Name": "Instance | Cost",
+          "BipName": "ALL_MODEL_COST"
+        },
+        {
+          "Name": "Instance | Description",
+          "BipName": "ALL_MODEL_DESCRIPTION"
+        },
+        {
+          "Name": "Instance | Design Option",
+          "BipName": "DESIGN_OPTION_ID"
+        },
+        {
+          "Name": "Instance | Family Name",
+          "BipName": "SYMBOL_FAMILY_NAME_PARAM"
+        },
+        {
+          "Name": "Instance | Fire Rating",
+          "BipName": "DOOR_FIRE_RATING"
+        },
+        {
+          "Name": "Instance | Function",
+          "BipName": "FUNCTION_PARAM"
+        },
+        {
+          "Name": "Instance | Heat Transfer Coefficient (U)",
+          "BipName": "ANALYTICAL_HEAT_TRANSFER_COEFFICIENT"
+        },
+        {
+          "Name": "Instance | Keynote",
+          "BipName": "KEYNOTE_PARAM"
+        },
+        {
+          "Name": "Instance | Manufacturer",
+          "BipName": "ALL_MODEL_MANUFACTURER"
+        },
+        {
+          "Name": "Instance | Model",
+          "BipName": "ALL_MODEL_MODEL"
+        },
+        {
+          "Name": "Instance | Roughness",
+          "BipName": "ANALYTICAL_ROUGHNESS"
+        },
+        {
+          "Name": "Instance | Structural Material",
+          "BipName": "STRUCTURAL_MATERIAL_PARAM"
+        },
+        {
+          "Name": "Instance | Thermal mass",
+          "BipName": "ANALYTICAL_THERMAL_MASS"
+        },
+        {
+          "Name": "Instance | Thermal Resistance (R)",
+          "BipName": "ANALYTICAL_THERMAL_RESISTANCE"
+        },
+        {
+          "Name": "Instance | Type Comments",
+          "BipName": "ALL_MODEL_TYPE_COMMENTS"
+        },
+        {
+          "Name": "Instance | Type Image",
+          "BipName": "ALL_MODEL_TYPE_IMAGE"
+        },
+        {
+          "Name": "Instance | Type Mark",
+          "BipName": "ALL_MODEL_TYPE_MARK"
+        },
+        {
+          "Name": "Instance | Type Name",
+          "BipName": "ALL_MODEL_TYPE_NAME"
+        },
+        {
+          "Name": "Instance | URL",
+          "BipName": "ALL_MODEL_URL"
+        },
+        {
+          "Name": "Instance | Width",
+          "BipName": "WALL_ATTR_WIDTH_PARAM"
+        },
+        {
+          "Name": "Instance | Wrapping at Ends",
+          "BipName": "WRAPPING_AT_ENDS_PARAM"
+        },
+        {
+          "Name": "Instance | Wrapping at Inserts",
+          "BipName": "WRAPPING_AT_INSERTS_PARAM"
+        }
+      ],
+      "SelectedItem": {
+        "Name": "Instance | URL",
+        "BipName": "ALL_MODEL_URL"
+      },
+      "NodeType": "ExtensionNode",
+      "Id": "35df813419b34526bfafa3589d97a74f",
+      "Inputs": [
+        {
+          "Id": "26a05b536b144a02b8d406733437e3c8",
+          "Name": "Element",
+          "Description": "Input Element.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "9c41b7cd4af344aab3e0aa933f8816c1",
+          "Name": "bipName",
+          "Description": "Name of the BuiltInParameter selected.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a BuiltInParameter name for use with GetBuiltInParameter node."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "dfe7555da45d4a7ba1e8665886783153",
+      "Inputs": [
+        {
+          "Id": "a4bdd69373b6422da6e48ce22da86509",
+          "Name": "",
+          "Description": "Node to evaluate.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "03667d2ff0f84aaeb03b160acf4ce464",
+          "Name": "",
+          "Description": "Watch contents.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the output of node."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "f498d7599dab4ac0b482af5b867855eb",
+      "End": "4e2caf2493884b54bdf032b9b1781dbd",
+      "Id": "beb597a118cf4665a3e0afdf49d23b34"
+    },
+    {
+      "Start": "7ba93706fa484f0993e8135ff377f5be",
+      "End": "928eddce4dcc418c92711d3bd82afa14",
+      "Id": "c5c2d2c49005463dbfa60ee2145b976a"
+    },
+    {
+      "Start": "7ba93706fa484f0993e8135ff377f5be",
+      "End": "0e2a8480fa7e4abc8555d561bbf0ac31",
+      "Id": "9ae8d3b4233644638c70d61bcd9ecf8b"
+    },
+    {
+      "Start": "cf63703db9284eed8d515ffcccb261bb",
+      "End": "cf28112abd5c4c418656f988ff5a8a93",
+      "Id": "4ebd4c8a021245e5b4de945559bd5388"
+    },
+    {
+      "Start": "425cfb2036874b6189d8c3c1ed96d54d",
+      "End": "61b5a70db51948a0bcc54ab63ea54890",
+      "Id": "607535a9256e4dd691a45e9f2d1326ea"
+    },
+    {
+      "Start": "d289da7b94a74a64b59d6bfdba5a9d60",
+      "End": "26a05b536b144a02b8d406733437e3c8",
+      "Id": "5bcf8c291a2249c8aeb583f552711ccb"
+    },
+    {
+      "Start": "9c41b7cd4af344aab3e0aa933f8816c1",
+      "End": "a4bdd69373b6422da6e48ce22da86509",
+      "Id": "dd82a699648b434897190ac1d74b17d0"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.1.4650",
+      "RunType": "Automatic",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "View Type",
+        "Id": "730130a8ef8c4cd383475c9ba8e8da1b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 109.0,
+        "Y": 135.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Dropdown > List",
+        "Id": "2d8e349f30e34c19bd41d9dad8be34dd",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 302.0,
+        "Y": 138.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "List Selector",
+        "Id": "399d52b5e4f541b8abb478a98d19303d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 484.87080852555584,
+        "Y": 136.61150969957671
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "f548dca2d2264b0e81e1385aad45a3d5",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 759.77906589979284,
+        "Y": 136.13579507297428
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Dropdown List Selector",
+        "Id": "67a931e7001545b69261708329115482",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 461.84216607250454,
+        "Y": 518.80037913032209
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "410683c15e0c4723a662b871cc59b246",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 764.61694668534733,
+        "Y": 518.52997247936275
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Wall Types",
+        "Id": "8e1c3774ebaa4a1a9f3b36d2742bb9f6",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 326.41076040717303,
+        "Y": 717.71460260580568
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Get BipParameter Name",
+        "Id": "35df813419b34526bfafa3589d97a74f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 523.49455158783189,
+        "Y": 718.93350749546244
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "dfe7555da45d4a7ba1e8665886783153",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 817.73284805239894,
+        "Y": 718.663100844503
+      }
+    ],
+    "Annotations": [],
+    "X": -23.367060041855325,
+    "Y": -777.17146992310506,
+    "Zoom": 1.3461373047445635
+  }
+}
