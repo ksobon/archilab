@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using archilab.Utilities;
 using Autodesk.DesignScript.Geometry;
 using Autodesk.DesignScript.Runtime;
 using Revit.Elements;
@@ -8,7 +9,6 @@ using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using Category = Revit.Elements.Category;
 using Element = Revit.Elements.Element;
-using FilterNumericValueRule = archilab.Utilities.FilterNumericValueRule;
 using View = Revit.Elements.Views.View;
 using Workset = archilab.Revit.Elements.Workset;
 

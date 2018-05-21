@@ -92,23 +92,22 @@ namespace archilab.Lists
                 { "sortBy", sortBy}
             };
         }
+    }
 
+    /// <summary>
+    /// Comparer class that reverses the order of sorting.
+    /// </summary>
+    internal class ReverseComparer : IComparer
+    {
         /// <summary>
-        /// Comparer class that reverses the order of sorting.
+        /// 
         /// </summary>
-        [IsVisibleInDynamoLibrary(false)]
-        public class ReverseComparer : IComparer
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public int Compare(object x, object y)
         {
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="x"></param>
-            /// <param name="y"></param>
-            /// <returns></returns>
-            public int Compare(object x, object y)
-            {
-                return new CaseInsensitiveComparer().Compare(y, x);
-            }
+            return new CaseInsensitiveComparer().Compare(y, x);
         }
     }
 }

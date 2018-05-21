@@ -11,7 +11,7 @@ namespace archilab.Core
         {
         }
 
-        private static readonly DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        private static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         /// Returns a DateTime from Unix Time.
@@ -20,7 +20,7 @@ namespace archilab.Core
         /// <returns>Date Time</returns>
         public static DateTime FromUnixTime(long unixTime)
         {
-            return epoch.AddSeconds(unixTime);
+            return Epoch.AddSeconds(unixTime);
         }
     }
 }
