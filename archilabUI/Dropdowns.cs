@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region References
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CoreNodeModels;
@@ -13,6 +15,8 @@ using archilab.Utilities;
 using archilab.Revit.Elements;
 using Category = Autodesk.Revit.DB.Category;
 using ElementSelector = Revit.Elements.ElementSelector;
+
+#endregion
 
 namespace archilabUI
 {
@@ -532,13 +536,13 @@ namespace archilabUI
     [IsDesignScriptCompatible]
     public class WorksetUi : RevitDropDownBase
     {
-        private const string OutputName = "workset";
+        private const string outputName = "workset";
         private const string NoFamilyTypes = "No types were found.";
 
-        public WorksetUi() : base(OutputName) { }
+        public WorksetUi() : base(outputName) { }
 
         [JsonConstructor]
-        public WorksetUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(OutputName, inPorts, outPorts) { }
+        public WorksetUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(outputName, inPorts, outPorts) { }
 
         protected override SelectionState PopulateItemsCore(string currentSelection)
         {
@@ -598,12 +602,12 @@ namespace archilabUI
     public class ViewTypesUi : RevitDropDownBase
     {
         private const string NoFamilyTypes = "No types were found.";
-        private const string OutputName = "viewType";
+        private const string outputName = "viewType";
 
         public ViewTypesUi() : base("viewType") { }
 
         [JsonConstructor]
-        public ViewTypesUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(OutputName, inPorts, outPorts) { }
+        public ViewTypesUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(outputName, inPorts, outPorts) { }
 
         // Get Data Class that holds dictionary
         public static ViewTypes VTypes = new ViewTypes();

@@ -267,6 +267,12 @@
   <PropertyGroup>
     <PostBuildEvent>copy /Y "$(TargetPath)" "%25APPDATA%25\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin"
 copy /Y "$(TargetDir)GalaSoft.MvvmLight.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin"
-copy /Y "$(TargetDir)GalaSoft.MvvmLight.Platform.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin"</PostBuildEvent>
+copy /Y "$(TargetDir)GalaSoft.MvvmLight.Platform.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin"
+copy /Y "$(TargetDir)Xceed.Wpf.Toolkit.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin"
+copy /Y "$(TargetDir)Xceed.Wpf.DataGrid.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin"
+copy /Y "$(TargetDir)Xceed.Wpf.AvalonDock.Themes.VS2010.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin"
+copy /Y "$(TargetDir)Xceed.Wpf.AvalonDock.Themes.Metro.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin"
+copy /Y "$(TargetDir)Xceed.Wpf.AvalonDock.Themes.Aero.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin"
+copy /Y "$(TargetDir)Xceed.Wpf.AvalonDock.dll" "%25APPDATA%25\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin"</PostBuildEvent>
   </PropertyGroup>
 </Project>
