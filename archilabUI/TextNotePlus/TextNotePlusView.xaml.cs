@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using RichTextBox = Xceed.Wpf.Toolkit.RichTextBox;
 
 namespace archilabUI.TextNotePlus
 {
@@ -10,7 +11,7 @@ namespace archilabUI.TextNotePlus
     public partial class TextNotePlusView
     {
         public Grid MainGrid;
-        public Xceed.Wpf.Toolkit.RichTextBox TextBox;
+        public RichTextBox TextBox;
 
         public TextNotePlusView()
         {

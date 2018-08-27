@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Linq;
-using System.Xml;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
+using System.Xml;
+using archilabUI.Utilities;
+using Autodesk.DesignScript.Runtime;
 using Dynamo.Engine;
 using Dynamo.Graph;
 using Dynamo.Graph.Nodes;
 using Dynamo.UI.Commands;
-using ProtoCore.AST.AssociativeAST;
-using Autodesk.DesignScript.Runtime;
 using Newtonsoft.Json;
-using archilabUI.Utilities;
+using ProtoCore.AST.AssociativeAST;
 
 namespace archilabUI.DropdownListSelector
 {
@@ -87,7 +88,7 @@ namespace archilabUI.DropdownListSelector
             }
         }
 
-        public void PopulateItems(System.Collections.IList selectedItems)
+        public void PopulateItems(IList selectedItems)
         {
             var owner = InPorts[0].Connectors[0].Start.Owner;
             var index = InPorts[0].Connectors[0].Start.Index;

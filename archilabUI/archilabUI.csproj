@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>archilabUI</RootNamespace>
     <AssemblyName>archilabUI</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,7 +56,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="DSRevitNodesUI">
-      <HintPath>..\..\DynamoRevit\bin\AnyCPU\Debug\Revit_2018\nodes\DSRevitNodesUI.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Dynamo\Dynamo Revit\2\Revit_2019\nodes\DSRevitNodesUI.dll</HintPath>
     </Reference>
     <Reference Include="DynamoApplications, Version=2.0.0.4714, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamoVisualProgramming.Core.2.0.0.4714\lib\net45\DynamoApplications.dll</HintPath>
@@ -114,9 +115,8 @@
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
@@ -135,16 +135,16 @@
       <HintPath>..\packages\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2018\RevitAPI.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\Revit 2018\RevitAPIUI.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
     </Reference>
     <Reference Include="RevitNodes">
-      <HintPath>..\..\DynamoRevit\bin\AnyCPU\Debug\Revit_2018\RevitNodes.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Dynamo\Dynamo Revit\2\Revit_2019\RevitNodes.dll</HintPath>
     </Reference>
     <Reference Include="RevitServices">
-      <HintPath>..\..\DynamoRevit\bin\AnyCPU\Debug\Revit_2018\RevitServices.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files\Dynamo\Dynamo Revit\2\Revit_2019\RevitServices.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -167,23 +167,23 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="Xceed.Wpf.AvalonDock, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.DataGrid, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
     </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit, Version=2.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.2.0.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -250,18 +250,18 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\archilab\archilab.csproj">
-      <Project>{591224a8-eef0-4dd6-b9d4-2d06a5a728e9}</Project>
-      <Name>archilab</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\icons_arrowDown_24x24.png" />
     <Resource Include="Resources\icons_arrowUp_24x24.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icons_arrowDownHover_24x24.png" />
     <Resource Include="Resources\icons_arrowUpHover_24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\archilab\archilab.csproj">
+      <Project>{591224a8-eef0-4dd6-b9d4-2d06a5a728e9}</Project>
+      <Name>archilab</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Xml;
+using archilabUI.Utilities;
+using Autodesk.DesignScript.Runtime;
 using Dynamo.Engine;
 using Dynamo.Graph;
-using Dynamo.UI.Commands;
 using Dynamo.Graph.Nodes;
-using ProtoCore.AST.AssociativeAST;
-using Autodesk.DesignScript.Runtime;
+using Dynamo.UI.Commands;
 using Newtonsoft.Json;
-using archilabUI.Utilities;
+using ProtoCore.AST.AssociativeAST;
 
 namespace archilabUI.ListSelector
 {
@@ -87,7 +88,7 @@ namespace archilabUI.ListSelector
             }
         }
 
-        public void PopulateItems(System.Collections.IList selectedItems)
+        public void PopulateItems(IList selectedItems)
         {
             var owner = InPorts[0].Connectors[0].Start.Owner;
             var index = InPorts[0].Connectors[0].Start.Index;

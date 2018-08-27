@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using CoreNodeModels;
 using Dynamo.Controls;
@@ -56,7 +57,7 @@ namespace archilabUI
         [JsonConstructor]
         protected DropdownToListNodeModel(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts, outPorts) { }
 
-        private void Connectors_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void Connectors_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             OnRequestUpdateNode();
         }

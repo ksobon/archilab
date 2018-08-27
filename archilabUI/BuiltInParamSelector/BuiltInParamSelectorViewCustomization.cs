@@ -28,8 +28,8 @@ namespace archilabUI.BuiltInParamSelector
             View = new BuiltInParamSelectorView();
             nodeView.inputGrid.Children.Add(View);
             View.DataContext = model;
-            model.RequestChangeBuiltInParamSelector += new Action(UpdateParameterSelector);
-            this.UpdateParameterSelector();
+            model.RequestChangeBuiltInParamSelector += UpdateParameterSelector;
+            UpdateParameterSelector();
         }
 
         private void UpdateParameterSelector()
@@ -39,7 +39,7 @@ namespace archilabUI.BuiltInParamSelector
             {
                 ViewModel.PopulateItems();
             });
-            AsyncTaskExtensions.ThenSend(delegateBasedAsyncTask, delegate (AsyncTask _)
+            delegateBasedAsyncTask.ThenSend(delegate
             {
                 if (ViewModel.SelectedItem != null)
                 {

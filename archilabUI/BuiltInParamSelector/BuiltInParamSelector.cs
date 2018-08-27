@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Linq;
-using System.Xml;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
+using System.Xml;
+using archilabUI.Utilities;
+using Autodesk.DesignScript.Runtime;
+using Autodesk.Revit.DB;
 using Dynamo.Engine;
 using Dynamo.Graph;
 using Dynamo.Graph.Nodes;
+using Newtonsoft.Json;
 using ProtoCore.AST.AssociativeAST;
 using RevitServices.Persistence;
-using Autodesk.DesignScript.Runtime;
-using Newtonsoft.Json;
-using archilabUI.Utilities;
 
 namespace archilabUI.BuiltInParamSelector
 {
@@ -92,14 +93,14 @@ namespace archilabUI.BuiltInParamSelector
             }
         }
 
-        private static IEnumerable<ParameterWrapper> GetParameters(Autodesk.Revit.DB.Element e, string prefix)
+        private static IEnumerable<ParameterWrapper> GetParameters(Element e, string prefix)
         {
             var items = new List<ParameterWrapper>();
-            foreach (Autodesk.Revit.DB.Parameter p in e.Parameters)
+            foreach (Parameter p in e.Parameters)
             {
-                if (p.StorageType != Autodesk.Revit.DB.StorageType.None)
+                if (p.StorageType != StorageType.None)
                 {
-                    var idef = p.Definition as Autodesk.Revit.DB.InternalDefinition;
+                    var idef = p.Definition as InternalDefinition;
                     if (idef == null) continue;
 
                     var bipName = idef.BuiltInParameter.ToString();
@@ -109,9 +110,9 @@ namespace archilabUI.BuiltInParamSelector
             return items;
         }
 
-        private Autodesk.Revit.DB.Element GetInputElement()
+        private Element GetInputElement()
         {
-            Autodesk.Revit.DB.Element e = null;
+            Element e = null;
 
             var owner = InPorts[0].Connectors[0].Start.Owner;
             var index = InPorts[0].Connectors[0].Start.Index;

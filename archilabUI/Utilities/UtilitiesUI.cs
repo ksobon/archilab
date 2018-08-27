@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autodesk.Revit.DB;
 using CoreNodeModels;
 using DSRevitNodesUI;
 using Dynamo.Utilities;
@@ -94,7 +95,7 @@ namespace archilabUI.Utilities
             }
 
             // Set up a new element collector using the Type field
-            var fec = new Autodesk.Revit.DB.FilteredElementCollector(DocumentManager.Instance.CurrentDBDocument).OfClass(ElementType);
+            var fec = new FilteredElementCollector(DocumentManager.Instance.CurrentDBDocument).OfClass(ElementType);
 
             // If there is nothing in the collector add the missing Type message to the Dropdown menu.
             if (fec.ToElements().Count == 0)
@@ -130,7 +131,7 @@ namespace archilabUI.Utilities
             }
 
             // Cast the selected object to a Revit Element and get its Id
-            var id = ((Autodesk.Revit.DB.Element)Items[SelectedIndex].Item).Id;
+            var id = ((Element)Items[SelectedIndex].Item).Id;
 
             // Select the element using the elementIds Integer Value
             var node = AstFactory.BuildFunctionCall("Revit.Elements.ElementSelector", "ByElementId",
