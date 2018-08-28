@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region References
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,9 +12,11 @@ using Autodesk.DesignScript.Runtime;
 using Dynamo.Engine;
 using Dynamo.Graph;
 using Dynamo.Graph.Nodes;
-using Dynamo.UI.Commands;
+using Microsoft.Practices.Prism.Commands;
 using Newtonsoft.Json;
 using ProtoCore.AST.AssociativeAST;
+
+#endregion
 
 namespace archilabUI.DropdownListSelector
 {
@@ -28,7 +32,7 @@ namespace archilabUI.DropdownListSelector
 
         [JsonIgnore]
         [IsVisibleInDynamoLibrary(false)]
-        public DelegateCommand OnItemChecked { get; set; }
+        public DelegateCommand<ListItemWrapper> OnItemChecked { get; set; }
 
         public DropdownListSelector()
         {
@@ -43,7 +47,7 @@ namespace archilabUI.DropdownListSelector
             }
             ItemsCollection = new ObservableCollection<ListItemWrapper>();
 
-            OnItemChecked = new DelegateCommand(ItemChecked, CanCheckItem);
+            OnItemChecked = new DelegateCommand<ListItemWrapper>(ItemChecked, CanCheckItem);
         }
 
         [JsonConstructor]
@@ -55,7 +59,7 @@ namespace archilabUI.DropdownListSelector
                 port.Connectors.CollectionChanged += Connectors_CollectionChanged;
             }
 
-            OnItemChecked = new DelegateCommand(ItemChecked, CanCheckItem);
+            OnItemChecked = new DelegateCommand<ListItemWrapper>(ItemChecked, CanCheckItem);
         }
 
         #region UI Methods
@@ -65,8 +69,9 @@ namespace archilabUI.DropdownListSelector
             return true;
         }
 
-        private void ItemChecked(object obj)
+        private void ItemChecked(ListItemWrapper w)
         {
+            w.IsSelected = !w.IsSelected;
             OnNodeModified(true);
         }
 
@@ -90,6 +95,8 @@ namespace archilabUI.DropdownListSelector
 
         public void PopulateItems(IList selectedItems)
         {
+            if (!InPorts.Any() || !InPorts[0].Connectors.Any()) return;
+
             var owner = InPorts[0].Connectors[0].Start.Owner;
             var index = InPorts[0].Connectors[0].Start.Index;
             var mirrorName = owner.GetAstIdentifierForOutputIndex(index).Name;
@@ -178,15 +185,16 @@ namespace archilabUI.DropdownListSelector
         [IsVisibleInDynamoLibrary(false)]
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
         {
-            if (ItemsCollection.Count == 0 || ItemsCollection.Count == -1)
+            var inputIdentifier = (inputAstNodes[0] as IdentifierNode)?.Value;
+
+            if (inputIdentifier == null || ItemsCollection.Count == 0 || ItemsCollection.Count == -1)
             {
                 return new[]
                 {
                     AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), AstFactory.BuildNullNode())
                 };
             }
-
-            var inputIdentifier = (inputAstNodes[0] as IdentifierNode)?.Value;
+            
             return new[]
             {
                 AstFactory.BuildAssignment(
