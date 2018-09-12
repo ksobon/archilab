@@ -2,9 +2,9 @@
 using Autodesk.DesignScript.Runtime;
 using Dynamo.Graph.Nodes;
 using Dynamo.ViewModels;
-using ProtoCore.AST.AssociativeAST;
 using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
+using ProtoCore.AST.AssociativeAST;
 
 namespace archilabUI.InputToggle
 {

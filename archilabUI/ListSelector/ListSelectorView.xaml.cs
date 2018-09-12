@@ -1,5 +1,4 @@
 ﻿using System;
-using Xceed.Wpf.Toolkit;
 
 namespace archilabUI.ListSelector
 {

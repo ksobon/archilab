@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
@@ -6,7 +7,7 @@ namespace archilabUI.TextNotePlus
 {
     public class BoolToColorConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value != null && (bool)value)
             {
@@ -15,7 +16,7 @@ namespace archilabUI.TextNotePlus
             return (SolidColorBrush)new BrushConverter().ConvertFromString("#e8e6e3");
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
