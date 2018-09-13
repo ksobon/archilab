@@ -137,7 +137,9 @@ namespace archilab.Revit.Selection
                     e = ((string)id).Length > 8 ? doc.GetElement((string)id) : doc.GetElement(new Autodesk.Revit.DB.ElementId(int.Parse((string)id)));
                     break;
                 case TypeCode.Int32:
-                    e = doc.GetElement(new Autodesk.Revit.DB.ElementId((int)id));
+                case TypeCode.Int64:
+                case TypeCode.Int16:
+                    e = doc.GetElement(new Autodesk.Revit.DB.ElementId(int.Parse(id.ToString())));
                     break;
                 default:
                     e = doc.GetElement((Autodesk.Revit.DB.ElementId)id);
