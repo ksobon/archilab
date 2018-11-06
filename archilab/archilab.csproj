@@ -137,11 +137,13 @@
     <Compile Include="Revit\Elements\FamilyInstances.cs" />
     <Compile Include="Revit\Elements\Parameter.cs" />
     <Compile Include="Revit\Elements\Room.cs" />
+    <Compile Include="Revit\Elements\Schema.cs" />
     <Compile Include="Revit\Elements\ViewFilter.cs" />
     <Compile Include="Revit\Elements\WarningLibrary.cs" />
     <Compile Include="Revit\Elements\Warnings.cs" />
     <Compile Include="Revit\Elements\Workset.cs" />
     <Compile Include="Revit\Selection\Selection.cs" />
+    <Compile Include="Revit\Views\ViewSchedules.cs" />
     <Compile Include="Revit\Views\ViewSets.cs" />
     <Compile Include="Revit\Views\Sheets.cs" />
     <Compile Include="Revit\Views\Views.cs" />

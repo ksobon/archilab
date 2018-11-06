@@ -1,5 +1,6 @@
 ﻿using System;
 using DynamoServices;
+using Revit.Elements;
 
 namespace archilab.Revit.Elements
 {
@@ -18,7 +19,7 @@ namespace archilab.Revit.Elements
         /// </summary>
         /// <param name="room">Room element.</param>
         /// <returns name="name">Name of the room.</returns>
-        public static string Name(global::Revit.Elements.Element room)
+        public static string Name(Element room)
         {
             if (room == null)
             {
