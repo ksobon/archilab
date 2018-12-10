@@ -147,7 +147,7 @@
     <Compile Include="Revit\Views\ViewSets.cs" />
     <Compile Include="Revit\Views\Sheets.cs" />
     <Compile Include="Revit\Views\Views.cs" />
-    <Compile Include="Revit\Views\ViewTemplate.cs" />
+    <Compile Include="Revit\Views\ViewTemplates.cs" />
     <Compile Include="Utilities\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>

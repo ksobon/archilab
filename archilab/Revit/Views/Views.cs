@@ -264,17 +264,6 @@ namespace archilab.Revit.Views
             return (View)newView.ToDSType(true);
         }
 
-        /// <summary>
-        /// Retrieves Template Parameter Ids.
-        /// </summary>
-        /// <param name="view">View to get the Parameter Ids from.</param>
-        /// <returns>List of Parameter Ids.</returns>
-        public static List<int> GetTemplateParameterIds(View view)
-        {
-            var v = (Autodesk.Revit.DB.View) view.InternalElement;
-            return v.GetTemplateParameterIds().Select(x => x.IntegerValue).ToList();
-        }
-
         #region Utilities
 
         /// <summary>

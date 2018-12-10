@@ -380,6 +380,65 @@ namespace archilabUI
         }
     }
 
+    [NodeName("View Template Parameters")]
+    [NodeCategory("archilab.Revit.ViewTemplates")]
+    [NodeDescription("Retrieve all available built in View Template parameters.")]
+    [IsDesignScriptCompatible]
+    public class ViewTemplateParametersUi : RevitDropDownBase
+    {
+        private const string OutputName = "parameter";
+        private const string NoFamilyTypes = "No types were found.";
+
+        public ViewTemplateParametersUi() : base(OutputName) { }
+
+        [JsonConstructor]
+        public ViewTemplateParametersUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(OutputName, inPorts, outPorts) { }
+
+        // Get Data Class that holds dictionary
+        public static ViewTemplateParameters WTypes = new ViewTemplateParameters();
+
+        protected override SelectionState PopulateItemsCore(string currentSelection)
+        {
+            Items.Clear();
+
+            var d = new Dictionary<string, int>(WTypes.Parameters);
+
+            if (d.Count == 0)
+            {
+                Items.Add(new DynamoDropDownItem(NoFamilyTypes, null));
+                SelectedIndex = 0;
+                return SelectionState.Done;
+            }
+
+            foreach (var pair in d)
+            {
+                Items.Add(new DynamoDropDownItem(pair.Key, pair.Value));
+            }
+            Items = Items.OrderBy(x => x.Name).ToObservableCollection();
+            return SelectionState.Restore;
+        }
+
+        public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
+        {
+            if (Items.Count == 0 ||
+                Items[0].Name == NoFamilyTypes ||
+                SelectedIndex == -1)
+            {
+                return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), AstFactory.BuildNullNode()) };
+            }
+
+            var args = new List<AssociativeNode>
+            {
+                AstFactory.BuildStringNode(Items[SelectedIndex].Name)
+            };
+
+            var func = new Func<string, int>(ViewTemplateParameters.ByName);
+            var functionCall = AstFactory.BuildFunctionCall(func, args);
+
+            return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), functionCall) };
+        }
+    }
+
     [NodeName("Filter Numeric Value Rules")]
     [NodeCategory("archilab.Revit.Select")]
     [NodeDescription("Retrieve all available Filter Numeric Value Rules.")]
@@ -466,7 +525,7 @@ namespace archilabUI
     }
 
     [NodeName("View Templates")]
-    [NodeCategory("archilab.Revit.ViewTemplate")]
+    [NodeCategory("archilab.Revit.ViewTemplates")]
     [NodeDescription("Retrieve all available View Templates (except 3D view based due to Dynamo limitation).")]
     [IsDesignScriptCompatible]
     public class ViewTemplatesUi : RevitDropDownBase

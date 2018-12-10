@@ -1,0 +1,610 @@
+{
+  "Uuid": "e9ad68d4-62f1-4717-9455-b88a2e88b6a2",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "viewTemplates",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "archilab.Revit.Views.ViewTemplates.Include@Revit.Elements.Views.View,int[],bool",
+      "Id": "98cdda1eabd84197a159cffcf1f225a9",
+      "Inputs": [
+        {
+          "Id": "3149a98371104501b68c653a92485b50",
+          "Name": "viewTemplate",
+          "Description": "View to set the parameter for.\n\nView",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "769d332ef54c4c25b4b3ea710164a21a",
+          "Name": "parameters",
+          "Description": "List of parameters to set.\n\nint[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a082608be0174b6dbc8cbe2c7b20bd79",
+          "Name": "include",
+          "Description": "True to include given parameters, otherwise false.\n\nbool\nDefault value : true",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "66f92c77d17542be80f87ce4baeccedd",
+          "Name": "View",
+          "Description": "View Template.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Sets the View Template parameter's \"include\" property.\n\nViewTemplates.Include (viewTemplate: View, parameters: int[], include: bool = true): View"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "archilab.Revit.Views.ViewTemplates.GetTemplateParameterIds@Revit.Elements.Views.View",
+      "Id": "386f77dee73641b1a93e1a18ac916475",
+      "Inputs": [
+        {
+          "Id": "eac249f018604898bc86052f8d10ec3d",
+          "Name": "viewTemplate",
+          "Description": "View to get the Parameter Ids from.\n\nView",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "483a278f00db470fb8dfe04e869c50f6",
+          "Name": "int[]",
+          "Description": "List of Parameter Ids.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Retrieves Template Parameter Ids.\n\nViewTemplates.GetTemplateParameterIds (viewTemplate: View): int[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "archilab.Revit.Views.ViewTemplates.NonControlledTemplateParameters@Revit.Elements.Views.View",
+      "Id": "14a3cade4c9441f6b6a60956ff3be511",
+      "Inputs": [
+        {
+          "Id": "40cb16b0ded94403baebc5f7bc4add34",
+          "Name": "viewTemplate",
+          "Description": "View to retrieve the parameters from.\n\nView",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "4da715f2407646d5ab2804ed2138f541",
+          "Name": "int[]",
+          "Description": "List of non-controlled parameter ids.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Retrieves a list of non-controlled template parameters. These are parameters that have the \"include\" parameter unchecked.\n\nViewTemplates.NonControlledTemplateParameters (viewTemplate: View): int[]"
+    },
+    {
+      "ConcreteType": "archilabUI.ViewTemplateParametersUi, archilabUI",
+      "SelectedIndex": 24,
+      "NodeType": "ExtensionNode",
+      "Id": "4d40a9ca1e614ce392ae0ac96064e2cb",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "7b4950deb92e4f178b13e499bd62851f",
+          "Name": "parameter",
+          "Description": "The selected parameter",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Retrieve all available built in View Template parameters."
+    },
+    {
+      "ConcreteType": "archilabUI.ViewTemplatesUi, archilabUI",
+      "SelectedIndex": 1,
+      "NodeType": "ExtensionNode",
+      "Id": "34814a8f7d7143e3ae06b36f6159869f",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "386e633f05f9423187af2cb888e9ed9f",
+          "Name": "viewTemplate",
+          "Description": "The selected viewTemplate",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Retrieve all available View Templates (except 3D view based due to Dynamo limitation)."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "23aafaed356f4f9fabcf4594be6056b1",
+      "Inputs": [
+        {
+          "Id": "bd96727100724f1d9b62dd9299e29432",
+          "Name": "",
+          "Description": "Node to evaluate.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b29b0da498a4455694e5057a4b06317f",
+          "Name": "",
+          "Description": "Watch contents.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the output of node."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.CreateList, CoreNodeModels",
+      "VariableInputPorts": true,
+      "NodeType": "ExtensionNode",
+      "Id": "7643add49b844855ab767d35bbeb2cc8",
+      "Inputs": [
+        {
+          "Id": "086e91e34c0549e9b1c7818400df0f9d",
+          "Name": "item0",
+          "Description": "Item Index #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "49f1e86a98c34c7c8788e991c9fe9b38",
+          "Name": "list",
+          "Description": "A list",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Makes a new list out of the given inputs"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "9a44e47cc368441abd8da6630bf41b9a",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "8aa21b3e517c479882d3020d0afb58b2",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "archilabUI.ViewTemplateParametersUi, archilabUI",
+      "SelectedIndex": 26,
+      "NodeType": "ExtensionNode",
+      "Id": "6e5da10a5e1049c18fc7eb0bfd86489c",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "1584dbd8e1064cada0acbdba6e96c348",
+          "Name": "parameter",
+          "Description": "The selected parameter",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Retrieve all available built in View Template parameters."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "archilab.Revit.Views.ViewTemplates.IsIncluded@Revit.Elements.Views.View,int",
+      "Id": "c342e9d39cc445a988c95300896b1487",
+      "Inputs": [
+        {
+          "Id": "12952433a6f44225abb4f86c6298d6a2",
+          "Name": "viewTemplate",
+          "Description": "View to retrieve the parameter status for.\n\nView",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "059f59c861ab432f9df3e4cc51905957",
+          "Name": "parameter",
+          "Description": "Parameter to check.\n\nint",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "81a29d9513ed437f832426b4810f94a3",
+          "Name": "bool",
+          "Description": "True if parameter's \"include\" value is checked, otherwise false.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Retrieves current status of the \"include\" parameter for a View Template.\n\nViewTemplates.IsIncluded (viewTemplate: View, parameter: int): bool"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "archilab.Revit.Views.ViewTemplates.GetParameterName@int",
+      "Id": "921bd1f3bbad49f48fceba5923339e78",
+      "Inputs": [
+        {
+          "Id": "abbec3a0caf9453db9b3b127326c2a7f",
+          "Name": "parameter",
+          "Description": "View Template parameter.\n\nint",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "8f9a5dfba72f46629056bc1a8adedac1",
+          "Name": "string",
+          "Description": "Name of the View Template parameter.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Retrieves View Template parameter name from its Id.\n\nViewTemplates.GetParameterName (parameter: int): string"
+    },
+    {
+      "ConcreteType": "archilabUI.ViewTemplateParametersUi, archilabUI",
+      "SelectedIndex": 24,
+      "NodeType": "ExtensionNode",
+      "Id": "a56d1bad1a2b4afd8b955072aa305555",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "2737b0f4d5f041dc8d1e2a552160a018",
+          "Name": "parameter",
+          "Description": "The selected parameter",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Retrieve all available built in View Template parameters."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.CreateList, CoreNodeModels",
+      "VariableInputPorts": true,
+      "NodeType": "ExtensionNode",
+      "Id": "12fdf1d7ac954eb2b5836af7ddee19e6",
+      "Inputs": [
+        {
+          "Id": "0d2a68d099ec4fc7bae618ae02e8665a",
+          "Name": "item0",
+          "Description": "Item Index #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "3151b213002d42389a3a527597b82af4",
+          "Name": "item1",
+          "Description": "Item Index #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "fb8cb4bf980e4752ab766b13bfa1347c",
+          "Name": "list",
+          "Description": "A list",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Makes a new list out of the given inputs"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "66f92c77d17542be80f87ce4baeccedd",
+      "End": "12952433a6f44225abb4f86c6298d6a2",
+      "Id": "132a34b0ae1e4b45a1d471ce840eaae9"
+    },
+    {
+      "Start": "483a278f00db470fb8dfe04e869c50f6",
+      "End": "abbec3a0caf9453db9b3b127326c2a7f",
+      "Id": "19740897770a419f91872cc14456ce71"
+    },
+    {
+      "Start": "7b4950deb92e4f178b13e499bd62851f",
+      "End": "086e91e34c0549e9b1c7818400df0f9d",
+      "Id": "d0e9d66dfa294ad698fcc06a27f41906"
+    },
+    {
+      "Start": "386e633f05f9423187af2cb888e9ed9f",
+      "End": "3149a98371104501b68c653a92485b50",
+      "Id": "1918c38fd054445188b03e86b764567f"
+    },
+    {
+      "Start": "386e633f05f9423187af2cb888e9ed9f",
+      "End": "eac249f018604898bc86052f8d10ec3d",
+      "Id": "2b842bd9b774479db842259a6ed0623f"
+    },
+    {
+      "Start": "386e633f05f9423187af2cb888e9ed9f",
+      "End": "40cb16b0ded94403baebc5f7bc4add34",
+      "Id": "9a5acd332efb46bbaadb9a2e04867c66"
+    },
+    {
+      "Start": "49f1e86a98c34c7c8788e991c9fe9b38",
+      "End": "769d332ef54c4c25b4b3ea710164a21a",
+      "Id": "3ca8ef784ab14391b6ef10b3abb45b23"
+    },
+    {
+      "Start": "8aa21b3e517c479882d3020d0afb58b2",
+      "End": "a082608be0174b6dbc8cbe2c7b20bd79",
+      "Id": "7207c076b50149949726862db986daa6"
+    },
+    {
+      "Start": "1584dbd8e1064cada0acbdba6e96c348",
+      "End": "3151b213002d42389a3a527597b82af4",
+      "Id": "263ec4070a7a4504bf95d7dc56859f2a"
+    },
+    {
+      "Start": "81a29d9513ed437f832426b4810f94a3",
+      "End": "bd96727100724f1d9b62dd9299e29432",
+      "Id": "89ffad8565a746409b27b6426cdf9da9"
+    },
+    {
+      "Start": "2737b0f4d5f041dc8d1e2a552160a018",
+      "End": "0d2a68d099ec4fc7bae618ae02e8665a",
+      "Id": "7cdbe3e1ef4148caae7c96890eea1240"
+    },
+    {
+      "Start": "fb8cb4bf980e4752ab766b13bfa1347c",
+      "End": "059f59c861ab432f9df3e4cc51905957",
+      "Id": "9c712b292c1f4bb4abb4a4a85472304c"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.1.5055",
+      "RunType": "Automatic",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -11.271419736438721,
+      "EyeY": 118.34246665780775,
+      "EyeZ": 55.710537113986931,
+      "LookX": 16.859136000000007,
+      "LookY": -18.264064000000008,
+      "LookZ": -81.485824000000022,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "ViewTemplates.Include",
+        "Id": "98cdda1eabd84197a159cffcf1f225a9",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 710.325276632663,
+        "Y": 582.64018943105259
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "ViewTemplates.GetTemplateParameterIds",
+        "Id": "386f77dee73641b1a93e1a18ac916475",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 844.93509288706264,
+        "Y": 153.54718634352238
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "ViewTemplates.NonControlledTemplateParameters",
+        "Id": "14a3cade4c9441f6b6a60956ff3be511",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 422.53567819416594,
+        "Y": 153.49585892619697
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "View Template Parameters",
+        "Id": "4d40a9ca1e614ce392ae0ac96064e2cb",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 14.522309387910099,
+        "Y": 595.27255361820232
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "View Templates",
+        "Id": "34814a8f7d7143e3ae06b36f6159869f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 45.709504989787547,
+        "Y": 476.22321698017652
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "23aafaed356f4f9fabcf4594be6056b1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1452.6883015767651,
+        "Y": 708.99864161652908
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "List Create",
+        "Id": "7643add49b844855ab767d35bbeb2cc8",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 333.14106907832036,
+        "Y": 596.207708690727
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Boolean",
+        "Id": "9a44e47cc368441abd8da6630bf41b9a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 521.42403047525772,
+        "Y": 674.29504929733025
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "View Template Parameters",
+        "Id": "6e5da10a5e1049c18fc7eb0bfd86489c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 978.59003346305258,
+        "Y": 760.069994798609
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "ViewTemplates.IsIncluded",
+        "Id": "c342e9d39cc445a988c95300896b1487",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1375.7944527575457,
+        "Y": 583.840307175297
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "ViewTemplates.GetParameterName",
+        "Id": "921bd1f3bbad49f48fceba5923339e78",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1196.6981184528763,
+        "Y": 153.83564326158432
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "View Template Parameters",
+        "Id": "a56d1bad1a2b4afd8b955072aa305555",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 977.53881599311512,
+        "Y": 665.50912730527375
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "List Create",
+        "Id": "12fdf1d7ac954eb2b5836af7ddee19e6",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1241.0245610330276,
+        "Y": 701.47801547661572
+      }
+    ],
+    "Annotations": [],
+    "X": 7.78145962007784,
+    "Y": -55.974211211658826,
+    "Zoom": 0.83819335494379366
+  }
+}
