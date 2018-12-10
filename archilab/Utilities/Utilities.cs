@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Autodesk.DesignScript.Runtime;
 using RevitServices.Persistence;
-using archilab.Revit.Elements;
+using Workset = archilab.Revit.Elements.Workset;
 
 namespace archilab.Utilities
 {
@@ -108,6 +108,81 @@ namespace archilab.Utilities
         /// 
         /// </summary>
         IntegerRule
+    }
+
+    /// <summary>
+    /// Built in View Template parameters.
+    /// </summary>
+    [IsVisibleInDynamoLibrary(false)]
+    public class ViewTemplateParameters
+    {
+        /// <summary>
+        /// Dictionary holding all parameter key, value mappings.
+        /// </summary>
+        public Dictionary<string, int> Parameters { get; set; }
+
+        /// <summary>
+        /// Public constructor.
+        /// </summary>
+        public ViewTemplateParameters()
+        {
+            Parameters = new Dictionary<string, int>
+            {
+                { "View Scale", -1005151 },
+                { "View Scale2", -1005152 },
+                { "View Scale0", -1005150 },
+                { "Display Model", -1005161 },
+                { "Parts Visibility", -1011003 },
+                { "Detail Level", -1011002 },
+                { "VG Overrides Model", -1006961 },
+                { "VG Overrides Annotation", -1006962 },
+                { "VG Overrides Analytical Model", -1006967 },
+                { "VG Overrides Imports", -1006963 },
+                { "VG Overrides Filters", -1006964 },
+                { "VG Overrides Revit Links", -1006965 },
+                { "VG Overrides Design Options", -1006966 },
+                { "VG Overrides Worksets", -1006968 },
+                { "Model Display", -1005131 },
+                { "Shadows", -1005132 },
+                { "Sketchy Lines", -1154615 },
+                { "Lighting", -1005133 },
+                { "Photographic Exposure", -1005137 },
+                { "Underlay Orientation", -1005177 },
+                { "View Range", -1005162 },
+                { "Orientation", -1005168 },
+                { "Phase Filter", -1012103 },
+                { "Discipline", -1005163 },
+                { "Show Hidden Lines", -1154613 },
+                { "Color Scheme Location", -1005183 },
+                { "Color Scheme", -1005148 },
+                { "System Color Scheme", -1133900 },
+                { "Depth Clipping", -1005181 }
+            };
+        }
+
+        /// <summary>
+        /// Retrieves View Template parameter by its name.
+        /// </summary>
+        /// <param name="name">Name of the built in parameter.</param>
+        /// <returns>Parameter ElementId</returns>
+        public static int ByName(string name)
+        {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException("name");
+
+            return new ViewTemplateParameters().Parameters[name];
+        }
+
+        /// <summary>
+        /// Retrieves the name of the View Template parameter by its value.
+        /// </summary>
+        /// <param name="value">Value of the parameter.</param>
+        /// <returns>Name of the parameter.</returns>
+        public static string GetName(int value)
+        {
+            if(value == -1) throw new ArgumentException("name");
+
+            return new ViewTemplateParameters().Parameters.FirstOrDefault(x => x.Value == value).Key;
+        }
     }
 
     /// <summary>
