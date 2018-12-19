@@ -159,6 +159,10 @@ namespace archilab.Revit.Elements
                             case 5:
                                 ew = CreateElement(new[] { 0, 1, 2, 3, 4, -1, -1 }, contents);
                                 break;
+                            // rebar for example has a 5th argument that is "Shape 2A". I am not sure what that is yet.
+                            case 6:
+                                ew = CreateElement(new[] {0, 1, 2, 3, 5, -1, -1}, contents);
+                                break;
                             // elements with design options
                             case 7:
                                 ew = CreateElement(new[] { 2, 3, 4, 5, 6, 0, 1 }, contents);
