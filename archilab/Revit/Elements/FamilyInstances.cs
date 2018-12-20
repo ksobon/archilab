@@ -9,7 +9,7 @@ using Line = Autodesk.DesignScript.Geometry.Line;
 namespace archilab.Revit.Elements
 {
     /// <summary>
-    /// Wrapper class for Family Instancess.
+    /// Wrapper class for Family Instances.
     /// </summary>
     [RegisterForTrace]
     public class FamilyInstances : AbstractFamilyInstance
@@ -54,8 +54,7 @@ namespace archilab.Revit.Elements
             TransactionManager.Instance.EnsureInTransaction(DocumentManager.Instance.CurrentDBDocument);
 
             //If the symbol is not active, then activate it
-            if (!fs.IsActive)
-                fs.Activate();
+            if (!fs.IsActive) fs.Activate();
 
             var fi = DocumentManager.Instance.CurrentDBDocument.Create.NewFamilyInstance(line, fs, level, Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
             ((Autodesk.Revit.DB.LocationCurve)fi.Location).Curve = line;
@@ -69,8 +68,7 @@ namespace archilab.Revit.Elements
 
         private void InternalSetLevel(Autodesk.Revit.DB.Level level)
         {
-            if (InternalFamilyInstance.LevelId.Compare(level.Id) == 0)
-                return;
+            if (InternalFamilyInstance.LevelId.Compare(level.Id) == 0) return;
 
             TransactionManager.Instance.EnsureInTransaction(DocumentManager.Instance.CurrentDBDocument);
 
@@ -84,7 +82,6 @@ namespace archilab.Revit.Elements
             TransactionManager.Instance.EnsureInTransaction(DocumentManager.Instance.CurrentDBDocument);
 
             var lp = InternalFamilyInstance.Location as Autodesk.Revit.DB.LocationCurve;
-
             if (lp != null && lp.Curve != pos) lp.Curve = pos;
 
             TransactionManager.Instance.TransactionTaskDone();

@@ -143,6 +143,7 @@
     <Compile Include="Revit\Elements\Warnings.cs" />
     <Compile Include="Revit\Elements\Workset.cs" />
     <Compile Include="Revit\Selection\Selection.cs" />
+    <Compile Include="Revit\Views\ThreeD.cs" />
     <Compile Include="Revit\Views\ViewSchedules.cs" />
     <Compile Include="Revit\Views\ViewSets.cs" />
     <Compile Include="Revit\Views\Sheets.cs" />
