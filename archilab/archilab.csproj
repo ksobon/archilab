@@ -136,6 +136,7 @@
     <Compile Include="Revit\Elements\ElementTypes.cs" />
     <Compile Include="Revit\Elements\FamilyInstances.cs" />
     <Compile Include="Revit\Elements\Parameter.cs" />
+    <Compile Include="Revit\Elements\Revisions.cs" />
     <Compile Include="Revit\Elements\Room.cs" />
     <Compile Include="Revit\Elements\Schema.cs" />
     <Compile Include="Revit\Elements\ViewFilter.cs" />
