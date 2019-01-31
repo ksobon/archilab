@@ -7,22 +7,23 @@ namespace archilabUI.Utilities
     /// <summary>
     /// Wrapper class for Checkbox list items.
     /// </summary>
-    public class ListItemWrapper : INotifyPropertyChanged, IDisposable
+    public class ListItemWrapper : INotifyPropertyChanged
     {
-        bool disposed;
+        //bool disposed;
         public string Name { get; set; }
         public int Index { get; set; }
+        public bool IsSelected { get; set; }
 
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set
-            {
-                _isSelected = value;
-                RaisePropertyChanged("IsSelected");
-            }
-        }
+        //private bool _isSelected;
+        //public bool IsSelected
+        //{
+        //    get { return _isSelected; }
+        //    set
+        //    {
+        //        _isSelected = value;
+        //        RaisePropertyChanged("IsSelected");
+        //    }
+        //}
 
         [JsonConstructor]
         public ListItemWrapper()
@@ -42,23 +43,23 @@ namespace archilabUI.Utilities
             return Name.GetHashCode() ^ Index.GetHashCode();
         }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                if (disposing)
-                {
-                    //dispose managed resources
-                }
-            }
-            disposed = true;
-        }
+        //protected virtual void Dispose(bool disposing)
+        //{
+        //    if (!disposed)
+        //    {
+        //        if (disposing)
+        //        {
+        //            //dispose managed resources
+        //        }
+        //    }
+        //    disposed = true;
+        //}
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        //public void Dispose()
+        //{
+        //    Dispose(true);
+        //    GC.SuppressFinalize(this);
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void RaisePropertyChanged(string propname)

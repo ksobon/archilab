@@ -9,7 +9,7 @@
     <Grid>
         <toolkit:CheckListBox x:Name="_listBox"
                            ItemsSource="{Binding ItemsCollection}"
-                           Command="{Binding OnItemChecked}"
+                           Command="{Binding OnItemChecked, Mode=OneTime}"
                            DisplayMemberPath="Name"
                            SelectedMemberPath="IsSelected"/>
     </Grid>

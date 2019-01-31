@@ -15,7 +15,7 @@ namespace archilabUI.DropdownListSelector
             }
             catch (Exception ex)
             {
-                var msg = ex.Message;
+                var unused = ex.Message;
             }
         }
     }

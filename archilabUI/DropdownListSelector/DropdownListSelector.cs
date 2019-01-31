@@ -28,7 +28,9 @@ namespace archilabUI.DropdownListSelector
     {
         public event Action UpdateItemsCollection;
         internal EngineController EngineController { get; set; }
-        public ObservableCollection<ListItemWrapper> ItemsCollection { get; set; }
+
+        public ObservableCollection<ListItemWrapper> ItemsCollection { get; set; } =
+            new ObservableCollection<ListItemWrapper>();
 
         [JsonIgnore]
         [IsVisibleInDynamoLibrary(false)]
@@ -45,14 +47,12 @@ namespace archilabUI.DropdownListSelector
             {
                 port.Connectors.CollectionChanged += Connectors_CollectionChanged;
             }
-            ItemsCollection = new ObservableCollection<ListItemWrapper>();
 
             OnItemChecked = new DelegateCommand<ListItemWrapper>(ItemChecked, CanCheckItem);
         }
 
         [JsonConstructor]
-        protected DropdownListSelector(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts,
-            outPorts)
+        protected DropdownListSelector(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts, outPorts)
         {
             foreach (var port in InPorts)
             {
@@ -72,6 +72,14 @@ namespace archilabUI.DropdownListSelector
         private void ItemChecked(ListItemWrapper w)
         {
             w.IsSelected = !w.IsSelected;
+
+            // (Konrad) Let's update the ItemsCollection because otherwise when output is generated
+            // the last item selected will be missing.
+            ItemsCollection.ForEach(x =>
+            {
+                if (x.Index == w.Index) x.IsSelected = !w.IsSelected;
+            });
+
             OnNodeModified(true);
         }
 
@@ -85,12 +93,9 @@ namespace archilabUI.DropdownListSelector
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
                 ItemsCollection.Clear();
-                OnUpdateItemsCollection();
             }
-            else
-            {
-                OnUpdateItemsCollection();
-            }
+
+            OnUpdateItemsCollection();
         }
 
         public void PopulateItems(IList selectedItems)

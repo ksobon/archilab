@@ -28,7 +28,9 @@ namespace archilabUI.ListSelector
     {
         public event Action UpdateItemsCollection;
         internal EngineController EngineController { get; set; }
-        public ObservableCollection<ListItemWrapper> ItemsCollection { get; set; }
+
+        public ObservableCollection<ListItemWrapper> ItemsCollection { get; set; } =
+            new ObservableCollection<ListItemWrapper>();
 
         [JsonIgnore]
         [IsVisibleInDynamoLibrary(false)]
@@ -45,7 +47,6 @@ namespace archilabUI.ListSelector
             {
                 port.Connectors.CollectionChanged += Connectors_CollectionChanged;
             }
-            ItemsCollection = new ObservableCollection<ListItemWrapper>();
 
             OnItemChecked = new DelegateCommand<ListItemWrapper>(ItemChecked, CanCheckItem);
         }
@@ -71,6 +72,14 @@ namespace archilabUI.ListSelector
         private void ItemChecked(ListItemWrapper w)
         {
             w.IsSelected = !w.IsSelected;
+
+            // (Konrad) Let's update the ItemsCollection because otherwise when output is generated
+            // the last item selected will be missing.
+            ItemsCollection.ForEach(x =>
+            {
+                if (x.Index == w.Index) x.IsSelected = !w.IsSelected;
+            });
+
             OnNodeModified(true);
         }
 
@@ -83,13 +92,10 @@ namespace archilabUI.ListSelector
         {
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
-                ItemsCollection.Clear();
-                OnUpdateItemsCollection();
+                ItemsCollection.Clear(); 
             }
-            else
-            {
-                OnUpdateItemsCollection();
-            }
+
+            OnUpdateItemsCollection();
         }
 
         public void PopulateItems(IList selectedItems)

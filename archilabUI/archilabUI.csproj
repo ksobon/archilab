@@ -234,6 +234,7 @@
       <DependentUpon>TextNotePlusView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TextNotePlus\TextNotePlusViewCustomization.cs" />
+    <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Utilities\ListItemWrapper.cs" />
     <Compile Include="Utilities\ParameterWrapper.cs" />
     <Compile Include="Utilities\UtilitiesUI.cs" />
