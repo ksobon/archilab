@@ -45,9 +45,6 @@
       <HintPath>..\packages\DynamoVisualProgramming.WpfUILibrary.2.0.0.4714\lib\net45\CoreNodeModelsWpf.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Costura, Version=2.0.1.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
-      <HintPath>..\packages\Costura.Fody.2.0.1\lib\net452\Costura.dll</HintPath>
-    </Reference>
     <Reference Include="DesignScriptBuiltin, Version=2.0.0.4714, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamoVisualProgramming.Core.2.0.0.4714\lib\net45\DesignScriptBuiltin.dll</HintPath>
       <Private>False</Private>
@@ -240,7 +237,7 @@
     <Compile Include="Utilities\UtilitiesUI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -280,27 +277,28 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="FodyWeavers.xml" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
-  <Import Project="..\packages\Fody.3.0.3\build\Fody.targets" Condition="Exists('..\packages\Fody.3.0.3\build\Fody.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Fody.3.0.3\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.3.0.3\build\Fody.targets'))" />
-    <Error Condition="!Exists('..\packages\Costura.Fody.2.0.1\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.2.0.1\build\Costura.Fody.targets'))" />
-  </Target>
-  <Target Name="CopyFiles" AfterTargets="AfterBuild;NonWinFodyTarget">
+  <Target Name="CopyFiles" AfterTargets="AfterBuild">
     <Message Text="Copy files..." Importance="high" />
     <Message Text="" Importance="high" />
     <Message Text="$(TargetPath) copied" Importance="high" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)GalaSoft.MvvmLight.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)GalaSoft.MvvmLight.Extras.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)GalaSoft.MvvmLight.Platform.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)Microsoft.Expression.Interactions.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)Microsoft.Practices.ServiceLocation.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)RestSharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)System.Windows.Interactivity.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.AvalonDock.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.AvalonDock.Themes.Aero.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.AvalonDock.Themes.Metro.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.AvalonDock.Themes.VS2010.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.DataGrid.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.Toolkit.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
   </Target>
-  <Import Project="..\packages\Costura.Fody.2.0.1\build\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.2.0.1\build\Costura.Fody.targets')" />
 </Project>
