@@ -97,6 +97,10 @@
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.3.0.19032, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.3.0.19032, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
       <Private>True</Private>
@@ -179,23 +183,25 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Xceed.Wpf.DataGrid, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -224,20 +230,13 @@
     </Compile>
     <Compile Include="ListSelector\ListSelectorViewCustomization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TextNotePlus\BoolToColorConverter.cs" />
-    <Compile Include="TextNotePlus\BoolToGridRowHeightConverter.cs" />
-    <Compile Include="TextNotePlus\TextNotePlus.cs" />
-    <Compile Include="TextNotePlus\TextNotePlusView.xaml.cs">
-      <DependentUpon>TextNotePlusView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TextNotePlus\TextNotePlusViewCustomization.cs" />
     <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Utilities\ListItemWrapper.cs" />
     <Compile Include="Utilities\ParameterWrapper.cs" />
     <Compile Include="Utilities\UtilitiesUI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -254,10 +253,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ListSelector\ListSelectorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TextNotePlus\TextNotePlusView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -287,18 +282,9 @@
     <Message Text="" Importance="high" />
     <Message Text="$(TargetPath) copied" Importance="high" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)GalaSoft.MvvmLight.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)GalaSoft.MvvmLight.Extras.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)GalaSoft.MvvmLight.Platform.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)Microsoft.Expression.Interactions.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)Microsoft.Practices.ServiceLocation.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)RestSharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)System.Windows.Interactivity.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.AvalonDock.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.AvalonDock.Themes.Aero.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.AvalonDock.Themes.Metro.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.AvalonDock.Themes.VS2010.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.DataGrid.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.Toolkit.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
   </Target>
 </Project>

@@ -16,10 +16,10 @@ namespace archilab.Lists
         }
 
         /// <summary>
-        /// Returns a list of Duplicate item indicies as well as unique item indicies.
+        /// Returns a list of Duplicate item indices as well as unique item indices.
         /// </summary>
         /// <param name="list">List of items to analyze.</param>
-        /// <returns>List of Unique and Duplicate item indicies.</returns>
+        /// <returns>List of Unique and Duplicate item indices.</returns>
         [MultiReturn("unique", "duplicate")]
         public static Dictionary<string, object> DuplicateItemIndicies(List<object> list)
         {
