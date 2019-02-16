@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using archilab.Revit.Elements;
 using Autodesk.DesignScript.Runtime;
 using DynamoServices;
 using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
 using Revit.Elements;
-using Revit.Elements.Views;
+using ArgumentOutOfRangeException = System.ArgumentOutOfRangeException;
+using Element = Revit.Elements.Element;
+using View = Revit.Elements.Views.View;
+using Workset = archilab.Revit.Elements.Workset;
 
 namespace archilab.Revit.Views
 {
@@ -23,7 +25,7 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        ///     Remove view filter from view.
+        /// Remove view filter from view.
         /// </summary>
         /// <param name="view">View to remove view filter from.</param>
         /// <param name="viewFilter">View filter to be removed.</param>
@@ -52,7 +54,7 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        ///     Get View Template applied to view.
+        /// Get View Template applied to view.
         /// </summary>
         /// <param name="view">View to retrieve View Template from.</param>
         /// <returns name="view">View Template applied to view.</returns>
@@ -67,7 +69,7 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        ///     Set View Template for a View.
+        /// Set View Template for a View.
         /// </summary>
         /// <param name="view">View that template will be applied to.</param>
         /// <param name="viewTemplate">View Template that will be applied to View.</param>
@@ -94,7 +96,7 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        ///     Removes View Template from given view.
+        /// Removes View Template from given view.
         /// </summary>
         /// <param name="view">View to remove View Template from.</param>
         /// <returns name="view">View that template was removed from.</returns>
@@ -121,7 +123,7 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        ///     Get all views by type.
+        /// Get all views by type.
         /// </summary>
         /// <param name="viewType">View type to retrieve all views for. If View Template selected, 
         /// 3D View Templates will be excluded from returned View Templates (currently a Dynamo limitation).</param>
@@ -165,7 +167,7 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        ///     Check if Schedule is Titleblock Schedule.
+        /// Check if Schedule is Titleblock Schedule.
         /// </summary>
         /// <param name="view"></param>
         /// <returns></returns>
@@ -180,6 +182,66 @@ namespace archilab.Revit.Views
             catch
             {
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Check if View is placed on a Sheet.
+        /// </summary>
+        /// <param name="view">View to check.</param>
+        /// <returns>True if View is on Sheet, otherwise False.</returns>
+        /// <search>isOnSheet, is on sheet</search>
+        public static bool IsOnSheet(View view)
+        {
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+
+            switch (v.ViewType)
+            {
+                case Autodesk.Revit.DB.ViewType.Undefined:
+                case Autodesk.Revit.DB.ViewType.ProjectBrowser:
+                case Autodesk.Revit.DB.ViewType.SystemBrowser:
+                case Autodesk.Revit.DB.ViewType.Internal:
+                case Autodesk.Revit.DB.ViewType.DrawingSheet:
+                    return false;
+                case Autodesk.Revit.DB.ViewType.FloorPlan:
+                case Autodesk.Revit.DB.ViewType.EngineeringPlan:
+                case Autodesk.Revit.DB.ViewType.AreaPlan:
+                case Autodesk.Revit.DB.ViewType.CeilingPlan:
+                case Autodesk.Revit.DB.ViewType.Elevation:
+                case Autodesk.Revit.DB.ViewType.Section:
+                case Autodesk.Revit.DB.ViewType.Detail:
+                case Autodesk.Revit.DB.ViewType.ThreeD:
+                case Autodesk.Revit.DB.ViewType.DraftingView:
+                case Autodesk.Revit.DB.ViewType.Legend:
+                case Autodesk.Revit.DB.ViewType.Report:
+                case Autodesk.Revit.DB.ViewType.CostReport:
+                case Autodesk.Revit.DB.ViewType.LoadsReport:
+                case Autodesk.Revit.DB.ViewType.PresureLossReport:
+                case Autodesk.Revit.DB.ViewType.Walkthrough:
+                case Autodesk.Revit.DB.ViewType.Rendering:
+                    
+                    var sheet = new Autodesk.Revit.DB.FilteredElementCollector(doc)
+                        .OfClass(typeof(Autodesk.Revit.DB.ViewSheet))
+                        .Cast<Autodesk.Revit.DB.ViewSheet>()
+                        .FirstOrDefault(x => x.GetAllPlacedViews().FirstOrDefault(y => y == v.Id) != null);
+
+                    return sheet != null;
+                case Autodesk.Revit.DB.ViewType.Schedule:
+                case Autodesk.Revit.DB.ViewType.PanelSchedule:
+                case Autodesk.Revit.DB.ViewType.ColumnSchedule:
+
+                    var schedule = v as Autodesk.Revit.DB.ViewSchedule;
+                    if(schedule == null) throw new ArgumentException("Invalid View");
+
+                    var sheetSchedule = new Autodesk.Revit.DB.FilteredElementCollector(doc)
+                        .OfClass(typeof(Autodesk.Revit.DB.ScheduleSheetInstance))
+                        .Cast<Autodesk.Revit.DB.ScheduleSheetInstance>()
+                        .FirstOrDefault(x => !x.IsTitleblockRevisionSchedule && x.ScheduleId == v.Id);
+
+                    return sheetSchedule != null;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -211,7 +273,7 @@ namespace archilab.Revit.Views
         /// </summary>
         /// <param name="view">View to duplicate.</param>
         /// <param name="name">Name to be assigned to new view.</param>
-        /// <param name="options">Duplicate options. Ex: Duplicate as Dependant.</param>
+        /// <param name="options">Duplicate options. Ex: Duplicate as Dependent.</param>
         /// <returns name="view">New View.</returns>
         public static View Duplicate(View view, string name, string options)
         {
@@ -267,7 +329,7 @@ namespace archilab.Revit.Views
         #region Utilities
 
         /// <summary>
-        ///     Get Null
+        /// Get Null
         /// </summary>
         /// <returns></returns>
         [IsVisibleInDynamoLibrary(false)]
