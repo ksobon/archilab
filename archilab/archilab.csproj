@@ -156,9 +156,6 @@
     <Content Include="archilab_DynamoCustomization.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="FodyWeavers.xml">
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="Resources\archilab.Core.DateTimes.FromUnixTime.Small.png" />
     <None Include="Resources\archilab.Core.DateTimes.FromUnixTime.Large.png" />
     <None Include="Resources\DefaultCustomNode.Small.png" />
