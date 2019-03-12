@@ -41,6 +41,18 @@
     <Reference Include="ClosedXML, Version=0.93.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ClosedXML.0.93.1\lib\net46\ClosedXML.dll</HintPath>
     </Reference>
+    <Reference Include="CoreNodeModels, Version=2.0.0.4714, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.WpfUILibrary.2.0.0.4714\lib\net45\CoreNodeModels.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CoreNodeModelsWpf, Version=2.0.0.4714, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.WpfUILibrary.2.0.0.4714\lib\net45\CoreNodeModelsWpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DesignScriptBuiltin, Version=2.0.0.4714, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.0.0.4714\lib\net45\DesignScriptBuiltin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
       <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
@@ -48,13 +60,41 @@
       <HintPath>..\packages\DynamoVisualProgramming.DynamoCoreNodes.2.0.0.4714\lib\net45\DSCoreNodes.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DSIronPython, Version=2.0.0.4714, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.0.0.4714\lib\net45\DSIronPython.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DynamoApplications, Version=2.0.0.4714, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.0.0.4714\lib\net45\DynamoApplications.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DynamoCore, Version=2.0.0.4714, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.0.0.4714\lib\net45\DynamoCore.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DynamoCoreWpf, Version=2.0.0.4714, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.WpfUILibrary.2.0.0.4714\lib\net45\DynamoCoreWpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DynamoInstallDetective, Version=2.0.0.4714, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.0.0.4714\lib\net45\DynamoInstallDetective.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DynamoServices, Version=2.0.0.4714, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamoVisualProgramming.DynamoServices.2.0.0.4714\lib\net45\DynamoServices.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DynamoShapeManager, Version=2.0.0.4714, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.0.0.4714\lib\net45\DynamoShapeManager.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DynamoUnits, Version=2.0.0.4714, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamoVisualProgramming.ZeroTouchLibrary.2.0.0.4714\lib\net45\DynamoUnits.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="DynamoUtilities, Version=2.0.0.4714, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.0.0.4714\lib\net45\DynamoUtilities.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ExcelNumberFormat, Version=1.0.3.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelNumberFormat.1.0.3\lib\net20\ExcelNumberFormat.dll</HintPath>
@@ -72,8 +112,32 @@
     <Reference Include="LumenWorks.Framework.IO, Version=3.9.1.0, Culture=neutral, PublicKeyToken=5ad3ea2f85776344, processorArchitecture=MSIL">
       <HintPath>..\packages\LumenWorksCsvReader.3.9.1\lib\net20\LumenWorks.Framework.IO.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Expression.Interactions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Practices.Prism.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.Interactivity, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="ProtoCore, Version=2.0.0.4714, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.0.0.4714\lib\net45\ProtoCore.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ProtoGeometry, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamoVisualProgramming.ZeroTouchLibrary.2.0.0.4714\lib\net45\ProtoGeometry.dll</HintPath>
       <Private>False</Private>
@@ -109,6 +173,10 @@
       <HintPath>..\packages\System.IO.Packaging.4.5.0\lib\net46\System.IO.Packaging.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -116,7 +184,31 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="VMDataBridge, Version=2.0.0.4714, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.0.0.4714\lib\net45\VMDataBridge.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WindowsBase" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.5.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\DateTimes.cs" />
@@ -124,6 +216,7 @@
     <Compile Include="Excel\XlsNamedRange.cs" />
     <Compile Include="Excel\XlsWorkbook.cs" />
     <Compile Include="Excel\XlsWorksheet.cs" />
+    <Compile Include="Extensions\archlabExtension.cs" />
     <Compile Include="GitHub\GitHub.cs" />
     <Compile Include="GitHub\Statistics.cs" />
     <Compile Include="Http\Request.cs" />
@@ -141,6 +234,8 @@
     <Compile Include="Revit\Elements\Warnings.cs" />
     <Compile Include="Revit\Elements\Workset.cs" />
     <Compile Include="Revit\Selection\Selection.cs" />
+    <Compile Include="Revit\Units\Format.cs" />
+    <Compile Include="Revit\Units\Units.cs" />
     <Compile Include="Revit\Views\ThreeD.cs" />
     <Compile Include="Revit\Views\ViewSchedules.cs" />
     <Compile Include="Revit\Views\ViewSets.cs" />
@@ -150,11 +245,15 @@
     <Compile Include="Utilities\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="archilab_DynamoCustomization.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="archilab_ViewExtensionDefinition.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\archilab.Core.DateTimes.FromUnixTime.Small.png" />
     <None Include="Resources\archilab.Core.DateTimes.FromUnixTime.Large.png" />
@@ -188,6 +287,7 @@
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)$(TargetName).xml" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)$(TargetName)_DynamoCustomization.xml" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)$(TargetName)_ViewExtensionDefinition.xml" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\extra" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)$(TargetName).customization.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)ClosedXML.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)DocumentFormat.OpenXml.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
