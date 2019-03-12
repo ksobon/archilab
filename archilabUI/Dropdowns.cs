@@ -802,4 +802,32 @@ namespace archilabUI
         public HttpMethodType(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
             : base(OutputName, typeof(Method), inPorts, outPorts) { }
     }
+
+    [NodeName("Unit Types")]
+    [NodeCategory("archilab.Units.Units")]
+    [NodeDescription("Retrieve all available Unit Types.")]
+    [IsDesignScriptCompatible]
+    public class UnitTypeUI : CustomGenericEnumerationDropDown
+    {
+        private const string OutputName = "unitType";
+        public UnitTypeUI() : base(OutputName, typeof(UnitType)) { }
+
+        [JsonConstructor]
+        public UnitTypeUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
+            : base(OutputName, typeof(UnitType), inPorts, outPorts) { }
+    }
+
+    [NodeName("Unit Systems")]
+    [NodeCategory("archilab.Units.Units")]
+    [NodeDescription("Retrieve all available Unit Systems.")]
+    [IsDesignScriptCompatible]
+    public class UnitSystemUI : CustomGenericEnumerationDropDown
+    {
+        private const string OutputName = "unitSystem";
+        public UnitSystemUI() : base(OutputName, typeof(UnitSystem)) { }
+
+        [JsonConstructor]
+        public UnitSystemUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
+            : base(OutputName, typeof(UnitSystem), inPorts, outPorts) { }
+    }
 }
