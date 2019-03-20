@@ -8,20 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <!--<ComboBox x:Name="_listBox"
-                  ItemsSource="{Binding ItemsCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  Command="{Binding Path=DataContext.OnItemChecked, RelativeSource={RelativeSource AncestorType=Control}, Mode=OneTime}"
-                                  Width="20" />
-                        <TextBlock Text="{Binding Name}"
-                                   Width="100" />
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>-->
         <wpfTool:CheckComboBox x:Name="_listBox"
                                ItemsSource="{Binding ItemsCollection}"
                                Command="{Binding OnItemChecked, Mode=OneTime}"
