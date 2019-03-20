@@ -9,14 +9,7 @@ namespace archilabUI.ListSelector
     {
         public ListSelectorView()
         {
-            try
-            {
-                InitializeComponent();
-            }
-            catch (Exception ex)
-            {
-                var msg = ex.Message;
-            }
+            InitializeComponent();
         }
     }
 }
