@@ -1,5 +1,4 @@
-﻿
-namespace archilabUI.Utilities
+﻿namespace archilabUI.Utilities
 {
     public class ParameterWrapper
     {

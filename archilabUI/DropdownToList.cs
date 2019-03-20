@@ -65,7 +65,6 @@ namespace archilabUI
         public List<object> GetInputString(EngineController engine)
         {
             var output = new List<object>();
-            //if (!HasConnectedInput(0)) return output;
 
             var node = InPorts[0].Connectors[0].Start.Owner as DSDropDownBase;
             if (node != null) output = node.Items.Select(x => x.Item).ToList();

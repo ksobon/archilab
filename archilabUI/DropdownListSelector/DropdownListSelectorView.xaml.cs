@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace archilabUI.DropdownListSelector
+﻿namespace archilabUI.DropdownListSelector
 {
     /// <summary>
     /// Interaction logic for DropdownListSelectorView.xaml
@@ -9,14 +7,7 @@ namespace archilabUI.DropdownListSelector
     {
         public DropdownListSelectorView()
         {
-            try
-            {
-                InitializeComponent();
-            }
-            catch (Exception ex)
-            {
-                var unused = ex.Message;
-            }
+            InitializeComponent();
         }
     }
 }
