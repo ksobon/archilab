@@ -20,7 +20,7 @@ namespace archilab.Revit.Elements
         /// <param name="viewFilter">View Filter Element.</param>
         /// <returns name="view">Views.</returns>
         /// <search>view, filter, owner</search>
-        public static List<global::Revit.Elements.Element> OwnerViews(global::Revit.Elements.Element viewFilter)
+        public static List<Element> OwnerViews(Element viewFilter)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var vf = viewFilter.InternalElement as Autodesk.Revit.DB.ParameterFilterElement;
@@ -32,7 +32,7 @@ namespace archilab.Revit.Elements
                 .Where(x => x.AreGraphicsOverridesAllowed())
                 .ToList();
 
-            var matches = new List<global::Revit.Elements.Element>();
+            var matches = new List<Element>();
             foreach (var v in allViews)
             {
                 var filters = v.GetFilters();
