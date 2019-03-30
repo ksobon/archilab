@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Autodesk.DesignScript.Runtime;
 using Revit.Elements;
+using Revit.Elements.Views;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
 
@@ -77,6 +79,31 @@ namespace archilab.Revit.Elements
                 return true;
             }
             catch (Exception) { return false; }
+        }
+
+        /// <summary>
+        /// Checks whether an Element is visible in given View. 
+        /// </summary>
+        /// <param name="element">Element to check.</param>
+        /// <param name="view">View to check visibility in.</param>
+        /// <returns>True if Element is visible in View, otherwise false.</returns>
+        public static bool IsVisible(Element element, View view)
+        {
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+            if (view == null)
+                throw new ArgumentNullException(nameof(view));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var e = element.InternalElement;
+            var v = view.InternalElement as Autodesk.Revit.DB.View;
+
+            var found = new Autodesk.Revit.DB.FilteredElementCollector(doc, v.Id)
+                .OfCategoryId(e.Category.Id)
+                .WhereElementIsNotElementType()
+                .Where(x => x.Id == e.Id);
+
+            return found.Any();
         }
     }
 }
