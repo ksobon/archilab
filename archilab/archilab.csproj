@@ -218,6 +218,7 @@
     <Compile Include="Revit\Elements\Workset.cs" />
     <Compile Include="Revit\Selection\Selection.cs" />
     <Compile Include="Revit\Units\Format.cs" />
+    <Compile Include="Revit\Units\FormatOptions.cs" />
     <Compile Include="Revit\Units\Units.cs" />
     <Compile Include="Revit\Views\ThreeD.cs" />
     <Compile Include="Revit\Views\ViewSchedules.cs" />

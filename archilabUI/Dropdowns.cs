@@ -830,4 +830,18 @@ namespace archilabUI
         public UnitSystemUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
             : base(OutputName, typeof(UnitSystem), inPorts, outPorts) { }
     }
+
+    [NodeName("Display Unit Types")]
+    [NodeCategory("archilab.Units.Units")]
+    [NodeDescription("Retrieve all available Display Unit Types.")]
+    [IsDesignScriptCompatible]
+    public class DisplayUnitTypeUI : CustomGenericEnumerationDropDown
+    {
+        private const string OutputName = "unitSystem";
+        public DisplayUnitTypeUI() : base(OutputName, typeof(DisplayUnitType)) { }
+
+        [JsonConstructor]
+        public DisplayUnitTypeUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
+            : base(OutputName, typeof(DisplayUnitType), inPorts, outPorts) { }
+    }
 }

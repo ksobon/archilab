@@ -68,9 +68,36 @@ namespace archilab.Revit.Units
         /// <returns></returns>
         public static Units Create(string unitSystem)
         {
+            if (string.IsNullOrWhiteSpace(unitSystem))
+                throw new ArgumentException(nameof(unitSystem));
+
             var us = (Autodesk.Revit.DB.UnitSystem) Enum.Parse(typeof(Autodesk.Revit.DB.UnitSystem), unitSystem);
 
             return new Units(us);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="units"></param>
+        /// <param name="unitType"></param>
+        /// <param name="formatOptions"></param>
+        /// <returns></returns>
+        public static Units SetFormatOptions(Units units, string unitType, FormatOptions formatOptions)
+        {
+            if (units == null)
+                throw new ArgumentException(nameof(units));
+            if (string.IsNullOrWhiteSpace(unitType))
+                throw new ArgumentException(nameof(unitType));
+            if (formatOptions == null)
+                throw new ArgumentException(nameof(formatOptions));
+
+            var ut = (Autodesk.Revit.DB.UnitType)Enum.Parse(typeof(Autodesk.Revit.DB.UnitType), unitType);
+            var fo = formatOptions.InternalFormatOptions;
+
+            units.InternalUnits.SetFormatOptions(ut, fo);
+
+            return units;
         }
 
         /// <summary>
