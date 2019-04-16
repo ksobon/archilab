@@ -23,10 +23,10 @@ namespace archilab.Revit.Views
         /// <param name="name">Name of the View Set.</param>
         /// <param name="replace">Override existing View Set with same name.</param>
         /// <returns>True if succeeded, otherwise false.</returns>
-        public static bool ByViewsName(List<Element> views, string name, bool replace = false)
+        public static Element ByViewsName(List<Element> views, string name, bool replace = false)
         {
-            if (!views.Any() || views == null) throw new Exception("Views list is empty or null.");
-            if (string.IsNullOrEmpty(name)) throw new Exception("Name is empty or null.");
+            if (views == null || !views.Any()) throw new ArgumentException(nameof(views));
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException(nameof(name));
 
             var doc = DocumentManager.Instance.CurrentDBDocument;
 
@@ -69,7 +69,8 @@ namespace archilab.Revit.Views
 
             TransactionManager.Instance.TransactionTaskDone();
 
-            return true;
+            var set = settings.CurrentViewSheetSet as Autodesk.Revit.DB.ViewSheetSet;
+            return set?.ToDSType(true);
         }
     }
 }
