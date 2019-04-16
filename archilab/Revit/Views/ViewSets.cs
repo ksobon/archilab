@@ -22,7 +22,7 @@ namespace archilab.Revit.Views
         /// <param name="views">List of Views.</param>
         /// <param name="name">Name of the View Set.</param>
         /// <param name="replace">Override existing View Set with same name.</param>
-        /// <returns>True if succeeded, otherwise false.</returns>
+        /// <returns>View Sheet Set.</returns>
         public static Element ByViewsName(List<Element> views, string name, bool replace = false)
         {
             if (views == null || !views.Any()) throw new ArgumentException(nameof(views));
