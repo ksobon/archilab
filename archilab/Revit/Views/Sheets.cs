@@ -6,6 +6,7 @@ using RevitServices.Persistence;
 using RevitServices.Transactions;
 using Revit.Elements;
 using Revit.Elements.Views;
+// ReSharper disable UnusedMember.Global
 
 namespace archilab.Revit.Views
 {
@@ -95,12 +96,28 @@ namespace archilab.Revit.Views
             var vs = sheet.InternalElement as Autodesk.Revit.DB.ViewSheet;
             var revIds = vs?.GetAllRevisionIds();
 
-            if (revIds != null && revIds.Count > 0)
-            {
-                var doc = DocumentManager.Instance.CurrentDBDocument;
-                return revIds.Select(x => doc.GetElement(x).ToDSType(true)).ToList();
-            }
-            return Enumerable.Empty<Element>().ToList();
+            if (revIds == null || revIds.Count <= 0) return Enumerable.Empty<Element>().ToList();
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            return revIds.Select(x => doc.GetElement(x).ToDSType(true)).ToList();
+        }
+
+        /// <summary>
+        /// Retrieves Revision Number that given Revision has on a Sheet.
+        /// This comes handy when Revision Numbers are set to vary per Sheet. 
+        /// </summary>
+        /// <param name="sheet">View Sheet.</param>
+        /// <param name="revision">Revision to get the number for.</param>
+        /// <returns name="number">Revision Number on a Sheet.</returns>
+        public static string GetRevisionNumberOnSheet(Sheet sheet, Element revision)
+        {
+            if (sheet == null) throw new ArgumentNullException(nameof(sheet));
+            if (revision == null) throw new ArgumentNullException(nameof(revision));
+
+            var vs = sheet.InternalElement as Autodesk.Revit.DB.ViewSheet;
+            var rev = revision.InternalElement as Autodesk.Revit.DB.Revision;
+
+            return vs?.GetRevisionNumberOnSheet(rev?.Id);
         }
 
         /// <summary>
@@ -113,12 +130,10 @@ namespace archilab.Revit.Views
             var vs = sheet.InternalElement as Autodesk.Revit.DB.ViewSheet;
             var viewports = vs?.GetAllViewports();
 
-            if (viewports?.Count > 0)
-            {
-                var doc = DocumentManager.Instance.CurrentDBDocument;
-                return viewports.Select(x => doc.GetElement(x).ToDSType(true)).ToList();
-            }
-            return Enumerable.Empty<Element>().ToList();
+            if (!(viewports?.Count > 0)) return Enumerable.Empty<Element>().ToList();
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            return viewports.Select(x => doc.GetElement(x).ToDSType(true)).ToList();
         }
 
         /// <summary>
@@ -129,14 +144,8 @@ namespace archilab.Revit.Views
         /// <returns name="Sheet">View sheet</returns>
         public static Sheet CreatePlaceholder(string number, string name)
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-            if (number == null)
-            {
-                throw new ArgumentNullException(nameof(number));
-            }
+            if (name == null) throw new ArgumentNullException(nameof(name));
+            if (number == null) throw new ArgumentNullException(nameof(number));
 
             var newSheet = new Sheets(name, number);
 
@@ -150,8 +159,7 @@ namespace archilab.Revit.Views
         /// <returns>True if Sheet is Placeholder, otherwise false.</returns>
         public static bool IsPlaceholder(Sheet sheet)
         {
-            var vs = sheet.InternalElement as Autodesk.Revit.DB.ViewSheet;
-            return vs != null && vs.IsPlaceholder;
+            return sheet.InternalElement is Autodesk.Revit.DB.ViewSheet vs && vs.IsPlaceholder;
         }
     }
 }

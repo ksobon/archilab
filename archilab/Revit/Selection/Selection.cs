@@ -11,6 +11,7 @@ using Category = Revit.Elements.Category;
 using Element = Revit.Elements.Element;
 using View = Revit.Elements.Views.View;
 using Workset = archilab.Revit.Elements.Workset;
+// ReSharper disable UnusedMember.Global
 
 namespace archilab.Revit.Selection
 {
@@ -21,6 +22,48 @@ namespace archilab.Revit.Selection
     {
         internal Select()
         {
+        }
+
+        /// <summary>
+        /// Retrieves all Link Documents and their Names/Paths.
+        /// </summary>
+        /// <returns>Link Documents, Link Names, Link Instances and Link Paths.</returns>
+        [MultiReturn("Link Doc", "Link Name", "Link Instance", "Link Path")]
+        public static Dictionary<string, List<object>> GetDocuments()
+        {
+            var result = new Dictionary<string, List<object>>()
+            {
+                {"Link Doc", new List<object>()},
+                {"Link Name", new List<object>()},
+                {"Link Instance", new List<object>()},
+                {"Link Path", new List<object>()}
+            };
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var instances = new Autodesk.Revit.DB.FilteredElementCollector(doc)
+                .OfClass(typeof(Autodesk.Revit.DB.RevitLinkInstance))
+                .Cast<Autodesk.Revit.DB.RevitLinkInstance>()
+                .ToList();
+            if (!instances.Any()) return result;
+
+            var linkDocs = new List<object>();
+            var linkNames = new List<object>();
+            var linkPaths = new List<object>();
+            var linkInstances = new List<object>();
+            foreach (var inst in instances)
+            {
+                linkInstances.Add(inst.ToDSType(true));
+                linkDocs.Add(inst.GetLinkDocument());
+                linkNames.Add(inst.Name);
+                linkPaths.Add(inst.GetLinkDocument()?.PathName);
+            }
+
+            result["Link Doc"] = linkDocs;
+            result["Link Name"] = linkNames;
+            result["Link Instance"] = linkInstances;
+            result["Link Path"] = linkPaths;
+
+            return result;
         }
 
         /// <summary>
@@ -122,7 +165,7 @@ namespace archilab.Revit.Selection
         }
 
         /// <summary>
-        ///     Select Element by Id
+        /// Select Element by Id
         /// </summary>
         /// <param name="id">ElementId, String, Guid or Integer id of the element.</param>
         /// <returns name="Element">Found element or null.</returns>
@@ -149,7 +192,7 @@ namespace archilab.Revit.Selection
         }
 
         /// <summary>
-        ///     Select Elements by Level and Category.
+        /// Select Elements by Level and Category.
         /// </summary>
         /// <param name="category">Category to filter for.</param>
         /// <param name="level">Level to filter for.</param>
@@ -224,7 +267,7 @@ namespace archilab.Revit.Selection
         }
 
         /// <summary>
-        ///     Parameter value filter.
+        /// Parameter value filter.
         /// </summary>
         /// <param name="elementType"></param>
         /// <param name="parameterName"></param>
@@ -232,7 +275,7 @@ namespace archilab.Revit.Selection
         /// <param name="value"></param>
         /// <param name="rule"></param>
         /// <returns name="Element">Element.</returns>
-        public static List<Element> ByParamterValue(
+        public static List<Element> ByParameterValue(
             Type elementType,
             string parameterName,
             object evaluator,
@@ -255,8 +298,7 @@ namespace archilab.Revit.Selection
             Autodesk.Revit.DB.ParameterValueProvider pvp;
             try
             {
-                Autodesk.Revit.DB.BuiltInParameter bip;
-                if (Enum.TryParse(parameterName, out bip))
+                if (Enum.TryParse(parameterName, out Autodesk.Revit.DB.BuiltInParameter bip))
                 {
                     // process as bip
                     pvp = new Autodesk.Revit.DB.ParameterValueProvider(new Autodesk.Revit.DB.ElementId((int)bip));
@@ -293,9 +335,6 @@ namespace archilab.Revit.Selection
                             var id = ((Element)value).InternalElement.Id;
                             filterRule = new Autodesk.Revit.DB.FilterElementIdRule(pvp, fnre, id);
                             break;
-                        //case archilabTypes.FilterNumericValueRule.GlobalParameterRule:
-                        //    filterRule = new RVT.FilterGlobalParameterAssociationRule(pvp, fnre, new RVT.ElementId((int)value));
-                        //    break;
                         case FilterNumericValueRule.IntegerRule:
                             filterRule = new Autodesk.Revit.DB.FilterIntegerRule(pvp, fnre, (int)value);
                             break;
@@ -305,7 +344,7 @@ namespace archilab.Revit.Selection
                     break;
             }
 
-            // create paramter filter
+            // create parameter filter
             var epf = new Autodesk.Revit.DB.ElementParameterFilter(filterRule);
 
             // return collection
