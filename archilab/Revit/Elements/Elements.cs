@@ -6,6 +6,7 @@ using Revit.Elements;
 using Revit.Elements.Views;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
+// ReSharper disable UnusedMember.Global
 
 namespace archilab.Revit.Elements
 {
@@ -104,6 +105,22 @@ namespace archilab.Revit.Elements
                 .Where(x => x.Id == e.Id);
 
             return found.Any();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static View OwnerView(Element element)
+        {
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            if (!(doc.GetElement(element.InternalElement.OwnerViewId) is Autodesk.Revit.DB.View e)) return null;
+
+            return e.ToDSType(true) as View;
         }
     }
 }

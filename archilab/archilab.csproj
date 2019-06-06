@@ -212,12 +212,13 @@
     <Compile Include="Revit\Elements\Revisions.cs" />
     <Compile Include="Revit\Elements\Room.cs" />
     <Compile Include="Revit\Elements\Schema.cs" />
+    <Compile Include="Revit\Elements\TextNotes.cs" />
     <Compile Include="Revit\Elements\ViewFilter.cs" />
     <Compile Include="Revit\Elements\WarningLibrary.cs" />
     <Compile Include="Revit\Elements\Warnings.cs" />
     <Compile Include="Revit\Elements\Workset.cs" />
     <Compile Include="Revit\Selection\Selection.cs" />
-    <Compile Include="Revit\Units\Format.cs" />
+    <Compile Include="Revit\Units\UnitUtils.cs" />
     <Compile Include="Revit\Units\FormatOptions.cs" />
     <Compile Include="Revit\Units\Units.cs" />
     <Compile Include="Revit\Views\ThreeD.cs" />
