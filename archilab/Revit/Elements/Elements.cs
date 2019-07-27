@@ -1,12 +1,19 @@
-﻿using System;
+﻿#region References
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autodesk.DesignScript.Geometry;
 using Autodesk.DesignScript.Runtime;
 using Revit.Elements;
 using Revit.Elements.Views;
+using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
+
 // ReSharper disable UnusedMember.Global
+
+#endregion
 
 namespace archilab.Revit.Elements
 {
@@ -92,12 +99,11 @@ namespace archilab.Revit.Elements
         {
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
-            if (view == null)
+            if (view == null || !(view.InternalElement is Autodesk.Revit.DB.View v))
                 throw new ArgumentNullException(nameof(view));
 
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var e = element.InternalElement;
-            var v = view.InternalElement as Autodesk.Revit.DB.View;
 
             var found = new Autodesk.Revit.DB.FilteredElementCollector(doc, v.Id)
                 .OfCategoryId(e.Category.Id)
@@ -121,6 +127,23 @@ namespace archilab.Revit.Elements
             if (!(doc.GetElement(element.InternalElement.OwnerViewId) is Autodesk.Revit.DB.View e)) return null;
 
             return e.ToDSType(true) as View;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        public static BoundingBox BoundingBox(Element element, View view = null)
+        {
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+
+            var v = view?.InternalElement as Autodesk.Revit.DB.View;
+            var bb = element.InternalElement.get_BoundingBox(v);
+
+            return bb.ToProtoType();
         }
     }
 }

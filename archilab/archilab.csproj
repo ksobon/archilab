@@ -212,6 +212,7 @@
     <Compile Include="Revit\Elements\Revisions.cs" />
     <Compile Include="Revit\Elements\Room.cs" />
     <Compile Include="Revit\Elements\Schema.cs" />
+    <Compile Include="Revit\Elements\Tags.cs" />
     <Compile Include="Revit\Elements\TextNotes.cs" />
     <Compile Include="Revit\Elements\ViewFilter.cs" />
     <Compile Include="Revit\Elements\WarningLibrary.cs" />
