@@ -22,6 +22,9 @@
       <namespace name="archilab.Revit.Views">
         <category>archilab.Revit</category>
       </namespace>
+      <namespace name="archilab.Revit.Units">
+        <category>archilab.Revit</category>
+      </namespace>
       <namespace name="archilab.Http">
         <category>archilab.Http</category>
       </namespace>

@@ -146,12 +146,10 @@
       <HintPath>..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2020\RevitAPI.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2020\RevitAPIUI.dll</HintPath>
     </Reference>
     <Reference Include="RevitNodes">
       <HintPath>..\..\..\..\..\..\Program Files\Dynamo\Dynamo Revit\2\Revit_2019\RevitNodes.dll</HintPath>
@@ -263,11 +261,11 @@
     <Message Text="Copy files..." Importance="high" />
     <Message Text="" Importance="high" />
     <Message Text="$(TargetPath) copied" Importance="high" />
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)Microsoft.Expression.Interactions.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)Microsoft.Practices.ServiceLocation.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)RestSharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)System.Windows.Interactivity.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.Toolkit.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.0\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.2\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)Microsoft.Expression.Interactions.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.2\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)Microsoft.Practices.ServiceLocation.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.2\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)RestSharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.2\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)System.Windows.Interactivity.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.2\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.Toolkit.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.2\packages\archi-lab.net\bin" ContinueOnError="true" />
   </Target>
 </Project>
