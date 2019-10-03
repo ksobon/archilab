@@ -5,6 +5,7 @@ using Revit.Elements;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
 using Revit.Elements.Views;
+// ReSharper disable UnusedMember.Global
 
 namespace archilab.Revit.Views
 {

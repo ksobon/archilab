@@ -33,6 +33,9 @@
       </namespace>
       <namespace name="archilab.Core">
         <category>archilab.Core</category>
+      </namespace> 
+      <namespace name="archilab.Pdf">
+        <category>archilab.PDF</category>
       </namespace>
     </namespaces>
 </doc>

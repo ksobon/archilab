@@ -109,6 +109,9 @@
     <Reference Include="HtmlAgilityPack, Version=1.5.5.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.5.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.1, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.1\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="LumenWorks.Framework.IO, Version=3.9.1.0, Culture=neutral, PublicKeyToken=5ad3ea2f85776344, processorArchitecture=MSIL">
       <HintPath>..\packages\LumenWorksCsvReader.3.9.1\lib\net20\LumenWorks.Framework.IO.dll</HintPath>
     </Reference>
@@ -200,11 +203,14 @@
     <Compile Include="GitHub\Statistics.cs" />
     <Compile Include="Http\Request.cs" />
     <Compile Include="Lists\Lists.cs" />
+    <Compile Include="Pdf\PDF.cs" />
     <Compile Include="Revit\Elements\AppearanceAssets.cs" />
     <Compile Include="Revit\Elements\Elements.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Revit\Elements\ElementTypes.cs" />
     <Compile Include="Revit\Elements\FamilyInstances.cs" />
+    <Compile Include="Revit\Elements\ImageInstances.cs" />
+    <Compile Include="Revit\Elements\ImagePlacementOptions.cs" />
     <Compile Include="Revit\Elements\ImageTypeOptions.cs" />
     <Compile Include="Revit\Elements\ImageTypes.cs" />
     <Compile Include="Revit\Elements\Materials.cs" />
@@ -279,5 +285,6 @@
     <Copy SourceFiles="$(TargetDir)RestSharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.2\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)System.IO.FileSystem.Primitives.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.2\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)System.IO.Packaging.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.2\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)itextsharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.2\packages\archi-lab.net\bin" ContinueOnError="true" />
   </Target>
 </Project>

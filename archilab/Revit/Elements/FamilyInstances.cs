@@ -4,7 +4,11 @@ using Revit.Elements;
 using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
+using Element = Revit.Elements.Element;
+using FamilyType = Revit.Elements.FamilyType;
+using Level = Revit.Elements.Level;
 using Line = Autodesk.DesignScript.Geometry.Line;
+// ReSharper disable UnusedMember.Global
 
 namespace archilab.Revit.Elements
 {
@@ -14,7 +18,7 @@ namespace archilab.Revit.Elements
     [RegisterForTrace]
     public class FamilyInstances : AbstractFamilyInstance
     {
-        internal Autodesk.Revit.DB.FamilyInstance InternalFamilyInstance { get; private set; }
+        internal Autodesk.Revit.DB.FamilyInstance InternalFamilyInstance { get; set; }
 
         /// <summary>
         /// 
@@ -81,8 +85,7 @@ namespace archilab.Revit.Elements
         {
             TransactionManager.Instance.EnsureInTransaction(DocumentManager.Instance.CurrentDBDocument);
 
-            var lp = InternalFamilyInstance.Location as Autodesk.Revit.DB.LocationCurve;
-            if (lp != null && lp.Curve != pos) lp.Curve = pos;
+            if (InternalFamilyInstance.Location is Autodesk.Revit.DB.LocationCurve lp && lp.Curve != pos) lp.Curve = pos;
 
             TransactionManager.Instance.TransactionTaskDone();
         }

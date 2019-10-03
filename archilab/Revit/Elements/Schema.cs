@@ -5,6 +5,7 @@ using Autodesk.DesignScript.Runtime;
 using DynamoServices;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
+// ReSharper disable UnusedMember.Global
 
 namespace archilab.Revit.Elements
 {
@@ -109,7 +110,7 @@ namespace archilab.Revit.Elements
         /// </summary>
         /// <param name="schema">Schema to delete.</param>
         /// <param name="overridePermissions">Normally Schema can only be edited by user with access permissions.
-        /// Set this to true to override default access and force deletion of this Scheama.</param>
+        /// Set this to true to override default access and force deletion of this Schema.</param>
         public static void EraseSchemaAndAllEntities(Schema schema, bool overridePermissions = false)
         {
             try

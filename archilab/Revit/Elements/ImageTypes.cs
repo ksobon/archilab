@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Autodesk.DesignScript.Runtime;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
@@ -41,17 +42,39 @@ namespace archilab.Revit.Elements
         /// Creates a new Image Type import object.
         /// </summary>
         /// <param name="imageTypeOptions">Image Type Options object.</param>
+        /// <param name="reload">If true reload existing document, otherwise create new one.</param>
         /// <returns>Image Type object.</returns>
-        public static ImageTypes Create(ImageTypeOptions imageTypeOptions)
+        public static ImageTypes Create(ImageTypeOptions imageTypeOptions, bool reload = true)
         {
             try
             {
                 var doc = DocumentManager.Instance.CurrentDBDocument;
                 TransactionManager.Instance.EnsureInTransaction(doc);
-                var imageType = Autodesk.Revit.DB.ImageType.Create(doc, imageTypeOptions.InternalImageTypeOptions);
+
+                Autodesk.Revit.DB.ImageType it;
+                if (reload)
+                {
+                    var existing = new Autodesk.Revit.DB.FilteredElementCollector(doc)
+                        .OfClass(typeof(Autodesk.Revit.DB.ImageType))
+                        .WhereElementIsElementType()
+                        .Cast<Autodesk.Revit.DB.ImageType>()
+                        .FirstOrDefault(x => x.Path == imageTypeOptions.FilePath && 
+                                             x.PageNumber == imageTypeOptions.PageNumber);
+                    if (existing == null)
+                        it = Autodesk.Revit.DB.ImageType.Create(doc, imageTypeOptions.InternalImageTypeOptions);
+                    else
+                    {
+                        existing.ReloadFrom(imageTypeOptions.InternalImageTypeOptions);
+                        it = existing;
+                    }
+                }
+                else
+                {
+                    it = Autodesk.Revit.DB.ImageType.Create(doc, imageTypeOptions.InternalImageTypeOptions);
+                }
                 TransactionManager.Instance.TransactionTaskDone();
 
-                return new ImageTypes(imageType);
+                return new ImageTypes(it);
             }
             catch (Exception e)
             {

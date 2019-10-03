@@ -11,6 +11,7 @@ using ArgumentOutOfRangeException = System.ArgumentOutOfRangeException;
 using Element = Revit.Elements.Element;
 using View = Revit.Elements.Views.View;
 using Workset = archilab.Revit.Elements.Workset;
+// ReSharper disable UnusedMember.Global
 
 namespace archilab.Revit.Views
 {
