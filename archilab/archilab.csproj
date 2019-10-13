@@ -213,6 +213,7 @@
     <Compile Include="Revit\Elements\ImagePlacementOptions.cs" />
     <Compile Include="Revit\Elements\ImageTypeOptions.cs" />
     <Compile Include="Revit\Elements\ImageTypes.cs" />
+    <Compile Include="Revit\Elements\LineStyles.cs" />
     <Compile Include="Revit\Elements\Materials.cs" />
     <Compile Include="Revit\Elements\Parameter.cs" />
     <Compile Include="Revit\Elements\Revisions.cs" />
