@@ -327,6 +327,78 @@ namespace archilab.Revit.Views
             return (View)newView.ToDSType(true);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="referenceView"></param>
+        /// <param name="extents"></param>
+        /// <returns></returns>
+        public static View CreateReferenceCallout(View view, View referenceView, 
+            Autodesk.DesignScript.Geometry.Rectangle extents)
+        {
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var rv = (Autodesk.Revit.DB.View)referenceView.InternalElement;
+
+            var pt1 = extents.BoundingBox.MinPoint.ToXyz();
+            var pt2 = extents.BoundingBox.MaxPoint.ToXyz();
+
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            switch (v.ViewType)
+            {
+                case Autodesk.Revit.DB.ViewType.FloorPlan:
+                case Autodesk.Revit.DB.ViewType.CeilingPlan:
+                case Autodesk.Revit.DB.ViewType.Elevation:
+                case Autodesk.Revit.DB.ViewType.Section:
+                case Autodesk.Revit.DB.ViewType.Detail:
+                    Autodesk.Revit.DB.ViewSection.CreateReferenceCallout(doc, v.Id, rv.Id, pt1, pt2);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(view));
+            }
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return view;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        public static Autodesk.DesignScript.Geometry.Rectangle Outline(View view)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            if (v == null) throw new ArgumentNullException(nameof(view));
+
+            
+            var o = v.Outline;
+            var pt1 = new Autodesk.Revit.DB.XYZ(o.Min.U, o.Min.V, 0);
+            var pt2 = new Autodesk.Revit.DB.XYZ(o.Max.U, o.Min.V, 0);
+            var pt3 = new Autodesk.Revit.DB.XYZ(o.Max.U, o.Max.V, 0);
+            var pt4 = new Autodesk.Revit.DB.XYZ(o.Min.U, o.Max.V, 0);
+
+            return Autodesk.DesignScript.Geometry.Rectangle.ByCornerPoints(pt1.ToPoint(), pt2.ToPoint(), pt3.ToPoint(), pt4.ToPoint());
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        public static Autodesk.DesignScript.Geometry.BoundingBox CropBox(View view)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            if (v == null) throw new ArgumentNullException(nameof(view));
+
+            var cb = v.CropBox;
+            var min = cb.Min.ToPoint();
+            var max = cb.Max.ToPoint();
+
+            return Autodesk.DesignScript.Geometry.BoundingBox.ByCorners(min, max);
+        }
+
         #region Utilities
 
         /// <summary>
