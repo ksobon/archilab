@@ -5,6 +5,7 @@ using RevitServices.Transactions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+// ReSharper disable UnusedMember.Global
 
 namespace archilab.Revit.Elements
 {
@@ -84,10 +85,8 @@ namespace archilab.Revit.Elements
         /// <returns></returns>
         public static Workset ByName(string name)
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
+            if (name == null) throw new ArgumentNullException(nameof(name));
+
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var w = new Autodesk.Revit.DB.FilteredWorksetCollector(doc)
                 .OfKind(Autodesk.Revit.DB.WorksetKind.UserWorkset)
@@ -98,6 +97,27 @@ namespace archilab.Revit.Elements
                 : new Workset(w);
 
             return output;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="workset"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static Workset Rename(Workset workset, string name)
+        {
+            if (workset == null) throw new ArgumentNullException(nameof(workset));
+            if (name == null) throw new ArgumentNullException(nameof(name));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var w = workset.InternalWorkset;
+
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            Autodesk.Revit.DB.WorksetTable.RenameWorkset(doc, w.Id, name);
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return workset;
         }
 
         /// <summary>
