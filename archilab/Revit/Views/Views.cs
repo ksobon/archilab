@@ -365,6 +365,41 @@ namespace archilab.Revit.Views
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="callout"></param>
+        /// <param name="reference"></param>
+        /// <returns></returns>
+        public static Element ChangeReferencedView(Element callout, View reference)
+        {
+            if (callout == null) throw new ArgumentNullException(nameof(callout));
+            if (reference == null) throw new ArgumentNullException(nameof(reference));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            Autodesk.Revit.DB.ReferenceableViewUtils.ChangeReferencedView(doc, callout.InternalElement.Id, reference.InternalElement.Id);
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return callout;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        public static List<Element> GetReferenceCallouts(View view)
+        {
+            if (view == null) throw new ArgumentNullException(nameof(view));
+            if (!(view.InternalElement is Autodesk.Revit.DB.View v))
+                throw new ArgumentException("View is not a valid type.");
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+
+            return v.GetReferenceCallouts().Select(x => doc.GetElement(x).ToDSType(true)).ToList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="view"></param>
         /// <returns></returns>
         public static Autodesk.DesignScript.Geometry.Rectangle Outline(View view)
