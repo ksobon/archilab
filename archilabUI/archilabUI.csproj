@@ -262,11 +262,11 @@
     <Message Text="Copy files..." Importance="high" />
     <Message Text="" Importance="high" />
     <Message Text="$(TargetPath) copied" Importance="high" />
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.2\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)Microsoft.Expression.Interactions.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.2\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)Microsoft.Practices.ServiceLocation.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.2\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)RestSharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.2\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)System.Windows.Interactivity.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.2\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.Toolkit.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.2\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)Microsoft.Expression.Interactions.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)Microsoft.Practices.ServiceLocation.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)RestSharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)System.Windows.Interactivity.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.Toolkit.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
   </Target>
 </Project>
