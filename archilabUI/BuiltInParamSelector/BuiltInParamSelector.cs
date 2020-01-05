@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region References
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -13,6 +15,8 @@ using Dynamo.Graph.Nodes;
 using Newtonsoft.Json;
 using ProtoCore.AST.AssociativeAST;
 using RevitServices.Persistence;
+
+#endregion
 
 namespace archilabUI.BuiltInParamSelector
 {
@@ -100,10 +104,10 @@ namespace archilabUI.BuiltInParamSelector
             {
                 if (p.StorageType != StorageType.None)
                 {
-                    var idef = p.Definition as InternalDefinition;
-                    if (idef == null) continue;
+                    var iDef = p.Definition as InternalDefinition;
+                    if (iDef == null) continue;
 
-                    var bipName = idef.BuiltInParameter.ToString();
+                    var bipName = iDef.BuiltInParameter.ToString();
                     items.Add(new ParameterWrapper { Name = prefix + " | " + p.Definition.Name, BipName = bipName });
                 }
             }
@@ -184,6 +188,7 @@ namespace archilabUI.BuiltInParamSelector
             }
         }
 
+        [Obsolete]
         protected override void SerializeCore(XmlElement nodeElement, SaveContext context)
         {
             base.SerializeCore(nodeElement, context);
@@ -195,6 +200,7 @@ namespace archilabUI.BuiltInParamSelector
             nodeElement.AppendChild(wrapper);
         }
 
+        [Obsolete]
         protected override void DeserializeCore(XmlElement nodeElement, SaveContext context)
         {
             base.DeserializeCore(nodeElement, context);

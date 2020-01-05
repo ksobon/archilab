@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace archilabUI.ListSelector
+﻿namespace archilabUI.ListSelector
 {
     /// <summary>
     /// Interaction logic for ListSelectorView.xaml

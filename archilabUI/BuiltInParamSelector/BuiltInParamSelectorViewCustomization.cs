@@ -1,55 +1,48 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Threading;
-using archilabUI.Utilities;
 using Dynamo.Controls;
-using Dynamo.Models;
 using Dynamo.Scheduler;
 using Dynamo.ViewModels;
 using Dynamo.Wpf;
+// ReSharper disable UnusedMember.Global
 
 namespace archilabUI.BuiltInParamSelector
 {
-    internal class ParameterSelectorViewCustomization : INodeViewCustomization<BuiltInParamSelector>, IDisposable
+    internal class ParameterSelectorViewCustomization : INodeViewCustomization<BuiltInParamSelector>
     {
-        private DynamoViewModel DynamoViewmodel;
-        private DispatcherSynchronizationContext SyncContext;
-        private DynamoModel DynamoModel;
-        private BuiltInParamSelector ViewModel;
-        private BuiltInParamSelectorView View;
+        private DynamoViewModel _dynamoViewmodel;
+        private DispatcherSynchronizationContext _syncContext;
+        private BuiltInParamSelector _viewModel;
+        private BuiltInParamSelectorView _view;
 
         public void CustomizeView(BuiltInParamSelector model, NodeView nodeView)
         {
-            DynamoModel = nodeView.ViewModel.DynamoViewModel.Model;
-            DynamoViewmodel = nodeView.ViewModel.DynamoViewModel;
-            SyncContext = new DispatcherSynchronizationContext(nodeView.Dispatcher);
-            ViewModel = model;
-            ViewModel.EngineController = nodeView.ViewModel.DynamoViewModel.EngineController;
-            View = new BuiltInParamSelectorView();
-            nodeView.inputGrid.Children.Add(View);
-            View.DataContext = model;
+            if (nodeView?.Dispatcher == null) return;
+
+            _dynamoViewmodel = nodeView.ViewModel.DynamoViewModel;
+            _syncContext = new DispatcherSynchronizationContext(nodeView.Dispatcher);
+            _viewModel = model;
+            _viewModel.EngineController = nodeView.ViewModel.DynamoViewModel.EngineController;
+            _view = new BuiltInParamSelectorView();
+            nodeView.inputGrid.Children.Add(_view);
+            _view.DataContext = model;
             model.RequestChangeBuiltInParamSelector += UpdateParameterSelector;
             UpdateParameterSelector();
         }
 
         private void UpdateParameterSelector()
         {
-            DynamoScheduler scheduler = DynamoViewmodel.Model.Scheduler;
-            DelegateBasedAsyncTask delegateBasedAsyncTask = new DelegateBasedAsyncTask(scheduler, delegate
+            var scheduler = _dynamoViewmodel.Model.Scheduler;
+            var delegateBasedAsyncTask = new DelegateBasedAsyncTask(scheduler, delegate
             {
-                ViewModel.PopulateItems();
+                _viewModel.PopulateItems();
             });
+
             delegateBasedAsyncTask.ThenSend(delegate
             {
-                if (ViewModel.SelectedItem != null)
-                {
-                    ViewModel.SelectedItem = ViewModel.SelectedItem;
-                }
-                else
-                {
-                    ViewModel.SelectedItem = ViewModel.ItemsCollection.FirstOrDefault<ParameterWrapper>();
-                }
-            }, SyncContext);
+                _viewModel.SelectedItem = _viewModel.SelectedItem ?? _viewModel.ItemsCollection.FirstOrDefault();
+            }, _syncContext);
+
             scheduler.ScheduleForExecution(delegateBasedAsyncTask);
         }
 

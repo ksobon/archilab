@@ -3,6 +3,7 @@ using Dynamo.Controls;
 using Dynamo.Scheduler;
 using Dynamo.ViewModels;
 using Dynamo.Wpf;
+// ReSharper disable UnusedMember.Global
 
 namespace archilabUI.DropdownListSelector
 {
@@ -15,6 +16,8 @@ namespace archilabUI.DropdownListSelector
 
         public void CustomizeView(DropdownListSelector model, NodeView nodeView)
         {
+            if (nodeView?.Dispatcher == null) return;
+
             _dynamoViewmodel = nodeView.ViewModel.DynamoViewModel;
             _syncContext = new DispatcherSynchronizationContext(nodeView.Dispatcher);
             _viewModel = model;

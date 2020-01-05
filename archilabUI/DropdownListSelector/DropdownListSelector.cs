@@ -141,6 +141,7 @@ namespace archilabUI.DropdownListSelector
 
         #region Node Serialization/Deserialization
 
+        [Obsolete]
         protected override void SerializeCore(XmlElement nodeElement, SaveContext context)
         {
             base.SerializeCore(nodeElement, context);
@@ -163,6 +164,7 @@ namespace archilabUI.DropdownListSelector
             nodeElement.AppendChild(wrapperIndex);
         }
 
+        [Obsolete]
         protected override void DeserializeCore(XmlElement nodeElement, SaveContext context)
         {
             base.DeserializeCore(nodeElement, context);

@@ -13,12 +13,8 @@ using Newtonsoft.Json;
 using ProtoCore.AST.AssociativeAST;
 using RestSharp;
 using RevitServices.Persistence;
-using BuiltInParameterGroup = Autodesk.Revit.DB.BuiltInParameterGroup;
 using ElementSelector = Revit.Elements.ElementSelector;
-using FilterNumericRuleEvaluator = Autodesk.Revit.DB.FilterNumericRuleEvaluator;
-using FilterNumericValueRule = Autodesk.Revit.DB.FilterNumericValueRule;
-using FilterStringRuleEvaluator = archilab.Utilities.FilterStringRuleEvaluator;
-using ParameterType = Autodesk.Revit.DB.ParameterType;
+// ReSharper disable InconsistentNaming
 
 #endregion
 
@@ -45,11 +41,11 @@ namespace archilabUI
     public class ParameterGroupUi : CustomGenericEnumerationDropDown
     {
         private const string OutputName = "parameterGroup";
-        public ParameterGroupUi() : base(OutputName, typeof(BuiltInParameterGroup)) { }
+        public ParameterGroupUi() : base(OutputName, typeof(Autodesk.Revit.DB.BuiltInParameterGroup)) { }
 
         [JsonConstructor]
         public ParameterGroupUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(BuiltInParameterGroup), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.BuiltInParameterGroup), inPorts, outPorts) { }
     }
 
     [NodeName("Fill Pattern Targets")]
@@ -73,11 +69,11 @@ namespace archilabUI
     public class ParameterTypeUi : CustomGenericEnumerationDropDown
     {
         private const string OutputName = "parameterType";
-        public ParameterTypeUi() : base(OutputName, typeof(ParameterType)) { }
+        public ParameterTypeUi() : base(OutputName, typeof(Autodesk.Revit.DB.ParameterType)) { }
 
         [JsonConstructor]
         public ParameterTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(ParameterType), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.ParameterType), inPorts, outPorts) { }
     }
 
     [NodeName("Print Range")]
@@ -283,7 +279,7 @@ namespace archilabUI
         {
             Items.Clear();
 
-            var d = new Dictionary<string, FilterNumericRuleEvaluator>(WTypes.Rules);
+            var d = new Dictionary<string, Autodesk.Revit.DB.FilterNumericRuleEvaluator>(WTypes.Rules);
 
             if (d.Count == 0)
             {
@@ -314,7 +310,7 @@ namespace archilabUI
                 AstFactory.BuildStringNode(Items[SelectedIndex].Name)
             };
 
-            var func = new Func<string, FilterNumericRuleEvaluator>(archilab.Utilities.FilterNumericRuleEvaluator.ByName);
+            var func = new Func<string, Autodesk.Revit.DB.FilterNumericRuleEvaluator>(archilab.Utilities.FilterNumericRuleEvaluator.ByName);
             var functionCall = AstFactory.BuildFunctionCall(func, args);
 
             return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), functionCall) };
@@ -336,7 +332,7 @@ namespace archilabUI
         public FilterStringRuleEvaluatorUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(OutputName, inPorts, outPorts) { }
 
         // Get Data Class that holds dictionary
-        public static FilterStringRuleEvaluator WTypes = new FilterStringRuleEvaluator();
+        public static archilab.Utilities.FilterStringRuleEvaluator WTypes = new archilab.Utilities.FilterStringRuleEvaluator();
 
         protected override SelectionState PopulateItemsCore(string currentSelection)
         {
@@ -373,7 +369,7 @@ namespace archilabUI
                 AstFactory.BuildStringNode(Items[SelectedIndex].Name)
             };
 
-            var func = new Func<string, Autodesk.Revit.DB.FilterStringRuleEvaluator>(FilterStringRuleEvaluator.ByName);
+            var func = new Func<string, Autodesk.Revit.DB.FilterStringRuleEvaluator>(archilab.Utilities.FilterStringRuleEvaluator.ByName);
             var functionCall = AstFactory.BuildFunctionCall(func, args);
 
             return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), functionCall) };
@@ -446,11 +442,11 @@ namespace archilabUI
     public class FilterNumericValueRuleUi : CustomGenericEnumerationDropDown
     {
         private const string OutputName = "filterNumericValueRule";
-        public FilterNumericValueRuleUi() : base(OutputName, typeof(FilterNumericValueRule)) { }
+        public FilterNumericValueRuleUi() : base(OutputName, typeof(Autodesk.Revit.DB.FilterNumericValueRule)) { }
 
         [JsonConstructor]
         public FilterNumericValueRuleUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(FilterNumericValueRule), inPorts, outPorts) { }
+            : base(OutputName, typeof(Autodesk.Revit.DB.FilterNumericValueRule), inPorts, outPorts) { }
     }
 
     [NodeName("Line Styles")]
@@ -717,22 +713,6 @@ namespace archilabUI
         }
     }
 
-    internal enum FilterRules
-    {
-        None,
-        LessThan,
-        BeginsWith,
-        Contains,
-        DoesNotBeginWith,
-        DoesNotContain,
-        DoesNotEndWith,
-        EndsWith,
-        Equals,
-        GreaterThanOrEqual,
-        LessThenOrEqual,
-        DoesNotEqual
-    }
-
     [NodeName("Phase Filters")]
     [NodeCategory("archilab.Revit.Views")]
     [NodeDescription("Retrieve all available Phase Filters.")]
@@ -804,7 +784,7 @@ namespace archilabUI
     }
 
     [NodeName("Unit Types")]
-    [NodeCategory("archilab.Units.Units")]
+    [NodeCategory("archilab.Revit.Units")]
     [NodeDescription("Retrieve all available Unit Types.")]
     [IsDesignScriptCompatible]
     public class UnitTypeUI : CustomGenericEnumerationDropDown
@@ -818,7 +798,7 @@ namespace archilabUI
     }
 
     [NodeName("Unit Systems")]
-    [NodeCategory("archilab.Units.Units")]
+    [NodeCategory("archilab.Revit.Units")]
     [NodeDescription("Retrieve all available Unit Systems.")]
     [IsDesignScriptCompatible]
     public class UnitSystemUI : CustomGenericEnumerationDropDown
@@ -832,7 +812,7 @@ namespace archilabUI
     }
 
     [NodeName("Display Unit Types")]
-    [NodeCategory("archilab.Units.Units")]
+    [NodeCategory("archilab.Revit.Units")]
     [NodeDescription("Retrieve all available Display Unit Types.")]
     [IsDesignScriptCompatible]
     public class DisplayUnitTypeUI : CustomGenericEnumerationDropDown

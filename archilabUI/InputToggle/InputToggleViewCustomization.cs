@@ -1,5 +1,6 @@
 ﻿using Dynamo.Controls;
 using Dynamo.Wpf;
+// ReSharper disable UnusedMember.Global
 
 namespace archilabUI.InputToggle
 {

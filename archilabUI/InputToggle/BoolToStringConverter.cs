@@ -8,7 +8,7 @@ namespace archilabUI.InputToggle
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (bool) value ? "Toggle Off" : "Toggle On";
+            return value != null && (bool) value ? "Toggle Off" : "Toggle On";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
