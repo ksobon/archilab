@@ -165,9 +165,13 @@
     <Compile Include="Lists\Lists.cs" />
     <Compile Include="Pdf\PDF.cs" />
     <Compile Include="Revit\Elements\AppearanceAssets.cs" />
+    <Compile Include="Revit\Elements\CurtainGridLines.cs" />
+    <Compile Include="Revit\Elements\CurtainGrids.cs" />
+    <Compile Include="Revit\Elements\Dimensions.cs" />
     <Compile Include="Revit\Elements\Elements.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Revit\Elements\ElementTypes.cs" />
+    <Compile Include="Revit\Elements\Faces.cs" />
     <Compile Include="Revit\Elements\FamilyInstances.cs" />
     <Compile Include="Revit\Elements\FillPatterns.cs" />
     <Compile Include="Revit\Elements\ImageInstances.cs" />
@@ -177,12 +181,15 @@
     <Compile Include="Revit\Elements\LineStyles.cs" />
     <Compile Include="Revit\Elements\Materials.cs" />
     <Compile Include="Revit\Elements\Parameter.cs" />
+    <Compile Include="Revit\Elements\References.cs" />
     <Compile Include="Revit\Elements\Revisions.cs" />
     <Compile Include="Revit\Elements\Room.cs" />
     <Compile Include="Revit\Elements\Schema.cs" />
     <Compile Include="Revit\Elements\Tags.cs" />
     <Compile Include="Revit\Elements\TextNotes.cs" />
     <Compile Include="Revit\Elements\ViewFilter.cs" />
+    <Compile Include="Revit\Elements\Walls.cs" />
+    <Compile Include="Revit\Elements\WallTypes.cs" />
     <Compile Include="Revit\Elements\WarningLibrary.cs" />
     <Compile Include="Revit\Elements\Warnings.cs" />
     <Compile Include="Revit\Elements\Workset.cs" />
@@ -190,7 +197,9 @@
     <Compile Include="Revit\Units\UnitUtils.cs" />
     <Compile Include="Revit\Units\FormatOptions.cs" />
     <Compile Include="Revit\Units\Units.cs" />
+    <Compile Include="Utilities\Offset.cs" />
     <Compile Include="Revit\Views\ThreeD.cs" />
+    <Compile Include="Revit\Views\FloorPlanViews.cs" />
     <Compile Include="Revit\Views\ViewSchedules.cs" />
     <Compile Include="Revit\Views\ViewSets.cs" />
     <Compile Include="Revit\Views\Sheets.cs" />
@@ -214,6 +223,7 @@
   <ItemGroup>
     <EmbeddedResource Include="archilabImages.resx" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

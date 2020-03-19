@@ -424,14 +424,58 @@ namespace archilab.Revit.Views
         /// <returns></returns>
         public static Autodesk.DesignScript.Geometry.BoundingBox CropBox(View view)
         {
-            var v = (Autodesk.Revit.DB.View)view.InternalElement;
-            if (v == null) throw new ArgumentNullException(nameof(view));
+            if (!(view.InternalElement is Autodesk.Revit.DB.View v))
+                throw new ArgumentNullException(nameof(view));
 
             var cb = v.CropBox;
             var min = cb.Min.ToPoint();
             var max = cb.Max.ToPoint();
 
             return Autodesk.DesignScript.Geometry.BoundingBox.ByCorners(min, max);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="boundingBox"></param>
+        /// <returns></returns>
+        public static View SetCropBox(View view, Autodesk.DesignScript.Geometry.BoundingBox boundingBox)
+        {
+            if (!(view.InternalElement is Autodesk.Revit.DB.View v))
+                throw new ArgumentNullException(nameof(view));
+
+            if (boundingBox == null)
+                throw new ArgumentNullException(nameof(boundingBox));
+
+            TransactionManager.Instance.EnsureInTransaction(DocumentManager.Instance.CurrentDBDocument);
+            v.CropBoxActive = true;
+            v.CropBoxVisible = true;
+            v.CropBox = boundingBox.ToRevitType();
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return view;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static View SetName(View view, string name)
+        {
+            if (view == null)
+                throw new ArgumentException(nameof(view));
+
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException(nameof(name));
+
+            TransactionManager.Instance.EnsureInTransaction(DocumentManager.Instance.CurrentDBDocument);
+            view.InternalElement.Name = name;
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return view;
         }
 
         #region Utilities

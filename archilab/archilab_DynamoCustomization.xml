@@ -37,5 +37,8 @@
       <namespace name="archilab.Pdf">
         <category>archilab.PDF</category>
       </namespace>
+      <namespace name="archilab.Utilities">
+        <category>archilab.Core.Utilities</category>
+      </namespace>
     </namespaces>
 </doc>
