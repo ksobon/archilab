@@ -9,7 +9,7 @@ using RevitServices.Transactions;
 namespace archilab.Revit.Views
 {
     /// <summary>
-    /// 
+    /// Wrapper around Floor Plan View.
     /// </summary>
     [RegisterForTrace]
     public class FloorPlanViews : View
@@ -17,7 +17,7 @@ namespace archilab.Revit.Views
         internal Autodesk.Revit.DB.ViewPlan InternalViewPlan { get; private set; }
 
         /// <summary>
-        /// 
+        /// Internal Revit API object.
         /// </summary>
         public override Autodesk.Revit.DB.Element InternalElement
         {
@@ -62,11 +62,11 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        /// 
+        /// Create a Floor Plan view by Level and View Family Type.
         /// </summary>
-        /// <param name="level"></param>
-        /// <param name="viewFamilyType"></param>
-        /// <returns></returns>
+        /// <param name="level">Level to associate the Plan to.</param>
+        /// <param name="viewFamilyType">View Family Type object.</param>
+        /// <returns name="floorPlan">Floor Plan.</returns>
         public static FloorPlanView ByLevelAndType(Level level, Element viewFamilyType)
         {
             if (level == null)

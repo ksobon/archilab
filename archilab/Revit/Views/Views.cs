@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region References
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Autodesk.DesignScript.Runtime;
@@ -12,6 +14,8 @@ using Element = Revit.Elements.Element;
 using View = Revit.Elements.Views.View;
 using Workset = archilab.Revit.Elements.Workset;
 // ReSharper disable UnusedMember.Global
+
+#endregion
 
 namespace archilab.Revit.Views
 {
@@ -170,8 +174,9 @@ namespace archilab.Revit.Views
         /// <summary>
         /// Check if Schedule is Titleblock Schedule.
         /// </summary>
-        /// <param name="view"></param>
+        /// <param name="view">Schedule View to test.</param>
         /// <returns></returns>
+        /// <search>titleblock, schedule</search>
         public static bool IsTitleblockSchedule(Element view)
         {
             try
@@ -253,6 +258,7 @@ namespace archilab.Revit.Views
         /// <param name="worksets">Worksets to set the visibility for.</param>
         /// <param name="visibility">Visibility setting. Ex: Hide.</param>
         /// <returns name="view">View</returns>
+        /// <search>workset, visibility, set</search>
         public static View SetWorksetVisibility(View view, List<Workset> worksets, string visibility)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
@@ -276,6 +282,7 @@ namespace archilab.Revit.Views
         /// <param name="name">Name to be assigned to new view.</param>
         /// <param name="options">Duplicate options. Ex: Duplicate as Dependent.</param>
         /// <returns name="view">New View.</returns>
+        /// <search>view, duplicate</search>
         public static View Duplicate(View view, string name, string options)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
@@ -291,12 +298,13 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        /// 
+        /// Creates a new View Callout.
         /// </summary>
-        /// <param name="view"></param>
-        /// <param name="viewFamilyType"></param>
-        /// <param name="extents"></param>
-        /// <returns></returns>
+        /// <param name="view">View to create the Callout in.</param>
+        /// <param name="viewFamilyType">Type of Callout Family.</param>
+        /// <param name="extents">Extents of the Callout as Rectangle.</param>
+        /// <returns name="view">New Callout View.</returns>
+        /// <search>view, create, callout</search>
         public static View CreateCallout(View view,
             Element viewFamilyType, Autodesk.DesignScript.Geometry.Rectangle extents)
         {
@@ -328,12 +336,13 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        /// 
+        /// Creates a new View Callout.
         /// </summary>
-        /// <param name="view"></param>
-        /// <param name="referenceView"></param>
-        /// <param name="extents"></param>
-        /// <returns></returns>
+        /// <param name="view">View to create the Callout in.</param>
+        /// <param name="referenceView">View to set as Reference.</param>
+        /// <param name="extents">Extents of the Callout as Rectangle.</param>
+        /// <returns name="view">New Callout View.</returns>
+        /// <search>view, create, callout, reference</search>
         public static View CreateReferenceCallout(View view, View referenceView, 
             Autodesk.DesignScript.Geometry.Rectangle extents)
         {
@@ -363,15 +372,18 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        /// 
+        /// Changes the Referenced View for a Callout.
         /// </summary>
-        /// <param name="callout"></param>
-        /// <param name="reference"></param>
-        /// <returns></returns>
+        /// <param name="callout">Callout to change the Referenced View for.</param>
+        /// <param name="reference">View to set the Reference to.</param>
+        /// <returns name="callout">Callout.</returns>
+        /// <search>view, reference, change, callout</search>
         public static Element ChangeReferencedView(Element callout, View reference)
         {
-            if (callout == null) throw new ArgumentNullException(nameof(callout));
-            if (reference == null) throw new ArgumentNullException(nameof(reference));
+            if (callout == null)
+                throw new ArgumentNullException(nameof(callout));
+            if (reference == null)
+                throw new ArgumentNullException(nameof(reference));
 
             var doc = DocumentManager.Instance.CurrentDBDocument;
             TransactionManager.Instance.EnsureInTransaction(doc);
@@ -382,13 +394,15 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        /// 
+        /// Retrieves Reference Callouts from a View.
         /// </summary>
-        /// <param name="view"></param>
-        /// <returns></returns>
+        /// <param name="view">View to retrieve Reference Callouts from.</param>
+        /// <returns name="callout[]">List of Reference Callouts.</returns>
+        /// <search>get, reference, callout</search>
         public static List<Element> GetReferenceCallouts(View view)
         {
-            if (view == null) throw new ArgumentNullException(nameof(view));
+            if (view == null)
+                throw new ArgumentNullException(nameof(view));
             if (!(view.InternalElement is Autodesk.Revit.DB.View v))
                 throw new ArgumentException("View is not a valid type.");
 
@@ -398,16 +412,17 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        /// 
+        /// Get View's Outline ie. Rectangle.
         /// </summary>
-        /// <param name="view"></param>
-        /// <returns></returns>
+        /// <param name="view">View to retrieve Outline from.</param>
+        /// <returns name="outline">View Outline.</returns>
+        /// <search>view, outline</search>
         public static Autodesk.DesignScript.Geometry.Rectangle Outline(View view)
         {
             var v = (Autodesk.Revit.DB.View)view.InternalElement;
-            if (v == null) throw new ArgumentNullException(nameof(view));
+            if (v == null)
+                throw new ArgumentNullException(nameof(view));
 
-            
             var o = v.Outline;
             var pt1 = new Autodesk.Revit.DB.XYZ(o.Min.U, o.Min.V, 0);
             var pt2 = new Autodesk.Revit.DB.XYZ(o.Max.U, o.Min.V, 0);
@@ -418,10 +433,11 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        /// 
+        /// Retrieves Crop Box of the View as Bounding Box object.
         /// </summary>
-        /// <param name="view"></param>
-        /// <returns></returns>
+        /// <param name="view">View to extract the Crop Box from.</param>
+        /// <returns name="boundingBox">Bounding Box.</returns>
+        /// <search>view, crop box</search>
         public static Autodesk.DesignScript.Geometry.BoundingBox CropBox(View view)
         {
             if (!(view.InternalElement is Autodesk.Revit.DB.View v))
@@ -435,16 +451,16 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        /// 
+        /// Sets View's Crop Box to size matching supplied Bounding Box.
         /// </summary>
-        /// <param name="view"></param>
-        /// <param name="boundingBox"></param>
-        /// <returns></returns>
+        /// <param name="view">View to set the Crop Box for.</param>
+        /// <param name="boundingBox">Bounding Box representing new Crop Box extents.</param>
+        /// <returns name="view">View.</returns>
+        /// <search>view, set, crop box</search>
         public static View SetCropBox(View view, Autodesk.DesignScript.Geometry.BoundingBox boundingBox)
         {
             if (!(view.InternalElement is Autodesk.Revit.DB.View v))
                 throw new ArgumentNullException(nameof(view));
-
             if (boundingBox == null)
                 throw new ArgumentNullException(nameof(boundingBox));
 
@@ -458,16 +474,16 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        /// 
+        /// Changes View's Name to a new one.
         /// </summary>
-        /// <param name="view"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="view">View to change the name for.</param>
+        /// <param name="name">New name for the View.</param>
+        /// <returns name="view">View with a new Name.</returns>
+        /// <search>set, name</search>
         public static View SetName(View view, string name)
         {
             if (view == null)
                 throw new ArgumentException(nameof(view));
-
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException(nameof(name));
 
@@ -483,7 +499,7 @@ namespace archilab.Revit.Views
         /// <summary>
         /// Get Null
         /// </summary>
-        /// <returns></returns>
+        /// <returns>null</returns>
         [IsVisibleInDynamoLibrary(false)]
         public static object GetNull()
         {

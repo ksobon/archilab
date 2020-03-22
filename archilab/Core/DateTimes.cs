@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+// ReSharper disable UnusedMember.Global
 
 namespace archilab.Core
 {
@@ -12,7 +13,7 @@ namespace archilab.Core
         {
         }
 
-        private static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        private static readonly DateTime _epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         /// Returns a DateTime from Unix Time.
@@ -21,7 +22,7 @@ namespace archilab.Core
         /// <returns>Date Time</returns>
         public static DateTime FromUnixTime(long unixTime)
         {
-            return Epoch.AddSeconds(unixTime);
+            return _epoch.AddSeconds(unixTime);
         }
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace archilab.Core
         /// <returns></returns>
         public static long TotalMilliseconds(DateTime dateTime)
         {
-            return (long)dateTime.ToUniversalTime().Subtract(Epoch).TotalMilliseconds;
+            return (long)dateTime.ToUniversalTime().Subtract(_epoch).TotalMilliseconds;
         }
 
         /// <summary>
@@ -53,7 +54,7 @@ namespace archilab.Core
         /// <returns></returns>
         public static long TotalSeconds(DateTime dateTime)
         {
-            return (long)dateTime.ToUniversalTime().Subtract(Epoch).TotalSeconds;
+            return (long)dateTime.ToUniversalTime().Subtract(_epoch).TotalSeconds;
         }
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace archilab.Core
         /// <returns></returns>
         public static long TotalMinutes(DateTime dateTime)
         {
-            return (long)dateTime.ToUniversalTime().Subtract(Epoch).TotalMinutes;
+            return (long)dateTime.ToUniversalTime().Subtract(_epoch).TotalMinutes;
         }
 
         /// <summary>
@@ -73,7 +74,7 @@ namespace archilab.Core
         /// <returns></returns>
         public static long TotalHours(DateTime dateTime)
         {
-            return (long)dateTime.ToUniversalTime().Subtract(Epoch).TotalHours;
+            return (long)dateTime.ToUniversalTime().Subtract(_epoch).TotalHours;
         }
 
         /// <summary>
@@ -83,7 +84,7 @@ namespace archilab.Core
         /// <returns></returns>
         public static long TotalDays(DateTime dateTime)
         {
-            return (long)dateTime.ToUniversalTime().Subtract(Epoch).TotalDays;
+            return (long)dateTime.ToUniversalTime().Subtract(_epoch).TotalDays;
         }
     }
 }
