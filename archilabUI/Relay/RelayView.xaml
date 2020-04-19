@@ -6,5 +6,5 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" 
              d:DesignWidth="100">
-    <Grid Background="Transparent"/>
+    <Grid Background="Transparent" />
 </UserControl>

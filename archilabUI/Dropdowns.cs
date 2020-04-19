@@ -824,4 +824,18 @@ namespace archilabUI
         public DisplayUnitTypeUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
             : base(OutputName, typeof(DisplayUnitType), inPorts, outPorts) { }
     }
+
+    [NodeName("Spatial Element Boundary Locations")]
+    [NodeCategory("archilab.Revit.Room")]
+    [NodeDescription("Retrieve all available Spatial Element Boundary Locations.")]
+    [IsDesignScriptCompatible]
+    public class SpatialElementBoundaryLocationUI : CustomGenericEnumerationDropDown
+    {
+        private const string OutputName = "location";
+        public SpatialElementBoundaryLocationUI() : base(OutputName, typeof(SpatialElementBoundaryLocation)) { }
+
+        [JsonConstructor]
+        public SpatialElementBoundaryLocationUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
+            : base(OutputName, typeof(SpatialElementBoundaryLocation), inPorts, outPorts) { }
+    }
 }

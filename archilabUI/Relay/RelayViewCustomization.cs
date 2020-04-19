@@ -1,10 +1,14 @@
-﻿using System.Linq;
+﻿#region References
+
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using Dynamo.Controls;
 using Dynamo.Wpf;
 // ReSharper disable UnusedMember.Global
+
+#endregion
 
 namespace archilabUI.Relay
 {

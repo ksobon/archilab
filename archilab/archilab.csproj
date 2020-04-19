@@ -197,6 +197,10 @@
     <Compile Include="Revit\Units\UnitUtils.cs" />
     <Compile Include="Revit\Units\FormatOptions.cs" />
     <Compile Include="Revit\Units\Units.cs" />
+    <Compile Include="Revit\Utils\ConvexHull.cs" />
+    <Compile Include="Revit\Utils\ConvexHullSolver.cs" />
+    <Compile Include="Revit\Utils\CurveUtils.cs" />
+    <Compile Include="Revit\Utils\DoubleExtensions.cs" />
     <Compile Include="Utilities\Offset.cs" />
     <Compile Include="Revit\Views\ThreeD.cs" />
     <Compile Include="Revit\Views\FloorPlanViews.cs" />

@@ -197,6 +197,7 @@
     <Compile Include="Utilities\ListItemWrapper.cs" />
     <Compile Include="Utilities\ParameterWrapper.cs" />
     <Compile Include="Utilities\UtilitiesUI.cs" />
+    <Compile Include="ArchilabViewExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -239,7 +240,11 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="archilabUI_ViewExtensionDefinition.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
@@ -252,5 +257,6 @@
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)RestSharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)Xceed.Wpf.Toolkit.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)archilabUI_ViewExtensionDefinition.xml" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\extra" ContinueOnError="true" />
   </Target>
 </Project>

@@ -1,0 +1,4 @@
+﻿<ViewExtensionDefinition>
+  <AssemblyPath>..\bin\archilabUI.dll</AssemblyPath>
+  <TypeName>archilabUI.ArchilabViewExtension</TypeName>
+</ViewExtensionDefinition>

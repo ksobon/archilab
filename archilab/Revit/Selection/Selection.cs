@@ -244,7 +244,23 @@ namespace archilab.Revit.Selection
         }
 
         /// <summary>
-        ///     Select Elements by Category and View.
+        /// Selects all Elements of given Type from given Document (Linked Models).
+        /// </summary>
+        /// <param name="type">Element Type to retrieve.</param>
+        /// <param name="document">Optional Document object. If null, current active Document will be used.</param>
+        /// <returns name="element">List of Elements.</returns>
+        public static IList<Element> ByTypeAndDocument(Type type, [DefaultArgument("Selection.Select.GetNull()")] object document)
+        {
+            var doc = (document ?? DocumentManager.Instance.CurrentDBDocument) as Autodesk.Revit.DB.Document;
+            return new Autodesk.Revit.DB.FilteredElementCollector(doc)
+                .OfClass(type)
+                .ToElements()
+                .Select(x => x.ToDSType(true))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Select Elements by Category and View.
         /// </summary>
         /// <param name="category">Category to filter for.</param>
         /// <param name="view">View to filter for.</param>
