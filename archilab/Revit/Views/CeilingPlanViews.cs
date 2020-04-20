@@ -11,10 +11,10 @@ using RevitServices.Transactions;
 namespace archilab.Revit.Views
 {
     /// <summary>
-    /// Wrapper around Floor Plan View.
+    /// 
     /// </summary>
     [RegisterForTrace]
-    public class FloorPlanViews : View
+    public class CeilingPlanViews : View
     {
         internal Autodesk.Revit.DB.ViewPlan InternalViewPlan { get; private set; }
 
@@ -26,7 +26,7 @@ namespace archilab.Revit.Views
             get { return InternalViewPlan; }
         }
 
-        private FloorPlanViews(Autodesk.Revit.DB.Level level, Autodesk.Revit.DB.ViewFamilyType viewFamilyType)
+        private CeilingPlanViews(Autodesk.Revit.DB.Level level, Autodesk.Revit.DB.ViewFamilyType viewFamilyType)
         {
             SafeInit(() => InitViewPlan(level, viewFamilyType));
         }
@@ -63,13 +63,14 @@ namespace archilab.Revit.Views
             InternalUniqueId = view.UniqueId;
         }
 
+
         /// <summary>
         /// Create a Floor Plan view by Level and View Family Type.
         /// </summary>
         /// <param name="level">Level to associate the Plan to.</param>
         /// <param name="viewFamilyType">View Family Type object.</param>
         /// <returns name="floorPlan">Floor Plan.</returns>
-        public static FloorPlanView ByLevelAndType(Level level, [DefaultArgument("Selection.Select.GetNull()")] Element viewFamilyType)
+        public static Element ByLevelAndType(Level level, [DefaultArgument("Selection.Select.GetNull()")] Element viewFamilyType)
         {
             if (level == null || !(level.InternalElement is Autodesk.Revit.DB.Level lvl))
                 throw new ArgumentException(nameof(level));
@@ -81,19 +82,19 @@ namespace archilab.Revit.Views
                 vft = new Autodesk.Revit.DB.FilteredElementCollector(doc)
                     .OfClass(typeof(Autodesk.Revit.DB.ViewFamilyType))
                     .Cast<Autodesk.Revit.DB.ViewFamilyType>()
-                    .FirstOrDefault(x => x.ViewFamily == Autodesk.Revit.DB.ViewFamily.FloorPlan);
+                    .FirstOrDefault(x => x.ViewFamily == Autodesk.Revit.DB.ViewFamily.CeilingPlan);
             }
             else
             {
                 vft = viewFamilyType.InternalElement as Autodesk.Revit.DB.ViewFamilyType;
             }
 
-            if (vft?.ViewFamily != Autodesk.Revit.DB.ViewFamily.FloorPlan)
+            if (vft?.ViewFamily != Autodesk.Revit.DB.ViewFamily.CeilingPlan)
                 throw new ArgumentException(nameof(viewFamilyType));
 
-            var plan = new FloorPlanViews(lvl, vft);
+            var plan = new CeilingPlanViews(lvl, vft);
 
-            return (FloorPlanView)plan.InternalViewPlan.ToDSType(true);
+            return plan.InternalViewPlan.ToDSType(true);
         }
 
         /// <summary>
@@ -102,7 +103,7 @@ namespace archilab.Revit.Views
         /// <param name="room"></param>
         /// <param name="viewFamilyType"></param>
         /// <returns></returns>
-        public static FloorPlanView ByRoom(Room room, [DefaultArgument("Selection.Select.GetNull()")] Element viewFamilyType)
+        public static Element ByRoom(Room room, [DefaultArgument("Selection.Select.GetNull()")] Element viewFamilyType)
         {
             if (room == null)
                 throw new ArgumentException(nameof(room));
@@ -114,7 +115,7 @@ namespace archilab.Revit.Views
                 vft = new Autodesk.Revit.DB.FilteredElementCollector(doc)
                     .OfClass(typeof(Autodesk.Revit.DB.ViewFamilyType))
                     .Cast<Autodesk.Revit.DB.ViewFamilyType>()
-                    .FirstOrDefault(x => x.ViewFamily == Autodesk.Revit.DB.ViewFamily.FloorPlan);
+                    .FirstOrDefault(x => x.ViewFamily == Autodesk.Revit.DB.ViewFamily.CeilingPlan);
             }
             else
             {
@@ -124,9 +125,9 @@ namespace archilab.Revit.Views
             if (!(room.InternalElement is Autodesk.Revit.DB.Architecture.Room rm))
                 throw new ArgumentException(nameof(room));
 
-            var plan = new FloorPlanViews(rm.Level, vft);
+            var plan = new CeilingPlanViews(rm.Level, vft);
 
-            return (FloorPlanView)plan.InternalViewPlan.ToDSType(true);
+            return plan.InternalViewPlan.ToDSType(true);
         }
     }
 }

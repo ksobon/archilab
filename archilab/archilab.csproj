@@ -201,6 +201,7 @@
     <Compile Include="Revit\Utils\ConvexHullSolver.cs" />
     <Compile Include="Revit\Utils\CurveUtils.cs" />
     <Compile Include="Revit\Utils\DoubleExtensions.cs" />
+    <Compile Include="Revit\Views\CeilingPlanViews.cs" />
     <Compile Include="Utilities\Offset.cs" />
     <Compile Include="Revit\Views\ThreeD.cs" />
     <Compile Include="Revit\Views\FloorPlanViews.cs" />

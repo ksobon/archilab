@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using archilab.Revit.Utils;
+using Autodesk.DesignScript.Geometry;
 using Autodesk.DesignScript.Runtime;
 using DynamoServices;
 using Revit.GeometryConversion;
@@ -39,6 +40,29 @@ namespace archilab.Revit.Elements
             var rm = (Autodesk.Revit.DB.SpatialElement)room.InternalElement;
             var name = rm.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.ROOM_NAME).AsString();
             return name;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="room"></param>
+        /// <param name="boundaryLocation"></param>
+        /// <returns></returns>
+        public static List<Curve> Boundaries(Element room, string boundaryLocation = "Center")
+        {
+            if (room == null)
+                throw new ArgumentNullException(nameof(room));
+
+            var bLoc = (Autodesk.Revit.DB.SpatialElementBoundaryLocation)Enum.Parse(typeof(Autodesk.Revit.DB.SpatialElementBoundaryLocation), boundaryLocation);
+            var bOptions = new Autodesk.Revit.DB.SpatialElementBoundaryOptions
+            {
+                SpatialElementBoundaryLocation = bLoc
+            };
+
+            var rm = (Autodesk.Revit.DB.SpatialElement)room.InternalElement;
+            var boundarySegments = rm.GetBoundarySegments(bOptions).First().ToList();
+
+            return boundarySegments.Select(x => x.GetCurve().ToProtoType()).ToList();
         }
 
         /// <summary>

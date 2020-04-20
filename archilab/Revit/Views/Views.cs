@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autodesk.DesignScript.Geometry;
 using Autodesk.DesignScript.Runtime;
 using DynamoServices;
 using Revit.GeometryConversion;
@@ -305,8 +306,7 @@ namespace archilab.Revit.Views
         /// <param name="extents">Extents of the Callout as Rectangle.</param>
         /// <returns name="view">New Callout View.</returns>
         /// <search>view, create, callout</search>
-        public static View CreateCallout(View view,
-            Element viewFamilyType, Autodesk.DesignScript.Geometry.Rectangle extents)
+        public static View CreateCallout(View view, Element viewFamilyType, Rectangle extents)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var v = (Autodesk.Revit.DB.View)view.InternalElement;
@@ -343,8 +343,7 @@ namespace archilab.Revit.Views
         /// <param name="extents">Extents of the Callout as Rectangle.</param>
         /// <returns name="view">New Callout View.</returns>
         /// <search>view, create, callout, reference</search>
-        public static View CreateReferenceCallout(View view, View referenceView, 
-            Autodesk.DesignScript.Geometry.Rectangle extents)
+        public static View CreateReferenceCallout(View view, View referenceView, Rectangle extents)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var v = (Autodesk.Revit.DB.View)view.InternalElement;
@@ -417,7 +416,7 @@ namespace archilab.Revit.Views
         /// <param name="view">View to retrieve Outline from.</param>
         /// <returns name="outline">View Outline.</returns>
         /// <search>view, outline</search>
-        public static Autodesk.DesignScript.Geometry.Rectangle Outline(View view)
+        public static Rectangle Outline(View view)
         {
             var v = (Autodesk.Revit.DB.View)view.InternalElement;
             if (v == null)
@@ -429,7 +428,7 @@ namespace archilab.Revit.Views
             var pt3 = new Autodesk.Revit.DB.XYZ(o.Max.U, o.Max.V, 0);
             var pt4 = new Autodesk.Revit.DB.XYZ(o.Min.U, o.Max.V, 0);
 
-            return Autodesk.DesignScript.Geometry.Rectangle.ByCornerPoints(pt1.ToPoint(), pt2.ToPoint(), pt3.ToPoint(), pt4.ToPoint());
+            return Rectangle.ByCornerPoints(pt1.ToPoint(), pt2.ToPoint(), pt3.ToPoint(), pt4.ToPoint());
         }
 
         /// <summary>
@@ -438,7 +437,7 @@ namespace archilab.Revit.Views
         /// <param name="view">View to extract the Crop Box from.</param>
         /// <returns name="boundingBox">Bounding Box.</returns>
         /// <search>view, crop box</search>
-        public static Autodesk.DesignScript.Geometry.BoundingBox CropBox(View view)
+        public static BoundingBox CropBox(View view)
         {
             if (!(view.InternalElement is Autodesk.Revit.DB.View v))
                 throw new ArgumentNullException(nameof(view));
@@ -447,7 +446,7 @@ namespace archilab.Revit.Views
             var min = cb.Min.ToPoint();
             var max = cb.Max.ToPoint();
 
-            return Autodesk.DesignScript.Geometry.BoundingBox.ByCorners(min, max);
+            return BoundingBox.ByCorners(min, max);
         }
 
         /// <summary>
@@ -457,7 +456,7 @@ namespace archilab.Revit.Views
         /// <param name="boundingBox">Bounding Box representing new Crop Box extents.</param>
         /// <returns name="view">View.</returns>
         /// <search>view, set, crop box</search>
-        public static View SetCropBox(View view, Autodesk.DesignScript.Geometry.BoundingBox boundingBox)
+        public static View SetCropBox(View view, BoundingBox boundingBox)
         {
             if (!(view.InternalElement is Autodesk.Revit.DB.View v))
                 throw new ArgumentNullException(nameof(view));
@@ -468,6 +467,36 @@ namespace archilab.Revit.Views
             v.CropBoxActive = true;
             v.CropBoxVisible = true;
             v.CropBox = boundingBox.ToRevitType();
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return view;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="curves"></param>
+        /// <returns></returns>
+        public static View SetCropBoxByCurves(View view, List<Curve> curves)
+        {
+            if (!(view.InternalElement is Autodesk.Revit.DB.View v))
+                throw new ArgumentNullException(nameof(view));
+            if (curves == null || !curves.Any())
+                throw new ArgumentNullException(nameof(curves));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var shapeManager = v.GetCropRegionShapeManager();
+            var cLoop = new Autodesk.Revit.DB.CurveLoop();
+            foreach (var curve in curves)
+            {
+                cLoop.Append(curve.ToRevitType());
+            }
+
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            v.CropBoxActive = true;
+            v.CropBoxVisible = true;
+            shapeManager.SetCropShape(cLoop);
             TransactionManager.Instance.TransactionTaskDone();
 
             return view;
@@ -493,19 +522,5 @@ namespace archilab.Revit.Views
 
             return view;
         }
-
-        #region Utilities
-
-        /// <summary>
-        /// Get Null
-        /// </summary>
-        /// <returns>null</returns>
-        [IsVisibleInDynamoLibrary(false)]
-        public static object GetNull()
-        {
-            return null;
-        }
-
-        #endregion
     }
 }
