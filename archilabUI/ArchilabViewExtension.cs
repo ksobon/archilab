@@ -9,7 +9,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Dynamo.Graph;
 using Dynamo.Graph.Connectors;
+using Dynamo.Graph.Nodes;
 using Dynamo.Models;
 using Dynamo.ViewModels;
 using Dynamo.Wpf.Extensions;
@@ -135,20 +137,32 @@ namespace archilabUI
                 var endNodeCenter = dataContext.ConnectorModel.End.Center;
                 var relayCenter = new Point((startNodeCenter.X + endNodeCenter.X) / 2,
                     (startNodeCenter.Y + endNodeCenter.Y) / 2);
-
+                
                 // (Konrad) Create and place Relay node.
                 var relayNode = new Relay.Relay();
                 (_param.DynamoWindow.DataContext as DynamoViewModel)?.CurrentSpaceViewModel.DynamoViewModel
                     .ExecuteCommand(new DynamoModel.CreateNodeCommand(relayNode, relayCenter.X - 45, relayCenter.Y - 45, false, true));
 
                 // (Konrad) Create and place connectors to/from Relay node.
-                var dm = (_param.DynamoWindow.DataContext as DynamoViewModel)?.CurrentSpace;
-                var input = dm?.Nodes.LastOrDefault()?.InPorts.FirstOrDefault();
-                var output = dm?.Nodes.LastOrDefault()?.OutPorts.FirstOrDefault();
                 var start = dataContext.ConnectorModel.Start;
                 var end = dataContext.ConnectorModel.End;
-                var unused = new ConnectorModel(start, input, Guid.NewGuid());
-                var unused1 = new ConnectorModel(output, end, Guid.NewGuid());
+
+                // (John) use recordable commands to connect the relay this allows for undo commands
+                var dvm = (_param.DynamoWindow.DataContext as DynamoViewModel)?.CurrentSpaceViewModel.DynamoViewModel;
+
+                // (John) connect the input of the relay
+                dvm?.ExecuteCommand(
+                    new DynamoModel.MakeConnectionCommand(start.Owner.GUID, start.Index, PortType.Output,
+                        DynamoModel.MakeConnectionCommand.Mode.Begin));
+                dvm?.ExecuteCommand(
+                    new DynamoModel.MakeConnectionCommand(relayNode.GUID, 0, PortType.Input, DynamoModel.MakeConnectionCommand.Mode.End));
+
+                // (John) connect the output of the relay
+                dvm?.ExecuteCommand(
+                    new DynamoModel.MakeConnectionCommand(relayNode.GUID,0,PortType.Output,DynamoModel.MakeConnectionCommand.Mode.Begin));
+                dvm?.ExecuteCommand(
+                    new DynamoModel.MakeConnectionCommand(end.Owner.GUID, end.Index, PortType.Input, DynamoModel.MakeConnectionCommand.Mode.End));
+
 
                 // (Konrad) Remove existing connector.
                 var method = dataContext.ConnectorModel.GetType()
