@@ -110,6 +110,7 @@ namespace archilabUI
             try
             {
                 if (e.ClickCount != 1) return;
+                if (!(Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))) return;
 
                 // (Konrad) Get a list of UIElements that are beneath the mouse pointer.
                 var pt = e.GetPosition((UIElement)sender);
@@ -162,7 +163,6 @@ namespace archilabUI
                     new DynamoModel.MakeConnectionCommand(relayNode.GUID,0,PortType.Output,DynamoModel.MakeConnectionCommand.Mode.Begin));
                 dvm?.ExecuteCommand(
                     new DynamoModel.MakeConnectionCommand(end.Owner.GUID, end.Index, PortType.Input, DynamoModel.MakeConnectionCommand.Mode.End));
-
 
                 // (Konrad) Remove existing connector.
                 var method = dataContext.ConnectorModel.GetType()
