@@ -187,6 +187,7 @@
     <Compile Include="Revit\Elements\Schema.cs" />
     <Compile Include="Revit\Elements\Tags.cs" />
     <Compile Include="Revit\Elements\TextNotes.cs" />
+    <Compile Include="Revit\Elements\ThinLinesOptions.cs" />
     <Compile Include="Revit\Elements\ViewFilter.cs" />
     <Compile Include="Revit\Elements\Walls.cs" />
     <Compile Include="Revit\Elements\WallTypes.cs" />

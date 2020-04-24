@@ -23,5 +23,24 @@ namespace archilab.Revit.Utils
             return (sourceStart.IsAlmostEqualTo(compareToStart) || sourceStart.IsAlmostEqualTo(compareToEnd)) &&
                    (sourceEnd.IsAlmostEqualTo(compareToStart) || sourceEnd.IsAlmostEqualTo(compareToEnd));
         }
+
+        public static bool OverlapsWithIn2D(this Curve source, Curve compareTo)
+        {
+            const double tolerance = 0.001;
+            if (Math.Abs(source.Length - compareTo.Length) > tolerance) return false;
+
+            var sourceStart = source.GetEndPoint(0).Flatten();
+            var sourceEnd = source.GetEndPoint(1).Flatten();
+            var compareToStart = compareTo.GetEndPoint(0).Flatten();
+            var compareToEnd = compareTo.GetEndPoint(1).Flatten();
+
+            return (sourceStart.IsAlmostEqualTo(compareToStart, tolerance) || sourceStart.IsAlmostEqualTo(compareToEnd, tolerance)) &&
+                   (sourceEnd.IsAlmostEqualTo(compareToStart, tolerance) || sourceEnd.IsAlmostEqualTo(compareToEnd, tolerance));
+        }
+
+        public static XYZ Flatten(this XYZ pt)
+        {
+            return new XYZ(pt.X, pt.Y, 0);
+        }
     }
 }
