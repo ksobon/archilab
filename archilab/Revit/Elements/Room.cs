@@ -202,6 +202,7 @@ namespace archilab.Revit.Elements
             var height = bb.Max.Z - bb.Min.Z;
             var segments = e.GetBoundarySegments(bOptions);
             var faces = roomGeo.GetGeometry().Faces;
+            var offset = e.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.ROOM_LOWER_OFFSET).AsDouble();
 
             var boundary = new List<Point>();
             var holes = new List<List<Point>>();
@@ -214,7 +215,7 @@ namespace archilab.Revit.Elements
                 {
                     foreach (var bs in segments[i])
                     {
-                        var boundaryCurve = bs.GetCurve();
+                        var boundaryCurve = bs.GetCurve().Offset(offset);
                         if (boundaryCurve.Length < 0.01)
                             continue; // Exclude tiny curves, they don't produce faces.
 
@@ -582,11 +583,6 @@ namespace archilab.Revit.Elements
                 var bElement = doc.GetElement(bFace.SpatialBoundaryElement.HostElementId);
                 if (bElement is Autodesk.Revit.DB.Wall wall)
                 {
-                    //var wallMin = wall.get_BoundingBox(null).Min.Z;
-                    //var wallMax = wall.get_BoundingBox(null).Max.Z;
-                    //var faceMin = face.Evaluate(new Autodesk.Revit.DB.UV(0, 0)).Z;
-                    //var faceMax = face.Evaluate(new Autodesk.Revit.DB.UV(1, 1)).Z;
-                    //if (faceMin >= wallMin && faceMax <= wallMax)
                     walls.Add(bElement.ToDSType(true));
 
                     if (wall.WallType.Kind == Autodesk.Revit.DB.WallKind.Curtain)
