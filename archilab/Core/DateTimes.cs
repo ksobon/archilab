@@ -5,7 +5,7 @@ using System.Globalization;
 namespace archilab.Core
 {
     /// <summary>
-    /// Wrapper class for some basic date time operations.
+    /// Wrapper class for some basic DateTime operations.
     /// </summary>
     public class DateTimes
     {
@@ -26,11 +26,11 @@ namespace archilab.Core
         }
 
         /// <summary>
-        /// 
+        /// Parses a date time string into a DateTime object.
         /// </summary>
-        /// <param name="dateTime"></param>
-        /// <param name="format"></param>
-        /// <returns></returns>
+        /// <param name="dateTime">String representation of date and time to parse./</param>
+        /// <param name="format">Format the the string is in. Ex. DDMMYY</param>
+        /// <returns>Date Time</returns>
         public static DateTime ParseExact(string dateTime, string format)
         {
             var dt = DateTime.ParseExact(dateTime, format, CultureInfo.InvariantCulture);
@@ -38,50 +38,50 @@ namespace archilab.Core
         }
 
         /// <summary>
-        /// 
+        /// Converts a Date Time object into number of total milliseconds that passed since epoch.
         /// </summary>
-        /// <param name="dateTime"></param>
-        /// <returns></returns>
+        /// <param name="dateTime">Date Time to process.</param>
+        /// <returns>Number of Milliseconds that passed since Epoch (1970/1/1)</returns>
         public static long TotalMilliseconds(DateTime dateTime)
         {
             return (long)dateTime.ToUniversalTime().Subtract(_epoch).TotalMilliseconds;
         }
 
         /// <summary>
-        /// 
+        /// Converts a Date Time object into number of total seconds that passed since epoch.
         /// </summary>
-        /// <param name="dateTime"></param>
-        /// <returns></returns>
+        /// <param name="dateTime">Date Time to process.</param>
+        /// <returns>Number of Seconds that passed since Epoch (1970/1/1)</returns>
         public static long TotalSeconds(DateTime dateTime)
         {
             return (long)dateTime.ToUniversalTime().Subtract(_epoch).TotalSeconds;
         }
 
         /// <summary>
-        /// 
+        /// Converts a Date Time object into number of total minutes that passed since epoch.
         /// </summary>
-        /// <param name="dateTime"></param>
-        /// <returns></returns>
+        /// <param name="dateTime">Date Time to process.</param>
+        /// <returns>Number of Minutes that passed since Epoch (1970/1/1)</returns>
         public static long TotalMinutes(DateTime dateTime)
         {
             return (long)dateTime.ToUniversalTime().Subtract(_epoch).TotalMinutes;
         }
 
         /// <summary>
-        /// 
+        /// Converts a Date Time object into number of total hours that passed since epoch.
         /// </summary>
-        /// <param name="dateTime"></param>
-        /// <returns></returns>
+        /// <param name="dateTime">Date Time to process.</param>
+        /// <returns>Number of Hours that passed since Epoch (1970/1/1)</returns>
         public static long TotalHours(DateTime dateTime)
         {
             return (long)dateTime.ToUniversalTime().Subtract(_epoch).TotalHours;
         }
 
         /// <summary>
-        /// 
+        /// Converts a Date Time object into number of total Days that passed since epoch.
         /// </summary>
-        /// <param name="dateTime"></param>
-        /// <returns></returns>
+        /// <param name="dateTime">Date Time to process.</param>
+        /// <returns>Number of Days that passed since Epoch (1970/1/1)</returns>
         public static long TotalDays(DateTime dateTime)
         {
             return (long)dateTime.ToUniversalTime().Subtract(_epoch).TotalDays;

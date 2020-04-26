@@ -5,6 +5,7 @@ using System.Linq;
 using Autodesk.DesignScript.Runtime;
 using RevitServices.Persistence;
 using Workset = archilab.Revit.Elements.Workset;
+// ReSharper disable UnusedMember.Global
 
 namespace archilab.Utilities
 {

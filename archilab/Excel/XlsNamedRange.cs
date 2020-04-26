@@ -1,5 +1,6 @@
 ﻿using Autodesk.DesignScript.Runtime;
 using ClosedXML.Excel;
+// ReSharper disable UnusedMember.Global
 
 namespace archilab.Excel
 {

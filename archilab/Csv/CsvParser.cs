@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using LumenWorks.Framework.IO.Csv;
+// ReSharper disable UnusedMember.Global
 
 namespace archilab.Csv
 {
