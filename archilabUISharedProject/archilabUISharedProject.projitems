@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>4da505ab-ce78-4fde-b728-0532640f259c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>archilabUISharedProject</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BuiltInParamSelector\BuiltInParamSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BuiltInParamSelector\BuiltInParamSelectorView.xaml.cs">
+      <DependentUpon>BuiltInParamSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)BuiltInParamSelector\BuiltInParamSelectorViewCustomization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DropdownListSelector\DropdownListSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DropdownListSelector\DropdownListSelectorView.xaml.cs">
+      <DependentUpon>DropdownListSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)DropdownListSelector\DropdownListSelectorViewCustomization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dropdowns.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DropdownToList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputToggle\BoolToStringConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputToggle\InputToggle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InputToggle\InputToggleView.xaml.cs">
+      <DependentUpon>InputToggleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)InputToggle\InputToggleViewCustomization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ListSelector\ListSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ListSelector\ListSelectorView.xaml.cs">
+      <DependentUpon>ListSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ListSelector\ListSelectorViewCustomization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\ListItemWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\ParameterWrapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\UtilitiesUI.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)BuiltInParamSelector\BuiltInParamSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)DropdownListSelector\DropdownListSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)InputToggle\InputToggleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)ListSelector\ListSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>96867a82-3e80-42b3-92c3-259a231817ed</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>archilabSharedProject</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Core\DateTimes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Maths.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Csv\CsvParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Excel\XlsNamedRange.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Excel\XlsWorkbook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Excel\XlsWorksheet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GitHub\GitHub.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GitHub\Statistics.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Http\Request.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Lists\Lists.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pdf\PDF.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\AppearanceAssets.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\CurtainGridLines.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\CurtainGrids.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Dimensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Elements.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\ElementTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Faces.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\FamilyInstances.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\FillPatterns.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\ImageInstances.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\ImagePlacementOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\ImageTypeOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\ImageTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\LineStyles.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Materials.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Parameter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\References.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Revisions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Room.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Schema.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Tags.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\TextNotes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\ThinLinesOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\ViewFilter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Walls.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\WallTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\WarningLibrary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Warnings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Workset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Selection\Selection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Units\FormatOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Units\Units.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Units\UnitUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Utils\ConvexHull.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Utils\CurveUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Utils\DoubleExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\CeilingPlanViews.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\FloorPlanViews.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\Sheets.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\ThreeD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\Views.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\ViewSchedules.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\ViewSets.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\ViewTemplates.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Offset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utilities\Utilities.cs" />
+  </ItemGroup>
+</Project>
