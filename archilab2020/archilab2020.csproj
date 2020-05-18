@@ -190,24 +190,134 @@
     <Content Include="archilab2020_DynamoCustomization.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\archilab.GitHub.Week.Week.Small.png" />
+    <None Include="Resources\archilab.GitHub.Week.Week.Large.png" />
+    <None Include="Resources\archilab.GitHub.Week.W.Small.png" />
+    <None Include="Resources\archilab.GitHub.Week.W.Large.png" />
+    <None Include="Resources\archilab.GitHub.Week.D.Small.png" />
+    <None Include="Resources\archilab.GitHub.Week.D.Large.png" />
+    <None Include="Resources\archilab.GitHub.Week.C.Small.png" />
+    <None Include="Resources\archilab.GitHub.Week.C.Large.png" />
+    <None Include="Resources\archilab.GitHub.Week.A.Small.png" />
+    <None Include="Resources\archilab.GitHub.Week.A.Large.png" />
+    <None Include="Resources\archilab.GitHub.GitHub.TimestampToDate.Small.png" />
+    <None Include="Resources\archilab.GitHub.GitHub.TimestampToDate.Large.png" />
+    <None Include="Resources\archilab.GitHub.GitHub.GetStatistics.Small.png" />
+    <None Include="Resources\archilab.GitHub.GitHub.GetStatistics.Large.png" />
+    <None Include="Resources\archilab.GitHub.GitHub.GetPunchCard.Small.png" />
+    <None Include="Resources\archilab.GitHub.GitHub.GetPunchCard.Large.png" />
+    <None Include="Resources\archilab.GitHub.GitHub.GetParticipation.Small.png" />
+    <None Include="Resources\archilab.GitHub.GitHub.GetParticipation.Large.png" />
+    <None Include="Resources\archilab.GitHub.GitHub.GetCommitActivity.Small.png" />
+    <None Include="Resources\archilab.GitHub.GitHub.GetCommitActivity.Large.png" />
+    <None Include="Resources\archilab.GitHub.GitHub.GetCodeFrequency.Small.png" />
+    <None Include="Resources\archilab.GitHub.GitHub.GetCodeFrequency.Large.png" />
+    <None Include="Resources\archilab.GitHub.GitHub.CreateClient.Small.png" />
+    <None Include="Resources\archilab.GitHub.GitHub.CreateClient.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.Url.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.Url.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.Type.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.Type.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.SubscriptionsUrl.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.SubscriptionsUrl.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.StarredUrl.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.StarredUrl.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.SiteAdmin.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.SiteAdmin.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.ReposUrl.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.ReposUrl.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.ReceivedEventsUrl.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.ReceivedEventsUrl.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.OrganizationsUrl.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.OrganizationsUrl.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.Login.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.Login.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.Id.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.Id.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.HtmlUrl.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.HtmlUrl.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.GravatarId.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.GravatarId.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.GistsUrl.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.GistsUrl.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.FollowingUrl.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.FollowingUrl.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.FollowersUrl.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.FollowersUrl.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.EventsUrl.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.EventsUrl.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.AvatarUrl.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.AvatarUrl.Large.png" />
+    <None Include="Resources\archilab.GitHub.Author.Author.Small.png" />
+    <None Include="Resources\archilab.GitHub.Author.Author.Large.png" />
+    <None Include="Resources\archilab.Excel.Worksheet.Worksheet.Small.png" />
+    <None Include="Resources\archilab.Excel.Worksheet.Worksheet.Large.png" />
+    <None Include="Resources\archilab.Excel.Worksheet.Name.Small.png" />
+    <None Include="Resources\archilab.Excel.Worksheet.Name.Large.png" />
+    <None Include="Resources\archilab.Excel.Workbook.Worksheets.Small.png" />
+    <None Include="Resources\archilab.Excel.Workbook.Worksheets.Large.png" />
+    <None Include="Resources\archilab.Excel.Workbook.NamedRanges.Small.png" />
+    <None Include="Resources\archilab.Excel.Workbook.NamedRanges.Large.png" />
+    <None Include="Resources\archilab.Excel.Workbook.GetNamedRangeValues.Small.png" />
+    <None Include="Resources\archilab.Excel.Workbook.GetNamedRangeValues.Large.png" />
+    <None Include="Resources\archilab.Excel.Workbook.ByFilePath.Small.png" />
+    <None Include="Resources\archilab.Excel.Workbook.ByFilePath.Large.png" />
+    <None Include="Resources\archilab.Excel.NamedRange.Name.Small.png" />
+    <None Include="Resources\archilab.Excel.NamedRange.Name.Large.png" />
+    <None Include="Resources\archilab.Csv.Csv.ValuesByRowNumber.Small.png" />
+    <None Include="Resources\archilab.Csv.Csv.ValuesByRowNumber.Large.png" />
+    <None Include="Resources\archilab.Csv.Csv.ValuesByHeaderNumber.Small.png" />
+    <None Include="Resources\archilab.Csv.Csv.ValuesByHeaderNumber.Large.png" />
+    <None Include="Resources\archilab.Csv.Csv.ValuesByHeaderName.Small.png" />
+    <None Include="Resources\archilab.Csv.Csv.ValuesByHeaderName.Large.png" />
+    <None Include="Resources\archilab.Csv.Csv.ValueByRowAndColumn.Small.png" />
+    <None Include="Resources\archilab.Csv.Csv.ValueByRowAndColumn.Large.png" />
+    <None Include="Resources\archilab.Csv.Csv.RowNumberByHeaderAndString.Small.png" />
+    <None Include="Resources\archilab.Csv.Csv.RowNumberByHeaderAndString.Large.png" />
+    <None Include="Resources\archilab.Csv.Csv.RowCount.Small.png" />
+    <None Include="Resources\archilab.Csv.Csv.RowCount.Large.png" />
+    <None Include="Resources\archilab.Csv.Csv.Headers.Small.png" />
+    <None Include="Resources\archilab.Csv.Csv.Headers.Large.png" />
+    <None Include="Resources\archilab.Csv.Csv.ColumnCount.Small.png" />
+    <None Include="Resources\archilab.Csv.Csv.ColumnCount.Large.png" />
+    <None Include="Resources\archilab.Csv.Csv.ByFilePath.Small.png" />
+    <None Include="Resources\archilab.Csv.Csv.ByFilePath.Large.png" />
+    <None Include="Resources\archilab.Core.Maths.Round.double-string.Small.png" />
+    <None Include="Resources\archilab.Core.Maths.Round.double-string.Large.png" />
+    <None Include="Resources\archilab.Core.Maths.Round.double-int-string.Small.png" />
+    <None Include="Resources\archilab.Core.Maths.Round.double-int-string.Large.png" />
+    <None Include="Resources\archilab.Core.DateTimes.TotalSeconds.Small.png" />
+    <None Include="Resources\archilab.Core.DateTimes.TotalSeconds.Large.png" />
+    <None Include="Resources\archilab.Core.DateTimes.TotalMinutes.Small.png" />
+    <None Include="Resources\archilab.Core.DateTimes.TotalMinutes.Large.png" />
+    <None Include="Resources\archilab.Core.DateTimes.TotalMilliseconds.Small.png" />
+    <None Include="Resources\archilab.Core.DateTimes.TotalMilliseconds.Large.png" />
+    <None Include="Resources\archilab.Core.DateTimes.TotalHours.Small.png" />
+    <None Include="Resources\archilab.Core.DateTimes.TotalHours.Large.png" />
+    <None Include="Resources\archilab.Core.DateTimes.TotalDays.Small.png" />
+    <None Include="Resources\archilab.Core.DateTimes.TotalDays.Large.png" />
+    <None Include="Resources\archilab.Core.DateTimes.ParseExact.Small.png" />
+    <None Include="Resources\archilab.Core.DateTimes.ParseExact.Large.png" />
+    <None Include="Resources\archilab.Core.DateTimes.FromUnixTime.Small.png" />
+    <None Include="Resources\archilab.Core.DateTimes.FromUnixTime.Large.png" />
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Resources\DefaultCustomNode.Small.png" />
-    <None Include="Resources\DefaultCustomNode.Large.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="archilab2020Images.resx" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\archilabSharedProject\archilabSharedProject.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="BeforeBuild">
-    <GetReferenceAssemblyPaths TargetFrameworkMoniker=".NETFramework, Version=v2.0">
+  <Target Name="AfterBuild">
+    <GetReferenceAssemblyPaths TargetFrameworkMoniker=".NETFramework, Version=v4.7">
       <Output TaskParameter="FullFrameworkReferenceAssemblyPaths" PropertyName="FrameworkAssembliesPath" />
     </GetReferenceAssemblyPaths>
-    <GenerateResource UseSourcePath="true" Sources="$(ProjectDir)archilab2020Images.resx" OutputResources="$(ProjectDir)archilab2020Images.resources" References="$(FrameworkAssembliesPath)System.Drawing.dll" />
-    <AL TargetType="library" EmbedResources="$(ProjectDir)archilab2020Images.resources" OutputAssembly="$(OutDir)archilab2020.customization.dll" />
-  </Target>
-  <Target Name="AfterBuild">
+    <GetAssemblyIdentity AssemblyFiles="$(OutDir)$(TargetName).dll">
+      <Output TaskParameter="Assemblies" ItemName="AssemblyInfo" />
+    </GetAssemblyIdentity>
+    <GenerateResource SdkToolsPath="$(TargetFrameworkSDKToolsDirectory)" UseSourcePath="true" Sources="$(ProjectDir)archilab2020Images.resx" OutputResources="$(ProjectDir)archilab2020Images.resources" References="$(FrameworkAssembliesPath)System.Drawing.dll" />
+    <AL SdkToolsPath="$(TargetFrameworkSDKToolsDirectory)" TargetType="library" EmbedResources="$(ProjectDir)archilab2020Images.resources" OutputAssembly="$(OutDir)archilab2020.customization.dll" Version="%(AssemblyInfo.Version)" />
   </Target>
   <Target Name="CopyFiles" AfterTargets="AfterBuild;NonWinFodyTarget">
     <Message Text="Copy files..." Importance="high" />

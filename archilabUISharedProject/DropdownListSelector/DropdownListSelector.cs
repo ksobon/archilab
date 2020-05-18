@@ -20,22 +20,37 @@ using ProtoCore.AST.AssociativeAST;
 
 namespace archilabUI.DropdownListSelector
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [NodeName("Dropdown List Selector")]
     [NodeCategory("archilab.Core.Lists")]
     [NodeDescription("Use this node to select multiple items from a list.")]
     [IsDesignScriptCompatible]
     public class DropdownListSelector : NodeModel
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public event Action UpdateItemsCollection;
         internal EngineController EngineController { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ObservableCollection<ListItemWrapper> ItemsCollection { get; set; } =
             new ObservableCollection<ListItemWrapper>();
 
+        /// <summary>
+        /// 
+        /// </summary>
         [JsonIgnore]
         [IsVisibleInDynamoLibrary(false)]
         public DelegateCommand<ListItemWrapper> OnItemChecked { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public DropdownListSelector()
         {
             InPorts.Add(new PortModel(PortType.Input, this, new PortData("List", "Input List.")));
@@ -51,6 +66,11 @@ namespace archilabUI.DropdownListSelector
             OnItemChecked = new DelegateCommand<ListItemWrapper>(ItemChecked, CanCheckItem);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inPorts"></param>
+        /// <param name="outPorts"></param>
         [JsonConstructor]
         protected DropdownListSelector(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts, outPorts)
         {
@@ -83,6 +103,9 @@ namespace archilabUI.DropdownListSelector
             OnNodeModified(true);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected virtual void OnUpdateItemsCollection()
         {
             UpdateItemsCollection?.Invoke();
@@ -98,6 +121,10 @@ namespace archilabUI.DropdownListSelector
             OnUpdateItemsCollection();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="selectedItems"></param>
         public void PopulateItems(IList selectedItems)
         {
             if (!InPorts.Any() || !InPorts[0].Connectors.Any()) return;
@@ -141,6 +168,11 @@ namespace archilabUI.DropdownListSelector
 
         #region Node Serialization/Deserialization
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nodeElement"></param>
+        /// <param name="context"></param>
         [Obsolete]
         protected override void SerializeCore(XmlElement nodeElement, SaveContext context)
         {
@@ -164,6 +196,11 @@ namespace archilabUI.DropdownListSelector
             nodeElement.AppendChild(wrapperIndex);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nodeElement"></param>
+        /// <param name="context"></param>
         [Obsolete]
         protected override void DeserializeCore(XmlElement nodeElement, SaveContext context)
         {
@@ -189,6 +226,11 @@ namespace archilabUI.DropdownListSelector
 
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputAstNodes"></param>
+        /// <returns></returns>
         [IsVisibleInDynamoLibrary(false)]
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
         {

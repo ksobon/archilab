@@ -20,6 +20,9 @@ using ElementSelector = Revit.Elements.ElementSelector;
 
 namespace archilabUI
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [NodeName("Box Placement Types")]
     [NodeCategory("archilab.Revit.Views")]
     [NodeDescription("Retrieve all available Box Placement Types")]
@@ -27,8 +30,17 @@ namespace archilabUI
     public class BoxPlacementTypeUi : CustomGenericEnumerationDropDown
     {
         private const string OutputName = "boxPlacementType";
+
+        /// <summary>
+        /// 
+        /// </summary>
         public BoxPlacementTypeUi() : base(OutputName, typeof(BoxPlacement)) { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inPorts"></param>
+        /// <param name="outPorts"></param>
         [JsonConstructor]
         public BoxPlacementTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
             : base(OutputName, typeof(BoxPlacement), inPorts, outPorts) { }
@@ -48,7 +60,7 @@ namespace archilabUI
             : base(OutputName, typeof(Autodesk.Revit.DB.BuiltInParameterGroup), inPorts, outPorts) { }
     }
 
-    [NodeName("Fill Pattern Targets")]
+    [NodeName("Fill Pattern Target")]
     [NodeCategory("archilab.Revit.Select")]
     [NodeDescription("Retrieve FillPatternTarget types.")]
     [IsDesignScriptCompatible]
@@ -160,6 +172,9 @@ namespace archilabUI
             : base(OutputName, typeof(ExportRange), inPorts, outPorts) { }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     [NodeName("Print Settings")]
     [NodeCategory("archilab.Revit.Printing")]
     [NodeDescription("Retrieve all available Print Settings from Revit project.")]
@@ -780,7 +795,7 @@ namespace archilabUI
             : base(OutputName, typeof(Method), inPorts, outPorts) { }
     }
 
-    [NodeName("Unit Types")]
+    [NodeName("Unit Type")]
     [NodeCategory("archilab.Revit.Units")]
     [NodeDescription("Retrieve all available Unit Types.")]
     [IsDesignScriptCompatible]
@@ -834,5 +849,19 @@ namespace archilabUI
         [JsonConstructor]
         public SpatialElementBoundaryLocationUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
             : base(OutputName, typeof(SpatialElementBoundaryLocation), inPorts, outPorts) { }
+    }
+
+    [NodeName("Midpoint Rounding Types")]
+    [NodeCategory("archilab.Core.Maths")]
+    [NodeDescription("Retrieve all available Midpoint Rounding Types.")]
+    [IsDesignScriptCompatible]
+    public class MidpointRoundingTypesUI : CustomGenericEnumerationDropDown
+    {
+        private const string OutputName = "roundingType";
+        public MidpointRoundingTypesUI() : base(OutputName, typeof(MidpointRounding)) { }
+
+        [JsonConstructor]
+        public MidpointRoundingTypesUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
+            : base(OutputName, typeof(MidpointRounding), inPorts, outPorts) { }
     }
 }

@@ -47,7 +47,7 @@ namespace archilab.GitHub
         /// </summary>
         /// <returns></returns>
         [MultiReturn("author", "total", "weeks")]
-        public Dictionary<string, object> GET_Statistics()
+        public Dictionary<string, object> GetStatistics()
         {
             var request = new RestRequest("/repos/" + Owner + "/" + Repo + "/stats/contributors", Method.GET);
             var response = Client.Execute<List<Statistics>>(request);
@@ -67,7 +67,7 @@ namespace archilab.GitHub
         /// </summary>
         /// <returns></returns>
         [MultiReturn("days", "timestamp", "total")]
-        public Dictionary<string, object> GET_CommitActivity()
+        public Dictionary<string, object> GetCommitActivity()
         {
             var request = new RestRequest("/repos/" + Owner + "/" + Repo + "/stats/commit_activity", Method.GET);
             var response = Client.Execute<List<CommitActivity>>(request);
@@ -87,7 +87,7 @@ namespace archilab.GitHub
         /// </summary>
         /// <returns></returns>
         [MultiReturn("timestamp", "additions", "deletions")]
-        public Dictionary<string, List<int>> GET_CodeFrequency()
+        public Dictionary<string, List<int>> GetCodeFrequency()
         {
             var request = new RestRequest("/repos/" + Owner + "/" + Repo + "/stats/code_frequency", Method.GET);
             var response = Client.Execute<List<List<int>>>(request);
@@ -113,7 +113,7 @@ namespace archilab.GitHub
         /// </summary>
         /// <returns></returns>
         [MultiReturn("day", "hour", "commits")]
-        public Dictionary<string, List<int>> GET_PunchCard()
+        public Dictionary<string, List<int>> GetPunchCard()
         {
             var request = new RestRequest("/repos/" + Owner + "/" + Repo + "/stats/punch_card", Method.GET);
             var response = Client.Execute<List<List<int>>>(request);
@@ -143,7 +143,7 @@ namespace archilab.GitHub
         /// </summary>
         /// <returns></returns>
         [MultiReturn("all", "owner")]
-        public Dictionary<string, List<int>> GET_Participation()
+        public Dictionary<string, List<int>> GetParticipation()
         {
             var request = new RestRequest("/repos/" + Owner + "/" + Repo + "/stats/participation", Method.GET);
             var response = Client.Execute<Participation>(request);

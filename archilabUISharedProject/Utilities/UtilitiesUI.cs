@@ -10,16 +10,32 @@ using RevitServices.Persistence;
 
 namespace archilabUI.Utilities
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class CustomGenericEnumerationDropDown : RevitDropDownBase
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="enumerationType"></param>
         protected CustomGenericEnumerationDropDown(string name, Type enumerationType) : base(name)
         {
             EnumerationType = enumerationType;
             PopulateItems();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Type EnumerationType;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currentSelection"></param>
+        /// <returns></returns>
         protected override SelectionState PopulateItemsCore(string currentSelection)
         {
             if (EnumerationType == null) return SelectionState.Restore;
@@ -36,6 +52,11 @@ namespace archilabUI.Utilities
             return SelectionState.Done;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputAstNodes"></param>
+        /// <returns></returns>
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
         {
             if (Items.Count == 0 || Items.Count == -1)
@@ -52,7 +73,7 @@ namespace archilabUI.Utilities
     }
 
     /// <summary>
-    /// Generic UI Dropdown node baseclass for Revit Elements.
+    /// Generic UI Dropdown node base class for Revit Elements.
     /// This class populates a dropdown with all Revit elements of the specified type.
     /// It uses a filtered element collector filtering by class.
     /// </summary>
@@ -73,6 +94,11 @@ namespace archilabUI.Utilities
             get;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currentSelection"></param>
+        /// <returns></returns>
         protected override SelectionState PopulateItemsCore(string currentSelection)
         {
             PopulateDropDownItems();
@@ -105,7 +131,7 @@ namespace archilabUI.Utilities
                 return;
             }
 
-            // if the elementtype is a RebarHookType add an initial "None" value which does not come from the collector
+            // if the element type is a RebarHookType add an initial "None" value which does not come from the collector
             if (ElementType.FullName == "Autodesk.Revit.DB.Structure.RebarHookType") Items.Add(new DynamoDropDownItem("none", null));
 
             // Walk through all elements in the collector and add them to the dropdown
@@ -142,13 +168,27 @@ namespace archilabUI.Utilities
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class DropDownItemEqualityComparer : IEqualityComparer<DynamoDropDownItem>
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public bool Equals(DynamoDropDownItem x, DynamoDropDownItem y)
         {
             return string.Equals(x.Name, y.Name);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public int GetHashCode(DynamoDropDownItem obj)
         {
             return obj.Name.GetHashCode();

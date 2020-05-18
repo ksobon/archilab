@@ -1,4 +1,0 @@
-﻿<ViewExtensionDefinition>
-  <AssemblyPath>..\bin\archilabLoader.dll</AssemblyPath>
-  <TypeName>archilabLoader.ArchilabLoaderExtension</TypeName>
-</ViewExtensionDefinition>

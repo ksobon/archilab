@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Core\DateTimes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Maths.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Csv\CsvParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Excel\XlsNamedRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Excel\XlsWorkbook.cs" />

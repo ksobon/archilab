@@ -20,6 +20,9 @@ using ProtoCore.AST.AssociativeAST;
 
 namespace archilabUI.ListSelector
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [NodeName("List Selector")]
     [NodeCategory("archilab.Core.Lists")]
     [NodeDescription("Use this node to select multiple items from a list.")]
@@ -36,6 +39,9 @@ namespace archilabUI.ListSelector
         [IsVisibleInDynamoLibrary(false)]
         public DelegateCommand<ListItemWrapper> OnItemChecked { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ListSelector()
         {
             InPorts.Add(new PortModel(PortType.Input, this, new PortData("List", "Input List.")));
@@ -51,6 +57,11 @@ namespace archilabUI.ListSelector
             OnItemChecked = new DelegateCommand<ListItemWrapper>(ItemChecked, CanCheckItem);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inPorts"></param>
+        /// <param name="outPorts"></param>
         [JsonConstructor]
         protected ListSelector(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts, outPorts)
         {
@@ -98,6 +109,10 @@ namespace archilabUI.ListSelector
             OnUpdateItemsCollection();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="selectedItems"></param>
         public void PopulateItems(IList selectedItems)
         {
             if (!InPorts.Any() || !InPorts[0].Connectors.Any()) return;
@@ -141,6 +156,11 @@ namespace archilabUI.ListSelector
 
         #region Node Serialization/Deserialization
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nodeElement"></param>
+        /// <param name="context"></param>
         [Obsolete]
         protected override void SerializeCore(XmlElement nodeElement, SaveContext context)
         {
@@ -164,6 +184,11 @@ namespace archilabUI.ListSelector
             nodeElement.AppendChild(wrapperIndex);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nodeElement"></param>
+        /// <param name="context"></param>
         [Obsolete]
         protected override void DeserializeCore(XmlElement nodeElement, SaveContext context)
         {
@@ -189,6 +214,11 @@ namespace archilabUI.ListSelector
 
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputAstNodes"></param>
+        /// <returns></returns>
         [IsVisibleInDynamoLibrary(false)]
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
         {

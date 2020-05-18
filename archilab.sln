@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabLoader", "archilabLoader\archilabLoader.csproj", "{E5F51131-BFBB-4600-A1AD-F1243DD448BF}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "archilabSharedProject", "archilabSharedProject\archilabSharedProject.shproj", "{96867A82-3E80-42B3-92C3-259A231817ED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabViewExtension", "archilabViewExtension\archilabViewExtension.csproj", "{7DC0FB00-E3E8-414D-B05C-88F06A55594D}"
@@ -31,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabUI2021", "archilabU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2021", "archilab2021\archilab2021.csproj", "{90056C10-1447-46C8-8F9E-2329E651F3C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabExtension", "archilabExtension\archilabExtension.csproj", "{781CAFFF-244E-4051-9793-07A2D0A64156}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		archilabSharedProject\archilabSharedProject.projitems*{02f2afd4-79ea-4172-9e1b-b6096c58f02f}*SharedItemsImports = 4
@@ -51,10 +51,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E5F51131-BFBB-4600-A1AD-F1243DD448BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E5F51131-BFBB-4600-A1AD-F1243DD448BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E5F51131-BFBB-4600-A1AD-F1243DD448BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E5F51131-BFBB-4600-A1AD-F1243DD448BF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7DC0FB00-E3E8-414D-B05C-88F06A55594D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7DC0FB00-E3E8-414D-B05C-88F06A55594D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DC0FB00-E3E8-414D-B05C-88F06A55594D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -99,6 +95,10 @@ Global
 		{90056C10-1447-46C8-8F9E-2329E651F3C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90056C10-1447-46C8-8F9E-2329E651F3C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90056C10-1447-46C8-8F9E-2329E651F3C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{781CAFFF-244E-4051-9793-07A2D0A64156}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{781CAFFF-244E-4051-9793-07A2D0A64156}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{781CAFFF-244E-4051-9793-07A2D0A64156}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{781CAFFF-244E-4051-9793-07A2D0A64156}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

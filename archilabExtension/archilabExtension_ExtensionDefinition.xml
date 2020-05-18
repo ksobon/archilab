@@ -1,0 +1,4 @@
+﻿<ExtensionDefinition>
+  <AssemblyPath>..\bin\archilabExtension.dll</AssemblyPath>
+  <TypeName>archilabExtension.ArchilabExtension</TypeName>
+</ExtensionDefinition>

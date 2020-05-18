@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Autodesk.DesignScript.Runtime;
+using Newtonsoft.Json;
 
 namespace archilab.GitHub
 {
@@ -11,87 +12,104 @@ namespace archilab.GitHub
         /// <summary>
         /// 
         /// </summary>
-        public string login { get; set; }
+        [JsonProperty("login")]
+        public string Login { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public double id { get; set; }
+        [JsonProperty("id")]
+        public double Id { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string avatar_url { get; set; }
+        [JsonProperty("avatar_url")]
+        public string AvatarUrl { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string gravatar_id { get; set; }
+        [JsonProperty("gravatar_id")]
+        public string GravatarId { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string url { get; set; }
+        [JsonProperty("url")]
+        public string Url { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string html_url { get; set; }
+        [JsonProperty("html_url")]
+        public string HtmlUrl { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string followers_url { get; set; }
+        [JsonProperty("followers_url")]
+        public string FollowersUrl { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string following_url { get; set; }
+        [JsonProperty("following_url")]
+        public string FollowingUrl { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string gists_url { get; set; }
+        [JsonProperty("gists_url")]
+        public string GistsUrl { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string starred_url { get; set; }
+        [JsonProperty("starred_url")]
+        public string StarredUrl { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string subscriptions_url { get; set; }
+        [JsonProperty("subscriptions_url")]
+        public string SubscriptionsUrl { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string organizations_url { get; set; }
+        [JsonProperty("organizations_url")]
+        public string OrganizationsUrl { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string repos_url { get; set; }
+        [JsonProperty("repos_url")]
+        public string ReposUrl { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string events_url { get; set; }
+        [JsonProperty("events_url")]
+        public string EventsUrl { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string received_events_url { get; set; }
+        [JsonProperty("received_events_url")]
+        public string ReceivedEventsUrl { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string type { get; set; }
+        [JsonProperty("type")]
+        public string Type { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public bool site_admin { get; set; }
+        [JsonProperty("site_admin")]
+        public bool SiteAdmin { get; set; }
     }
 
     /// <summary>
@@ -102,22 +120,26 @@ namespace archilab.GitHub
         /// <summary>
         /// 
         /// </summary>
-        public string w { get; set; }
+        [JsonProperty("w")]
+        public string W { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public double a { get; set; }
+        [JsonProperty("a")]
+        public double A { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public double d { get; set; }
+        [JsonProperty("d")]
+        public double D { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public double c { get; set; }
+        [JsonProperty("c")]
+        public double C { get; set; }
     }
 
     /// <summary>
