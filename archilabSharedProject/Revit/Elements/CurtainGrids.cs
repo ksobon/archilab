@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Dynamo.Graph.Nodes;
 using Revit.Elements;
 using RevitServices.Persistence;
 // ReSharper disable UnusedMember.Global
@@ -21,6 +22,7 @@ namespace archilab.Revit.Elements
         /// <summary>
         /// 
         /// </summary>
+        [NodeCategory("Query")]
         public List<Element> UGrids {
             get
             {
@@ -33,6 +35,7 @@ namespace archilab.Revit.Elements
         /// <summary>
         /// 
         /// </summary>
+        [NodeCategory("Query")]
         public List<Element> VGrids
         {
             get
@@ -46,14 +49,16 @@ namespace archilab.Revit.Elements
         /// <summary>
         /// 
         /// </summary>
+        [NodeCategory("Query")]
         public int NumULines
         {
             get { return InternalElement.NumULines; }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
+        [NodeCategory("Query")]
         public int NumVLines
         {
             get { return InternalElement.NumVLines; }

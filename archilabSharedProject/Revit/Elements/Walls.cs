@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Autodesk.DesignScript.Geometry;
-using Revit.Elements;
 using Revit.GeometryConversion;
+using Revit.Elements;
+using Revit.Elements.Views;
 using archilab.Utilities;
 using Autodesk.DesignScript.Runtime;
-using Revit.Elements.Views;
 // ReSharper disable UnusedMember.Global
 
 namespace archilab.Revit.Elements
@@ -148,6 +148,48 @@ namespace archilab.Revit.Elements
             var newEnd = endPt - (upDir * offset);
 
             return Line.ByStartPointEndPoint(newStart.ToPoint(), newEnd.ToPoint());
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="wall"></param>
+        /// <returns></returns>
+        [MultiReturn("Start", "End")]
+        public static Dictionary<string, bool> IsWallJoinAllowed(Element wall)
+        {
+            if (wall == null)
+                throw new ArgumentNullException(nameof(wall));
+            if (!(wall.InternalElement is Autodesk.Revit.DB.Wall w))
+                throw new Exception("Element is not a Wall.");
+
+            return new Dictionary<string, bool>
+            {
+                { "Start", Autodesk.Revit.DB.WallUtils.IsWallJoinAllowedAtEnd(w, 0)},
+                { "End", Autodesk.Revit.DB.WallUtils.IsWallJoinAllowedAtEnd(w, 1)}
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="wall"></param>
+        /// <returns></returns>
+        [MultiReturn("Start", "End")]
+        public static Dictionary<string, string> JoinType(Element wall)
+        {
+            if (wall == null)
+                throw new ArgumentNullException(nameof(wall));
+            if (!(wall.InternalElement is Autodesk.Revit.DB.Wall w))
+                throw new Exception("Element is not a Wall.");
+
+            if (!(w.Location is Autodesk.Revit.DB.LocationCurve loc)) return null;
+
+            return new Dictionary<string, string>
+            {
+                { "Start", loc.get_JoinType(0).ToString()},
+                { "End", loc.get_JoinType(1).ToString()}
+            };
         }
     }
 }

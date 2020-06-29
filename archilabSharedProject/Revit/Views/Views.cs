@@ -5,14 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Autodesk.DesignScript.Geometry;
 using DynamoServices;
+using Dynamo.Graph.Nodes;
 using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
 using Revit.Elements;
-using ArgumentOutOfRangeException = System.ArgumentOutOfRangeException;
-using Element = Revit.Elements.Element;
-using View = Revit.Elements.Views.View;
-using Workset = archilab.Revit.Elements.Workset;
+using Revit.Elements.Views;
+using archilab.Revit.Elements;
+using Autodesk.DesignScript.Runtime;
+using Revit.Filter;
 // ReSharper disable UnusedMember.Global
 
 #endregion
@@ -29,6 +30,8 @@ namespace archilab.Revit.Views
         {
         }
 
+        #region Action
+
         /// <summary>
         /// Remove view filter from view.
         /// </summary>
@@ -36,6 +39,7 @@ namespace archilab.Revit.Views
         /// <param name="viewFilter">View filter to be removed.</param>
         /// <returns name="view">View that filter was removed from.</returns>
         /// <search>view, filter, remove, delete</search>
+        [NodeCategory("Action")]
         public static View RemoveFilter(View view, List<Element> viewFilter)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
@@ -59,27 +63,13 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        /// Get View Template applied to view.
-        /// </summary>
-        /// <param name="view">View to retrieve View Template from.</param>
-        /// <returns name="view">View Template applied to view.</returns>
-        /// <search>view, template</search>
-        public static object ViewTemplate(View view)
-        {
-            var doc = DocumentManager.Instance.CurrentDBDocument;
-            var v = (Autodesk.Revit.DB.View)view.InternalElement;
-
-            var id = v.ViewTemplateId;
-            return id != Autodesk.Revit.DB.ElementId.InvalidElementId ? doc.GetElement(id).ToDSType(true) : null;
-        }
-
-        /// <summary>
         /// Set View Template for a View.
         /// </summary>
         /// <param name="view">View that template will be applied to.</param>
         /// <param name="viewTemplate">View Template that will be applied to View.</param>
         /// <returns name="view"></returns>
         /// <search>set, view, template</search>
+        [NodeCategory("Action")]
         public static View SetViewTemplate(View view, View viewTemplate)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
@@ -106,6 +96,7 @@ namespace archilab.Revit.Views
         /// <param name="view">View to remove View Template from.</param>
         /// <returns name="view">View that template was removed from.</returns>
         /// <search>view, template, remove, delete</search>
+        [NodeCategory("Action")]
         public static View RemoveViewTemplate(View view)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
@@ -134,6 +125,7 @@ namespace archilab.Revit.Views
         /// 3D View Templates will be excluded from returned View Templates (currently a Dynamo limitation).</param>
         /// <returns name="view">Views that match view type.</returns>
         /// <search>view, get all views, view type</search>
+        [NodeCategory("Action")]
         public static List<Element> GetByType(string viewType)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
@@ -172,86 +164,6 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        /// Check if Schedule is Titleblock Schedule.
-        /// </summary>
-        /// <param name="view">Schedule View to test.</param>
-        /// <returns></returns>
-        /// <search>titleblock, schedule</search>
-        public static bool IsTitleblockSchedule(Element view)
-        {
-            try
-            {
-                // cast to View Schedule, titleblock schedules will fail here
-                var v = (Autodesk.Revit.DB.ViewSchedule)view.InternalElement;
-                return v.IsTitleblockRevisionSchedule;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Check if View is placed on a Sheet.
-        /// </summary>
-        /// <param name="view">View to check.</param>
-        /// <returns>True if View is on Sheet, otherwise False.</returns>
-        /// <search>isOnSheet, is on sheet</search>
-        public static bool IsOnSheet(View view)
-        {
-            var doc = DocumentManager.Instance.CurrentDBDocument;
-            var v = (Autodesk.Revit.DB.View)view.InternalElement;
-
-            switch (v.ViewType)
-            {
-                case Autodesk.Revit.DB.ViewType.Undefined:
-                case Autodesk.Revit.DB.ViewType.ProjectBrowser:
-                case Autodesk.Revit.DB.ViewType.SystemBrowser:
-                case Autodesk.Revit.DB.ViewType.Internal:
-                case Autodesk.Revit.DB.ViewType.DrawingSheet:
-                    return false;
-                case Autodesk.Revit.DB.ViewType.FloorPlan:
-                case Autodesk.Revit.DB.ViewType.EngineeringPlan:
-                case Autodesk.Revit.DB.ViewType.AreaPlan:
-                case Autodesk.Revit.DB.ViewType.CeilingPlan:
-                case Autodesk.Revit.DB.ViewType.Elevation:
-                case Autodesk.Revit.DB.ViewType.Section:
-                case Autodesk.Revit.DB.ViewType.Detail:
-                case Autodesk.Revit.DB.ViewType.ThreeD:
-                case Autodesk.Revit.DB.ViewType.DraftingView:
-                case Autodesk.Revit.DB.ViewType.Legend:
-                case Autodesk.Revit.DB.ViewType.Report:
-                case Autodesk.Revit.DB.ViewType.CostReport:
-                case Autodesk.Revit.DB.ViewType.LoadsReport:
-                case Autodesk.Revit.DB.ViewType.PresureLossReport:
-                case Autodesk.Revit.DB.ViewType.Walkthrough:
-                case Autodesk.Revit.DB.ViewType.Rendering:
-                    
-                    var sheet = new Autodesk.Revit.DB.FilteredElementCollector(doc)
-                        .OfClass(typeof(Autodesk.Revit.DB.ViewSheet))
-                        .Cast<Autodesk.Revit.DB.ViewSheet>()
-                        .FirstOrDefault(x => x.GetAllPlacedViews().FirstOrDefault(y => y == v.Id) != null);
-
-                    return sheet != null;
-                case Autodesk.Revit.DB.ViewType.Schedule:
-                case Autodesk.Revit.DB.ViewType.PanelSchedule:
-                case Autodesk.Revit.DB.ViewType.ColumnSchedule:
-
-                    var schedule = v as Autodesk.Revit.DB.ViewSchedule;
-                    if(schedule == null) throw new ArgumentException("Invalid View");
-
-                    var sheetSchedule = new Autodesk.Revit.DB.FilteredElementCollector(doc)
-                        .OfClass(typeof(Autodesk.Revit.DB.ScheduleSheetInstance))
-                        .Cast<Autodesk.Revit.DB.ScheduleSheetInstance>()
-                        .FirstOrDefault(x => !x.IsTitleblockRevisionSchedule && x.ScheduleId == v.Id);
-
-                    return sheetSchedule != null;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        /// <summary>
         /// Sets Workset visibility for a View.
         /// </summary>
         /// <param name="view">View to set the visibility on.</param>
@@ -259,6 +171,7 @@ namespace archilab.Revit.Views
         /// <param name="visibility">Visibility setting. Ex: Hide.</param>
         /// <returns name="view">View</returns>
         /// <search>workset, visibility, set</search>
+        [NodeCategory("Action")]
         public static View SetWorksetVisibility(View view, List<Workset> worksets, string visibility)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
@@ -283,6 +196,7 @@ namespace archilab.Revit.Views
         /// <param name="options">Duplicate options. Ex: Duplicate as Dependent.</param>
         /// <returns name="view">New View.</returns>
         /// <search>view, duplicate</search>
+        [NodeCategory("Action")]
         public static View Duplicate(View view, string name, string options)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
@@ -305,6 +219,7 @@ namespace archilab.Revit.Views
         /// <param name="extents">Extents of the Callout as Rectangle.</param>
         /// <returns name="view">New Callout View.</returns>
         /// <search>view, create, callout</search>
+        [NodeCategory("Action")]
         public static View CreateCallout(View view, Element viewFamilyType, Rectangle extents)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
@@ -342,6 +257,7 @@ namespace archilab.Revit.Views
         /// <param name="extents">Extents of the Callout as Rectangle.</param>
         /// <returns name="view">New Callout View.</returns>
         /// <search>view, create, callout, reference</search>
+        [NodeCategory("Action")]
         public static View CreateReferenceCallout(View view, View referenceView, Rectangle extents)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
@@ -376,6 +292,7 @@ namespace archilab.Revit.Views
         /// <param name="reference">View to set the Reference to.</param>
         /// <returns name="callout">Callout.</returns>
         /// <search>view, reference, change, callout</search>
+        [NodeCategory("Action")]
         public static Element ChangeReferencedView(Element callout, View reference)
         {
             if (callout == null)
@@ -392,69 +309,13 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        /// Retrieves Reference Callouts from a View.
-        /// </summary>
-        /// <param name="view">View to retrieve Reference Callouts from.</param>
-        /// <returns name="callout[]">List of Reference Callouts.</returns>
-        /// <search>get, reference, callout</search>
-        public static List<Element> GetReferenceCallouts(View view)
-        {
-            if (view == null)
-                throw new ArgumentNullException(nameof(view));
-            if (!(view.InternalElement is Autodesk.Revit.DB.View v))
-                throw new ArgumentException("View is not a valid type.");
-
-            var doc = DocumentManager.Instance.CurrentDBDocument;
-
-            return v.GetReferenceCallouts().Select(x => doc.GetElement(x).ToDSType(true)).ToList();
-        }
-
-        /// <summary>
-        /// Get View's Outline ie. Rectangle.
-        /// </summary>
-        /// <param name="view">View to retrieve Outline from.</param>
-        /// <returns name="outline">View Outline.</returns>
-        /// <search>view, outline</search>
-        public static Rectangle Outline(View view)
-        {
-            var v = (Autodesk.Revit.DB.View)view.InternalElement;
-            if (v == null)
-                throw new ArgumentNullException(nameof(view));
-
-            var o = v.Outline;
-            var pt1 = new Autodesk.Revit.DB.XYZ(o.Min.U, o.Min.V, 0);
-            var pt2 = new Autodesk.Revit.DB.XYZ(o.Max.U, o.Min.V, 0);
-            var pt3 = new Autodesk.Revit.DB.XYZ(o.Max.U, o.Max.V, 0);
-            var pt4 = new Autodesk.Revit.DB.XYZ(o.Min.U, o.Max.V, 0);
-
-            return Rectangle.ByCornerPoints(pt1.ToPoint(), pt2.ToPoint(), pt3.ToPoint(), pt4.ToPoint());
-        }
-
-        /// <summary>
-        /// Retrieves Crop Box of the View as Bounding Box object.
-        /// </summary>
-        /// <param name="view">View to extract the Crop Box from.</param>
-        /// <returns name="boundingBox">Bounding Box.</returns>
-        /// <search>view, crop box</search>
-        public static BoundingBox CropBox(View view)
-        {
-            if (!(view.InternalElement is Autodesk.Revit.DB.View v))
-                throw new ArgumentNullException(nameof(view));
-
-            var cb = v.CropBox;
-            var min = cb.Min.ToPoint();
-            var max = cb.Max.ToPoint();
-
-            return BoundingBox.ByCorners(min, max);
-        }
-
-        /// <summary>
         /// Sets View's Crop Box to size matching supplied Bounding Box.
         /// </summary>
         /// <param name="view">View to set the Crop Box for.</param>
         /// <param name="boundingBox">Bounding Box representing new Crop Box extents.</param>
         /// <returns name="view">View.</returns>
         /// <search>view, set, crop box</search>
+        [NodeCategory("Action")]
         public static View SetCropBox(View view, BoundingBox boundingBox)
         {
             if (!(view.InternalElement is Autodesk.Revit.DB.View v))
@@ -477,6 +338,7 @@ namespace archilab.Revit.Views
         /// <param name="view"></param>
         /// <param name="curves"></param>
         /// <returns></returns>
+        [NodeCategory("Action")]
         public static View SetCropBoxByCurves(View view, List<Curve> curves)
         {
             if (!(view.InternalElement is Autodesk.Revit.DB.View v))
@@ -508,6 +370,7 @@ namespace archilab.Revit.Views
         /// <param name="name">New name for the View.</param>
         /// <returns name="view">View with a new Name.</returns>
         /// <search>set, name</search>
+        [NodeCategory("Action")]
         public static View SetName(View view, string name)
         {
             if (view == null)
@@ -521,5 +384,401 @@ namespace archilab.Revit.Views
 
             return view;
         }
+
+        #endregion
+
+        #region Query
+
+        /// <summary>
+        /// Get View Template applied to view.
+        /// </summary>
+        /// <param name="view">View to retrieve View Template from.</param>
+        /// <returns name="view">View Template applied to view.</returns>
+        /// <search>view, template</search>
+        [NodeCategory("Query")]
+        public static object ViewTemplate(View view)
+        {
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+
+            var id = v.ViewTemplateId;
+            return id != Autodesk.Revit.DB.ElementId.InvalidElementId ? doc.GetElement(id).ToDSType(true) : null;
+        }
+
+        /// <summary>
+        /// Check if Schedule is Titleblock Schedule.
+        /// </summary>
+        /// <param name="view">Schedule View to test.</param>
+        /// <returns></returns>
+        /// <search>titleblock, schedule</search>
+        [NodeCategory("Query")]
+        public static bool IsTitleblockSchedule(Element view)
+        {
+            try
+            {
+                // cast to View Schedule, titleblock schedules will fail here
+                var v = (Autodesk.Revit.DB.ViewSchedule)view.InternalElement;
+                return v.IsTitleblockRevisionSchedule;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Check if View is placed on a Sheet.
+        /// </summary>
+        /// <param name="view">View to check.</param>
+        /// <returns>True if View is on Sheet, otherwise False.</returns>
+        /// <search>isOnSheet, is on sheet</search>
+        [NodeCategory("Query")]
+        public static bool IsOnSheet(View view)
+        {
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+
+            switch (v.ViewType)
+            {
+                case Autodesk.Revit.DB.ViewType.Undefined:
+                case Autodesk.Revit.DB.ViewType.ProjectBrowser:
+                case Autodesk.Revit.DB.ViewType.SystemBrowser:
+                case Autodesk.Revit.DB.ViewType.Internal:
+                case Autodesk.Revit.DB.ViewType.DrawingSheet:
+                    return false;
+                case Autodesk.Revit.DB.ViewType.FloorPlan:
+                case Autodesk.Revit.DB.ViewType.EngineeringPlan:
+                case Autodesk.Revit.DB.ViewType.AreaPlan:
+                case Autodesk.Revit.DB.ViewType.CeilingPlan:
+                case Autodesk.Revit.DB.ViewType.Elevation:
+                case Autodesk.Revit.DB.ViewType.Section:
+                case Autodesk.Revit.DB.ViewType.Detail:
+                case Autodesk.Revit.DB.ViewType.ThreeD:
+                case Autodesk.Revit.DB.ViewType.DraftingView:
+                case Autodesk.Revit.DB.ViewType.Legend:
+                case Autodesk.Revit.DB.ViewType.Report:
+                case Autodesk.Revit.DB.ViewType.CostReport:
+                case Autodesk.Revit.DB.ViewType.LoadsReport:
+                case Autodesk.Revit.DB.ViewType.PresureLossReport:
+                case Autodesk.Revit.DB.ViewType.Walkthrough:
+                case Autodesk.Revit.DB.ViewType.Rendering:
+
+                    var sheet = new Autodesk.Revit.DB.FilteredElementCollector(doc)
+                        .OfClass(typeof(Autodesk.Revit.DB.ViewSheet))
+                        .Cast<Autodesk.Revit.DB.ViewSheet>()
+                        .FirstOrDefault(x => x.GetAllPlacedViews().FirstOrDefault(y => y == v.Id) != null);
+
+                    return sheet != null;
+                case Autodesk.Revit.DB.ViewType.Schedule:
+                case Autodesk.Revit.DB.ViewType.PanelSchedule:
+                case Autodesk.Revit.DB.ViewType.ColumnSchedule:
+
+                    var schedule = v as Autodesk.Revit.DB.ViewSchedule;
+                    if (schedule == null) throw new ArgumentException("Invalid View");
+
+                    var sheetSchedule = new Autodesk.Revit.DB.FilteredElementCollector(doc)
+                        .OfClass(typeof(Autodesk.Revit.DB.ScheduleSheetInstance))
+                        .Cast<Autodesk.Revit.DB.ScheduleSheetInstance>()
+                        .FirstOrDefault(x => !x.IsTitleblockRevisionSchedule && x.ScheduleId == v.Id);
+
+                    return sheetSchedule != null;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        /// <summary>
+        /// Retrieves Reference Callouts from a View.
+        /// </summary>
+        /// <param name="view">View to retrieve Reference Callouts from.</param>
+        /// <returns name="callout[]">List of Reference Callouts.</returns>
+        /// <search>get, reference, callout</search>
+        [NodeCategory("Query")]
+        public static List<Element> ReferenceCallouts(View view)
+        {
+            if (view == null)
+                throw new ArgumentNullException(nameof(view));
+            if (!(view.InternalElement is Autodesk.Revit.DB.View v))
+                throw new ArgumentException("View is not a valid type.");
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+
+            return v.GetReferenceCallouts().Select(x => doc.GetElement(x).ToDSType(true)).ToList();
+        }
+
+        /// <summary>
+        /// Get View's Outline ie. Rectangle.
+        /// </summary>
+        /// <param name="view">View to retrieve Outline from.</param>
+        /// <returns name="outline">View Outline.</returns>
+        /// <search>view, outline</search>
+        [NodeCategory("Query")]
+        public static Rectangle Outline(View view)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            if (v == null)
+                throw new ArgumentNullException(nameof(view));
+
+            var o = v.Outline;
+            var pt1 = new Autodesk.Revit.DB.XYZ(o.Min.U, o.Min.V, 0);
+            var pt2 = new Autodesk.Revit.DB.XYZ(o.Max.U, o.Min.V, 0);
+            var pt3 = new Autodesk.Revit.DB.XYZ(o.Max.U, o.Max.V, 0);
+            var pt4 = new Autodesk.Revit.DB.XYZ(o.Min.U, o.Max.V, 0);
+
+            return Rectangle.ByCornerPoints(pt1.ToPoint(), pt2.ToPoint(), pt3.ToPoint(), pt4.ToPoint());
+        }
+
+        /// <summary>
+        /// Retrieves Crop Box of the View as Bounding Box object.
+        /// </summary>
+        /// <param name="view">View to extract the Crop Box from.</param>
+        /// <returns name="boundingBox">Bounding Box.</returns>
+        /// <search>view, crop box</search>
+        [NodeCategory("Query")]
+        public static BoundingBox CropBox(View view)
+        {
+            if (!(view.InternalElement is Autodesk.Revit.DB.View v))
+                throw new ArgumentNullException(nameof(view));
+
+            var cb = v.CropBox;
+            var min = cb.Min.ToPoint();
+            var max = cb.Max.ToPoint();
+
+            return BoundingBox.ByCorners(min, max);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static string ViewType(View view)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            return v.ViewType.ToString();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static string DetailLevel(View view)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            return v.DetailLevel.ToString();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static string PartsVisibility(View view)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            return v.PartsVisibility.ToString();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static string Discipline(View view)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            return v.Discipline.ToString();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="parameterFilter"></param>
+        /// <returns name="settings"></returns>
+        [NodeCategory("Query")]
+        public static OverrideGraphicsSettings FilterOverrides(View view, ParameterFilterElement parameterFilter)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var overrides = v.GetFilterOverrides(parameterFilter.InternalElement.Id);
+
+            return new OverrideGraphicsSettings(overrides);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="category"></param>
+        /// <returns name="settings"></returns>
+        [NodeCategory("Query")]
+        public static OverrideGraphicsSettings CategoryOverrides(View view, Category category)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var overrides = v.GetCategoryOverrides(new Autodesk.Revit.DB.ElementId(category.Id));
+
+            return new OverrideGraphicsSettings(overrides);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="parameterFilter"></param>
+        /// <returns name="settings"></returns>
+        [NodeCategory("Query")]
+        public static bool FilterVisibility(View view, ParameterFilterElement parameterFilter)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var visible = v.GetFilterVisibility(parameterFilter.InternalElement.Id);
+
+            return visible;
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="parameterFilter"></param>
+        /// <returns name="settings"></returns>
+        [NodeCategory("Query")]
+        public static bool IsFilterApplied(View view, ParameterFilterElement parameterFilter)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var visible = v.IsFilterApplied(parameterFilter.InternalElement.Id);
+
+            return visible;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        [MultiReturn("Silhouettes", "SilhouetteStyle", "Transparency", "SmoothLines", "ShowEdges")]
+        public static Dictionary<string, object> ModelDisplay(View view)
+        {
+            var v = (Autodesk.Revit.DB.View) view.InternalElement;
+            var model = v.GetViewDisplayModel();
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            return new Dictionary<string, object>
+            {
+                {"Silhouettes", model.EnableSilhouettes},
+                {"SilhouetteStyle", !model.EnableSilhouettes ? "<none>" : doc.GetElement(model.SilhouetteEdgesGStyleId)?.Name},
+                {"Transparency", model.Transparency},
+                {"SmoothLines", model.SmoothEdges},
+                {"ShowEdges", model.ShowHiddenLines.ToString()}
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        [MultiReturn("Enabled", "Extension", "Jitter")]
+        public static Dictionary<string, object> SketchyLines(View view)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var sl = v.GetSketchyLines();
+
+            return new Dictionary<string, object>
+            {
+                {"Enabled", sl.EnableSketchyLines},
+                {"Extension", sl.Extension},
+                {"Jitter", sl.Jitter}
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        [MultiReturn("SunAndShadowSettings", "SunlightIntensity", "ShadowIntensity")]
+        public static Dictionary<string, object> Lighting(View view)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var settings = new SunAndShadowSettings(v.SunAndShadowSettings);
+
+
+            return new Dictionary<string, object>
+            {
+                {"SunAndShadowSettings", settings},
+                {"SunlightIntensity", v.SunlightIntensity},
+                {"ShadowIntensity", v.ShadowIntensity}
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static string DisplayStyle(View view)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var style = v.DisplayStyle.ToString();
+
+            return style;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static ViewDisplayBackgrounds Background(View view)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var bg = v.GetBackground();
+
+            return bg == null ? null : new ViewDisplayBackgrounds(bg);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static ViewDisplayDepthCueing DepthCueing(View view)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+
+            return v.CanUseDepthCueing() 
+                ? new ViewDisplayDepthCueing(v.GetDepthCueing()) 
+                : null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static RenderingSettings RenderingSettings(View view)
+        {
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            if (v is Autodesk.Revit.DB.View3D view3D)
+            {
+                return new RenderingSettings(view3D.GetRenderingSettings());
+            }
+
+            return null;
+        }
+
+        #endregion
     }
 }

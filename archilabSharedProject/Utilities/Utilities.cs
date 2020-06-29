@@ -5,10 +5,28 @@ using System.Linq;
 using Autodesk.DesignScript.Runtime;
 using RevitServices.Persistence;
 using Workset = archilab.Revit.Elements.Workset;
+using DSCore;
 // ReSharper disable UnusedMember.Global
 
 namespace archilab.Utilities
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    [IsVisibleInDynamoLibrary(false)]
+    public static class ColorUtilities
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public static Color DsColorByColor(Autodesk.Revit.DB.Color color)
+        {
+            return !color.IsValid ? null : Color.ByARGB(255, color.Red, color.Green, color.Blue);
+        }
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -129,35 +147,38 @@ namespace archilab.Utilities
         {
             Parameters = new Dictionary<string, int>
             {
-                { "View Scale", -1005151 },
-                { "View Scale2", -1005152 },
-                { "View Scale0", -1005150 },
-                { "Display Model", -1005161 },
-                { "Parts Visibility", -1011003 },
-                { "Detail Level", -1011002 },
-                { "VG Overrides Model", -1006961 },
-                { "VG Overrides Annotation", -1006962 },
-                { "VG Overrides Analytical Model", -1006967 },
-                { "VG Overrides Imports", -1006963 },
-                { "VG Overrides Filters", -1006964 },
-                { "VG Overrides Revit Links", -1006965 },
-                { "VG Overrides Design Options", -1006966 },
-                { "VG Overrides Worksets", -1006968 },
-                { "Model Display", -1005131 },
-                { "Shadows", -1005132 },
-                { "Sketchy Lines", -1154615 },
-                { "Lighting", -1005133 },
-                { "Photographic Exposure", -1005137 },
-                { "Underlay Orientation", -1005177 },
-                { "View Range", -1005162 },
-                { "Orientation", -1005168 },
-                { "Phase Filter", -1012103 },
-                { "Discipline", -1005163 },
-                { "Show Hidden Lines", -1154613 },
-                { "Color Scheme Location", -1005183 },
-                { "Color Scheme", -1005148 },
-                { "System Color Scheme", -1133900 },
-                { "Depth Clipping", -1005181 }
+                {"View Scale", -1005151},
+                {"View Scale2", -1005152},
+                {"View Scale0", -1005150},
+                {"Display Model", -1005161},
+                {"Parts Visibility", -1011003},
+                {"Detail Level", -1011002},
+                {"VG Overrides Model", -1006961},
+                {"VG Overrides Annotation", -1006962},
+                {"VG Overrides Analytical Model", -1006967},
+                {"VG Overrides Imports", -1006963},
+                {"VG Overrides Filters", -1006964},
+                {"VG Overrides Revit Links", -1006965},
+                {"VG Overrides Design Options", -1006966},
+                {"VG Overrides Worksets", -1006968},
+                {"Model Display", -1005131},
+                {"Shadows", -1005132},
+                {"Sketchy Lines", -1154615},
+                {"Lighting", -1005133},
+                {"Photographic Exposure", -1005137},
+                {"Underlay Orientation", -1005177},
+                {"View Range", -1005162},
+                {"Orientation", -1005168},
+                {"Phase Filter", -1012103},
+                {"Discipline", -1005163},
+                {"Show Hidden Lines", -1154613},
+                {"Color Scheme Location", -1005183},
+                {"Color Scheme", -1005148},
+                {"System Color Scheme", -1133900},
+                {"Depth Clipping", -1005181},
+                {"Far Clipping", -1005123},
+                {"Background", -1005135},
+                {"Depth Cueing", -1005136}
             };
         }
 

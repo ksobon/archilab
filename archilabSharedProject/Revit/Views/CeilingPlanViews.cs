@@ -2,6 +2,7 @@
 using System.Linq;
 using Autodesk.DesignScript.Runtime;
 using DynamoServices;
+using Dynamo.Graph.Nodes;
 using Revit.Elements;
 using Revit.Elements.Views;
 using RevitServices.Persistence;
@@ -70,6 +71,7 @@ namespace archilab.Revit.Views
         /// <param name="level">Level to associate the Plan to.</param>
         /// <param name="viewFamilyType">View Family Type object.</param>
         /// <returns name="floorPlan">Floor Plan.</returns>
+        [NodeCategory("Create")]
         public static Element ByLevelAndType(Level level, [DefaultArgument("Selection.Select.GetNull()")] Element viewFamilyType)
         {
             if (level == null || !(level.InternalElement is Autodesk.Revit.DB.Level lvl))
@@ -103,6 +105,7 @@ namespace archilab.Revit.Views
         /// <param name="room"></param>
         /// <param name="viewFamilyType"></param>
         /// <returns></returns>
+        [NodeCategory("Create")]
         public static Element ByRoom(Room room, [DefaultArgument("Selection.Select.GetNull()")] Element viewFamilyType)
         {
             if (room == null)

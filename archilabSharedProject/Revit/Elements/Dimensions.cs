@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Autodesk.DesignScript.Geometry;
 using DynamoServices;
+using Dynamo.Graph.Nodes;
 using Revit.Elements;
 using Revit.Elements.Views;
 using Revit.GeometryConversion;
@@ -75,6 +76,7 @@ namespace archilab.Revit.Elements
         /// <param name="references"></param>
         /// <param name="dimType"></param>
         /// <returns></returns>
+        [NodeCategory("Create")]
         public static Element Create(View view, Line line, List<References> references, Element dimType)
         {
             if (view == null)

@@ -321,6 +321,10 @@
   </Target>
   <Target Name="CopyFiles" AfterTargets="AfterBuild;NonWinFodyTarget">
     <Message Text="Copy files..." Importance="high" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.5\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)archilab2021.customization.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.5\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)archilab2021_DynamoCustomization.xml" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.5\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)archilab2021.xml" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.5\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)ClosedXML.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.5\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)DocumentFormat.OpenXml.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.5\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)ExcelNumberFormat.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.5\packages\archi-lab.net\bin" ContinueOnError="true" />
