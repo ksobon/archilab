@@ -52,22 +52,31 @@ namespace archilab.Revit.Elements
 
         private Warning(Autodesk.Revit.DB.FailureMessage failure)
         {
+            ErrorMessage = failure.GetDescriptionText();
+
             var elementIds = failure.GetFailingElements();
-            if (!elementIds.Any()) return;
+            var additionalElementIds = failure.GetAdditionalElements();
+
+            var allIds = new List<Autodesk.Revit.DB.ElementId>();
+            allIds.AddRange(elementIds);
+            allIds.AddRange(additionalElementIds);
+
+            if (!allIds.Any())
+                return;
 
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var warningElements = new List<WarningElement>();
-            foreach (var id in elementIds)
+            foreach (var id in allIds)
             {
                 var e = doc.GetElement(id);
-                if (e == null) continue;
+                if (e == null)
+                    continue;
 
                 var we = new WarningElement {Id = id.IntegerValue};
                 warningElements.Add(we);
             }
 
             Elements = warningElements;
-            ErrorMessage = failure.GetDescriptionText();
         }
 
 #if !Revit2017
@@ -79,11 +88,13 @@ namespace archilab.Revit.Elements
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var warnings = doc.GetWarnings();
-            if (!warnings.Any()) return new List<Warning>();
 
-            return warnings.Select(x => new Warning(x)).ToList();
+            return !warnings.Any() 
+                ? new List<Warning>() 
+                : warnings.Select(x => new Warning(x)).ToList();
         }
 #endif
+
         /// <summary>
         /// Assigns a rating to warning based on custom library of ratings.
         /// </summary>
