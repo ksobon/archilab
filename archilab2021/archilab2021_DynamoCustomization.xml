@@ -37,6 +37,9 @@
       <namespace name="archilab.Pdf">
         <category>archilab.PDF</category>
       </namespace>
+      <namespace name="archilab.SpellCheck">
+        <category>archilab.SpellCheck</category>
+      </namespace>
       <namespace name="archilab.Utilities">
         <category>archilab.Core.Utilities</category>
       </namespace>
