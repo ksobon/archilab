@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using archilab.Maps;
 using archilab.Utilities;
 using Autodesk.Revit.DB;
 using CoreNodeModels;
@@ -385,6 +386,124 @@ namespace archilabUI
             };
 
             var func = new Func<string, Autodesk.Revit.DB.FilterStringRuleEvaluator>(archilab.Utilities.FilterStringRuleEvaluator.ByName);
+            var functionCall = AstFactory.BuildFunctionCall(func, args);
+
+            return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), functionCall) };
+        }
+    }
+
+    [NodeName("Google Map Types")]
+    [NodeCategory("archilab.Maps.GoogleMaps")]
+    [NodeDescription("")]
+    [IsDesignScriptCompatible]
+    public class GoogleMapTypesUi : RevitDropDownBase
+    {
+        private const string OutputName = "mapType";
+        private const string NoFamilyTypes = "No types were found.";
+
+        public GoogleMapTypesUi() : base(OutputName) { }
+
+        [JsonConstructor]
+        public GoogleMapTypesUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(OutputName, inPorts, outPorts) { }
+
+        // Get Data Class that holds dictionary
+        public static GoogleMapTypes WTypes = new GoogleMapTypes();
+
+        protected override SelectionState PopulateItemsCore(string currentSelection)
+        {
+            Items.Clear();
+
+            var d = new Dictionary<string, string>(WTypes.MapTypes);
+
+            if (d.Count == 0)
+            {
+                Items.Add(new DynamoDropDownItem(NoFamilyTypes, null));
+                SelectedIndex = 0;
+                return SelectionState.Done;
+            }
+
+            foreach (var pair in d)
+            {
+                Items.Add(new DynamoDropDownItem(pair.Key, pair.Value));
+            }
+            Items = Items.OrderBy(x => x.Name).ToObservableCollection();
+            return SelectionState.Restore;
+        }
+
+        public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
+        {
+            if (Items.Count == 0 ||
+                Items[0].Name == NoFamilyTypes ||
+                SelectedIndex == -1)
+            {
+                return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), AstFactory.BuildNullNode()) };
+            }
+
+            var args = new List<AssociativeNode>
+            {
+                AstFactory.BuildStringNode(Items[SelectedIndex].Name)
+            };
+
+            var func = new Func<string, string>(GoogleMapTypes.ByName);
+            var functionCall = AstFactory.BuildFunctionCall(func, args);
+
+            return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), functionCall) };
+        }
+    }
+
+    [NodeName("Google Image Formats")]
+    [NodeCategory("archilab.Maps.GoogleMaps")]
+    [NodeDescription("")]
+    [IsDesignScriptCompatible]
+    public class GoogleImageFormatsUi : RevitDropDownBase
+    {
+        private const string OutputName = "imageFormat";
+        private const string NoFamilyTypes = "No types were found.";
+
+        public GoogleImageFormatsUi() : base(OutputName) { }
+
+        [JsonConstructor]
+        public GoogleImageFormatsUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(OutputName, inPorts, outPorts) { }
+
+        // Get Data Class that holds dictionary
+        public static GoogleImageFormats WTypes = new GoogleImageFormats();
+
+        protected override SelectionState PopulateItemsCore(string currentSelection)
+        {
+            Items.Clear();
+
+            var d = new Dictionary<string, string>(WTypes.ImageFormats);
+
+            if (d.Count == 0)
+            {
+                Items.Add(new DynamoDropDownItem(NoFamilyTypes, null));
+                SelectedIndex = 0;
+                return SelectionState.Done;
+            }
+
+            foreach (var pair in d)
+            {
+                Items.Add(new DynamoDropDownItem(pair.Key, pair.Value));
+            }
+            Items = Items.OrderBy(x => x.Name).ToObservableCollection();
+            return SelectionState.Restore;
+        }
+
+        public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
+        {
+            if (Items.Count == 0 ||
+                Items[0].Name == NoFamilyTypes ||
+                SelectedIndex == -1)
+            {
+                return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), AstFactory.BuildNullNode()) };
+            }
+
+            var args = new List<AssociativeNode>
+            {
+                AstFactory.BuildStringNode(Items[SelectedIndex].Name)
+            };
+
+            var func = new Func<string, string>(GoogleImageFormats.ByName);
             var functionCall = AstFactory.BuildFunctionCall(func, args);
 
             return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), functionCall) };

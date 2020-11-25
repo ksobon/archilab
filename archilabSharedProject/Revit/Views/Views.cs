@@ -385,9 +385,137 @@ namespace archilab.Revit.Views
             return view;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="visible"></param>
+        [NodeCategory("Action")]
+        public static View SetImportsInFamiliesVisibility(View view, bool visible = false)
+        {
+            if (view == null)
+                throw new ArgumentException(nameof(view));
+
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+
+            // (Konrad) Imports in Families are under Imported Categories, but is actually a Graphics Style
+            var allStyles = new Autodesk.Revit.DB.FilteredElementCollector(doc)
+                .OfClass(typeof(Autodesk.Revit.DB.GraphicsStyle))
+                .Cast<Autodesk.Revit.DB.GraphicsStyle>()
+                .ToList();
+
+            TransactionManager.Instance.EnsureInTransaction(DocumentManager.Instance.CurrentDBDocument);
+            foreach (var style in allStyles)
+            {
+                if (style.Name != "Imports in Families")
+                    continue;
+
+                var iif = style.GraphicsStyleCategory;
+                if (iif.get_AllowsVisibilityControl(v))
+                    iif.set_Visible(v, visible);
+
+                break;
+            }
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return view;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="category"></param>
+        /// <param name="visible"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static View SetImportedCategoriesVisibility(View view, Category category, bool visible = false)
+        {
+            if (view == null)
+                throw new ArgumentException(nameof(view));
+            if (category == null)
+                throw new ArgumentException(nameof(category));
+
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var c = Autodesk.Revit.DB.Category.GetCategory(doc, new Autodesk.Revit.DB.ElementId(category.Id));
+
+            TransactionManager.Instance.EnsureInTransaction(DocumentManager.Instance.CurrentDBDocument);
+            if (c.get_AllowsVisibilityControl(v))
+                c.set_Visible(v, visible);
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return view;
+        }
+
         #endregion
 
         #region Query
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        [MultiReturn("DWG", "RVT", "DWF", "DXF", "DWFX")]
+        public static Dictionary<string, object> GetImportedCategories(View view)
+        {
+            if (view == null)
+                throw new ArgumentException(nameof(view));
+
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var categories = doc.Settings.Categories;
+            var linkedRevitCat = categories.get_Item(Autodesk.Revit.DB.BuiltInCategory.OST_RvtLinks);
+
+            var dwg = new List<Category>();
+            var rvt = new List<Category>();
+            var dwf = new List<Category>();
+            var dxf = new List<Category>();
+            var dwfx = new List<Category>();
+            foreach (Autodesk.Revit.DB.Category c in categories)
+            {
+                // (Konrad) Skip out on imports that cannot be controlled from the view.
+                if (!c.get_AllowsVisibilityControl(v))
+                    continue;
+
+                if (c.Name.ToLower().EndsWith(".dwg"))
+                {
+                    dwg.Add(Category.ById(c.Id.IntegerValue));
+                    continue;
+                }
+                if (c.Name.ToLower().Contains(".rvt") || (linkedRevitCat != null && c.Id.Equals(linkedRevitCat.Id)))
+                {
+                    rvt.Add(Category.ById(c.Id.IntegerValue));
+                    continue;
+                }
+                if (c.Name.ToLower().EndsWith(".dwf"))
+                {
+                    dwf.Add(Category.ById(c.Id.IntegerValue));
+                    continue;
+                }
+                if (c.Name.ToLower().EndsWith(".dxf"))
+                {
+                    dxf.Add(Category.ById(c.Id.IntegerValue));
+                    continue;
+                }
+                if (c.Name.ToLower().EndsWith(".dwfx"))
+                {
+                    dwfx.Add(Category.ById(c.Id.IntegerValue));
+                }
+            }
+
+            return new Dictionary<string, object>()
+            {
+                {"DWG", dwg},
+                {"RVT", rvt},
+                {"DWF", dwf},
+                {"DXF", dxf},
+                {"DWFX", dwfx}
+            };
+        }
 
         /// <summary>
         /// Get View Template applied to view.

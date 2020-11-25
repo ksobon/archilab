@@ -40,6 +40,9 @@
       <namespace name="archilab.SpellCheck">
         <category>archilab.SpellCheck</category>
       </namespace>
+      <namespace name="archilab.Maps">
+        <category>archilab.Maps</category>
+      </namespace>
       <namespace name="archilab.Utilities">
         <category>archilab.Core.Utilities</category>
       </namespace>

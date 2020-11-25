@@ -20,8 +20,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)GitHub\Statistics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Http\Request.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Lists\Lists.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maps\GoogleMaps.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Maps\MapSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pdf\PDF.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\AppearanceAssets.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Connectors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Ducts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\RenderingBackgroundSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Categories.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\CurtainGridLines.cs" />

@@ -6,10 +6,11 @@ using System.Linq;
 using Autodesk.DesignScript.Geometry;
 using Autodesk.DesignScript.Runtime;
 using Revit.Elements;
-using Revit.Elements.Views;
 using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
+using Element = Revit.Elements.Element;
+using View = Revit.Elements.Views.View;
 
 // ReSharper disable UnusedMember.Global
 
@@ -144,6 +145,140 @@ namespace archilab.Revit.Elements
             var bb = element.InternalElement.get_BoundingBox(v);
 
             return bb.ToProtoType();
+        }
+
+        /// <summary>
+        /// Returns all views of given type that an element is visible in.
+        /// </summary>
+        /// <param name="element">Element to check.</param>
+        /// <param name="viewType">View Type to check for.</param>
+        /// <returns>List of views that an element is visible in.</returns>
+        public static List<Element> AllViewsVisibleIn(Element element, string viewType = null)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+
+            List<Autodesk.Revit.DB.View> viewsToCheck;
+            if (string.IsNullOrWhiteSpace(viewType))
+            {
+                // (Konrad) Get all valid views by Type
+                var filter = new Autodesk.Revit.DB.ElementMulticlassFilter(
+                    new List<Type>
+                    {
+                        typeof(Autodesk.Revit.DB.View3D),
+                        typeof(Autodesk.Revit.DB.ViewPlan),
+                        typeof(Autodesk.Revit.DB.ViewSection)
+                    });
+
+                viewsToCheck = new Autodesk.Revit.DB.FilteredElementCollector(doc)
+                    .WherePasses(filter)
+                    .Cast<Autodesk.Revit.DB.View>()
+                    .Where(x => !x.IsTemplate)
+                    .ToList();
+            }
+            else
+            {
+                var vType = (Autodesk.Revit.DB.ViewType)Enum.Parse(typeof(Autodesk.Revit.DB.ViewType), viewType);
+                if (!CheckType(vType))
+                {
+                    throw new ArgumentException($"{vType.ToString()} does not display elements hence is not valid for this use.");
+                }
+
+                viewsToCheck = new Autodesk.Revit.DB.FilteredElementCollector(doc)
+                    .OfClass(typeof(Autodesk.Revit.DB.View))
+                    .Cast<Autodesk.Revit.DB.View>()
+                    .Where(x => x.ViewType == vType && !x.IsTemplate)
+                    .ToList();
+            }
+
+            return !viewsToCheck.Any() 
+                ? new List<Element>() 
+                : FindAllViewsWhereElementIsVisible(element, viewsToCheck);
+        }
+
+        /// <summary>
+        /// Checks if element is visible in a view.
+        /// </summary>
+        /// <param name="element">Element to check.</param>
+        /// <param name="view">View to check for.</param>
+        /// <returns>True if element is visible in a view.</returns>
+        public static bool IsVisibleInView(Element element, View view)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException(nameof(element));
+            }
+
+            return FindAllViewsWhereElementIsVisible(element,
+                new List<Autodesk.Revit.DB.View> {view.InternalElement as Autodesk.Revit.DB.View}).Any();
+        }
+
+        /// <summary>
+        /// Checks if Elements is visible in any of the supplied views.
+        /// </summary>
+        /// <param name="element">Element to check.</param>
+        /// <param name="viewsToCheck">Views to check.</param>
+        /// <returns>List of views that the element is visible in.</returns>
+        private static List<Element> FindAllViewsWhereElementIsVisible(Element element, IEnumerable<Autodesk.Revit.DB.View> viewsToCheck)
+        {
+            var idsToCheck = new List<Autodesk.Revit.DB.ElementId>
+            {
+                new Autodesk.Revit.DB.ElementId(element.Id)
+            };
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+
+            return (
+                from v in viewsToCheck
+                let idList = new Autodesk.Revit.DB.FilteredElementCollector(doc, v.Id)
+                    .WhereElementIsNotElementType()
+                    .ToElementIds()
+                where !idsToCheck.Except(idList).Any()
+                select v.ToDSType(true)).ToList();
+        }
+
+        /// <summary>
+        /// Checks if View Type is valid for checking if Element is visible in it.
+        /// </summary>
+        /// <param name="vt">View Type</param>
+        /// <returns>True if view can have Elements.</returns>
+        private static bool CheckType(Autodesk.Revit.DB.ViewType vt)
+        {
+            switch (vt)
+            {
+                case Autodesk.Revit.DB.ViewType.FloorPlan:
+                case Autodesk.Revit.DB.ViewType.EngineeringPlan:
+                case Autodesk.Revit.DB.ViewType.AreaPlan:
+                case Autodesk.Revit.DB.ViewType.CeilingPlan:
+                case Autodesk.Revit.DB.ViewType.Elevation:
+                case Autodesk.Revit.DB.ViewType.Section:
+                case Autodesk.Revit.DB.ViewType.Detail:
+                case Autodesk.Revit.DB.ViewType.ThreeD:
+                case Autodesk.Revit.DB.ViewType.DraftingView:
+                    return true;
+                case Autodesk.Revit.DB.ViewType.DrawingSheet:
+                case Autodesk.Revit.DB.ViewType.Undefined:
+                case Autodesk.Revit.DB.ViewType.Schedule:
+                case Autodesk.Revit.DB.ViewType.Legend:
+                case Autodesk.Revit.DB.ViewType.Report:
+                case Autodesk.Revit.DB.ViewType.ProjectBrowser:
+                case Autodesk.Revit.DB.ViewType.SystemBrowser:
+                case Autodesk.Revit.DB.ViewType.CostReport:
+                case Autodesk.Revit.DB.ViewType.LoadsReport:
+                case Autodesk.Revit.DB.ViewType.PresureLossReport:
+                case Autodesk.Revit.DB.ViewType.PanelSchedule:
+                case Autodesk.Revit.DB.ViewType.ColumnSchedule:
+                case Autodesk.Revit.DB.ViewType.Walkthrough:
+                case Autodesk.Revit.DB.ViewType.Rendering:
+                case Autodesk.Revit.DB.ViewType.SystemsAnalysisReport:
+                case Autodesk.Revit.DB.ViewType.Internal:
+                    return false;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

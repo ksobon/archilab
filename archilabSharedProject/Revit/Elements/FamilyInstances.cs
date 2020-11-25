@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Autodesk.DesignScript.Geometry;
 using DynamoServices;
 using Revit.Elements;
+using Revit.Elements.Views;
 using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
@@ -34,6 +38,11 @@ namespace archilab.Revit.Elements
             SafeInit(() => InitFamilyInstance(fs, line, level));
         }
 
+        internal FamilyInstances(Autodesk.Revit.DB.FamilySymbol fs, Autodesk.Revit.DB.XYZ point, Autodesk.Revit.DB.View view)
+        {
+            SafeInit(() => InitFamilyInstance(fs, point, view));
+        }
+
         private void InitFamilyInstance(Autodesk.Revit.DB.FamilyInstance instance)
         {
             InternalSetFamilyInstance(instance);
@@ -62,6 +71,35 @@ namespace archilab.Revit.Elements
 
             var fi = DocumentManager.Instance.CurrentDBDocument.Create.NewFamilyInstance(line, fs, level, Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
             ((Autodesk.Revit.DB.LocationCurve)fi.Location).Curve = line;
+
+            InternalSetFamilyInstance(fi);
+
+            TransactionManager.Instance.TransactionTaskDone();
+
+            ElementBinder.SetElementForTrace(InternalElement);
+        }
+
+        private void InitFamilyInstance(Autodesk.Revit.DB.FamilySymbol fs, Autodesk.Revit.DB.XYZ point, Autodesk.Revit.DB.View view)
+        {
+            //Phase 1 - Check to see if the object exists and should be rebound
+            var oldFam = ElementBinder.GetElementFromTrace<Autodesk.Revit.DB.FamilyInstance>(DocumentManager.Instance.CurrentDBDocument);
+
+            //There was a point, rebind to that, and adjust its position
+            if (oldFam != null)
+            {
+                InternalSetFamilyInstance(oldFam);
+                InternalSetFamilySymbol(fs);
+                return;
+            }
+
+            //Phase 2- There was no existing point, create one
+            TransactionManager.Instance.EnsureInTransaction(DocumentManager.Instance.CurrentDBDocument);
+
+            //If the symbol is not active, then activate it
+            if (!fs.IsActive)
+                fs.Activate();
+
+            var fi = DocumentManager.Instance.CurrentDBDocument.Create.NewFamilyInstance(point, fs, view);
 
             InternalSetFamilyInstance(fi);
 
@@ -109,6 +147,43 @@ namespace archilab.Revit.Elements
             var hostLevel = level.InternalElement as Autodesk.Revit.DB.Level;
 
             return new FamilyInstances(symbol, locationLine, hostLevel);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="familyType"></param>
+        /// <param name="point"></param>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        public static Element ByView(FamilyType familyType, Point point, View view)
+        {
+            if (familyType == null)
+                throw new ArgumentNullException(nameof(familyType));
+            if (point == null)
+                throw new ArgumentNullException(nameof(point));
+            if (view == null)
+                throw new ArgumentNullException(nameof(view));
+
+            var symbol = familyType.InternalElement as Autodesk.Revit.DB.FamilySymbol;
+            var pt = point.ToRevitType();
+            var v = view.InternalElement as Autodesk.Revit.DB.View;
+
+            return new FamilyInstances(symbol, pt, v);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static List<Connectors> Connectors(Element element)
+        {
+            if (!(element.InternalElement is Autodesk.Revit.DB.FamilyInstance e))
+                throw new ArgumentNullException(nameof(element));
+
+            return (from Autodesk.Revit.DB.Connector conn in e.MEPModel.ConnectorManager.Connectors
+                select new Connectors(conn)).ToList();
         }
     }
 }

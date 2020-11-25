@@ -251,6 +251,92 @@ namespace archilab.Utilities
             return evaluator;
         }
     }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    [IsVisibleInDynamoLibrary(false)]
+    public class GoogleImageFormats
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public Dictionary<string, string> ImageFormats { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public GoogleImageFormats()
+        {
+            ImageFormats = new Dictionary<string, string>()
+            {
+                { "PNG", "png"},
+                { "PNG8", "png8"},
+                { "PNG32", "png32"},
+                { "GIF", "gif"},
+                { "JPG", "jpg"},
+                { "JPG-BASELINE", "jpg-baseline"}
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string ByName(string name)
+        {
+            if (name == null)
+            {
+                throw new ArgumentException("name");
+            }
+            var imageFormat = new GoogleImageFormats().ImageFormats[name];
+
+            return imageFormat;
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [IsVisibleInDynamoLibrary(false)]
+    public class GoogleMapTypes
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public Dictionary<string, string> MapTypes { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public GoogleMapTypes()
+        {
+            MapTypes = new Dictionary<string, string>()
+            {
+                { "Road Map", "roadmap"},
+                { "Satellite", "satellite"},
+                { "Terrain", "terrain"},
+                { "Hybrid", "hybrid"}
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string ByName(string name)
+        {
+            if (name == null)
+            {
+                throw new ArgumentException("name");
+            }
+            var mapType = new GoogleMapTypes().MapTypes[name];
+
+            return mapType;
+        }
+    }
 
     /// <summary>
     ///     Parameter Filter Numeric Rule Evaluator options.
