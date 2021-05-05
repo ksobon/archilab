@@ -110,6 +110,55 @@ namespace archilab.Lists
         {
             return pass ? objectToPass : null;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static List<object> Clean(List<object> list)
+        {
+            for (var i = list.Count - 1; i >= 0; i--)
+            {
+                switch (list[i])
+                {
+                    case null:
+                    case string s when string.IsNullOrWhiteSpace(s):
+                        list.RemoveAt(i);
+                        break;
+                }
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        [MultiReturn("list1", "list2")]
+        public static Dictionary<string, List<object>> Split(List<object> list, int amount)
+        {
+            var list1 = new List<object>();
+            var list2 = new List<object>();
+            for (var i = 0; i < list.Count; i++)
+            {
+                if (i < amount)
+                    list1.Add(list[i]);
+                else
+                    list2.Add(list[i]);
+            }
+
+            return new Dictionary<string, List<object>>
+            {
+                {"list1", list1},
+                {"list2", list2}
+            };
+        }
     }
 
     /// <summary>

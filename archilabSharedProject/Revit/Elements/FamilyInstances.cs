@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Autodesk.DesignScript.Geometry;
+using Dynamo.Graph.Nodes;
 using DynamoServices;
 using Revit.Elements;
 using Revit.Elements.Views;
@@ -135,6 +136,7 @@ namespace archilab.Revit.Elements
         /// <param name="line">Line to place Family Instance at.</param>
         /// <param name="level">Level to associate Family Instance with.</param>
         /// <returns>New Family Instance.</returns>
+        [NodeCategory("Action")]
         public static Element ByLine(FamilyType familyType, Line line, Level level)
         {
             if (familyType == null)
@@ -156,6 +158,7 @@ namespace archilab.Revit.Elements
         /// <param name="point"></param>
         /// <param name="view"></param>
         /// <returns></returns>
+        [NodeCategory("Action")]
         public static Element ByView(FamilyType familyType, Point point, View view)
         {
             if (familyType == null)
@@ -177,6 +180,51 @@ namespace archilab.Revit.Elements
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>
+        [NodeCategory("Action")]
+        public static Element FlipFacingOrientation(Element element)
+        {
+            if (!(element.InternalElement is Autodesk.Revit.DB.FamilyInstance e))
+                throw new ArgumentNullException(nameof(element));
+
+            if (!e.CanFlipFacing)
+                return element;
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            e.flipFacing();
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return element;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static Element FlipHandOrientation(Element element)
+        {
+            if (!(element.InternalElement is Autodesk.Revit.DB.FamilyInstance e))
+                throw new ArgumentNullException(nameof(element));
+
+            if (!e.CanFlipHand)
+                return element;
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            e.flipHand();
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return element;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
         public static List<Connectors> Connectors(Element element)
         {
             if (!(element.InternalElement is Autodesk.Revit.DB.FamilyInstance e))

@@ -6,12 +6,13 @@
     <SharedGUID>96867a82-3e80-42b3-92c3-259a231817ed</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>archilabSharedProject</Import_RootNamespace>
+    <Import_RootNamespace>archilab</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Core\DateTimes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Maths.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core\Strings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core\Types.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Csv\CsvParser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Excel\XlsNamedRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Excel\XlsWorkbook.cs" />
@@ -24,8 +25,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Maps\MapSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pdf\PDF.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\AppearanceAssets.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Assemblies.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Connectors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Documents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Ducts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Grids.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\ImageExportOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\RenderingBackgroundSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Categories.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\CurtainGridLines.cs" />
@@ -74,6 +79,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Utils\DoubleExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\CeilingPlanViews.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\FloorPlanViews.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\ImageViews.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\Sheets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\ThreeD.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\Views.cs" />

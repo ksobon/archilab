@@ -25,6 +25,25 @@ namespace archilab.Utilities
         {
             return !color.IsValid ? null : Color.ByARGB(255, color.Red, color.Green, color.Blue);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public static Autodesk.Revit.DB.Color RevitColorByColor(Color color)
+        {
+            return new Autodesk.Revit.DB.Color(color.Red, color.Green, color.Blue);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static Color GetBlack()
+        {
+            return Color.ByARGB();
+        }
     }
 
     /// <summary>

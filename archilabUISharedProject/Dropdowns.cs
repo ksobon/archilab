@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using archilab.Maps;
 using archilab.Utilities;
 using Autodesk.Revit.DB;
 using CoreNodeModels;
@@ -956,6 +955,34 @@ namespace archilabUI
             : base(OutputName, typeof(DisplayUnitType), inPorts, outPorts) { }
     }
 
+    [NodeName("Revision Number Type")]
+    [NodeCategory("archilab.Revit.Revisions")]
+    [NodeDescription("Retrieve all available Revision Number Types.")]
+    [IsDesignScriptCompatible]
+    public class RevisionNumberTypeUI : CustomGenericEnumerationDropDown
+    {
+        private const string OutputName = "numberType";
+        public RevisionNumberTypeUI() : base(OutputName, typeof(Autodesk.Revit.DB.RevisionNumberType)) { }
+
+        [JsonConstructor]
+        public RevisionNumberTypeUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
+            : base(OutputName, typeof(Autodesk.Revit.DB.RevisionNumberType), inPorts, outPorts) { }
+    }
+
+    [NodeName("Revision Visibility")]
+    [NodeCategory("archilab.Revit.Revisions")]
+    [NodeDescription("Retrieve all available Revision Visibility.")]
+    [IsDesignScriptCompatible]
+    public class RevisionVisibilityUI : CustomGenericEnumerationDropDown
+    {
+        private const string OutputName = "visibility";
+        public RevisionVisibilityUI() : base(OutputName, typeof(Autodesk.Revit.DB.RevisionVisibility)) { }
+
+        [JsonConstructor]
+        public RevisionVisibilityUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
+            : base(OutputName, typeof(Autodesk.Revit.DB.RevisionVisibility), inPorts, outPorts) { }
+    }
+
     [NodeName("Spatial Element Boundary Locations")]
     [NodeCategory("archilab.Revit.Room")]
     [NodeDescription("Retrieve all available Spatial Element Boundary Locations.")]
@@ -982,5 +1009,19 @@ namespace archilabUI
         [JsonConstructor]
         public MidpointRoundingTypesUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
             : base(OutputName, typeof(MidpointRounding), inPorts, outPorts) { }
+    }
+
+    [NodeName("Grid Extent Type")]
+    [NodeCategory("archilab.Revit.Grids")]
+    [NodeDescription("Retrieve all available Grid Extent Types.")]
+    [IsDesignScriptCompatible]
+    public class ExtentTypeUI : CustomGenericEnumerationDropDown
+    {
+        private const string OutputName = "extentType";
+        public ExtentTypeUI() : base(OutputName, typeof(DatumExtentType)) { }
+
+        [JsonConstructor]
+        public ExtentTypeUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
+            : base(OutputName, typeof(DatumExtentType), inPorts, outPorts) { }
     }
 }

@@ -77,17 +77,22 @@ namespace archilab.Revit.Elements
         /// <search>delete, remove, element</search>
         public static bool Delete(Element element)
         {
-            var doc = DocumentManager.Instance.CurrentDBDocument;
-            var e = element.InternalElement;
+            if (element == null)
+                return false;
 
             try
             {
+                var doc = DocumentManager.Instance.CurrentDBDocument;
+
                 TransactionManager.Instance.EnsureInTransaction(doc);
-                doc.Delete(e.Id);
+                doc.Delete(element.InternalElement.Id);
                 TransactionManager.Instance.TransactionTaskDone();
                 return true;
             }
-            catch (Exception) { return false; }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -273,7 +278,9 @@ namespace archilab.Revit.Elements
                 case Autodesk.Revit.DB.ViewType.ColumnSchedule:
                 case Autodesk.Revit.DB.ViewType.Walkthrough:
                 case Autodesk.Revit.DB.ViewType.Rendering:
+#if !Revit2018
                 case Autodesk.Revit.DB.ViewType.SystemsAnalysisReport:
+#endif
                 case Autodesk.Revit.DB.ViewType.Internal:
                     return false;
                 default:

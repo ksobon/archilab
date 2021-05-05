@@ -1,10 +1,9 @@
 ﻿using System;
-using Autodesk.Revit.DB;
+using System.Linq;
+using Dynamo.Graph.Nodes;
 using Revit.Elements;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
-using Element = Revit.Elements.Element;
-
 // ReSharper disable UnusedMember.Global
 
 namespace archilab.Revit.Elements
@@ -21,8 +20,59 @@ namespace archilab.Revit.Elements
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static Element GetByName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var fp = new Autodesk.Revit.DB.FilteredElementCollector(doc)
+                .OfClass(typeof(Autodesk.Revit.DB.FillPatternElement))
+                .WhereElementIsNotElementType()
+                .Where(x => x.Name == name)
+                .ToList();
+
+            if (fp.Any())
+                return fp.First().ToDSType(true);
+
+            throw new Exception("Could not find Fill Pattern with given name.");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fillPattern"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static Element SetName(Element fillPattern, string name)
+        {
+            if (fillPattern == null)
+                throw new ArgumentException(nameof(fillPattern));
+
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentNullException(nameof(name));
+
+            if (!(fillPattern.InternalElement is Autodesk.Revit.DB.FillPatternElement fpe))
+                throw new ArgumentException(nameof(fillPattern));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            fpe.Name = name;
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return fpe.ToDSType(true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="fillPattern"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         public static string Target(Element fillPattern)
         {
             if (fillPattern == null)
@@ -39,6 +89,7 @@ namespace archilab.Revit.Elements
         /// </summary>
         /// <param name="fillPattern"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         public static string Orientation(Element fillPattern)
         {
             if (fillPattern == null)
@@ -50,11 +101,11 @@ namespace archilab.Revit.Elements
             var fp = fpe.GetFillPattern();
             switch (fp.HostOrientation)
             {
-                case FillPatternHostOrientation.ToView:
+                case Autodesk.Revit.DB.FillPatternHostOrientation.ToView:
                     return "Orient To View";
-                case FillPatternHostOrientation.AsText:
+                case Autodesk.Revit.DB.FillPatternHostOrientation.AsText:
                     return "Keep Readable";
-                case FillPatternHostOrientation.ToHost:
+                case Autodesk.Revit.DB.FillPatternHostOrientation.ToHost:
                     return "Align with element";
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -66,6 +117,7 @@ namespace archilab.Revit.Elements
         /// </summary>
         /// <param name="fillPattern"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         public static string Name(Element fillPattern)
         {
             if (fillPattern == null)
@@ -82,6 +134,7 @@ namespace archilab.Revit.Elements
         /// </summary>
         /// <param name="fillPattern"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         public static bool IsCrosshatch(Element fillPattern)
         {
             if (fillPattern == null)
@@ -98,6 +151,7 @@ namespace archilab.Revit.Elements
         /// </summary>
         /// <param name="fillPattern"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         public static double Angle(Element fillPattern)
         {
             if (fillPattern == null)
@@ -117,6 +171,7 @@ namespace archilab.Revit.Elements
         /// </summary>
         /// <param name="fillPattern"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         public static double LineSpacing1(Element fillPattern)
         {
             if (fillPattern == null)
@@ -128,14 +183,15 @@ namespace archilab.Revit.Elements
             var fp = fpe.GetFillPattern();
             var grids = fp.GetFillGrids();
 
-            return UnitUtils.ConvertFromInternalUnits(grids[0].Offset, DisplayUnitType.DUT_MILLIMETERS);
+            return Autodesk.Revit.DB.UnitUtils.ConvertFromInternalUnits(grids[0].Offset, Autodesk.Revit.DB.DisplayUnitType.DUT_MILLIMETERS);
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="fillPattern"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         public static double LineSpacing2(Element fillPattern)
         {
             if (fillPattern == null)
@@ -151,7 +207,7 @@ namespace archilab.Revit.Elements
 
             var grids = fp.GetFillGrids();
 
-            return UnitUtils.ConvertFromInternalUnits(grids[1].Offset, DisplayUnitType.DUT_MILLIMETERS);
+            return Autodesk.Revit.DB.UnitUtils.ConvertFromInternalUnits(grids[1].Offset, Autodesk.Revit.DB.DisplayUnitType.DUT_MILLIMETERS);
         }
 
         /// <summary>
@@ -159,6 +215,7 @@ namespace archilab.Revit.Elements
         /// </summary>
         /// <param name="fillPattern"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         public static bool IsSolidFill(Element fillPattern)
         {
             if (fillPattern == null)
@@ -173,26 +230,22 @@ namespace archilab.Revit.Elements
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="fillPattern"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static Element SetName(Element fillPattern, string name)
+        [NodeCategory("Query")]
+        public static bool Exists(string name)
         {
-            if (fillPattern == null)
-                throw new ArgumentException(nameof(fillPattern));
-
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name));
 
-            if (!(fillPattern.InternalElement is Autodesk.Revit.DB.FillPatternElement fpe))
-                throw new ArgumentException(nameof(fillPattern));
-
             var doc = DocumentManager.Instance.CurrentDBDocument;
-            TransactionManager.Instance.EnsureInTransaction(doc);
-            fpe.Name = name;
-            TransactionManager.Instance.TransactionTaskDone();
+            var fp = new Autodesk.Revit.DB.FilteredElementCollector(doc)
+                .OfClass(typeof(Autodesk.Revit.DB.FillPatternElement))
+                .WhereElementIsNotElementType()
+                .Where(x => x.Name == name)
+                .ToList();
 
-            return fpe.ToDSType(true);
+            return fp.Any();
         }
 
         #region Utilities

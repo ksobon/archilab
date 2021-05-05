@@ -179,6 +179,10 @@ namespace archilab.Revit.Selection
                 case TypeCode.String:
                     e = ((string)id).Length > 8 ? doc.GetElement((string)id) : doc.GetElement(new Autodesk.Revit.DB.ElementId(int.Parse((string)id)));
                     break;
+                case TypeCode.Double:
+                    var integerValue = Convert.ToInt32(id);
+                    e = doc.GetElement(new Autodesk.Revit.DB.ElementId(integerValue));
+                    break;
                 case TypeCode.Int32:
                 case TypeCode.Int64:
                 case TypeCode.Int16:
@@ -254,6 +258,35 @@ namespace archilab.Revit.Selection
             var doc = (document ?? DocumentManager.Instance.CurrentDBDocument) as Autodesk.Revit.DB.Document;
             return new Autodesk.Revit.DB.FilteredElementCollector(doc)
                 .OfClass(type)
+                .ToElements()
+                .Select(x => x.ToDSType(true))
+                .ToList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="typeName">Fully qualified type name. Refer to: https://docs.microsoft.com/en-us/dotnet/api/system.type.gettype?view=net-5.0 </param>
+        /// <param name="document"></param>
+        /// <returns></returns>
+        public static IList<Element> ByTypeNameAndDocument(string typeName, [DefaultArgument("Selection.Select.GetNull()")] object document)
+        {
+            if (string.IsNullOrWhiteSpace(typeName))
+                throw new ArgumentException(nameof(typeName));
+
+            var fullName = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => x.FullName.StartsWith("RevitAPI"))
+                .SelectMany(x => x.GetTypes())
+                .FirstOrDefault(x => x.Name == typeName)?
+                .AssemblyQualifiedName;
+
+            if (string.IsNullOrWhiteSpace(fullName))
+                throw new ArgumentException(nameof(typeName));
+
+            var t = Type.GetType($"Autodesk.Revit.DB.{fullName}");
+            var doc = (document ?? DocumentManager.Instance.CurrentDBDocument) as Autodesk.Revit.DB.Document;
+            return new Autodesk.Revit.DB.FilteredElementCollector(doc)
+                .OfClass(t)
                 .ToElements()
                 .Select(x => x.ToDSType(true))
                 .ToList();

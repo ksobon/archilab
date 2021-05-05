@@ -12,6 +12,7 @@ using RevitServices.Transactions;
 using Revit.Elements;
 using Revit.Elements.Views;
 using archilab.Revit.Elements;
+using archilab.Utilities;
 using Autodesk.DesignScript.Runtime;
 using Revit.Filter;
 // ReSharper disable UnusedMember.Global
@@ -116,6 +117,19 @@ namespace archilab.Revit.Views
             }
 
             return view;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="except"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static List<string> GetAllViewTypes(List<string> except)
+        {
+            return except.Any() 
+                ? new ViewTypes().Types.Values.Where(x => !except.Contains(x)).ToList() 
+                : new ViewTypes().Types.Values.ToList();
         }
 
         /// <summary>
@@ -447,6 +461,47 @@ namespace archilab.Revit.Views
             TransactionManager.Instance.TransactionTaskDone();
 
             return view;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="elements"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static List<bool> HideElements(View view, List<Element> elements)
+        {
+            if (view == null)
+                throw new ArgumentException(nameof(view));
+
+            var results = new List<bool>();
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var ids = new List<Autodesk.Revit.DB.ElementId>();
+
+            foreach (var element in elements)
+            {
+                var e = element.InternalElement;
+                if (!e.IsHidden(v) && e.CanBeHidden(v))
+                {
+                    ids.Add(e.Id);
+                    results.Add(true);
+                }
+                else
+                {
+                    results.Add(false);
+                }
+            }
+
+            if (!ids.Any())
+                return results;
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            v.HideElements(ids);
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return results;
         }
 
         #endregion
