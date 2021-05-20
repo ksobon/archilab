@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Dynamo.Graph.Nodes;
 using Autodesk.DesignScript.Runtime;
+using Autodesk.Revit.DB.Analysis;
+
 // ReSharper disable UnusedMember.Global
 
 namespace archilab.Lists
@@ -15,6 +17,22 @@ namespace archilab.Lists
     {
         internal Lists()
         {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <param name="ifTrue"></param>
+        /// <param name="ifFalse"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static object Weave(List<bool> condition, List<object> ifTrue, List<object> ifFalse)
+        {
+            var trueQueue = new Queue(ifTrue);
+            var falseQueue = new Queue(ifFalse);
+
+            return condition.Select(x => x ? trueQueue.Dequeue() : falseQueue.Dequeue()).ToList();
         }
 
         /// <summary>
@@ -137,26 +155,27 @@ namespace archilab.Lists
         /// 
         /// </summary>
         /// <param name="list"></param>
-        /// <param name="amount"></param>
         /// <returns></returns>
-        [NodeCategory("Action")]
-        [MultiReturn("list1", "list2")]
-        public static Dictionary<string, List<object>> Split(List<object> list, int amount)
+        [NodeCategory("Query")]
+        [MultiReturn("index", "value")]
+        public static Dictionary<string, object> MinIndex(double[] list) 
         {
-            var list1 = new List<object>();
-            var list2 = new List<object>();
-            for (var i = 0; i < list.Count; i++)
+            var min = list[0];
+            var minIndex = 0;
+
+            for (int i = 1; i < list.Length; ++i)
             {
-                if (i < amount)
-                    list1.Add(list[i]);
-                else
-                    list2.Add(list[i]);
+                if (list[i] < min)
+                {
+                    min = list[i];
+                    minIndex = i;
+                }
             }
 
-            return new Dictionary<string, List<object>>
+            return new Dictionary<string, object>
             {
-                {"list1", list1},
-                {"list2", list2}
+                { "index", minIndex},
+                { "value", min}
             };
         }
     }

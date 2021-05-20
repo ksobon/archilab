@@ -17,14 +17,62 @@ namespace archilab.Revit.Units
             private set;
         }
 
-        internal Autodesk.Revit.DB.DisplayUnitType InternalDisplayUnitType
+
+        internal FormatOptions()
+        {
+        }
+
+#if !Revit2018 && !Revit2021
+        internal Autodesk.Revit.DB.ForgeTypeId InternalDisplayUnitType
         {
             get;
             private set;
         }
 
-        internal FormatOptions()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fu"></param>
+        [SupressImportIntoVM]
+        public FormatOptions(Autodesk.Revit.DB.ForgeTypeId fu)
         {
+            InitFormatOptions(fu);
+        }
+
+        private void InitFormatOptions(Autodesk.Revit.DB.ForgeTypeId fu)
+        {
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            var fo = new Autodesk.Revit.DB.FormatOptions(fu);
+            InternalSetFormatOptions(fo);
+            TransactionManager.Instance.TransactionTaskDone();
+        }
+
+        private void InternalSetFormatOptions(Autodesk.Revit.DB.FormatOptions options)
+        {
+            InternalFormatOptions = options;
+            InternalDisplayUnitType = options.GetUnitTypeId();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="forgeUnit"></param>
+        /// <returns></returns>
+        public static FormatOptions Create(string forgeUnit)
+        {
+            if (string.IsNullOrWhiteSpace(forgeUnit))
+                throw new ArgumentException(nameof(forgeUnit));
+
+            var fu = new Autodesk.Revit.DB.ForgeTypeId(forgeUnit);
+            return new FormatOptions(fu);
+        }
+#else
+        internal Autodesk.Revit.DB.DisplayUnitType InternalDisplayUnitType
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -36,7 +84,7 @@ namespace archilab.Revit.Units
         {
             InitFormatOptions(dut);
         }
-
+        
         private void InitFormatOptions(Autodesk.Revit.DB.DisplayUnitType dut)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
@@ -53,7 +101,7 @@ namespace archilab.Revit.Units
             InternalDisplayUnitType = options.DisplayUnits;
         }
 
-        /// <summary>
+                /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
@@ -66,5 +114,6 @@ namespace archilab.Revit.Units
 
             return new FormatOptions(dut);
         }
+#endif
     }
 }

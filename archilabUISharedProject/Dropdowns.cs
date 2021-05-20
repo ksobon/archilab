@@ -20,9 +20,6 @@ using ElementSelector = Revit.Elements.ElementSelector;
 
 namespace archilabUI
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [NodeName("Box Placement Types")]
     [NodeCategory("archilab.Revit.Views")]
     [NodeDescription("Retrieve all available Box Placement Types")]
@@ -172,9 +169,6 @@ namespace archilabUI
             : base(OutputName, typeof(ExportRange), inPorts, outPorts) { }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     [NodeName("Print Settings")]
     [NodeCategory("archilab.Revit.Printing")]
     [NodeDescription("Retrieve all available Print Settings from Revit project.")]
@@ -913,6 +907,9 @@ namespace archilabUI
             : base(OutputName, typeof(Method), inPorts, outPorts) { }
     }
 
+#if !Revit2018 && !Revit2021
+    // (Konrad) This is replaced by Forge Unit in 2022 and up.
+#else
     [NodeName("Unit Type")]
     [NodeCategory("archilab.Revit.Units")]
     [NodeDescription("Retrieve all available Unit Types.")]
@@ -926,7 +923,7 @@ namespace archilabUI
         public UnitTypeUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
             : base(OutputName, typeof(UnitType), inPorts, outPorts) { }
     }
-
+#endif
     [NodeName("Unit Systems")]
     [NodeCategory("archilab.Revit.Units")]
     [NodeDescription("Retrieve all available Unit Systems.")]
@@ -940,7 +937,124 @@ namespace archilabUI
         public UnitSystemUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
             : base(OutputName, typeof(UnitSystem), inPorts, outPorts) { }
     }
+#if !Revit2018 && !Revit2021
+    [NodeName("Forge Units")]
+    [NodeCategory("archilab.Revit.Units")]
+    [NodeDescription("Retrieve all available Forge Units.")]
+    [IsDesignScriptCompatible]
+    public class ForgeUnitsUi : RevitDropDownBase
+    {
+        private const string NoFamilyTypes = "No units were found.";
+        private const string outputName = "forgeUnit";
 
+        public ForgeUnitsUi() : base("forgeUnit") { }
+
+        [JsonConstructor]
+        public ForgeUnitsUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(outputName, inPorts, outPorts) { }
+
+        // Get Data Class that holds dictionary
+        public static archilab.Utilities.Units VTypes = new archilab.Utilities.Units();
+
+        protected override SelectionState PopulateItemsCore(string currentSelection)
+        {
+            Items.Clear();
+
+            var d = new Dictionary<string, string>(VTypes.ForgeUnits);
+
+            if (d.Count == 0)
+            {
+                Items.Add(new DynamoDropDownItem(NoFamilyTypes, null));
+                SelectedIndex = 0;
+                return SelectionState.Done;
+            }
+
+            foreach (var pair in d)
+            {
+                Items.Add(new DynamoDropDownItem(pair.Key, pair.Value));
+            }
+            Items = Items.OrderBy(x => x.Name).ToObservableCollection();
+            return SelectionState.Restore;
+        }
+
+        public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
+        {
+            if (Items.Count == 0 ||
+                Items[0].Name == NoFamilyTypes ||
+                SelectedIndex == -1)
+            {
+                return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), AstFactory.BuildNullNode()) };
+            }
+
+            var args = new List<AssociativeNode>
+            {
+                AstFactory.BuildStringNode(Items[SelectedIndex].Name)
+            };
+
+            var func = new Func<string, string>(archilab.Utilities.Units.ByName);
+            var functionCall = AstFactory.BuildFunctionCall(func, args);
+
+            return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), functionCall) };
+        }
+    }
+    [NodeName("Forge Specs")]
+    [NodeCategory("archilab.Revit.Units")]
+    [NodeDescription("Retrieve all available Forge Specs.")]
+    [IsDesignScriptCompatible]
+    public class ForgeSpecsUi : RevitDropDownBase
+    {
+        private const string NoFamilyTypes = "No specs were found.";
+        private const string outputName = "forgeSpec";
+
+        public ForgeSpecsUi() : base("forgeSpec") { }
+
+        [JsonConstructor]
+        public ForgeSpecsUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(outputName, inPorts, outPorts) { }
+
+        // Get Data Class that holds dictionary
+        public static Specs VTypes = new Specs();
+
+        protected override SelectionState PopulateItemsCore(string currentSelection)
+        {
+            Items.Clear();
+
+            var d = new Dictionary<string, string>(VTypes.ForgeSpecs);
+
+            if (d.Count == 0)
+            {
+                Items.Add(new DynamoDropDownItem(NoFamilyTypes, null));
+                SelectedIndex = 0;
+                return SelectionState.Done;
+            }
+
+            foreach (var pair in d)
+            {
+                Items.Add(new DynamoDropDownItem(pair.Key, pair.Value));
+            }
+            Items = Items.OrderBy(x => x.Name).ToObservableCollection();
+            return SelectionState.Restore;
+        }
+
+        public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
+        {
+            if (Items.Count == 0 ||
+                Items[0].Name == NoFamilyTypes ||
+                SelectedIndex == -1)
+            {
+                return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), AstFactory.BuildNullNode()) };
+            }
+
+            var args = new List<AssociativeNode>
+            {
+                AstFactory.BuildStringNode(Items[SelectedIndex].Name)
+            };
+
+            var func = new Func<string, string>(Specs.ByName);
+            var functionCall = AstFactory.BuildFunctionCall(func, args);
+
+            return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), functionCall) };
+        }
+    }
+#else
     [NodeName("Display Unit Types")]
     [NodeCategory("archilab.Revit.Units")]
     [NodeDescription("Retrieve all available Display Unit Types.")]
@@ -954,6 +1068,7 @@ namespace archilabUI
         public DisplayUnitTypeUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
             : base(OutputName, typeof(DisplayUnitType), inPorts, outPorts) { }
     }
+#endif
 
     [NodeName("Revision Number Type")]
     [NodeCategory("archilab.Revit.Revisions")]

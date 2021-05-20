@@ -275,7 +275,7 @@ namespace archilab.Revit.Selection
                 throw new ArgumentException(nameof(typeName));
 
             var fullName = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(x => x.FullName.StartsWith("RevitAPI"))
+                .Where(x => x.FullName.StartsWith("RevitAPI,"))
                 .SelectMany(x => x.GetTypes())
                 .FirstOrDefault(x => x.Name == typeName)?
                 .AssemblyQualifiedName;
@@ -288,6 +288,24 @@ namespace archilab.Revit.Selection
             return new Autodesk.Revit.DB.FilteredElementCollector(doc)
                 .OfClass(t)
                 .ToElements()
+                .Select(x => x.ToDSType(true))
+                .ToList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        public static IList<Element> ByCategory(Category category)
+        {
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var filter = new Autodesk.Revit.DB.ElementMulticategoryFilter(new List<Autodesk.Revit.DB.ElementId> 
+            { new Autodesk.Revit.DB.ElementId(category.Id) });
+            
+            return new Autodesk.Revit.DB.FilteredElementCollector(doc)
+                .WhereElementIsNotElementType()
+                .WherePasses(filter)
                 .Select(x => x.ToDSType(true))
                 .ToList();
         }

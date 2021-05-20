@@ -514,6 +514,26 @@ namespace archilab.Revit.Views
         /// <param name="view"></param>
         /// <returns></returns>
         [NodeCategory("Query")]
+        public static Point LowerLeftCorner(View view)
+        {
+            if (view == null)
+                throw new ArgumentException(nameof(view));
+
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var minOutl = v.Outline.Min * v.Scale;
+            var o = v.Origin;
+            o += v.RightDirection * minOutl.U;
+            o += v.UpDirection * minOutl.V;
+
+            return o.ToPoint();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
         [MultiReturn("DWG", "RVT", "DWF", "DXF", "DWFX")]
         public static Dictionary<string, object> GetImportedCategories(View view)
         {

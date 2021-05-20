@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using archilab.Utilities;
 using Autodesk.DesignScript.Geometry;
 using Dynamo.Graph.Nodes;
 using DynamoServices;
@@ -42,6 +44,16 @@ namespace archilab.Revit.Elements
         internal FamilyInstances(Autodesk.Revit.DB.FamilySymbol fs, Autodesk.Revit.DB.XYZ point, Autodesk.Revit.DB.View view)
         {
             SafeInit(() => InitFamilyInstance(fs, point, view));
+        } 
+        
+        internal FamilyInstances(Autodesk.Revit.DB.FamilySymbol fs, Autodesk.Revit.DB.XYZ point, Autodesk.Revit.DB.Element host, Autodesk.Revit.DB.Level level)
+        {
+            SafeInit(() => InitFamilyInstance(fs, point, host, level));
+        }
+        
+        internal FamilyInstances(Autodesk.Revit.DB.FamilySymbol fs, Autodesk.Revit.DB.XYZ point, Autodesk.Revit.DB.Reference reference, Autodesk.Revit.DB.XYZ referenceDir)
+        {
+            SafeInit(() => InitFamilyInstance(fs, point, reference, referenceDir));
         }
 
         private void InitFamilyInstance(Autodesk.Revit.DB.FamilyInstance instance)
@@ -109,6 +121,66 @@ namespace archilab.Revit.Elements
             ElementBinder.SetElementForTrace(InternalElement);
         }
 
+        private void InitFamilyInstance(Autodesk.Revit.DB.FamilySymbol fs, Autodesk.Revit.DB.XYZ point, Autodesk.Revit.DB.Element host, Autodesk.Revit.DB.Level level) 
+        {
+            //Phase 1 - Check to see if the object exists and should be rebound
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var oldFam = ElementBinder.GetElementFromTrace<Autodesk.Revit.DB.FamilyInstance>(doc);
+
+            //There was a point, rebind to that, and adjust its position
+            if (oldFam != null)
+            {
+                InternalSetFamilyInstance(oldFam);
+                InternalSetFamilySymbol(fs);
+                return;
+            }
+
+            //Phase 2- There was no existing point, create one
+            TransactionManager.Instance.EnsureInTransaction(doc);
+
+            //If the symbol is not active, then activate it
+            if (!fs.IsActive)
+                fs.Activate();
+
+            var fi = doc.Create.NewFamilyInstance(point, fs, host, level, Autodesk.Revit.DB.Structure.StructuralType.NonStructural);
+
+            InternalSetFamilyInstance(fi);
+
+            TransactionManager.Instance.TransactionTaskDone();
+
+            ElementBinder.SetElementForTrace(InternalElement);
+        }
+
+        private void InitFamilyInstance(Autodesk.Revit.DB.FamilySymbol fs, Autodesk.Revit.DB.XYZ point, Autodesk.Revit.DB.Reference reference, Autodesk.Revit.DB.XYZ referenceDir)
+        {
+            //Phase 1 - Check to see if the object exists and should be rebound
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var oldFam = ElementBinder.GetElementFromTrace<Autodesk.Revit.DB.FamilyInstance>(doc);
+
+            //There was a point, rebind to that, and adjust its position
+            if (oldFam != null)
+            {
+                InternalSetFamilyInstance(oldFam);
+                InternalSetFamilySymbol(fs);
+                return;
+            }
+
+            //Phase 2- There was no existing point, create one
+            TransactionManager.Instance.EnsureInTransaction(doc);
+
+            //If the symbol is not active, then activate it
+            if (!fs.IsActive)
+                fs.Activate();
+
+            var fi = doc.Create.NewFamilyInstance(reference, point, referenceDir, fs);
+
+            InternalSetFamilyInstance(fi);
+
+            TransactionManager.Instance.TransactionTaskDone();
+
+            ElementBinder.SetElementForTrace(InternalElement);
+        }
+
         private void InternalSetLevel(Autodesk.Revit.DB.Level level)
         {
             if (InternalFamilyInstance.LevelId.Compare(level.Id) == 0) return;
@@ -148,7 +220,7 @@ namespace archilab.Revit.Elements
             var locationLine = line.ToRevitType() as Autodesk.Revit.DB.Line;
             var hostLevel = level.InternalElement as Autodesk.Revit.DB.Level;
 
-            return new FamilyInstances(symbol, locationLine, hostLevel);
+            return new FamilyInstances(symbol, locationLine, hostLevel).InternalElement.ToDSType(true);
         }
 
         /// <summary>
@@ -172,7 +244,65 @@ namespace archilab.Revit.Elements
             var pt = point.ToRevitType();
             var v = view.InternalElement as Autodesk.Revit.DB.View;
 
-            return new FamilyInstances(symbol, pt, v);
+            return new FamilyInstances(symbol, pt, v).InternalElement.ToDSType(true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="familyType"></param>
+        /// <param name="point"></param>
+        /// <param name="host"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static Element ByHostAndPoint(FamilyType familyType, Point point, Element host)
+        {
+            if (familyType == null)
+                throw new ArgumentNullException(nameof(familyType));
+            if (point == null)
+                throw new ArgumentNullException(nameof(point));
+            if (host == null)
+                throw new ArgumentNullException(nameof(host));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var symbol = familyType.InternalElement as Autodesk.Revit.DB.FamilySymbol;
+            var pt = point.ToRevitType();
+            var h = host.InternalElement;
+            var level = doc.GetElement(h.LevelId) as Autodesk.Revit.DB.Level;
+
+            return new FamilyInstances(symbol, pt, h, level).InternalElement.ToDSType(true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="familyType"></param>
+        /// <param name="point"></param>
+        /// <param name="surface"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static Element ByFaceAndPoint(FamilyType familyType, Point point, Surface surface)
+        {
+            if (familyType == null)
+                throw new ArgumentNullException(nameof(familyType));
+            if (point == null)
+                throw new ArgumentNullException(nameof(point));
+            if (surface == null)
+                throw new ArgumentNullException(nameof(surface));
+
+            var symbol = familyType.InternalElement as Autodesk.Revit.DB.FamilySymbol;
+            var pt = point.ToRevitType();
+            var reference = surface.Tags.LookupTag("RevitFaceReference") as Autodesk.Revit.DB.Reference;
+            var faceNormal = surface.NormalAtPoint(point);
+            var up = Vector.ZAxis();
+
+            Autodesk.Revit.DB.XYZ referenceDir;
+            if (Math.Abs(faceNormal.Dot(up)) > 0.9999) // horizontal
+                referenceDir = Autodesk.Revit.DB.XYZ.BasisX;
+            else
+                referenceDir = faceNormal.Cross(up).ToXyz();
+
+            return new FamilyInstances(symbol, pt, reference, referenceDir).InternalElement.ToDSType(true);
         }
 
         /// <summary>
@@ -232,6 +362,36 @@ namespace archilab.Revit.Elements
 
             return (from Autodesk.Revit.DB.Connector conn in e.MEPModel.ConnectorManager.Connectors
                 select new Connectors(conn)).ToList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static List<Element> SubComponents(Element element)
+        {
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var e = element.InternalElement;
+            switch (e)
+            {
+                case Autodesk.Revit.DB.FamilyInstance fi:
+                    return fi.GetSubComponentIds().Select(x => doc.GetElement(x).ToDSType(true)).ToList();
+                case Autodesk.Revit.DB.Architecture.Stairs s:
+                    var stairComponents = s.GetStairsLandings().Select(x => doc.GetElement(x).ToDSType(true)).ToList();
+                    stairComponents.AddRange(s.GetStairsRuns().Select(x => doc.GetElement(x).ToDSType(true)));
+                    stairComponents.AddRange(s.GetStairsSupports().Select(x => doc.GetElement(x).ToDSType(true)));
+                    return stairComponents;
+                case Autodesk.Revit.DB.Architecture.Railing r:
+                    var railComponents = r.GetHandRails().Select(x => doc.GetElement(x).ToDSType(true)).ToList();
+                    railComponents.Add(doc.GetElement(r.TopRail).ToDSType(true));
+                    return railComponents;
+                case Autodesk.Revit.DB.BeamSystem b:
+                    return b.GetBeamIds().Select(x => doc.GetElement(x).ToDSType(true)).ToList();
+                default:
+                    return new List<Element>();
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 
 using System;
 using Autodesk.DesignScript.Runtime;
+using Autodesk.Revit.DB;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
 // ReSharper disable UnusedMember.Global
@@ -50,7 +51,11 @@ namespace archilab.Revit.Elements
             {
                 var doc = DocumentManager.Instance.CurrentDBDocument;
                 TransactionManager.Instance.EnsureInTransaction(doc);
+#if !Revit2018 && !Revit2021
+                var options = new Autodesk.Revit.DB.ImageTypeOptions(filePath, false, ImageTypeSource.Link);
+#else
                 var options = new Autodesk.Revit.DB.ImageTypeOptions(filePath);
+#endif
                 TransactionManager.Instance.TransactionTaskDone();
 
                 return new ImageTypeOptions(options);
@@ -75,11 +80,19 @@ namespace archilab.Revit.Elements
             {
                 var doc = DocumentManager.Instance.CurrentDBDocument;
                 TransactionManager.Instance.EnsureInTransaction(doc);
+#if !Revit2018 && !Revit2021
+                var options = new Autodesk.Revit.DB.ImageTypeOptions(filePath, false, ImageTypeSource.Link)
+                {
+                    PageNumber = pageNumber,
+                    Resolution = resolution
+                };
+#else
                 var options = new Autodesk.Revit.DB.ImageTypeOptions(filePath)
                 {
                     PageNumber = pageNumber,
                     Resolution = resolution
                 };
+#endif
                 TransactionManager.Instance.TransactionTaskDone();
 
                 return new ImageTypeOptions(options);

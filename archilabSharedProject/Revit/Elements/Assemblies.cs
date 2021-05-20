@@ -39,5 +39,21 @@ namespace archilab.Revit.Elements
 
             return assembly;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static List<Element> Members(Element assembly)
+        {
+            if (!(assembly.InternalElement is Autodesk.Revit.DB.AssemblyInstance ai))
+                throw new ArgumentNullException(nameof(assembly));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+
+            return ai.GetMemberIds().Select(x => doc.GetElement(x).ToDSType(true)).ToList();
+        }
     }
 }

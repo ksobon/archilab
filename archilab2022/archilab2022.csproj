@@ -1,0 +1,597 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{27C10638-775C-4729-A41A-45FD7932D5CE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>archilab2022</RootNamespace>
+    <AssemblyName>archilab2022</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;Revit2022</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\archilab2022.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AdWindows, Version=3.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Revit_All_Main_Versions_API_x64.2022.0.0\lib\net48\AdWindows.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Analysis, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.DynamoCoreNodes.2.10.1.3976\lib\net48\Analysis.dll</HintPath>
+    </Reference>
+    <Reference Include="ClosedXML, Version=0.94.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.94.2\lib\net46\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator, Version=2.0.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.5\lib\net48\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="CoreNodeModels, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.WpfUILibrary.2.10.1.3976\lib\net48\CoreNodeModels.dll</HintPath>
+    </Reference>
+    <Reference Include="CoreNodeModelsWpf, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.WpfUILibrary.2.10.1.3976\lib\net48\CoreNodeModelsWpf.dll</HintPath>
+    </Reference>
+    <Reference Include="DesignScriptBuiltin, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.10.1.3976\lib\net48\DesignScriptBuiltin.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.9.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.9.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="DSCoreNodes, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.DynamoCoreNodes.2.10.1.3976\lib\net48\DSCoreNodes.dll</HintPath>
+    </Reference>
+    <Reference Include="DSCPython, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.10.1.3976\lib\net48\DSCPython.dll</HintPath>
+    </Reference>
+    <Reference Include="DSIronPython, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.10.1.3976\lib\net48\DSIronPython.dll</HintPath>
+    </Reference>
+    <Reference Include="DynamoApplications, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.10.1.3976\lib\net48\DynamoApplications.dll</HintPath>
+    </Reference>
+    <Reference Include="DynamoCore, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.10.1.3976\lib\net48\DynamoCore.dll</HintPath>
+    </Reference>
+    <Reference Include="DynamoCoreWpf, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.WpfUILibrary.2.10.1.3976\lib\net48\DynamoCoreWpf.dll</HintPath>
+    </Reference>
+    <Reference Include="DynamoInstallDetective, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.10.1.3976\lib\net48\DynamoInstallDetective.dll</HintPath>
+    </Reference>
+    <Reference Include="DynamoServices, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.DynamoServices.2.10.1.3976\lib\net48\DynamoServices.dll</HintPath>
+    </Reference>
+    <Reference Include="DynamoShapeManager, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.10.1.3976\lib\net48\DynamoShapeManager.dll</HintPath>
+    </Reference>
+    <Reference Include="DynamoUnits, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.ZeroTouchLibrary.2.10.1.3976\lib\net48\DynamoUnits.dll</HintPath>
+    </Reference>
+    <Reference Include="DynamoUtilities, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.10.1.3976\lib\net48\DynamoUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.1\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.0.7.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelNumberFormat.1.0.7\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="FastMember, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.1.5.0\lib\net461\FastMember.dll</HintPath>
+    </Reference>
+    <Reference Include="FastMember.Signed, Version=1.5.0.0, Culture=neutral, PublicKeyToken=9e8f22703bef9a29, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.Signed.1.5.0\lib\net461\FastMember.Signed.dll</HintPath>
+    </Reference>
+    <Reference Include="GeometryColor, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.DynamoCoreNodes.2.10.1.3976\lib\net48\GeometryColor.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.11.17.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.11.17\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.1, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.1\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="LumenWorks.Framework.IO, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5ad3ea2f85776344, processorArchitecture=MSIL">
+      <HintPath>..\packages\LumenWorksCsvReader.4.0.0\lib\net461\LumenWorks.Framework.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.Interactivity, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="ProtoCore, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.10.1.3976\lib\net48\ProtoCore.dll</HintPath>
+    </Reference>
+    <Reference Include="ProtoGeometry, Version=2.9.0.3355, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\DynamoVisualProgramming.ZeroTouchLibrary.2.10.1.3976\lib\net48\ProtoGeometry.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitAPI, Version=22.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\Revit_All_Main_Versions_API_x64.2022.0.0\lib\net48\RevitAPI.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI, Version=22.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\Revit_All_Main_Versions_API_x64.2022.0.0\lib\net48\RevitAPIUI.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitNodes">
+      <HintPath>..\_libs\2.10\RevitNodes.dll</HintPath>
+    </Reference>
+    <Reference Include="RevitServices">
+      <HintPath>..\_libs\2.10\RevitServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.2.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.7.1\lib\net461\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.4.7.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIFramework, Version=22.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\Revit_All_Main_Versions_API_x64.2022.0.0\lib\net48\UIFramework.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VMDataBridge, Version=2.10.1.3976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.2.10.1.3976\lib\net48\VMDataBridge.dll</HintPath>
+    </Reference>
+    <Reference Include="WeCantSpell.Hunspell, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WeCantSpell.Hunspell.3.0.1\lib\net45\WeCantSpell.Hunspell.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="en_US.aff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="en_US.dic">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.FromUnixTime.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.FromUnixTime.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.ParseExact.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.ParseExact.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalDays.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalDays.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalHours.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalHours.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalMilliseconds.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalMilliseconds.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalMinutes.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalMinutes.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalSeconds.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalSeconds.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.Maths.Round.double-int-string.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.Maths.Round.double-int-string.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.Maths.Round.double-string.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.Maths.Round.double-string.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ByFilePath.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ByFilePath.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ColumnCount.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ColumnCount.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.Headers.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.Headers.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.RowCount.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.RowCount.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.RowNumberByHeaderAndString.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.RowNumberByHeaderAndString.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ValueByRowAndColumn.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ValueByRowAndColumn.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ValuesByHeaderName.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ValuesByHeaderName.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ValuesByHeaderNumber.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ValuesByHeaderNumber.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ValuesByRowNumber.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ValuesByRowNumber.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.NamedRange.Name.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.NamedRange.Name.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Workbook.ByFilePath.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Workbook.ByFilePath.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Workbook.GetNamedRangeValues.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Workbook.GetNamedRangeValues.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Workbook.NamedRanges.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Workbook.NamedRanges.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Workbook.Worksheets.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Workbook.Worksheets.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Worksheet.Name.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Worksheet.Name.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Worksheet.Worksheet.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Worksheet.Worksheet.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Author.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Author.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.AvatarUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.AvatarUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.EventsUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.EventsUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.FollowersUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.FollowersUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.FollowingUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.FollowingUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.GistsUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.GistsUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.GravatarId.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.GravatarId.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.HtmlUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.HtmlUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Id.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Id.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Login.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Login.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.OrganizationsUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.OrganizationsUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.ReceivedEventsUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.ReceivedEventsUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.ReposUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.ReposUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.SiteAdmin.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.SiteAdmin.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.StarredUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.StarredUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.SubscriptionsUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.SubscriptionsUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Type.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Type.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Url.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Url.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.CreateClient.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.CreateClient.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetCodeFrequency.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetCodeFrequency.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetCommitActivity.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetCommitActivity.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetParticipation.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetParticipation.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetPunchCard.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetPunchCard.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetStatistics.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetStatistics.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.TimestampToDate.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.TimestampToDate.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.A.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.A.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.C.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.C.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.D.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.D.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.W.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.W.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.Week.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.Week.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="archilab2022_DynamoCustomization.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="images\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="archilab2022Images.resx" />
+  </ItemGroup>
+  <Import Project="..\archilabSharedProject\archilabSharedProject.projitems" Label="Shared" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="AfterBuild">
+    <GetReferenceAssemblyPaths TargetFrameworkMoniker=".NETFramework, Version=v4.7">
+      <Output TaskParameter="FullFrameworkReferenceAssemblyPaths" PropertyName="FrameworkAssembliesPath" />
+    </GetReferenceAssemblyPaths>
+    <GetAssemblyIdentity AssemblyFiles="$(OutDir)$(TargetName).dll">
+      <Output TaskParameter="Assemblies" ItemName="AssemblyInfo" />
+    </GetAssemblyIdentity>
+    <GenerateResource SdkToolsPath="$(TargetFrameworkSDKToolsDirectory)" UseSourcePath="true" Sources="$(ProjectDir)archilab2022Images.resx" OutputResources="$(ProjectDir)archilab2022Images.resources" References="$(FrameworkAssembliesPath)System.Drawing.dll" />
+    <AL SdkToolsPath="$(TargetFrameworkSDKToolsDirectory)" TargetType="library" EmbedResources="$(ProjectDir)archilab2022Images.resources" OutputAssembly="$(OutDir)archilab2022.customization.dll" Version="%(AssemblyInfo.Version)" />
+  </Target>
+  <Target Name="CopyFiles" AfterTargets="AfterBuild;NonWinFodyTarget">
+    <Message Text="Copy files..." Importance="high" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)archilab2022.customization.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)archilab2022_DynamoCustomization.xml" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)archilab2022.xml" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)ClosedXML.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)DocumentFormat.OpenXml.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)ExcelNumberFormat.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)FastMember.Signed.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)HtmlAgilityPack.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)LumenWorks.Framework.IO.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)RestSharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)System.IO.Packaging.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)itextsharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)WeCantSpell.Hunspell.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)EPPlus.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)en_US.aff" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\extra" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)en_US.dic" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\extra" ContinueOnError="true" />
+  </Target>
+</Project>

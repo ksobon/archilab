@@ -75,6 +75,7 @@ namespace archilab.Excel
         }
 
         #endregion
+
         #region Properties
 
         /// <summary>

@@ -144,7 +144,38 @@ namespace archilab.Revit.Elements
                 { "Top", top } 
             };
         }
+#if !Revit2018 && !Revit2021
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="room"></param>
+        /// <param name="boundaryLocation"></param>
+        /// <returns></returns>
+        public static double Height(Element room, string boundaryLocation = "Center")
+        {
+            if (room == null)
+                throw new ArgumentNullException(nameof(room));
 
+            var bLoc = (Autodesk.Revit.DB.SpatialElementBoundaryLocation)Enum.Parse(typeof(Autodesk.Revit.DB.SpatialElementBoundaryLocation), boundaryLocation);
+            var bOptions = new Autodesk.Revit.DB.SpatialElementBoundaryOptions
+            {
+                SpatialElementBoundaryLocation = bLoc
+            };
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var rm = (Autodesk.Revit.DB.SpatialElement)room.InternalElement;
+            var calculator = new Autodesk.Revit.DB.SpatialElementGeometryCalculator(doc, bOptions);
+            var result = calculator.CalculateSpatialElementGeometry(rm);
+            var geo = result.GetGeometry();
+            var bb = geo.GetBoundingBox();
+            var height = bb.Max.Z - bb.Min.Z;
+
+            var fu = Autodesk.Revit.DB.UnitUtils.GetAllMeasurableSpecs()
+                .FirstOrDefault(x => x.TypeId.StartsWith("autodesk.spec.aec:length"));
+            var units = doc.GetUnits().GetFormatOptions(fu);
+
+            return Autodesk.Revit.DB.UnitUtils.ConvertFromInternalUnits(height, units.GetUnitTypeId());
+        }
+#else
         /// <summary>
         /// 
         /// </summary>
@@ -173,7 +204,7 @@ namespace archilab.Revit.Elements
 
             return Autodesk.Revit.DB.UnitUtils.ConvertFromInternalUnits(height, units.DisplayUnits);
         }
-
+#endif
         /// <summary>
         /// 
         /// </summary>
@@ -703,7 +734,7 @@ namespace archilab.Revit.Elements
 
             return ptsOnFace.Any() && uvsOnFace.Any();
         }
-        #region Utilities
+#region Utilities
 
         private static double GetWindowArea(Autodesk.Revit.DB.Element insert)
         {
@@ -881,6 +912,6 @@ namespace archilab.Revit.Elements
             }
         }
 
-        #endregion
+#endregion
     }
 }

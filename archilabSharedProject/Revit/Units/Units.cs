@@ -76,7 +76,32 @@ namespace archilab.Revit.Units
 
             return new Units(us);
         }
+#if !Revit2018 && !Revit2021
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="units"></param>
+        /// <param name="forgeUnit"></param>
+        /// <param name="formatOptions"></param>
+        /// <returns></returns>
+        public static Units SetFormatOptions(Units units, string forgeUnit, FormatOptions formatOptions)
+        {
+            if (units == null)
+                throw new ArgumentException(nameof(units));
+            if (string.IsNullOrWhiteSpace(forgeUnit))
+                throw new ArgumentException(nameof(forgeUnit));
+            if (formatOptions == null)
+                throw new ArgumentException(nameof(formatOptions));
+
+            var ut = new Autodesk.Revit.DB.ForgeTypeId(forgeUnit);
+            var fo = formatOptions.InternalFormatOptions;
+
+            units.InternalUnits.SetFormatOptions(ut, fo);
+
+            return units;
+        }
+#else
         /// <summary>
         /// 
         /// </summary>
@@ -100,7 +125,7 @@ namespace archilab.Revit.Units
 
             return units;
         }
-
+#endif
         /// <summary>
         /// 
         /// </summary>

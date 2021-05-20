@@ -3,8 +3,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using archilab.Revit.Utils;
 using Autodesk.DesignScript.Geometry;
 using Autodesk.DesignScript.Runtime;
+using Dynamo.Graph.Nodes;
 using Revit.Elements;
 using Revit.GeometryConversion;
 using RevitServices.Persistence;
@@ -28,53 +30,12 @@ namespace archilab.Revit.Elements
         }
 
         /// <summary>
-        /// Returns worksharing information about element.
-        /// </summary>
-        /// <param name="element">Element to analyze.</param>
-        /// <returns>Information about the Elements Owner, Creator etc.</returns>
-        [MultiReturn("Creator", "Owner", "LastChangedBy")]
-        public static Dictionary<string, string> GetWorksharingTooltipInfo(Element element)
-        {
-            var doc = DocumentManager.Instance.CurrentDBDocument;
-            var tooltipInfo = Autodesk.Revit.DB.WorksharingUtils.GetWorksharingTooltipInfo(doc, element.InternalElement.Id);
-            return new Dictionary<string, string>
-            {
-                { "Creator", tooltipInfo.Creator},
-                { "Owner", tooltipInfo.Owner},
-                { "LastChangedBy", tooltipInfo.LastChangedBy}
-            };
-        }
-
-        /// <summary>
-        /// Demolished Phase assigned to Element.
-        /// </summary>
-        /// <param name="element"></param>
-        /// <returns name="Phase"></returns>
-        public static int PhaseDemolished(Element element)
-        {
-            return element.InternalElement.DemolishedPhaseId.IntegerValue;
-        }
-
-        /// <summary>
-        /// Get Element Type.
-        /// </summary>
-        /// <param name="element"></param>
-        /// <returns name="Type"></returns>
-        /// <search>element, type</search>
-        public static Element Type(Element element)
-        {
-            var doc = DocumentManager.Instance.CurrentDBDocument;
-            var e = element.InternalElement;
-
-            return doc.GetElement(e.GetTypeId()).ToDSType(true);
-        }
-
-        /// <summary>
         /// Delete element from Revit DB.
         /// </summary>
         /// <param name="element">Element to delete.</param>
         /// <returns></returns>
         /// <search>delete, remove, element</search>
+        [NodeCategory("Action")]
         public static bool Delete(Element element)
         {
             if (element == null)
@@ -96,11 +57,149 @@ namespace archilab.Revit.Elements
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="elements"></param>
+        /// <param name="searchString"></param>
+        /// <param name="ignoreCase"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        [MultiReturn("first", "in", "out")]
+        public static Dictionary<string, object> FilterByName(Element[] elements, string searchString, bool ignoreCase = true)
+        {
+            object first = null;
+            var listIn = new List<Element>();
+            var listOut = new List<Element>();
+            for (int i = 0; i < elements.Length; i++)
+            {
+                var e = elements[i];
+                if (ignoreCase)
+                {
+                    if (e.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                    {
+                        listIn.Add(e);
+                        if (first == null)
+                            first = e;
+                    }
+                    else
+                        listOut.Add(e);
+                }
+                else
+                {
+                    if (e.Name.Contains(searchString))
+                    {
+                        listIn.Add(e);
+                        if (first == null)
+                            first = e;
+                    }
+                    else
+                        listOut.Add(e);
+                }
+            }
+
+            return new Dictionary<string, object>
+            {
+                { "first", first},
+                { "in", listIn},
+                { "out", listOut}
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static Category GetCategory(Element element)
+        {
+            if (!(element.InternalElement is Autodesk.Revit.DB.Element e))
+                throw new ArgumentNullException(nameof(element));
+
+            switch (e)
+            {
+                case Autodesk.Revit.DB.ViewSchedule vs:
+                    return Category.ById(vs.Definition.CategoryId.IntegerValue);
+                case Autodesk.Revit.DB.Family f:
+                    return Category.ById(f.FamilyCategoryId.IntegerValue);
+                case Autodesk.Revit.DB.GraphicsStyle gs:
+                    return Category.ById(gs.GraphicsStyleCategory.Id.IntegerValue);
+                default:
+                    return Category.ById(e.Category.Id.IntegerValue);
+            }
+        }
+
+        /// <summary>
+        /// Returns worksharing information about element.
+        /// </summary>
+        /// <param name="element">Element to analyze.</param>
+        /// <returns>Information about the Elements Owner, Creator etc.</returns>
+        [NodeCategory("Query")]
+        [MultiReturn("Creator", "Owner", "LastChangedBy")]
+        public static Dictionary<string, string> GetWorksharingTooltipInfo(Element element)
+        {
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var tooltipInfo = Autodesk.Revit.DB.WorksharingUtils.GetWorksharingTooltipInfo(doc, element.InternalElement.Id);
+            return new Dictionary<string, string>
+            {
+                { "Creator", tooltipInfo.Creator},
+                { "Owner", tooltipInfo.Owner},
+                { "LastChangedBy", tooltipInfo.LastChangedBy}
+            };
+        }
+
+        /// <summary>
+        /// Demolished Phase assigned to Element.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns name="Phase"></returns>
+        [NodeCategory("Query")]
+        public static int PhaseDemolished(Element element)
+        {
+            return element.InternalElement.DemolishedPhaseId.IntegerValue;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static Element Assembly(Element element)
+        {
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var assId = element.InternalElement.AssemblyInstanceId;
+            if (assId == null || assId == Autodesk.Revit.DB.ElementId.InvalidElementId)
+                return null;
+
+            return doc.GetElement(assId).ToDSType(true);
+        }
+
+        /// <summary>
+        /// Get Element Type.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns name="Type"></returns>
+        /// <search>element, type</search>
+        [NodeCategory("Query")]
+        public static Element Type(Element element)
+        {
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var e = element.InternalElement;
+
+            return doc.GetElement(e.GetTypeId()).ToDSType(true);
+        }
+
+        /// <summary>
         /// Checks whether an Element is visible in given View. 
         /// </summary>
         /// <param name="element">Element to check.</param>
         /// <param name="view">View to check visibility in.</param>
         /// <returns>True if Element is visible in View, otherwise false.</returns>
+        [NodeCategory("Query")]
         public static bool IsVisible(Element element, View view)
         {
             if (element == null)
@@ -124,6 +223,7 @@ namespace archilab.Revit.Elements
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         public static View OwnerView(Element element)
         {
             if (element == null)
@@ -141,6 +241,7 @@ namespace archilab.Revit.Elements
         /// <param name="element"></param>
         /// <param name="view"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         public static BoundingBox BoundingBox(Element element, View view = null)
         {
             if (element == null)
@@ -158,6 +259,7 @@ namespace archilab.Revit.Elements
         /// <param name="element">Element to check.</param>
         /// <param name="viewType">View Type to check for.</param>
         /// <returns>List of views that an element is visible in.</returns>
+        [NodeCategory("Query")]
         public static List<Element> AllViewsVisibleIn(Element element, string viewType = null)
         {
             if (element == null)
@@ -211,6 +313,7 @@ namespace archilab.Revit.Elements
         /// <param name="element">Element to check.</param>
         /// <param name="view">View to check for.</param>
         /// <returns>True if element is visible in a view.</returns>
+        [NodeCategory("Query")]
         public static bool IsVisibleInView(Element element, View view)
         {
             if (element == null)
@@ -221,6 +324,8 @@ namespace archilab.Revit.Elements
             return FindAllViewsWhereElementIsVisible(element,
                 new List<Autodesk.Revit.DB.View> {view.InternalElement as Autodesk.Revit.DB.View}).Any();
         }
+
+        #region Utilities
 
         /// <summary>
         /// Checks if Elements is visible in any of the supplied views.
@@ -287,5 +392,7 @@ namespace archilab.Revit.Elements
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        #endregion
     }
 }

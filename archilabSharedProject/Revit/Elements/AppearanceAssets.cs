@@ -1,5 +1,4 @@
 ﻿#if !Revit2017
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -115,61 +114,11 @@ namespace archilab.Revit.Elements
 
                 isMetalProperty.Value = metallic;
 
-                editScope.Commit(true);
+                editScope.Commit(false);
             }
             TransactionManager.Instance.TransactionTaskDone();
 
             return aa.ToDSType(true);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="appearanceAsset"></param>
-        /// <returns></returns>
-        [NodeCategory("Query")]
-        [MultiReturn("color", "glossiness", "metallic")]
-        public static Dictionary<string, object> GetGenericProperties(Element appearanceAsset)
-        {
-            if (appearanceAsset == null)
-                throw new ArgumentNullException(nameof(appearanceAsset));
-
-            if (!(appearanceAsset.InternalElement is Autodesk.Revit.DB.AppearanceAssetElement aa))
-                return new Dictionary<string, object>
-                {
-                    {"color", null},
-                    {"glossiness", null},
-                    {"metallic", null}
-                };
-
-            var doc = DocumentManager.Instance.CurrentDBDocument;
-            Color color = null;
-            double? glossiness = null;
-            bool? metallic = null;
-
-            TransactionManager.Instance.EnsureInTransaction(doc);
-            using (var editScope = new Autodesk.Revit.DB.Visual.AppearanceAssetEditScope(doc))
-            {
-                var editableAsset = editScope.Start(aa.Id);
-                if (editableAsset.FindByName("generic_diffuse") is Autodesk.Revit.DB.Visual.AssetPropertyDoubleArray4d diffuseProperty)
-                    color = ColorUtilities.DsColorByColor(diffuseProperty.GetValueAsColor());
-
-                if (editableAsset.FindByName("generic_glossiness") is Autodesk.Revit.DB.Visual.AssetPropertyDouble glossinessProperty)
-                    glossiness = glossinessProperty.Value * 100.0;
-
-                if (editableAsset.FindByName("generic_is_metal") is Autodesk.Revit.DB.Visual.AssetPropertyBoolean isMetalProperty)
-                    metallic = isMetalProperty.Value;
-
-                editScope.Commit(true);
-            }
-            TransactionManager.Instance.TransactionTaskDone();
-
-            return new Dictionary<string, object>
-            {
-                {"color", color},
-                {"glossiness", glossiness},
-                {"metallic", metallic}
-            };
         }
 
         /// <summary>
@@ -201,50 +150,11 @@ namespace archilab.Revit.Elements
 
                 genericTransparencyProperty.Value = amount / 100.0;
 
-                editScope.Commit(true);
+                editScope.Commit(false);
             }
             TransactionManager.Instance.TransactionTaskDone();
 
             return aa.ToDSType(true);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="appearanceAsset"></param>
-        /// <returns></returns>
-        [NodeCategory("Query")]
-        [MultiReturn("transparency")]
-        public static Dictionary<string, object> GetTransparencyProperties(Element appearanceAsset)
-        {
-            if (appearanceAsset == null)
-                throw new ArgumentNullException(nameof(appearanceAsset));
-
-            if (!(appearanceAsset.InternalElement is Autodesk.Revit.DB.AppearanceAssetElement aa))
-                return new Dictionary<string, object>
-                {
-                    {"transparency", null}
-                };
-
-            var doc = DocumentManager.Instance.CurrentDBDocument;
-            double? transparency = null;
-
-            TransactionManager.Instance.EnsureInTransaction(doc);
-            using (var editScope = new Autodesk.Revit.DB.Visual.AppearanceAssetEditScope(doc))
-            {
-                var editableAsset = editScope.Start(aa.Id);
-
-                if (editableAsset.FindByName("generic_transparency") is Autodesk.Revit.DB.Visual.AssetPropertyDouble genericTransparencyProperty)
-                    transparency = genericTransparencyProperty.Value * 100;
-
-                editScope.Commit(true);
-            }
-            TransactionManager.Instance.TransactionTaskDone();
-
-            return new Dictionary<string, object>
-            {
-                {"transparency", transparency}
-            };
         }
 
         /// <summary>
@@ -283,11 +193,48 @@ namespace archilab.Revit.Elements
 
                 obliqueReflectivityProperty.Value = obliqueReflectivity / 100.0;
 
-                editScope.Commit(true);
+                editScope.Commit(false);
             }
             TransactionManager.Instance.TransactionTaskDone();
 
             return aa.ToDSType(true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appearanceAsset"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        [MultiReturn("transparency")]
+        public static Dictionary<string, object> GetTransparencyProperties(Element appearanceAsset)
+        {
+            if (appearanceAsset == null)
+                throw new ArgumentNullException(nameof(appearanceAsset));
+
+            if (!(appearanceAsset.InternalElement is Autodesk.Revit.DB.AppearanceAssetElement aa))
+                return new Dictionary<string, object>
+                {
+                    {"transparency", null}
+                };
+            
+            double? transparency = null;
+
+            var asset = aa.GetRenderingAsset();
+            for (var i = 0; i < asset.Size; i++)
+            {
+                var ap = asset[i];
+                if (ap.Name != "generic_transparency")
+                    continue;
+
+                transparency = (ap as Autodesk.Revit.DB.Visual.AssetPropertyDouble)?.Value * 100;
+                break;
+            }
+
+            return new Dictionary<string, object>
+            {
+                {"transparency", transparency}
+            };
         }
 
         /// <summary>
@@ -308,25 +255,27 @@ namespace archilab.Revit.Elements
                     {"directReflectivity", null},
                     {"obliqueReflectivity", null}
                 };
-
-            var doc = DocumentManager.Instance.CurrentDBDocument;
+            
             double? direct = null;
             double? oblique = null;
 
-            TransactionManager.Instance.EnsureInTransaction(doc);
-            using (var editScope = new Autodesk.Revit.DB.Visual.AppearanceAssetEditScope(doc))
+            var asset = aa.GetRenderingAsset();
+            for (var i = 0; i < asset.Size; i++)
             {
-                var editableAsset = editScope.Start(aa.Id);
+                var ap = asset[i];
+                switch (ap.Name)
+                {
+                    case "generic_reflectivity_at_0deg":
+                        direct = (ap as Autodesk.Revit.DB.Visual.AssetPropertyDouble)?.Value * 100;
+                        continue;
+                    case "generic_reflectivity_at_90deg":
+                        oblique = (ap as Autodesk.Revit.DB.Visual.AssetPropertyDouble)?.Value * 100;
+                        continue;
+                }
 
-                if (editableAsset.FindByName("generic_reflectivity_at_0deg") is Autodesk.Revit.DB.Visual.AssetPropertyDouble directReflectivityProperty)
-                    direct = directReflectivityProperty.Value * 100.0;
-
-                if (editableAsset.FindByName("generic_reflectivity_at_90deg") is Autodesk.Revit.DB.Visual.AssetPropertyDouble obliqueReflectivityProperty)
-                    oblique = obliqueReflectivityProperty.Value * 100.0;
-
-                editScope.Commit(true);
+                if (direct != null && oblique != null)
+                    break;
             }
-            TransactionManager.Instance.TransactionTaskDone();
 
             return new Dictionary<string, object>
             {
@@ -334,6 +283,168 @@ namespace archilab.Revit.Elements
                 {"obliqueReflectivity", oblique}
             };
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appearanceAsset"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static string GetSchema(Element appearanceAsset)
+        {
+            if (appearanceAsset == null)
+                throw new ArgumentNullException(nameof(appearanceAsset));
+
+            if (!(appearanceAsset.InternalElement is Autodesk.Revit.DB.AppearanceAssetElement aa))
+                return null;
+            
+            var baseSchema = string.Empty;
+
+            var asset = aa.GetRenderingAsset();
+            for (var i = 0; i < asset.Size; i++)
+            {
+                var ap = asset[i];
+                if (ap.Name != "BaseSchema")
+                    continue;
+
+                baseSchema = (ap as Autodesk.Revit.DB.Visual.AssetPropertyString)?.Value;
+                break;
+            }
+
+            return baseSchema;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appearanceAsset"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        [MultiReturn("color", "glossiness", "metallic")]
+        public static Dictionary<string, object> GetGenericProperties(Element appearanceAsset)
+        {
+            if (appearanceAsset == null)
+                throw new ArgumentNullException(nameof(appearanceAsset));
+
+            if (!(appearanceAsset.InternalElement is Autodesk.Revit.DB.AppearanceAssetElement aa))
+                return new Dictionary<string, object>
+                {
+                    {"color", null},
+                    {"glossiness", null},
+                    {"metallic", null}
+                };
+            
+            Color color = null;
+            double? glossiness = null;
+            bool? metallic = null;
+
+            var asset = aa.GetRenderingAsset();
+            for (var i = 0; i < asset.Size; i++)
+            {
+                var ap = asset[i];
+                switch (ap.Name)
+                {
+                    case "generic_diffuse":
+                        color = ColorUtilities.DsColorByColor(
+                            (ap as Autodesk.Revit.DB.Visual.AssetPropertyDoubleArray4d)?.GetValueAsColor());
+                        continue;
+                    case "generic_glossiness":
+                        glossiness = (ap as Autodesk.Revit.DB.Visual.AssetPropertyDouble)?.Value * 100;
+                        continue;                   
+                    case "generic_is_metal":
+                        metallic = (ap as Autodesk.Revit.DB.Visual.AssetPropertyBoolean)?.Value;
+                        continue;
+                }
+
+                if (color != null && glossiness != null && metallic != null)
+                    break;
+            }
+
+            return new Dictionary<string, object>
+            {
+                {"color", color},
+                {"glossiness", glossiness},
+                {"metallic", metallic}
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="appearanceAsset"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        [MultiReturn("color", "finish")]
+        public static Dictionary<string, object> GetWallPaintProperties(Element appearanceAsset)
+        {
+            if (appearanceAsset == null)
+                throw new ArgumentNullException(nameof(appearanceAsset));
+
+            if (!(appearanceAsset.InternalElement is Autodesk.Revit.DB.AppearanceAssetElement aa))
+                return new Dictionary<string, object>
+                {
+                    {"color", null},
+                    {"finish", null}
+                };
+            
+            Color color = null;
+            var finish = string.Empty;
+
+            var asset = aa.GetRenderingAsset();
+            for (var i = 0; i < asset.Size; i++)
+            {
+                var ap = asset[i];
+                switch (ap.Name)
+                {
+                    case "wallpaint_color":
+                        color = ColorUtilities.DsColorByColor(
+                            (ap as Autodesk.Revit.DB.Visual.AssetPropertyDoubleArray4d)?.GetValueAsColor());
+                        continue;
+                    case "wallpaint_finish":
+                        finish = GetWallPaintFinish(((Autodesk.Revit.DB.Visual.AssetPropertyInteger)ap).Value);
+                        continue;
+                }
+
+                if (color != null && finish != null)
+                    break;
+            }
+
+            return new Dictionary<string, object>
+            {
+                {"color", color},
+                {"finish", finish}
+            };
+        }
+
+        #region Utilities
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private static string GetWallPaintFinish(int value)
+        {
+            switch (value)
+            {
+                case 0:
+                    return "Flat/Matte";
+                case 1:
+                    return "Eggshell";
+                case 2:
+                    return "Platinum";
+                case 3:
+                    return "Pearl";
+                case 4:
+                    return "Semi-gloss";
+                case 5:
+                    return "Gloss";
+                default:
+                    return string.Empty;
+            }
+        }
+
+        #endregion
     }
 }
 

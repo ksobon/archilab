@@ -6,10 +6,30 @@ using Autodesk.DesignScript.Runtime;
 using RevitServices.Persistence;
 using Workset = archilab.Revit.Elements.Workset;
 using DSCore;
+using System.Reflection;
 // ReSharper disable UnusedMember.Global
 
 namespace archilab.Utilities
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    [IsVisibleInDynamoLibrary(false)]
+    public static class TypeUtilities 
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool HasProperty(this Type type, string name)
+        {
+            return type
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Any(p => p.Name == name);
+        }
+    }
     /// <summary>
     /// 
     /// </summary>
@@ -439,4 +459,76 @@ namespace archilab.Utilities
             return viewType;
         }
     }
+#if !Revit2018 && !Revit2021
+    /// <summary>
+    /// 
+    /// </summary>
+    [IsVisibleInDynamoLibrary(false)]
+    public class Units
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public Dictionary<string, string> ForgeUnits { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Units()
+        {
+            var dut = Autodesk.Revit.DB.UnitUtils.GetAllUnits()
+                .ToDictionary(x => x.TypeId, x => x.TypeId);
+
+            ForgeUnits = dut;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string ByName(string name)
+        {
+            if (name == null)
+                throw new ArgumentException("name");
+
+            return new Units().ForgeUnits[name];
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    [IsVisibleInDynamoLibrary(false)]
+    public class Specs
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public Dictionary<string, string> ForgeSpecs { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Specs()
+        {
+            var dut = Autodesk.Revit.DB.UnitUtils.GetAllMeasurableSpecs()
+                .ToDictionary(x => x.TypeId, x => x.TypeId);
+
+            ForgeSpecs = dut;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string ByName(string name)
+        {
+            if (name == null)
+                throw new ArgumentException("name");
+
+            return new Specs().ForgeSpecs[name];
+        }
+    }
+#endif
 }

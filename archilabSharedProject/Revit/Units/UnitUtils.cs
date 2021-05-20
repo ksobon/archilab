@@ -11,7 +11,46 @@ namespace archilab.Revit.Units
         internal UnitUtils()
         {
         }
+#if !Revit2018 && !Revit2021
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="forgeUnit"></param>
+        /// <returns></returns>
+        public static double ConvertFromInternalUnits(double value, string forgeUnit)
+        {
+            if (string.IsNullOrWhiteSpace(forgeUnit))
+                throw new ArgumentNullException(nameof(forgeUnit));
+
+            var dut = new Autodesk.Revit.DB.ForgeTypeId(forgeUnit);
+            var result = Autodesk.Revit.DB.UnitUtils.ConvertFromInternalUnits(value, dut);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="units"></param>
+        /// <param name="forgeUnit"></param>
+        /// <param name="value"></param>
+        /// <param name="forEditing"></param>
+        /// <returns></returns>
+        public static string Format(Units units, string forgeUnit, double value, bool forEditing = false)
+        {
+            if (units == null)
+                throw new ArgumentException(nameof(units));
+            if (string.IsNullOrWhiteSpace(forgeUnit))
+                throw new ArgumentException(nameof(forgeUnit));
+            if (double.IsNaN(value) || double.IsInfinity(value))
+                throw new ArgumentException(nameof(value));
+
+            var ut = new Autodesk.Revit.DB.ForgeTypeId(forgeUnit);
+            return Autodesk.Revit.DB.UnitFormatUtils.Format(units.InternalUnits, ut, value, forEditing);
+        }
+#else
         /// <summary>
         /// 
         /// </summary>
@@ -50,5 +89,6 @@ namespace archilab.Revit.Units
             var ut = (Autodesk.Revit.DB.UnitType)Enum.Parse(typeof(Autodesk.Revit.DB.UnitType), unitType);
             return Autodesk.Revit.DB.UnitFormatUtils.Format(units.InternalUnits, ut, value, maxAccuracy, forEditing);
         }
+#endif
     }
 }
