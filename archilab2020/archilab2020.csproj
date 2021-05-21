@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{591D0DCF-2826-4CBD-9BBD-A124CCD681EE}</ProjectGuid>
+    <ProjectGuid>{E412996E-712B-4BCB-9925-9C594F317DAC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>archilab2020</RootNamespace>
@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;Revit2020</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\archilab2020.xml</DocumentationFile>
@@ -88,6 +88,9 @@
     <Reference Include="DynamoUtilities, Version=2.3.0.5885, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamoVisualProgramming.Core.2.3.0.5885\lib\net47\DynamoUtilities.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.1\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="ExcelNumberFormat, Version=1.0.7.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelNumberFormat.1.0.7\lib\net20\ExcelNumberFormat.dll</HintPath>
     </Reference>
@@ -146,12 +149,16 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitNodes">
-      <HintPath>..\_libs\2.0\RevitNodes.dll</HintPath>
+      <HintPath>..\_libs\2.3\RevitNodes.dll</HintPath>
     </Reference>
     <Reference Include="RevitServices">
-      <HintPath>..\_libs\2.0\RevitServices.dll</HintPath>
+      <HintPath>..\_libs\2.3\RevitServices.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -162,7 +169,18 @@
     <Reference Include="System.IO.Packaging, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.Packaging.4.7.0\lib\net46\System.IO.Packaging.dll</HintPath>
     </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.1\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -181,132 +199,360 @@
     <Reference Include="VMDataBridge, Version=2.3.0.5885, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DynamoVisualProgramming.Core.2.3.0.5885\lib\net47\VMDataBridge.dll</HintPath>
     </Reference>
+    <Reference Include="WeCantSpell.Hunspell, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WeCantSpell.Hunspell.3.0.1\lib\net45\WeCantSpell.Hunspell.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="en_US.aff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="en_US.dic">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Resources\archilab.Core.DateTimes.FromUnixTime.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.FromUnixTime.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.ParseExact.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.ParseExact.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalDays.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalDays.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalHours.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalHours.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalMilliseconds.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalMilliseconds.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalMinutes.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalMinutes.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalSeconds.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.DateTimes.TotalSeconds.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.Maths.Round.double-int-string.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.Maths.Round.double-int-string.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.Maths.Round.double-string.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Core.Maths.Round.double-string.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ByFilePath.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ByFilePath.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ColumnCount.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ColumnCount.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.Headers.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.Headers.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.RowCount.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.RowCount.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.RowNumberByHeaderAndString.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.RowNumberByHeaderAndString.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ValueByRowAndColumn.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ValueByRowAndColumn.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ValuesByHeaderName.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ValuesByHeaderName.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ValuesByHeaderNumber.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ValuesByHeaderNumber.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ValuesByRowNumber.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Csv.Csv.ValuesByRowNumber.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.NamedRange.Name.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.NamedRange.Name.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Workbook.ByFilePath.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Workbook.ByFilePath.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Workbook.GetNamedRangeValues.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Workbook.GetNamedRangeValues.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Workbook.NamedRanges.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Workbook.NamedRanges.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Workbook.Worksheets.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Workbook.Worksheets.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Worksheet.Name.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Worksheet.Name.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Worksheet.Worksheet.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.Excel.Worksheet.Worksheet.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Author.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Author.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.AvatarUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.AvatarUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.EventsUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.EventsUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.FollowersUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.FollowersUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.FollowingUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.FollowingUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.GistsUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.GistsUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.GravatarId.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.GravatarId.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.HtmlUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.HtmlUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Id.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Id.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Login.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Login.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.OrganizationsUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.OrganizationsUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.ReceivedEventsUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.ReceivedEventsUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.ReposUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.ReposUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.SiteAdmin.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.SiteAdmin.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.StarredUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.StarredUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.SubscriptionsUrl.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.SubscriptionsUrl.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Type.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Type.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Url.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Author.Url.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.CreateClient.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.CreateClient.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetCodeFrequency.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetCodeFrequency.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetCommitActivity.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetCommitActivity.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetParticipation.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetParticipation.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetPunchCard.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetPunchCard.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetStatistics.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.GetStatistics.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.TimestampToDate.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.GitHub.TimestampToDate.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.A.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.A.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.C.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.C.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.D.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.D.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.W.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.W.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.Week.Large.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\archilab.GitHub.Week.Week.Small.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="archilab2020_DynamoCustomization.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\archilab.GitHub.Week.Week.Small.png" />
-    <None Include="Resources\archilab.GitHub.Week.Week.Large.png" />
-    <None Include="Resources\archilab.GitHub.Week.W.Small.png" />
-    <None Include="Resources\archilab.GitHub.Week.W.Large.png" />
-    <None Include="Resources\archilab.GitHub.Week.D.Small.png" />
-    <None Include="Resources\archilab.GitHub.Week.D.Large.png" />
-    <None Include="Resources\archilab.GitHub.Week.C.Small.png" />
-    <None Include="Resources\archilab.GitHub.Week.C.Large.png" />
-    <None Include="Resources\archilab.GitHub.Week.A.Small.png" />
-    <None Include="Resources\archilab.GitHub.Week.A.Large.png" />
-    <None Include="Resources\archilab.GitHub.GitHub.TimestampToDate.Small.png" />
-    <None Include="Resources\archilab.GitHub.GitHub.TimestampToDate.Large.png" />
-    <None Include="Resources\archilab.GitHub.GitHub.GetStatistics.Small.png" />
-    <None Include="Resources\archilab.GitHub.GitHub.GetStatistics.Large.png" />
-    <None Include="Resources\archilab.GitHub.GitHub.GetPunchCard.Small.png" />
-    <None Include="Resources\archilab.GitHub.GitHub.GetPunchCard.Large.png" />
-    <None Include="Resources\archilab.GitHub.GitHub.GetParticipation.Small.png" />
-    <None Include="Resources\archilab.GitHub.GitHub.GetParticipation.Large.png" />
-    <None Include="Resources\archilab.GitHub.GitHub.GetCommitActivity.Small.png" />
-    <None Include="Resources\archilab.GitHub.GitHub.GetCommitActivity.Large.png" />
-    <None Include="Resources\archilab.GitHub.GitHub.GetCodeFrequency.Small.png" />
-    <None Include="Resources\archilab.GitHub.GitHub.GetCodeFrequency.Large.png" />
-    <None Include="Resources\archilab.GitHub.GitHub.CreateClient.Small.png" />
-    <None Include="Resources\archilab.GitHub.GitHub.CreateClient.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.Url.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.Url.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.Type.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.Type.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.SubscriptionsUrl.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.SubscriptionsUrl.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.StarredUrl.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.StarredUrl.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.SiteAdmin.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.SiteAdmin.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.ReposUrl.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.ReposUrl.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.ReceivedEventsUrl.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.ReceivedEventsUrl.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.OrganizationsUrl.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.OrganizationsUrl.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.Login.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.Login.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.Id.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.Id.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.HtmlUrl.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.HtmlUrl.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.GravatarId.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.GravatarId.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.GistsUrl.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.GistsUrl.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.FollowingUrl.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.FollowingUrl.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.FollowersUrl.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.FollowersUrl.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.EventsUrl.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.EventsUrl.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.AvatarUrl.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.AvatarUrl.Large.png" />
-    <None Include="Resources\archilab.GitHub.Author.Author.Small.png" />
-    <None Include="Resources\archilab.GitHub.Author.Author.Large.png" />
-    <None Include="Resources\archilab.Excel.Worksheet.Worksheet.Small.png" />
-    <None Include="Resources\archilab.Excel.Worksheet.Worksheet.Large.png" />
-    <None Include="Resources\archilab.Excel.Worksheet.Name.Small.png" />
-    <None Include="Resources\archilab.Excel.Worksheet.Name.Large.png" />
-    <None Include="Resources\archilab.Excel.Workbook.Worksheets.Small.png" />
-    <None Include="Resources\archilab.Excel.Workbook.Worksheets.Large.png" />
-    <None Include="Resources\archilab.Excel.Workbook.NamedRanges.Small.png" />
-    <None Include="Resources\archilab.Excel.Workbook.NamedRanges.Large.png" />
-    <None Include="Resources\archilab.Excel.Workbook.GetNamedRangeValues.Small.png" />
-    <None Include="Resources\archilab.Excel.Workbook.GetNamedRangeValues.Large.png" />
-    <None Include="Resources\archilab.Excel.Workbook.ByFilePath.Small.png" />
-    <None Include="Resources\archilab.Excel.Workbook.ByFilePath.Large.png" />
-    <None Include="Resources\archilab.Excel.NamedRange.Name.Small.png" />
-    <None Include="Resources\archilab.Excel.NamedRange.Name.Large.png" />
-    <None Include="Resources\archilab.Csv.Csv.ValuesByRowNumber.Small.png" />
-    <None Include="Resources\archilab.Csv.Csv.ValuesByRowNumber.Large.png" />
-    <None Include="Resources\archilab.Csv.Csv.ValuesByHeaderNumber.Small.png" />
-    <None Include="Resources\archilab.Csv.Csv.ValuesByHeaderNumber.Large.png" />
-    <None Include="Resources\archilab.Csv.Csv.ValuesByHeaderName.Small.png" />
-    <None Include="Resources\archilab.Csv.Csv.ValuesByHeaderName.Large.png" />
-    <None Include="Resources\archilab.Csv.Csv.ValueByRowAndColumn.Small.png" />
-    <None Include="Resources\archilab.Csv.Csv.ValueByRowAndColumn.Large.png" />
-    <None Include="Resources\archilab.Csv.Csv.RowNumberByHeaderAndString.Small.png" />
-    <None Include="Resources\archilab.Csv.Csv.RowNumberByHeaderAndString.Large.png" />
-    <None Include="Resources\archilab.Csv.Csv.RowCount.Small.png" />
-    <None Include="Resources\archilab.Csv.Csv.RowCount.Large.png" />
-    <None Include="Resources\archilab.Csv.Csv.Headers.Small.png" />
-    <None Include="Resources\archilab.Csv.Csv.Headers.Large.png" />
-    <None Include="Resources\archilab.Csv.Csv.ColumnCount.Small.png" />
-    <None Include="Resources\archilab.Csv.Csv.ColumnCount.Large.png" />
-    <None Include="Resources\archilab.Csv.Csv.ByFilePath.Small.png" />
-    <None Include="Resources\archilab.Csv.Csv.ByFilePath.Large.png" />
-    <None Include="Resources\archilab.Core.Maths.Round.double-string.Small.png" />
-    <None Include="Resources\archilab.Core.Maths.Round.double-string.Large.png" />
-    <None Include="Resources\archilab.Core.Maths.Round.double-int-string.Small.png" />
-    <None Include="Resources\archilab.Core.Maths.Round.double-int-string.Large.png" />
-    <None Include="Resources\archilab.Core.DateTimes.TotalSeconds.Small.png" />
-    <None Include="Resources\archilab.Core.DateTimes.TotalSeconds.Large.png" />
-    <None Include="Resources\archilab.Core.DateTimes.TotalMinutes.Small.png" />
-    <None Include="Resources\archilab.Core.DateTimes.TotalMinutes.Large.png" />
-    <None Include="Resources\archilab.Core.DateTimes.TotalMilliseconds.Small.png" />
-    <None Include="Resources\archilab.Core.DateTimes.TotalMilliseconds.Large.png" />
-    <None Include="Resources\archilab.Core.DateTimes.TotalHours.Small.png" />
-    <None Include="Resources\archilab.Core.DateTimes.TotalHours.Large.png" />
-    <None Include="Resources\archilab.Core.DateTimes.TotalDays.Small.png" />
-    <None Include="Resources\archilab.Core.DateTimes.TotalDays.Large.png" />
-    <None Include="Resources\archilab.Core.DateTimes.ParseExact.Small.png" />
-    <None Include="Resources\archilab.Core.DateTimes.ParseExact.Large.png" />
-    <None Include="Resources\archilab.Core.DateTimes.FromUnixTime.Small.png" />
-    <None Include="Resources\archilab.Core.DateTimes.FromUnixTime.Large.png" />
-    <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="archilab2020Images.resx" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="..\archilabSharedProject\archilabSharedProject.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
@@ -321,14 +567,23 @@
   </Target>
   <Target Name="CopyFiles" AfterTargets="AfterBuild;NonWinFodyTarget">
     <Message Text="Copy files..." Importance="high" />
-    <Copy SourceFiles="$(TargetDir)ClosedXML.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.5\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)DocumentFormat.OpenXml.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.5\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)ExcelNumberFormat.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.5\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)FastMember.Signed.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.5\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)HtmlAgilityPack.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.5\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)LumenWorks.Framework.IO.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.5\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)RestSharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.5\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)System.IO.Packaging.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.5\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)itextsharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.5\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)archilab2020.customization.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)archilab2020_DynamoCustomization.xml" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)archilab2020.xml" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)ClosedXML.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)DocumentFormat.OpenXml.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)ExcelNumberFormat.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)FastMember.Signed.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)HtmlAgilityPack.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)LumenWorks.Framework.IO.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)RestSharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)System.IO.Packaging.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)itextsharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)WeCantSpell.Hunspell.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)System.Memory.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)EPPlus.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)en_US.aff" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\extra" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)en_US.dic" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.3\packages\archi-lab.net\extra" ContinueOnError="true" />
   </Target>
 </Project>

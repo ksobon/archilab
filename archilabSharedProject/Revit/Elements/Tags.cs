@@ -72,10 +72,15 @@ namespace archilab.Revit.Elements
             if (tag == null)
                 throw new ArgumentNullException(nameof(tag));
 
-            if (!(tag.InternalElement is Autodesk.Revit.DB.IndependentTag t))
-                throw new ArgumentNullException(nameof(tag));
-
-            return t.TagText;
+            switch (tag.InternalElement)
+            {
+                case Autodesk.Revit.DB.IndependentTag t:
+                    return t.TagText;
+                case Autodesk.Revit.DB.SpatialElementTag st:
+                    return st.TagText;
+                default:
+                    throw new ArgumentException(nameof(tag));
+            }
         }
 
         /// <summary>

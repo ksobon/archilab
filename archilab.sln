@@ -21,15 +21,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2022", "archilab202
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabUI2022", "archilabUI2022\archilabUI2022.csproj", "{7F959765-2F5B-4FAF-84CD-898A1C81DBB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2020", "archilab2020\archilab2020.csproj", "{E412996E-712B-4BCB-9925-9C594F317DAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabUI2020", "archilabUI2020\archilabUI2020.csproj", "{B07F95F2-4AF8-4759-BA69-9786D24111FC}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		archilabSharedProject\archilabSharedProject.projitems*{27c10638-775c-4729-a41a-45fd7932d5ce}*SharedItemsImports = 4
 		archilabUISharedProject\archilabUISharedProject.projitems*{4da505ab-ce78-4fde-b728-0532640f259c}*SharedItemsImports = 13
+		archilabSharedProject\archilabSharedProject.projitems*{7b27ad73-ffde-4cdc-b073-d9d6f35b5603}*SharedItemsImports = 4
 		archilabUISharedProject\archilabUISharedProject.projitems*{7f959765-2f5b-4faf-84cd-898a1c81dbb5}*SharedItemsImports = 4
 		archilabSharedProject\archilabSharedProject.projitems*{90056c10-1447-46c8-8f9e-2329e651f3c9}*SharedItemsImports = 4
 		archilabSharedProject\archilabSharedProject.projitems*{96867a82-3e80-42b3-92c3-259a231817ed}*SharedItemsImports = 13
+		archilabUISharedProject\archilabUISharedProject.projitems*{b07f95f2-4af8-4759-ba69-9786d24111fc}*SharedItemsImports = 4
 		archilabUISharedProject\archilabUISharedProject.projitems*{b2cf4ff2-1883-46fd-8cb2-72d91d7dbd2f}*SharedItemsImports = 4
 		archilabUISharedProject\archilabUISharedProject.projitems*{baa4dbd9-3356-4ec9-a2d1-10473ab67461}*SharedItemsImports = 4
+		archilabSharedProject\archilabSharedProject.projitems*{e412996e-712b-4bcb-9925-9c594f317dac}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +71,14 @@ Global
 		{7F959765-2F5B-4FAF-84CD-898A1C81DBB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F959765-2F5B-4FAF-84CD-898A1C81DBB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F959765-2F5B-4FAF-84CD-898A1C81DBB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E412996E-712B-4BCB-9925-9C594F317DAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E412996E-712B-4BCB-9925-9C594F317DAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E412996E-712B-4BCB-9925-9C594F317DAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E412996E-712B-4BCB-9925-9C594F317DAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B07F95F2-4AF8-4759-BA69-9786D24111FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B07F95F2-4AF8-4759-BA69-9786D24111FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B07F95F2-4AF8-4759-BA69-9786D24111FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B07F95F2-4AF8-4759-BA69-9786D24111FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

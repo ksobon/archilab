@@ -7,6 +7,9 @@
       <namespace name="archilab.Revit.Elements">
         <category>archilab.Revit</category>
       </namespace>
+	  <namespace name="archilab.Revit.Geometry">
+		<category>archilab.Revit</category>
+	  </namespace>
       <namespace name="archilab.Csv">
         <category>archilab.Csv</category>
       </namespace>
@@ -36,6 +39,12 @@
       </namespace> 
       <namespace name="archilab.Pdf">
         <category>archilab.PDF</category>
+      </namespace>
+      <namespace name="archilab.SpellCheck">
+        <category>archilab.SpellCheck</category>
+      </namespace>
+      <namespace name="archilab.Maps">
+        <category>archilab.Maps</category>
       </namespace>
       <namespace name="archilab.Utilities">
         <category>archilab.Core.Utilities</category>

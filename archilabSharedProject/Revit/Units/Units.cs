@@ -76,7 +76,7 @@ namespace archilab.Revit.Units
 
             return new Units(us);
         }
-#if !Revit2018 && !Revit2021
+#if !Revit2018 && !Revit2020 && !Revit2021
 
         /// <summary>
         /// 

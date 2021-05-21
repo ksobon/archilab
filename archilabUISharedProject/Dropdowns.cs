@@ -937,7 +937,7 @@ namespace archilabUI
         public UnitSystemUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
             : base(OutputName, typeof(UnitSystem), inPorts, outPorts) { }
     }
-#if !Revit2018 && !Revit2021
+#if !Revit2018 && !Revit2020 && !Revit2021
     [NodeName("Forge Units")]
     [NodeCategory("archilab.Revit.Units")]
     [NodeDescription("Retrieve all available Forge Units.")]
