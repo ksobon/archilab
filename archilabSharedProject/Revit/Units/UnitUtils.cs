@@ -34,20 +34,20 @@ namespace archilab.Revit.Units
         /// 
         /// </summary>
         /// <param name="units"></param>
-        /// <param name="forgeUnit"></param>
+        /// <param name="forgeSpec"></param>
         /// <param name="value"></param>
         /// <param name="forEditing"></param>
         /// <returns></returns>
-        public static string Format(Units units, string forgeUnit, double value, bool forEditing = false)
+        public static string Format(Units units, string forgeSpec, double value, bool forEditing = false)
         {
             if (units == null)
                 throw new ArgumentException(nameof(units));
-            if (string.IsNullOrWhiteSpace(forgeUnit))
-                throw new ArgumentException(nameof(forgeUnit));
+            if (string.IsNullOrWhiteSpace(forgeSpec))
+                throw new ArgumentException(nameof(forgeSpec));
             if (double.IsNaN(value) || double.IsInfinity(value))
                 throw new ArgumentException(nameof(value));
 
-            var ut = new Autodesk.Revit.DB.ForgeTypeId(forgeUnit);
+            var ut = new Autodesk.Revit.DB.ForgeTypeId(forgeSpec);
             return Autodesk.Revit.DB.UnitFormatUtils.Format(units.InternalUnits, ut, value, forEditing);
         }
 #else

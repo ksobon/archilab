@@ -248,6 +248,7 @@ namespace archilab.Revit.Views
             switch (v.ViewType)
             {
                 case Autodesk.Revit.DB.ViewType.FloorPlan:
+                case Autodesk.Revit.DB.ViewType.EngineeringPlan:
                 case Autodesk.Revit.DB.ViewType.CeilingPlan:
                 case Autodesk.Revit.DB.ViewType.Elevation:
                 case Autodesk.Revit.DB.ViewType.Section:

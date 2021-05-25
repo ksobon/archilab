@@ -82,19 +82,19 @@ namespace archilab.Revit.Units
         /// 
         /// </summary>
         /// <param name="units"></param>
-        /// <param name="forgeUnit"></param>
+        /// <param name="forgeSpec"></param>
         /// <param name="formatOptions"></param>
         /// <returns></returns>
-        public static Units SetFormatOptions(Units units, string forgeUnit, FormatOptions formatOptions)
+        public static Units SetFormatOptions(Units units, string forgeSpec, FormatOptions formatOptions)
         {
             if (units == null)
                 throw new ArgumentException(nameof(units));
-            if (string.IsNullOrWhiteSpace(forgeUnit))
-                throw new ArgumentException(nameof(forgeUnit));
+            if (string.IsNullOrWhiteSpace(forgeSpec))
+                throw new ArgumentException(nameof(forgeSpec));
             if (formatOptions == null)
                 throw new ArgumentException(nameof(formatOptions));
 
-            var ut = new Autodesk.Revit.DB.ForgeTypeId(forgeUnit);
+            var ut = new Autodesk.Revit.DB.ForgeTypeId(forgeSpec);
             var fo = formatOptions.InternalFormatOptions;
 
             units.InternalUnits.SetFormatOptions(ut, fo);

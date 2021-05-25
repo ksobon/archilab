@@ -363,6 +363,7 @@
     <Copy SourceFiles="$(TargetDir)itextsharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.6\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)WeCantSpell.Hunspell.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.6\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)System.Memory.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.6\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)System.Buffers.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.6\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)EPPlus.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.6\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)en_US.aff" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.6\packages\archi-lab.net\extra" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)en_US.dic" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.6\packages\archi-lab.net\extra" ContinueOnError="true" />
