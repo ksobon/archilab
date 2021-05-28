@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dynamo.Graph.Nodes;
 using DynamoServices;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
@@ -87,10 +88,28 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
+        /// Create Placeholder sheet.
+        /// </summary>
+        /// <param name="name">Name of the Sheet to be created.</param>
+        /// <param name="number">Number of the Sheet to be created.</param>
+        /// <returns name="Sheet">View sheet</returns>
+        [NodeCategory("Action")]
+        public static Sheet CreatePlaceholder(string number, string name)
+        {
+            if (name == null) throw new ArgumentNullException(nameof(name));
+            if (number == null) throw new ArgumentNullException(nameof(number));
+
+            var newSheet = new Sheets(name, number);
+
+            return (Sheet)newSheet.InternalViewSheet.ToDSType(true);
+        }
+
+        /// <summary>
         /// Revisions on Sheet.
         /// </summary>
         /// <param name="sheet">View Sheet.</param>
         /// <returns name="Element">Revisions on Sheet.</returns>
+        [NodeCategory("Query")]
         public static List<Element> Revisions(Sheet sheet)
         {
             var vs = sheet.InternalElement as Autodesk.Revit.DB.ViewSheet;
@@ -109,6 +128,7 @@ namespace archilab.Revit.Views
         /// <param name="sheet">View Sheet.</param>
         /// <param name="revision">Revision to get the number for.</param>
         /// <returns name="number">Revision Number on a Sheet.</returns>
+        [NodeCategory("Query")]
         public static string GetRevisionNumberOnSheet(Sheet sheet, Element revision)
         {
             if (sheet == null) throw new ArgumentNullException(nameof(sheet));
@@ -125,6 +145,7 @@ namespace archilab.Revit.Views
         /// </summary>
         /// <param name="sheet">View Sheet.</param>
         /// <returns name="Element">Viewports on Sheet.</returns>
+        [NodeCategory("Query")]
         public static List<Element> Viewports(Sheet sheet)
         {
             var vs = sheet.InternalElement as Autodesk.Revit.DB.ViewSheet;
@@ -137,26 +158,11 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
-        /// Create Placeholder sheet.
-        /// </summary>
-        /// <param name="name">Name of the Sheet to be created.</param>
-        /// <param name="number">Number of the Sheet to be created.</param>
-        /// <returns name="Sheet">View sheet</returns>
-        public static Sheet CreatePlaceholder(string number, string name)
-        {
-            if (name == null) throw new ArgumentNullException(nameof(name));
-            if (number == null) throw new ArgumentNullException(nameof(number));
-
-            var newSheet = new Sheets(name, number);
-
-            return (Sheet)newSheet.InternalViewSheet.ToDSType(true);
-        }
-
-        /// <summary>
         /// Returns True if Sheet is Placeholder.
         /// </summary>
         /// <param name="sheet">View Sheet.</param>
         /// <returns>True if Sheet is Placeholder, otherwise false.</returns>
+        [NodeCategory("Query")]
         public static bool IsPlaceholder(Sheet sheet)
         {
             return sheet.InternalElement is Autodesk.Revit.DB.ViewSheet vs && vs.IsPlaceholder;

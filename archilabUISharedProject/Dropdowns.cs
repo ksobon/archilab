@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using archilab.Utilities;
 using Autodesk.Revit.DB;
 using CoreNodeModels;
@@ -21,7 +22,7 @@ using ElementSelector = Revit.Elements.ElementSelector;
 namespace archilabUI
 {
     [NodeName("Box Placement Types")]
-    [NodeCategory("archilab.Revit.Views")]
+    [NodeCategory("archilab.Revit.Views.Query")]
     [NodeDescription("Retrieve all available Box Placement Types")]
     [IsDesignScriptCompatible]
     public class BoxPlacementTypeUi : CustomGenericEnumerationDropDown
@@ -44,7 +45,7 @@ namespace archilabUI
     }
 
     [NodeName("Parameter Groups")]
-    [NodeCategory("archilab.Revit.Parameter")]
+    [NodeCategory("archilab.Revit.Parameter.Query")]
     [NodeDescription("Retrieve all available Parameter Groups.")]
     [IsDesignScriptCompatible]
     public class ParameterGroupUi : CustomGenericEnumerationDropDown
@@ -58,7 +59,7 @@ namespace archilabUI
     }
 
     [NodeName("Fill Pattern Target")]
-    [NodeCategory("archilab.Revit.Select")]
+    [NodeCategory("archilab.Revit.Select.Query")]
     [NodeDescription("Retrieve FillPatternTarget types.")]
     [IsDesignScriptCompatible]
     public class FillPatternTargetUi : CustomGenericEnumerationDropDown
@@ -72,7 +73,7 @@ namespace archilabUI
     }
 
     [NodeName("Parameter Types")]
-    [NodeCategory("archilab.Revit.Parameter")]
+    [NodeCategory("archilab.Revit.Parameter.Query")]
     [NodeDescription("Retrieve all available Parameter Types from Revit project.")]
     [IsDesignScriptCompatible]
     public class ParameterTypeUi : CustomGenericEnumerationDropDown
@@ -86,7 +87,7 @@ namespace archilabUI
     }
 
     [NodeName("Print Range")]
-    [NodeCategory("archilab.Revit.Printing")]
+    [NodeCategory("archilab.Revit.Printing.Query")]
     [NodeDescription("Retrieve all available Print Ranges from Revit project.")]
     [IsDesignScriptCompatible]
     public class PrintRangeUi : CustomGenericEnumerationDropDown
@@ -100,7 +101,7 @@ namespace archilabUI
     }
 
     [NodeName("Fit Direction Type")]
-    [NodeCategory("archilab.Revit.Schedule")]
+    [NodeCategory("archilab.Revit.Schedule.Query")]
     [NodeDescription("Retrieve all available Fit Direction Types from Revit project.")]
     [IsDesignScriptCompatible]
     public class FitDirectionTypeUi : CustomGenericEnumerationDropDown
@@ -114,7 +115,7 @@ namespace archilabUI
     }
 
     [NodeName("Image Resolution")]
-    [NodeCategory("archilab.Revit.Views")]
+    [NodeCategory("archilab.Revit.Views.Query")]
     [NodeDescription("Retrieve all available Image Resolutions from Revit project.")]
     [IsDesignScriptCompatible]
     public class ImageResolutionUi : CustomGenericEnumerationDropDown
@@ -128,7 +129,7 @@ namespace archilabUI
     }
 
     [NodeName("Zoom Fit Type")]
-    [NodeCategory("archilab.Revit.Views")]
+    [NodeCategory("archilab.Revit.Views.Query")]
     [NodeDescription("Retrieve all available Zoom Fit Types from Revit project.")]
     [IsDesignScriptCompatible]
     public class ZoomFitTypeUi : CustomGenericEnumerationDropDown
@@ -142,7 +143,7 @@ namespace archilabUI
     }
 
     [NodeName("Image File Type")]
-    [NodeCategory("archilab.Revit.Views")]
+    [NodeCategory("archilab.Revit.Views.Query")]
     [NodeDescription("Retrieve all available Image File Types from Revit project.")]
     [IsDesignScriptCompatible]
     public class ImageFileTypeUi : CustomGenericEnumerationDropDown
@@ -156,7 +157,7 @@ namespace archilabUI
     }
 
     [NodeName("Export Range")]
-    [NodeCategory("archilab.Revit.Views")]
+    [NodeCategory("archilab.Revit.Views.Query")]
     [NodeDescription("Retrieve all available Export Ranges from Revit project.")]
     [IsDesignScriptCompatible]
     public class ExportRangeUi : CustomGenericEnumerationDropDown
@@ -170,7 +171,7 @@ namespace archilabUI
     }
 
     [NodeName("Print Settings")]
-    [NodeCategory("archilab.Revit.Printing")]
+    [NodeCategory("archilab.Revit.Printing.Query")]
     [NodeDescription("Retrieve all available Print Settings from Revit project.")]
     [IsDesignScriptCompatible]
     public class PrintSettingUi : CustomRevitElementDropDown
@@ -184,7 +185,7 @@ namespace archilabUI
     }
 
     [NodeName("View Sets")]
-    [NodeCategory("archilab.Revit.Printing")]
+    [NodeCategory("archilab.Revit.Printing.Query")]
     [NodeDescription("Retrieve all available View Sets from Revit project.")]
     [IsDesignScriptCompatible]
     public class ViewSetUi : CustomRevitElementDropDown
@@ -198,7 +199,7 @@ namespace archilabUI
     }
 
     [NodeName("Schedule Heading Orientations")]
-    [NodeCategory("archilab.Revit.Schedule")]
+    [NodeCategory("archilab.Revit.Schedule.Query")]
     [NodeDescription("Retrieve all available Heading Orientation values from Revit project.")]
     [IsDesignScriptCompatible]
     public class ScheduleHeadingOrientationUi : CustomGenericEnumerationDropDown
@@ -212,7 +213,7 @@ namespace archilabUI
     }
 
     [NodeName("Schedule Horizontal Alignment")]
-    [NodeCategory("archilab.Revit.Schedule")]
+    [NodeCategory("archilab.Revit.Schedule.Query")]
     [NodeDescription("Retrieve all available Horizontal Alignment Types from Revit project.")]
     [IsDesignScriptCompatible]
     public class ScheduleHorizontalAlignmentUi : CustomGenericEnumerationDropDown
@@ -226,7 +227,7 @@ namespace archilabUI
     }
 
     [NodeName("Horizontal Alignment Style")]
-    [NodeCategory("archilab.Revit.Schedule")]
+    [NodeCategory("archilab.Revit.Schedule.Query")]
     [NodeDescription("Retrieve all available Horizontal Alignment Styles from Revit project.")]
     [IsDesignScriptCompatible]
     public class HorizontalAlignmentStyleUi : CustomGenericEnumerationDropDown
@@ -240,7 +241,7 @@ namespace archilabUI
     }
 
     [NodeName("Vertical Alignment Style")]
-    [NodeCategory("archilab.Revit.Schedule")]
+    [NodeCategory("archilab.Revit.Schedule.Query")]
     [NodeDescription("Retrieve all available Vertical Alignment Styles from Revit project.")]
     [IsDesignScriptCompatible]
     public class VerticalAlignmentStyleUi : CustomGenericEnumerationDropDown
@@ -254,7 +255,7 @@ namespace archilabUI
     }
 
     [NodeName("Schedule Sort Order")]
-    [NodeCategory("archilab.Revit.Schedule")]
+    [NodeCategory("archilab.Revit.Schedule.Query")]
     [NodeDescription("Retrieve all available Schedule Sort Order types from Revit project.")]
     [IsDesignScriptCompatible]
     public class ScheduleSortOrderUi : CustomGenericEnumerationDropDown
@@ -268,7 +269,7 @@ namespace archilabUI
     }
 
     [NodeName("Numeric Rule Evaluators")]
-    [NodeCategory("archilab.Revit.Select")]
+    [NodeCategory("archilab.Revit.Select.Query")]
     [NodeDescription("Retrieve all available Numeric Rule Evaluators.")]
     [IsDesignScriptCompatible]
     public class FilterNumericRuleEvaluatorUi : RevitDropDownBase
@@ -327,7 +328,7 @@ namespace archilabUI
     }
 
     [NodeName("String Rule Evaluators")]
-    [NodeCategory("archilab.Revit.Select")]
+    [NodeCategory("archilab.Revit.Select.Query")]
     [NodeDescription("Retrieve all available String Rule Evaluators.")]
     [IsDesignScriptCompatible]
     public class FilterStringRuleEvaluatorUi : RevitDropDownBase
@@ -386,7 +387,7 @@ namespace archilabUI
     }
 
     [NodeName("Google Map Types")]
-    [NodeCategory("archilab.Maps.GoogleMaps")]
+    [NodeCategory("archilab.Maps.GoogleMaps.Query")]
     [NodeDescription("")]
     [IsDesignScriptCompatible]
     public class GoogleMapTypesUi : RevitDropDownBase
@@ -445,7 +446,7 @@ namespace archilabUI
     }
 
     [NodeName("Google Image Formats")]
-    [NodeCategory("archilab.Maps.GoogleMaps")]
+    [NodeCategory("archilab.Maps.GoogleMaps.Query")]
     [NodeDescription("")]
     [IsDesignScriptCompatible]
     public class GoogleImageFormatsUi : RevitDropDownBase
@@ -504,7 +505,7 @@ namespace archilabUI
     }
 
     [NodeName("View Template Parameters")]
-    [NodeCategory("archilab.Revit.ViewTemplates")]
+    [NodeCategory("archilab.Revit.ViewTemplates.Query")]
     [NodeDescription("Retrieve all available built in View Template parameters.")]
     [IsDesignScriptCompatible]
     public class ViewTemplateParametersUi : RevitDropDownBase
@@ -563,7 +564,7 @@ namespace archilabUI
     }
 
     [NodeName("Filter Numeric Value Rules")]
-    [NodeCategory("archilab.Revit.Select")]
+    [NodeCategory("archilab.Revit.Select.Query")]
     [NodeDescription("Retrieve all available Filter Numeric Value Rules.")]
     [IsDesignScriptCompatible]
     public class FilterNumericValueRuleUi : CustomGenericEnumerationDropDown
@@ -577,7 +578,7 @@ namespace archilabUI
     }
 
     [NodeName("Line Styles")]
-    [NodeCategory("archilab.Revit.Views")]
+    [NodeCategory("archilab.Revit.Views.Query")]
     [NodeDescription("Retrieve all available Line Styles.")]
     [IsDesignScriptCompatible]
     public class LineStyleUi : RevitDropDownBase
@@ -647,7 +648,7 @@ namespace archilabUI
     }
 
     [NodeName("View Templates")]
-    [NodeCategory("archilab.Revit.ViewTemplates")]
+    [NodeCategory("archilab.Revit.ViewTemplates.Query")]
     [NodeDescription("Retrieve all available View Templates (except 3D view based due to Dynamo limitation).")]
     [IsDesignScriptCompatible]
     public class ViewTemplatesUi : RevitDropDownBase
@@ -715,7 +716,7 @@ namespace archilabUI
     }
 
     [NodeName("Worksets")]
-    [NodeCategory("archilab.Revit.Workset")]
+    [NodeCategory("archilab.Revit.Workset.Query")]
     [NodeDescription("Retrieve all available Worksets.")]
     [IsDesignScriptCompatible]
     public class WorksetUi : RevitDropDownBase
@@ -779,7 +780,7 @@ namespace archilabUI
     }
 
     [NodeName("View Type")]
-    [NodeCategory("archilab.Revit.Views")]
+    [NodeCategory("archilab.Revit.Views.Query")]
     [NodeDescription("Retrieve all available View Types.")]
     [IsDesignScriptCompatible]
     public class ViewTypesUi : RevitDropDownBase
@@ -838,7 +839,7 @@ namespace archilabUI
     }
 
     [NodeName("Phase Filters")]
-    [NodeCategory("archilab.Revit.Views")]
+    [NodeCategory("archilab.Revit.Views.Query")]
     [NodeDescription("Retrieve all available Phase Filters.")]
     [IsDesignScriptCompatible]
     public class PhaseFilterUi : CustomRevitElementDropDown
@@ -852,7 +853,7 @@ namespace archilabUI
     }
 
     [NodeName("Workset Kind")]
-    [NodeCategory("archilab.Revit.Workset")]
+    [NodeCategory("archilab.Revit.Workset.Query")]
     [NodeDescription("Retrieve all available Workset kinds.")]
     [IsDesignScriptCompatible]
     public class WorksetKindUi : CustomGenericEnumerationDropDown
@@ -866,7 +867,7 @@ namespace archilabUI
     }
 
     [NodeName("Workset Visibility")]
-    [NodeCategory("archilab.Revit.Workset")]
+    [NodeCategory("archilab.Revit.Workset.Query")]
     [NodeDescription("Retrieve all available Workset Visibility settings.")]
     [IsDesignScriptCompatible]
     public class WorksetVisibilityUi : CustomGenericEnumerationDropDown
@@ -880,7 +881,7 @@ namespace archilabUI
     }
 
     [NodeName("Duplicate Options")]
-    [NodeCategory("archilab.Revit.Views")]
+    [NodeCategory("archilab.Revit.Views.Query")]
     [NodeDescription("Retrieve all available View Duplication Options.")]
     [IsDesignScriptCompatible]
     public class DuplicateOptionsUi : CustomGenericEnumerationDropDown
@@ -894,7 +895,7 @@ namespace archilabUI
     }
 
     [NodeName("Method Types")]
-    [NodeCategory("archilab.Http.Http")]
+    [NodeCategory("archilab.Http.Http.Query")]
     [NodeDescription("Retrieve all available Http Request types.")]
     [IsDesignScriptCompatible]
     public class HttpMethodType : CustomGenericEnumerationDropDown
@@ -911,7 +912,7 @@ namespace archilabUI
     // (Konrad) This is replaced by Forge Unit in 2022 and up.
 #else
     [NodeName("Unit Type")]
-    [NodeCategory("archilab.Revit.Units")]
+    [NodeCategory("archilab.Revit.Units.Query")]
     [NodeDescription("Retrieve all available Unit Types.")]
     [IsDesignScriptCompatible]
     public class UnitTypeUI : CustomGenericEnumerationDropDown
@@ -925,7 +926,7 @@ namespace archilabUI
     }
 #endif
     [NodeName("Unit Systems")]
-    [NodeCategory("archilab.Revit.Units")]
+    [NodeCategory("archilab.Revit.Units.Query")]
     [NodeDescription("Retrieve all available Unit Systems.")]
     [IsDesignScriptCompatible]
     public class UnitSystemUI : CustomGenericEnumerationDropDown
@@ -937,9 +938,10 @@ namespace archilabUI
         public UnitSystemUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
             : base(OutputName, typeof(UnitSystem), inPorts, outPorts) { }
     }
+
 #if !Revit2018 && !Revit2020 && !Revit2021
     [NodeName("Forge Units")]
-    [NodeCategory("archilab.Revit.Units")]
+    [NodeCategory("archilab.Revit.Units.Query")]
     [NodeDescription("Retrieve all available Forge Units.")]
     [IsDesignScriptCompatible]
     public class ForgeUnitsUi : RevitDropDownBase
@@ -996,8 +998,9 @@ namespace archilabUI
             return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), functionCall) };
         }
     }
+    
     [NodeName("Forge Specs")]
-    [NodeCategory("archilab.Revit.Units")]
+    [NodeCategory("archilab.Revit.Units.Query")]
     [NodeDescription("Retrieve all available Forge Specs.")]
     [IsDesignScriptCompatible]
     public class ForgeSpecsUi : RevitDropDownBase
@@ -1056,7 +1059,7 @@ namespace archilabUI
     }
 #else
     [NodeName("Display Unit Types")]
-    [NodeCategory("archilab.Revit.Units")]
+    [NodeCategory("archilab.Revit.Units.Query")]
     [NodeDescription("Retrieve all available Display Unit Types.")]
     [IsDesignScriptCompatible]
     public class DisplayUnitTypeUI : CustomGenericEnumerationDropDown
@@ -1071,7 +1074,7 @@ namespace archilabUI
 #endif
 
     [NodeName("Revision Number Type")]
-    [NodeCategory("archilab.Revit.Revisions")]
+    [NodeCategory("archilab.Revit.Revisions.Query")]
     [NodeDescription("Retrieve all available Revision Number Types.")]
     [IsDesignScriptCompatible]
     public class RevisionNumberTypeUI : CustomGenericEnumerationDropDown
@@ -1085,7 +1088,7 @@ namespace archilabUI
     }
 
     [NodeName("Revision Visibility")]
-    [NodeCategory("archilab.Revit.Revisions")]
+    [NodeCategory("archilab.Revit.Revisions.Query")]
     [NodeDescription("Retrieve all available Revision Visibility.")]
     [IsDesignScriptCompatible]
     public class RevisionVisibilityUI : CustomGenericEnumerationDropDown
@@ -1099,7 +1102,7 @@ namespace archilabUI
     }
 
     [NodeName("Spatial Element Boundary Locations")]
-    [NodeCategory("archilab.Revit.Room")]
+    [NodeCategory("archilab.Revit.Room.Query")]
     [NodeDescription("Retrieve all available Spatial Element Boundary Locations.")]
     [IsDesignScriptCompatible]
     public class SpatialElementBoundaryLocationUI : CustomGenericEnumerationDropDown
@@ -1113,7 +1116,7 @@ namespace archilabUI
     }
 
     [NodeName("Midpoint Rounding Types")]
-    [NodeCategory("archilab.Core.Maths")]
+    [NodeCategory("archilab.Core.Maths.Query")]
     [NodeDescription("Retrieve all available Midpoint Rounding Types.")]
     [IsDesignScriptCompatible]
     public class MidpointRoundingTypesUI : CustomGenericEnumerationDropDown
@@ -1127,7 +1130,7 @@ namespace archilabUI
     }
 
     [NodeName("Grid Extent Type")]
-    [NodeCategory("archilab.Revit.Grids")]
+    [NodeCategory("archilab.Revit.Grids.Query")]
     [NodeDescription("Retrieve all available Grid Extent Types.")]
     [IsDesignScriptCompatible]
     public class ExtentTypeUI : CustomGenericEnumerationDropDown
@@ -1138,5 +1141,75 @@ namespace archilabUI
         [JsonConstructor]
         public ExtentTypeUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
             : base(OutputName, typeof(DatumExtentType), inPorts, outPorts) { }
+    }
+
+    [NodeName("Regex Options")]
+    [NodeCategory("archilab.Core.Strings.Query")]
+    [NodeDescription("Retrieve all available Regex Options.")]
+    [IsDesignScriptCompatible]
+    public class RegexOptionsUI : CustomGenericEnumerationDropDown
+    {
+        private const string OutputName = "regexOption";
+        public RegexOptionsUI() : base(OutputName, typeof(RegexOptions)) { }
+
+        [JsonConstructor]
+        public RegexOptionsUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
+            : base(OutputName, typeof(RegexOptions), inPorts, outPorts) { }
+    }
+
+    [NodeName("Display Styles")]
+    [NodeCategory("archilab.Revit.Views.Query")]
+    [NodeDescription("Retrieve all available Display Styles.")]
+    [IsDesignScriptCompatible]
+    public class DisplayStylesUI : CustomGenericEnumerationDropDown
+    {
+        private const string OutputName = "displayStyle";
+        public DisplayStylesUI() : base(OutputName, typeof(DisplayStyle)) { }
+
+        [JsonConstructor]
+        public DisplayStylesUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
+            : base(OutputName, typeof(DisplayStyle), inPorts, outPorts) { }
+    }
+
+    [NodeName("Tag Modes")]
+    [NodeCategory("archilab.Revit.Tags.Query")]
+    [NodeDescription("Retrieve all available Tag Modes.")]
+    [IsDesignScriptCompatible]
+    public class TagModesUI : CustomGenericEnumerationDropDown
+    {
+        private const string OutputName = "tagMode";
+        public TagModesUI() : base(OutputName, typeof(TagMode)) { }
+
+        [JsonConstructor]
+        public TagModesUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
+            : base(OutputName, typeof(TagMode), inPorts, outPorts) { }
+    }
+
+    [NodeName("Tag Orientations")]
+    [NodeCategory("archilab.Revit.Tags.Query")]
+    [NodeDescription("Retrieve all available Tag Orientations.")]
+    [IsDesignScriptCompatible]
+    public class TagOrientationsUI : CustomGenericEnumerationDropDown
+    {
+        private const string OutputName = "tagOrientation";
+        public TagOrientationsUI() : base(OutputName, typeof(TagOrientation)) { }
+
+        [JsonConstructor]
+        public TagOrientationsUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
+            : base(OutputName, typeof(TagOrientation), inPorts, outPorts) { }
+    }
+    
+    [NodeName("Leader End Conditions")]
+    [NodeCategory("archilab.Revit.Tags.Query")]
+    [NodeDescription("Retrieve all available Leader End Conditions.")]
+    [IsDesignScriptCompatible]
+    public class LeaderEndConditionUI : CustomGenericEnumerationDropDown
+    {
+        private const string OutputName = "leaderEndCondition";
+        public LeaderEndConditionUI() : base(OutputName, typeof(Autodesk.Revit.DB.LeaderEndCondition)) { }
+
+        [JsonConstructor]
+        public LeaderEndConditionUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
+            : base(OutputName, typeof(Autodesk.Revit.DB.LeaderEndCondition), inPorts, outPorts) { }
     }
 }

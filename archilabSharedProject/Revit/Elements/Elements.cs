@@ -60,6 +60,29 @@ namespace archilab.Revit.Elements
         /// 
         /// </summary>
         /// <param name="elements"></param>
+        /// <param name="translation"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static List<Element> MoveElements(List<Element> elements, Vector translation)
+        {
+            if (elements == null || !elements.Any())
+                throw new ArgumentNullException(nameof(elements));
+            if (translation == null)
+                throw new ArgumentNullException(nameof(translation));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            Autodesk.Revit.DB.ElementTransformUtils.MoveElements(doc,
+                elements.Select(x => x.InternalElement.Id).ToList(), translation.ToXyz());
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return elements;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="elements"></param>
         /// <param name="searchString"></param>
         /// <param name="ignoreCase"></param>
         /// <returns></returns>

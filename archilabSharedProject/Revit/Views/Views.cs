@@ -226,6 +226,26 @@ namespace archilab.Revit.Views
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static View Duplicate(View view, string options)
+        {
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var dupOptions = (Autodesk.Revit.DB.ViewDuplicateOption)Enum.Parse(typeof(Autodesk.Revit.DB.ViewDuplicateOption), options);
+
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            var newView = doc.GetElement(v.Duplicate(dupOptions));
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return newView.ToDSType(true) as View;
+        }
+
+        /// <summary>
         /// Creates a new View Callout.
         /// </summary>
         /// <param name="view">View to create the Callout in.</param>
@@ -351,6 +371,26 @@ namespace archilab.Revit.Views
         /// 
         /// </summary>
         /// <param name="view"></param>
+        /// <param name="visible"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static View CropBoxVisible(View view, bool visible = true)
+        {
+            if (!(view.InternalElement is Autodesk.Revit.DB.View v))
+                throw new ArgumentNullException(nameof(view));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            v.CropBoxVisible = visible;
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return view;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
         /// <param name="curves"></param>
         /// <returns></returns>
         [NodeCategory("Action")]
@@ -395,6 +435,92 @@ namespace archilab.Revit.Views
 
             TransactionManager.Instance.EnsureInTransaction(DocumentManager.Instance.CurrentDBDocument);
             view.InternalElement.Name = name;
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return view;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="detailLevel"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static View SetDetailLevel(View view, string detailLevel)
+        {
+            if (view == null)
+                throw new ArgumentException(nameof(view));
+            if (string.IsNullOrWhiteSpace(detailLevel))
+                throw new ArgumentException(nameof(detailLevel));
+
+            var dl = (Autodesk.Revit.DB.ViewDetailLevel)Enum.Parse(typeof(Autodesk.Revit.DB.ViewDetailLevel), detailLevel);
+
+            TransactionManager.Instance.EnsureInTransaction(DocumentManager.Instance.CurrentDBDocument);
+            view.InternalElement.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.VIEW_DETAIL_LEVEL)?.Set((int) dl);
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return view;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="displayStyle"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static View SetDisplayStyle(View view, string displayStyle)
+        {
+            if (view == null)
+                throw new ArgumentException(nameof(view));
+            if (string.IsNullOrWhiteSpace(displayStyle))
+                throw new ArgumentException(nameof(displayStyle));
+
+            var ds = (Autodesk.Revit.DB.DisplayStyle)Enum.Parse(typeof(Autodesk.Revit.DB.DisplayStyle), displayStyle);
+
+            TransactionManager.Instance.EnsureInTransaction(DocumentManager.Instance.CurrentDBDocument);
+            ((Autodesk.Revit.DB.View)view.InternalElement).DisplayStyle = ds;
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return view;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="crop"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static View CropView(View view, bool crop = false)
+        {
+            if (view == null)
+                throw new ArgumentException(nameof(view));
+
+            TransactionManager.Instance.EnsureInTransaction(DocumentManager.Instance.CurrentDBDocument);
+            view.InternalElement.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.VIEWER_CROP_REGION)
+                ?.Set(crop ? 1 : 0);
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return view;
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="crop"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static View AnnotationCrop(View view, bool crop = false)
+        {
+            if (view == null)
+                throw new ArgumentException(nameof(view));
+
+            TransactionManager.Instance.EnsureInTransaction(DocumentManager.Instance.CurrentDBDocument);
+            view.InternalElement.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.VIEWER_ANNOTATION_CROP_ACTIVE)
+                ?.Set(crop ? 1 : 0);
             TransactionManager.Instance.TransactionTaskDone();
 
             return view;

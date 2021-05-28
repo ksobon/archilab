@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Autodesk.DesignScript.Geometry;
 using Dynamo.Graph.Nodes;
 using Revit.Elements;
@@ -42,6 +44,121 @@ namespace archilab.Revit.Elements
             TransactionManager.Instance.TransactionTaskDone();
 
             return tag;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <param name="leaderEnd"></param>
+        /// <param name="leaderElbow"></param>
+        /// <param name="leaderEndCondition"></param>
+        /// <param name="hasLeader"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static Element SetLeader(Element tag, Point leaderEnd, Point leaderElbow, string leaderEndCondition, bool hasLeader = true)
+        {
+            if (tag == null)
+                throw new ArgumentNullException(nameof(tag));
+
+            if (!(tag.InternalElement is Autodesk.Revit.DB.IndependentTag t))
+                throw new ArgumentNullException(nameof(tag));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var lec = (Autodesk.Revit.DB.LeaderEndCondition)Enum.Parse(typeof(Autodesk.Revit.DB.LeaderEndCondition), leaderEndCondition);
+            
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            t.HasLeader = hasLeader;
+            if (hasLeader)
+            {
+                t.LeaderEnd = leaderEnd.ToXyz();
+                t.LeaderElbow = leaderElbow.ToXyz();
+                if (t.CanLeaderEndConditionBeAssigned(lec))
+                    t.LeaderEndCondition = lec;
+            }
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return tag;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="element"></param>
+        /// <param name="tagMode"></param>
+        /// <param name="tagOrientation"></param>
+        /// <param name="addLeader"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static Element ByElement(View view, Element element, string tagMode, string tagOrientation, bool addLeader = false)
+        {
+            if (view == null)
+                throw new ArgumentNullException(nameof(view));
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+            if (string.IsNullOrWhiteSpace(tagMode))
+                throw new ArgumentNullException(nameof(tagMode));
+            if (string.IsNullOrWhiteSpace(tagOrientation))
+                throw new ArgumentNullException(nameof(tagOrientation));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var e = element.InternalElement;
+            var r = new Autodesk.Revit.DB.Reference(e);
+            var v = view.InternalElement;
+            var m = (Autodesk.Revit.DB.TagMode)Enum.Parse(typeof(Autodesk.Revit.DB.TagMode), tagMode);
+            var o = (Autodesk.Revit.DB.TagOrientation)Enum.Parse(typeof(Autodesk.Revit.DB.TagOrientation), tagOrientation);
+            var l = (e.Location as Autodesk.Revit.DB.LocationPoint)?.Point;
+            
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            var tag = Autodesk.Revit.DB.IndependentTag.Create(doc, v.Id, r, addLeader, m, o, l);
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return tag.ToDSType(true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="elements"></param>
+        /// <param name="tagMode"></param>
+        /// <param name="tagOrientation"></param>
+        /// <param name="addLeader"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static List<Element> ByElements(View view, List<Element> elements, string tagMode, string tagOrientation, bool addLeader = false)
+        {
+            if (view == null)
+                throw new ArgumentNullException(nameof(view));
+            if (elements == null || !elements.Any())
+                throw new ArgumentNullException(nameof(elements));
+            if (string.IsNullOrWhiteSpace(tagMode))
+                throw new ArgumentNullException(nameof(tagMode));
+            if (string.IsNullOrWhiteSpace(tagOrientation))
+                throw new ArgumentNullException(nameof(tagOrientation));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var v = view.InternalElement;
+            var m = (Autodesk.Revit.DB.TagMode)Enum.Parse(typeof(Autodesk.Revit.DB.TagMode), tagMode);
+            var o = (Autodesk.Revit.DB.TagOrientation)Enum.Parse(typeof(Autodesk.Revit.DB.TagOrientation), tagOrientation);
+            var results = new List<Element>();
+
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            foreach (var element in elements)
+            {
+                var e = element.InternalElement;
+                var r = new Autodesk.Revit.DB.Reference(e);
+                var l = (e.Location as Autodesk.Revit.DB.LocationPoint)?.Point;
+                var tag = Autodesk.Revit.DB.IndependentTag.Create(doc, v.Id, r, addLeader, m, o, l);
+                r.Dispose();
+                e.Dispose();
+
+                results.Add(tag.ToDSType(true));
+            }
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return results;
         }
 
         /// <summary>

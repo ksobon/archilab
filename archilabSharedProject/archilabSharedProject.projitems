@@ -87,6 +87,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\ImageViews.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\Sheets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\ThreeD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\Viewports.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\Views.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\ViewSchedules.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Views\ViewSets.cs" />
