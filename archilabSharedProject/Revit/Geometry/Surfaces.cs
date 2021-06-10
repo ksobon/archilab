@@ -3,6 +3,7 @@ using Dynamo.Graph.Nodes;
 using Revit.Elements;
 using RevitServices.Persistence;
 using System;
+// ReSharper disable UnusedMember.Global
 
 namespace archilab.Revit.Geometry
 {
@@ -29,7 +30,7 @@ namespace archilab.Revit.Geometry
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var ref1 = surface.Tags.LookupTag("RevitFaceReference") as Autodesk.Revit.DB.Reference;
             
-            return doc.GetElement(ref1.ElementId).ToDSType(true);
+            return doc.GetElement(ref1?.ElementId).ToDSType(true);
         }
     }
 }

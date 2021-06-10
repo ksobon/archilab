@@ -348,6 +348,22 @@ namespace archilab.Revit.Elements
                 new List<Autodesk.Revit.DB.View> {view.InternalElement as Autodesk.Revit.DB.View}).Any();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static Point Location(Element element)
+        {
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+
+            var loc = element.InternalElement.Location as Autodesk.Revit.DB.LocationPoint;
+
+            return loc?.Point.ToPoint();
+        }
+
         #region Utilities
 
         /// <summary>

@@ -226,6 +226,26 @@ namespace archilab.Revit.Elements
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="material"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static Element GetSurfacePattern(Material material)
+        {
+            if (material == null)
+                throw new ArgumentNullException(nameof(material));
+
+            if (!(material.InternalElement is Autodesk.Revit.DB.Material m))
+                throw new ArgumentNullException(nameof(material));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var sp = doc.GetElement(m.SurfacePatternId);
+
+            return sp?.ToDSType(true);
+        }
+
+        /// <summary>
         /// Sets Cut Pattern properties for a Material.
         /// </summary>
         /// <param name="material">Material to set Cut Pattern for.</param>
@@ -259,6 +279,26 @@ namespace archilab.Revit.Elements
             TransactionManager.Instance.TransactionTaskDone();
 
             return material;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="material"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static Element GetCutPattern(Material material)
+        {
+            if (material == null)
+                throw new ArgumentNullException(nameof(material));
+
+            if (!(material.InternalElement is Autodesk.Revit.DB.Material m))
+                throw new ArgumentNullException(nameof(material));
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var cp = doc.GetElement(m.CutPatternId);
+
+            return cp?.ToDSType(true);
         }
 
 #endif
