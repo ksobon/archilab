@@ -4,6 +4,7 @@ using Dynamo.Graph.Nodes;
 using RevitServices.Persistence;
 using archilab.Utilities;
 using Autodesk.DesignScript.Runtime;
+using Revit.Elements;
 // ReSharper disable UnusedMember.Global
 
 namespace archilab.Revit.Elements
@@ -22,6 +23,108 @@ namespace archilab.Revit.Elements
         internal OverrideGraphicsSettings(Autodesk.Revit.DB.OverrideGraphicSettings settings)
         {
             InternalOverrideGraphicSettings = settings;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectionLineColor"></param>
+        /// <param name="projectionLineWeight"></param>
+        /// <param name="projectionLinePattern"></param>
+        /// <param name="projectionForegroundFillPattern"></param>
+        /// <param name="projectionForegroundFillColor"></param>
+        /// <param name="projectionBackgroundFillPattern"></param>
+        /// <param name="projectionBackgroundFillColor"></param>
+        /// <param name="cutLineColor"></param>
+        /// <param name="cutLineWeight"></param>
+        /// <param name="cutLinePattern"></param>
+        /// <param name="cutForegroundFillPattern"></param>
+        /// <param name="cutForegroundFillColor"></param>
+        /// <param name="cutBackgroundFillPattern"></param>
+        /// <param name="cutBackgroundFillColor"></param>
+        /// <param name="transparency"></param>
+        /// <param name="halftone"></param>
+        /// <returns name="overrides">Override Graphics Settings.</returns>
+        public static OverrideGraphicsSettings Create(
+            [DefaultArgument("Selection.Select.GetNull()")] Color projectionLineColor,
+            [DefaultArgument("Selection.Select.GetNull()")] int? projectionLineWeight,
+            [DefaultArgument("Selection.Select.GetNull()")] Element projectionLinePattern,
+            [DefaultArgument("Selection.Select.GetNull()")] Element projectionForegroundFillPattern,
+            [DefaultArgument("Selection.Select.GetNull()")] Color projectionForegroundFillColor, 
+            [DefaultArgument("Selection.Select.GetNull()")] Element projectionBackgroundFillPattern,
+            [DefaultArgument("Selection.Select.GetNull()")] Color projectionBackgroundFillColor,
+            [DefaultArgument("Selection.Select.GetNull()")] Color cutLineColor,
+            [DefaultArgument("Selection.Select.GetNull()")] int? cutLineWeight,
+            [DefaultArgument("Selection.Select.GetNull()")] Element cutLinePattern,
+            [DefaultArgument("Selection.Select.GetNull()")] Element cutForegroundFillPattern,
+            [DefaultArgument("Selection.Select.GetNull()")] Color cutForegroundFillColor,
+            [DefaultArgument("Selection.Select.GetNull()")] Element cutBackgroundFillPattern,
+            [DefaultArgument("Selection.Select.GetNull()")] Color cutBackgroundFillColor,
+            [DefaultArgument("Selection.Select.GetNull()")] int? transparency = null,
+            bool halftone = false)
+        {
+            var ogs = new Autodesk.Revit.DB.OverrideGraphicSettings();
+
+            if (projectionLineColor != null)
+                ogs.SetProjectionLineColor(new Autodesk.Revit.DB.Color(projectionLineColor.Red,
+                    projectionLineColor.Green, projectionLineColor.Blue));
+            if (projectionLineWeight.HasValue)
+                ogs.SetProjectionLineWeight(projectionLineWeight.Value);
+            if (projectionLinePattern != null)
+                ogs.SetProjectionLinePatternId(projectionLinePattern.InternalElement.Id);
+
+            if (projectionForegroundFillPattern != null)
+            {
+                ogs.SetSurfaceForegroundPatternId(projectionForegroundFillPattern.InternalElement.Id);
+                ogs.SetSurfaceForegroundPatternVisible(true);
+            }
+            if (projectionForegroundFillColor != null)
+                ogs.SetSurfaceForegroundPatternColor(new Autodesk.Revit.DB.Color(projectionForegroundFillColor.Red,
+                    projectionForegroundFillColor.Green, projectionForegroundFillColor.Blue));
+            if (projectionBackgroundFillPattern != null)
+            {
+                ogs.SetSurfaceBackgroundPatternId(projectionBackgroundFillPattern.InternalElement.Id);
+                ogs.SetSurfaceBackgroundPatternVisible(true);
+            }
+            if (projectionBackgroundFillColor != null)
+            {
+                ogs.SetSurfaceBackgroundPatternColor(new Autodesk.Revit.DB.Color(projectionBackgroundFillColor.Red,
+                    projectionBackgroundFillColor.Green, projectionBackgroundFillColor.Blue));
+            }
+
+            if (transparency.HasValue)
+                ogs.SetSurfaceTransparency(transparency.Value);
+
+            if (cutLineColor != null)
+                ogs.SetCutLineColor(new Autodesk.Revit.DB.Color(cutLineColor.Red, cutLineColor.Green, cutLineColor.Blue));
+            if (cutLineWeight.HasValue)
+                ogs.SetCutLineWeight(cutLineWeight.Value);
+            if (cutLinePattern != null)
+                ogs.SetCutLinePatternId(cutLinePattern.InternalElement.Id);
+
+            if (cutForegroundFillPattern != null)
+            {
+                ogs.SetCutForegroundPatternId(cutForegroundFillPattern.InternalElement.Id);
+                ogs.SetCutForegroundPatternVisible(true);
+            }
+            if (cutForegroundFillColor != null)
+                ogs.SetCutForegroundPatternColor(new Autodesk.Revit.DB.Color(cutForegroundFillColor.Red,
+                    cutForegroundFillColor.Green, cutForegroundFillColor.Blue));
+            if (cutBackgroundFillPattern != null)
+            {
+                ogs.SetCutBackgroundPatternId(cutBackgroundFillPattern.InternalElement.Id);
+                ogs.SetCutBackgroundPatternVisible(true);
+            }
+            if (cutBackgroundFillColor != null)
+            {
+                ogs.SetCutBackgroundPatternColor(new Autodesk.Revit.DB.Color(cutBackgroundFillColor.Red,
+                    cutBackgroundFillColor.Green, cutBackgroundFillColor.Blue));
+            }
+
+            if (halftone)
+                ogs.SetHalftone(halftone);
+
+            return new OverrideGraphicsSettings(ogs);
         }
 
         /// <summary>

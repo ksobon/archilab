@@ -28,9 +28,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\AppearanceAssets.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Applications.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Assemblies.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\CompoundStructure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\CompoundStructureLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Connectors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Documents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Ducts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\FilterRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\FilterSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Grids.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\ImageExportOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\RenderingBackgroundSettings.cs" />

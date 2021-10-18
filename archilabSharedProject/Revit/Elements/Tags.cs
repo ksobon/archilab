@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Autodesk.DesignScript.Geometry;
 using Dynamo.Graph.Nodes;
 using Revit.Elements;
-using Revit.Elements.Views;
 using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
+using Element = Revit.Elements.Element;
+using Point = Autodesk.DesignScript.Geometry.Point;
+using View = Revit.Elements.Views.View;
 // ReSharper disable UnusedMember.Global
 
 namespace archilab.Revit.Elements
@@ -71,10 +72,13 @@ namespace archilab.Revit.Elements
             t.HasLeader = hasLeader;
             if (hasLeader)
             {
-                t.LeaderEnd = leaderEnd.ToXyz();
-                t.LeaderElbow = leaderElbow.ToXyz();
                 if (t.CanLeaderEndConditionBeAssigned(lec))
                     t.LeaderEndCondition = lec;
+                if (t.LeaderEndCondition == Autodesk.Revit.DB.LeaderEndCondition.Free)
+                {
+                    t.LeaderEnd = leaderEnd.ToXyz();
+                    t.LeaderElbow = leaderElbow.ToXyz();
+                }
             }
             TransactionManager.Instance.TransactionTaskDone();
 
@@ -108,8 +112,23 @@ namespace archilab.Revit.Elements
             var v = view.InternalElement;
             var m = (Autodesk.Revit.DB.TagMode)Enum.Parse(typeof(Autodesk.Revit.DB.TagMode), tagMode);
             var o = (Autodesk.Revit.DB.TagOrientation)Enum.Parse(typeof(Autodesk.Revit.DB.TagOrientation), tagOrientation);
-            var l = (e.Location as Autodesk.Revit.DB.LocationPoint)?.Point;
-            
+
+            Autodesk.Revit.DB.XYZ l;
+            switch (e.Location)
+            {
+                case Autodesk.Revit.DB.LocationCurve lc:
+                    l = lc.Curve.Evaluate(0.5, true);
+                    break;
+                case Autodesk.Revit.DB.LocationPoint lp:
+                    l = lp.Point;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            if (l == null)
+                throw new Exception("Could not retrieve valid Location Point.");
+
             TransactionManager.Instance.EnsureInTransaction(doc);
             var tag = Autodesk.Revit.DB.IndependentTag.Create(doc, v.Id, r, addLeader, m, o, l);
             TransactionManager.Instance.TransactionTaskDone();
@@ -149,7 +168,23 @@ namespace archilab.Revit.Elements
             {
                 var e = element.InternalElement;
                 var r = new Autodesk.Revit.DB.Reference(e);
-                var l = (e.Location as Autodesk.Revit.DB.LocationPoint)?.Point;
+
+                Autodesk.Revit.DB.XYZ l;
+                switch (e.Location)
+                {
+                    case Autodesk.Revit.DB.LocationCurve lc:
+                        l = lc.Curve.Evaluate(0.5, true);
+                        break;
+                    case Autodesk.Revit.DB.LocationPoint lp:
+                        l = lp.Point;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                if (l == null)
+                    continue;
+                
                 var tag = Autodesk.Revit.DB.IndependentTag.Create(doc, v.Id, r, addLeader, m, o, l);
                 r.Dispose();
                 e.Dispose();

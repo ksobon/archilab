@@ -25,9 +25,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2020", "archilab202
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabUI2020", "archilabUI2020\archilabUI2020.csproj", "{B07F95F2-4AF8-4759-BA69-9786D24111FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2019", "archilab2019\archilab2019.csproj", "{343E8899-7DB7-407C-9B36-CD4CB3FF4A6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabUI2019", "archilabUI2019\archilabUI2019.csproj", "{302CF4FA-A89A-4E4C-B7F4-7DBFFD9C4EFF}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		archilabSharedProject\archilabSharedProject.projitems*{27c10638-775c-4729-a41a-45fd7932d5ce}*SharedItemsImports = 4
+		archilabUISharedProject\archilabUISharedProject.projitems*{302cf4fa-a89a-4e4c-b7f4-7dbffd9c4eff}*SharedItemsImports = 4
+		archilabSharedProject\archilabSharedProject.projitems*{343e8899-7db7-407c-9b36-cd4cb3ff4a6c}*SharedItemsImports = 4
 		archilabUISharedProject\archilabUISharedProject.projitems*{4da505ab-ce78-4fde-b728-0532640f259c}*SharedItemsImports = 13
 		archilabSharedProject\archilabSharedProject.projitems*{7b27ad73-ffde-4cdc-b073-d9d6f35b5603}*SharedItemsImports = 4
 		archilabUISharedProject\archilabUISharedProject.projitems*{7f959765-2f5b-4faf-84cd-898a1c81dbb5}*SharedItemsImports = 4
@@ -79,6 +85,14 @@ Global
 		{B07F95F2-4AF8-4759-BA69-9786D24111FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B07F95F2-4AF8-4759-BA69-9786D24111FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B07F95F2-4AF8-4759-BA69-9786D24111FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{343E8899-7DB7-407C-9B36-CD4CB3FF4A6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{343E8899-7DB7-407C-9B36-CD4CB3FF4A6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{343E8899-7DB7-407C-9B36-CD4CB3FF4A6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{343E8899-7DB7-407C-9B36-CD4CB3FF4A6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{302CF4FA-A89A-4E4C-B7F4-7DBFFD9C4EFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{302CF4FA-A89A-4E4C-B7F4-7DBFFD9C4EFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{302CF4FA-A89A-4E4C-B7F4-7DBFFD9C4EFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{302CF4FA-A89A-4E4C-B7F4-7DBFFD9C4EFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

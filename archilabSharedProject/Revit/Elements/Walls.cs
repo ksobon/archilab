@@ -6,6 +6,7 @@ using Revit.Elements;
 using Revit.Elements.Views;
 using archilab.Utilities;
 using Autodesk.DesignScript.Runtime;
+using Dynamo.Graph.Nodes;
 // ReSharper disable UnusedMember.Global
 
 namespace archilab.Revit.Elements
@@ -23,7 +24,25 @@ namespace archilab.Revit.Elements
         /// 
         /// </summary>
         /// <param name="wall"></param>
+        /// <returns name="wallType"></returns>
+        [NodeCategory("Query")]
+        public static Element WallType(Element wall)
+        {
+            if (wall == null)
+                throw new ArgumentException(nameof(wall));
+
+            if (!(wall.InternalElement is Autodesk.Revit.DB.Wall w))
+                throw new Exception("Element is not a Wall.");
+
+            return w.WallType.ToDSType(true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="wall"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         public static bool IsLineBased(Element wall)
         {
             if (wall == null)
@@ -45,6 +64,7 @@ namespace archilab.Revit.Elements
         /// <param name="wall"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         public static BoundingBox GetAlignedBoundingBox(Element wall, Offset offset)
         {
             if (wall == null)
@@ -70,6 +90,7 @@ namespace archilab.Revit.Elements
         /// </summary>
         /// <param name="wall"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         public static CurtainGrids CurtainGrid(Element wall)
         {
             if (wall == null)
@@ -89,6 +110,7 @@ namespace archilab.Revit.Elements
         /// </summary>
         /// <param name="wall"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         [MultiReturn("Faces", "References")]
         public static Dictionary<string, object> GetFaces(Element wall)
         {
@@ -130,6 +152,7 @@ namespace archilab.Revit.Elements
         /// <param name="view"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         public static Line GetDimensionLine(Element wall, View view, double offset = 5)
         {
             if (wall == null)
@@ -155,6 +178,7 @@ namespace archilab.Revit.Elements
         /// </summary>
         /// <param name="wall"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         [MultiReturn("Start", "End")]
         public static Dictionary<string, bool> IsWallJoinAllowed(Element wall)
         {
@@ -175,6 +199,7 @@ namespace archilab.Revit.Elements
         /// </summary>
         /// <param name="wall"></param>
         /// <returns></returns>
+        [NodeCategory("Query")]
         [MultiReturn("Start", "End")]
         public static Dictionary<string, string> JoinType(Element wall)
         {

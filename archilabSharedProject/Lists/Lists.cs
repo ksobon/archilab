@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Dynamo.Graph.Nodes;
 using Autodesk.DesignScript.Runtime;
-using Autodesk.Revit.DB.Analysis;
-
 // ReSharper disable UnusedMember.Global
 
 namespace archilab.Lists
@@ -17,6 +15,37 @@ namespace archilab.Lists
     {
         internal Lists()
         {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static List<object> RemoveItem(List<object> list, object item)
+        {
+            return list.Where(x => !x.Equals(item)).ToList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="replacement"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static List<object> ReplaceNull(List<object> list, object replacement)
+        {
+            var results = new List<object>();
+            for (var i = 0; i < list.Count; i++)
+            {
+                var current = list[i];
+                results.Add(current ?? replacement);
+            }
+
+            return results;
         }
 
         /// <summary>

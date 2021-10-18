@@ -1,6 +1,4 @@
-﻿#region References
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using archilab.Revit.Utils;
@@ -11,12 +9,11 @@ using Revit.Elements;
 using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
+using Category = Revit.Elements.Category;
 using Element = Revit.Elements.Element;
+using Point = Autodesk.DesignScript.Geometry.Point;
 using View = Revit.Elements.Views.View;
-
 // ReSharper disable UnusedMember.Global
-
-#endregion
 
 namespace archilab.Revit.Elements
 {
@@ -93,9 +90,8 @@ namespace archilab.Revit.Elements
             object first = null;
             var listIn = new List<Element>();
             var listOut = new List<Element>();
-            for (int i = 0; i < elements.Length; i++)
+            foreach (var e in elements)
             {
-                var e = elements[i];
                 if (ignoreCase)
                 {
                     if (e.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
@@ -126,6 +122,147 @@ namespace archilab.Revit.Elements
                 { "in", listIn},
                 { "out", listOut}
             };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static List<Element> SubComponents(Element element)
+        {
+            var e = element.InternalElement;
+            var subComponents = new List<Autodesk.Revit.DB.Element>();
+
+            GetSubComponents(e, ref subComponents);
+
+            return subComponents.Select(x => x.ToDSType(true)).ToList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static bool IsSubComponent(Element element)
+        {
+            var e = element.InternalElement;
+            if (e is Autodesk.Revit.DB.FamilyInstance fi)
+                return fi.SuperComponent != null;
+
+            return false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="includeSubComponents"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static Point GetCentroid(Element element, bool includeSubComponents = true)
+        {
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+
+            var rvtElement = element.InternalElement;
+            var elements = new List<Autodesk.Revit.DB.Element> { rvtElement };
+            if (includeSubComponents)
+                GetSubComponents(rvtElement, ref elements);
+
+            var opt = new Autodesk.Revit.DB.Options
+            {
+                DetailLevel = Autodesk.Revit.DB.ViewDetailLevel.Fine,
+                IncludeNonVisibleObjects = true,
+                ComputeReferences = true
+            };
+
+            var centroids = new List<Autodesk.Revit.DB.XYZ>();
+            foreach (var e in elements)
+            {
+                var geo = e.get_Geometry(opt);
+                if (geo == null)
+                    continue;
+
+                var a = new List<Autodesk.Revit.DB.XYZ>();
+                Autodesk.Revit.DB.GeometryInstance inst = null;
+                foreach (var obj in geo)
+                {
+                    switch (obj)
+                    {
+                        case Autodesk.Revit.DB.GeometryInstance geometryInstance:
+                            inst = geometryInstance;
+                            break;
+                        case Autodesk.Revit.DB.Solid solid:
+                            if (solid.Faces.Size > 0 && solid.Volume > 0)
+                            {
+                                try
+                                {
+                                    var c = solid.ComputeCentroid();
+                                    a.Add(c);
+                                }
+                                catch
+                                {
+                                    // ignore
+                                }
+                            }
+                            break;
+                        default:
+                            continue;
+                    }
+                }
+
+                if (a.Count == 0 && inst != null)
+                {
+                    geo = inst.GetInstanceGeometry();
+
+                    foreach (var obj in geo)
+                    {
+                        var s = obj as Autodesk.Revit.DB.Solid;
+
+                        if (s == null || s.Faces.Size <= 0 || s.Volume <= 0)
+                            continue;
+                        
+                        try
+                        {
+                            var c = s.ComputeCentroid();
+                            a.Add(c);
+                        }
+                        catch
+                        {
+                            // ignore
+                        }
+                    }
+                }
+
+                if (!a.Any())
+                    continue;
+
+                var finalSubCentroid = new Autodesk.Revit.DB.XYZ();
+                foreach (var centroidVolume in a)
+                    finalSubCentroid += centroidVolume;
+
+                finalSubCentroid = finalSubCentroid /= a.Count;
+                centroids.Add(finalSubCentroid);
+            }
+
+            var finalCentroid = new Autodesk.Revit.DB.XYZ();
+            if (includeSubComponents)
+            {
+                foreach (var centroid in centroids)
+                    finalCentroid += centroid;
+
+                finalCentroid = finalCentroid /= centroids.Count;
+            }
+            else
+            {
+                // (Konrad) We can grab existing centroid. There should be one only.
+                finalCentroid = centroids.FirstOrDefault();
+            }
+
+            return finalCentroid?.ToPoint();
         }
 
         /// <summary>
@@ -245,6 +382,23 @@ namespace archilab.Revit.Elements
         /// 
         /// </summary>
         /// <param name="element"></param>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static bool IsHidden(Element element, View view)
+        {
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+            if (view == null || !(view.InternalElement is Autodesk.Revit.DB.View v))
+                throw new ArgumentNullException(nameof(view));
+
+            return element.InternalElement.IsHidden(v);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
         /// <returns></returns>
         [NodeCategory("Query")]
         public static View OwnerView(Element element)
@@ -354,17 +508,98 @@ namespace archilab.Revit.Elements
         /// <param name="element"></param>
         /// <returns></returns>
         [NodeCategory("Query")]
-        public static Point Location(Element element)
+        [MultiReturn("Point", "Line")]
+        public static Dictionary<string, object> Location(Element element)
         {
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
 
-            var loc = element.InternalElement.Location as Autodesk.Revit.DB.LocationPoint;
+            var loc = element.InternalElement.Location;
+            if (loc == null)
+                return new Dictionary<string, object>();
 
-            return loc?.Point.ToPoint();
+            Curve line = null;
+            Point pt = null;
+            switch (loc)
+            {
+                case Autodesk.Revit.DB.LocationCurve locationCurve:
+                    line = locationCurve.Curve.ToProtoType();
+                    break;
+                case Autodesk.Revit.DB.LocationPoint locationPoint:
+                    pt = locationPoint.Point.ToPoint();
+                    break;
+                default:
+                    break;
+            }
+
+            return new Dictionary<string, object>
+            {
+                {"Point", pt},
+                {"Line", line}
+            };
         }
 
         #region Utilities
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="subComponents"></param>
+        private static void GetSubComponents(Autodesk.Revit.DB.Element element, ref List<Autodesk.Revit.DB.Element> subComponents)
+        {
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            switch (element)
+            {
+                case Autodesk.Revit.DB.FamilyInstance fi:
+                    var subs = fi.GetSubComponentIds().Select(x => doc.GetElement(x)).ToList();
+                    if (subs.Any())
+                    {
+                        subComponents.AddRange(subs);
+                        foreach (var sub in subs)
+                        {
+                            GetSubComponents(sub, ref subComponents);
+                        }
+                    }
+                    break;
+                case Autodesk.Revit.DB.Architecture.Stairs s:
+                    var stairComponents = s.GetStairsLandings().Select(x => doc.GetElement(x)).ToList();
+                    stairComponents.AddRange(s.GetStairsRuns().Select(x => doc.GetElement(x)));
+                    stairComponents.AddRange(s.GetStairsSupports().Select(x => doc.GetElement(x)));
+                    if (stairComponents.Any())
+                    {
+                        subComponents.AddRange(stairComponents);
+                        foreach (var stairComponent in stairComponents)
+                        {
+                            GetSubComponents(stairComponent, ref subComponents);
+                        }
+                    }
+                    break;
+                case Autodesk.Revit.DB.Architecture.Railing r:
+                    var railComponents = r.GetHandRails().Select(x => doc.GetElement(x)).ToList();
+                    railComponents.Add(doc.GetElement(r.TopRail));
+                    if (railComponents.Any())
+                    {
+                        subComponents.AddRange(railComponents);
+                        foreach (var railComponent in railComponents)
+                        {
+                            GetSubComponents(railComponent, ref subComponents);
+                        }
+                    }
+                    break;
+                case Autodesk.Revit.DB.BeamSystem b:
+                    var beams = b.GetBeamIds().Select(x => doc.GetElement(x)).ToList();
+                    if (beams.Any())
+                    {
+                        subComponents.AddRange(beams);
+                        foreach (var beam in beams)
+                        {
+                            GetSubComponents(beam, ref subComponents);
+                        }
+                    }
+                    break;
+            }
+        }
 
         /// <summary>
         /// Checks if Elements is visible in any of the supplied views.
@@ -422,7 +657,7 @@ namespace archilab.Revit.Elements
                 case Autodesk.Revit.DB.ViewType.ColumnSchedule:
                 case Autodesk.Revit.DB.ViewType.Walkthrough:
                 case Autodesk.Revit.DB.ViewType.Rendering:
-#if !Revit2018
+#if !Revit2018 && !Revit2019
                 case Autodesk.Revit.DB.ViewType.SystemsAnalysisReport:
 #endif
                 case Autodesk.Revit.DB.ViewType.Internal:
@@ -434,4 +669,86 @@ namespace archilab.Revit.Elements
 
         #endregion
     }
+
+    //internal class CentroidVolume
+    //{
+    //    public Autodesk.Revit.DB.XYZ Centroid { get; set; } = Autodesk.Revit.DB.XYZ.Zero;
+    //    public double Volume { get; set; }
+
+    //    public static CentroidVolume GetCentroid2(Autodesk.Revit.DB.Solid solid)
+    //    {
+    //        var cv = new CentroidVolume
+    //        {
+    //            Centroid = solid.ComputeCentroid(), 
+    //            Volume = solid.Volume
+    //        };
+    //        return cv;
+    //    }
+
+    //    public static CentroidVolume GetCentroid(Autodesk.Revit.DB.Solid solid)
+    //    {
+    //        var cv = new CentroidVolume();
+    //        var controls = new Autodesk.Revit.DB.SolidOrShellTessellationControls
+    //        {
+    //            LevelOfDetail = 0
+    //        };
+
+    //        Autodesk.Revit.DB.TriangulatedSolidOrShell triangulation;
+
+    //        try
+    //        {
+    //            triangulation = Autodesk.Revit.DB.SolidUtils.TessellateSolidOrShell(solid, controls);
+    //        }
+    //        catch (Autodesk.Revit.Exceptions.InvalidOperationException)
+    //        {
+    //            return null;
+    //        }
+
+    //        var n = triangulation.ShellComponentCount;
+
+    //        for (var i = 0; i < n; ++i)
+    //        {
+    //            var component = triangulation.GetShellComponent(i);
+
+    //            var m = component.TriangleCount;
+
+    //            for (var j = 0; j < m; ++j)
+    //            {
+    //                var t = component.GetTriangle(j);
+
+    //                var v0 = component.GetVertex(t.VertexIndex0);
+    //                var v1 = component.GetVertex(t.VertexIndex1);
+    //                var v2 = component.GetVertex(t.VertexIndex2);
+
+    //                var v = v0.X * (v1.Y * v2.Z - v2.Y * v1.Z)
+    //                        + v0.Y * (v1.Z * v2.X - v2.Z * v1.X)
+    //                        + v0.Z * (v1.X * v2.Y - v2.X * v1.Y);
+
+    //                cv.Centroid += v * (v0 + v1 + v2);
+    //                cv.Volume += v;
+    //            }
+    //        }
+
+    //        cv.Centroid /= 4 * cv.Volume;
+
+    //        var diffCentroid = cv.Centroid - solid.ComputeCentroid();
+
+    //        Debug.Assert(0.6 > diffCentroid.GetLength(),
+    //            "expected centroid approximation to be similar to solid ComputeCentroid result");
+
+    //        cv.Volume /= 6;
+
+    //        var diffVolume = cv.Volume - solid.Volume;
+
+    //        Debug.Assert(0.3 > Math.Abs(diffVolume / cv.Volume),
+    //            "expected volume approximation to be similar to solid Volume property value");
+
+    //        return cv;
+    //    }
+
+    //    public override string ToString()
+    //    {
+    //        return Volume + "@" + Centroid;
+    //    }
+    //}
 }

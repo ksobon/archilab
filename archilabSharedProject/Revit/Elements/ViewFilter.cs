@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Dynamo.Graph.Nodes;
 using Revit.Elements;
 using RevitServices.Persistence;
+using RevitServices.Transactions;
 // ReSharper disable UnusedMember.Global
 
 namespace archilab.Revit.Elements
@@ -16,11 +18,50 @@ namespace archilab.Revit.Elements
         }
 
         /// <summary>
-        ///     Returns Views that View Filter is applied to.
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="category"></param>
+        /// <param name="filterSet"></param>
+        /// <returns name="viewFilter">Newly created Parameter Filter Element.</returns>
+        [NodeCategory("Action")]
+        public static Element CreateFilter(string name, List<Category> category, FilterSet filterSet)
+        {
+            var catIds = category.Select(x => new Autodesk.Revit.DB.ElementId(x.Id)).ToList();
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var pfe = new Autodesk.Revit.DB.FilteredElementCollector(doc)
+                .OfClass(typeof(Autodesk.Revit.DB.ParameterFilterElement))
+                .Cast<Autodesk.Revit.DB.ParameterFilterElement>()
+                .FirstOrDefault(x => x.Name == name);
+
+            Element result;
+
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            if (pfe == null)
+            {
+                pfe = Autodesk.Revit.DB.ParameterFilterElement.Create(doc, name, catIds);
+                pfe.SetElementFilter(filterSet.InternalElementFilter);
+                result = pfe.ToDSType(true);
+            }
+            else
+            {
+                pfe.ClearRules();
+                pfe.SetElementFilter(filterSet.InternalElementFilter);
+                pfe.SetCategories(catIds);
+                result = pfe.ToDSType(true);
+            }
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Returns Views that View Filter is applied to.
         /// </summary>
         /// <param name="viewFilter">View Filter Element.</param>
         /// <returns name="view">Views.</returns>
         /// <search>view, filter, owner</search>
+        [NodeCategory("Query")]
         public static List<Element> OwnerViews(Element viewFilter)
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;

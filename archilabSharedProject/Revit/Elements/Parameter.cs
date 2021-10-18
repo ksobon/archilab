@@ -63,6 +63,42 @@ namespace archilab.Revit.Elements
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="bipName"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static object GetBuiltInParameter(Element element, string bipName)
+        {
+            if (element == null)
+                throw new ArgumentException(nameof(element));
+            if (string.IsNullOrWhiteSpace(bipName))
+                throw new ArgumentException(nameof(bipName));
+
+            var bip = (Autodesk.Revit.DB.BuiltInParameter)Enum.Parse(typeof(Autodesk.Revit.DB.BuiltInParameter), bipName);
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var p = element.InternalElement.get_Parameter(bip);
+
+            switch (p.StorageType)
+            {
+                case Autodesk.Revit.DB.StorageType.None:
+                    return null;
+                case Autodesk.Revit.DB.StorageType.Integer:
+                    return p.AsInteger();
+                case Autodesk.Revit.DB.StorageType.Double:
+                    return p.AsDouble();
+                case Autodesk.Revit.DB.StorageType.String:
+                    return p.AsString();
+                case Autodesk.Revit.DB.StorageType.ElementId:
+                    var id = p.AsElementId();
+                    return doc.GetElement(id).ToDSType(true);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        /// <summary>
         /// Returns name of the BuiltInParameter if such exists. 
         /// </summary>
         /// <param name="element">Element to query.</param>

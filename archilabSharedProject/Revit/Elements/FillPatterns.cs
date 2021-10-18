@@ -165,7 +165,7 @@ namespace archilab.Revit.Elements
 
             return RadiansToDegrees(grids[0].Angle);
         }
-#if !Revit2018 && !Revit2020 && !Revit2021
+#if !Revit2018 && !Revit2019 && !Revit2020 && !Revit2021
         /// <summary>
         /// 
         /// </summary>

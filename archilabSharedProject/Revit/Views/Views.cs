@@ -1,6 +1,4 @@
-﻿#region References
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Autodesk.DesignScript.Geometry;
@@ -14,10 +12,9 @@ using Revit.Elements.Views;
 using archilab.Revit.Elements;
 using archilab.Utilities;
 using Autodesk.DesignScript.Runtime;
+using NUnit.Framework;
 using Revit.Filter;
 // ReSharper disable UnusedMember.Global
-
-#endregion
 
 namespace archilab.Revit.Views
 {
@@ -61,6 +58,34 @@ namespace archilab.Revit.Views
             TransactionManager.Instance.TransactionTaskDone();
 
             return view;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="views"></param>
+        /// <param name="viewFilter"></param>
+        /// <param name="overrides"></param>
+        /// <param name="show"></param>
+        /// <param name="isEnabled"></param>
+        /// <returns></returns>
+        public static List<View> SetFilterOverrides(List<View> views, Element viewFilter,
+            OverrideGraphicsSettings overrides, bool show = true, bool isEnabled = true)
+        {
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var rvtViews = views.Select(x => (Autodesk.Revit.DB.View) x.InternalElement).ToList();
+            var rvtFilter = (Autodesk.Revit.DB.ParameterFilterElement) viewFilter.InternalElement;
+
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            foreach (var v in rvtViews)
+            {
+                v.SetFilterOverrides(rvtFilter.Id, overrides.InternalOverrideGraphicSettings);
+                v.SetFilterVisibility(rvtFilter.Id, show);
+                v.SetIsFilterEnabled(rvtFilter.Id, isEnabled);
+            }
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return views;
         }
 
         /// <summary>
@@ -629,6 +654,75 @@ namespace archilab.Revit.Views
             TransactionManager.Instance.TransactionTaskDone();
 
             return results;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="elements"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static List<bool> UnHideElements(View view, List<Element> elements)
+        {
+            if (view == null)
+                throw new ArgumentException(nameof(view));
+
+            var results = new List<bool>();
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var ids = new List<Autodesk.Revit.DB.ElementId>();
+
+            foreach (var element in elements)
+            {
+                var e = element.InternalElement;
+                if (e.IsHidden(v))
+                {
+                    ids.Add(e.Id);
+                    results.Add(true);
+                }
+                else
+                {
+                    results.Add(false);
+                }
+            }
+
+            if (!ids.Any())
+                return results;
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            v.UnhideElements(ids);
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return results;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="category"></param>
+        /// <param name="overrides"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static View SetCategoryOverrides(View view, Category category, OverrideGraphicsSettings overrides)
+        {
+            if (view == null)
+                throw new ArgumentNullException(nameof(view));
+            if (category == null)
+                throw new ArgumentNullException(nameof(category));
+            if (overrides == null)
+                throw new ArgumentNullException(nameof(overrides));
+
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var o = overrides.InternalOverrideGraphicSettings;
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            v.SetCategoryOverrides(new Autodesk.Revit.DB.ElementId(category.Id), o);
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return view;
         }
 
         #endregion

@@ -268,6 +268,65 @@ namespace archilabUI
             : base(OutputName, typeof(ScheduleSortOrder), inPorts, outPorts) { }
     }
 
+    [NodeName("Select Rule Type")]
+    [NodeCategory("archilab.Revit.FilterRule.Query")]
+    [NodeDescription("Retrieve all available Filter Rules.")]
+    [IsDesignScriptCompatible]
+    public class FilterRuleTypesUi : RevitDropDownBase
+    {
+        private const string OutputName = "ruleType";
+        private const string NoFamilyTypes = "No types were found.";
+
+        public FilterRuleTypesUi() : base(OutputName) { }
+
+        [JsonConstructor]
+        public FilterRuleTypesUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(OutputName, inPorts, outPorts) { }
+
+        // Get Data Class that holds dictionary
+        public static FilterRuleTypes WTypes = new FilterRuleTypes();
+
+        protected override SelectionState PopulateItemsCore(string currentSelection)
+        {
+            Items.Clear();
+
+            var d = new Dictionary<string, string>(WTypes.Rules);
+
+            if (d.Count == 0)
+            {
+                Items.Add(new DynamoDropDownItem(NoFamilyTypes, null));
+                SelectedIndex = 0;
+                return SelectionState.Done;
+            }
+
+            foreach (var pair in d)
+            {
+                Items.Add(new DynamoDropDownItem(pair.Key, pair.Value));
+            }
+            Items = Items.OrderBy(x => x.Name).ToObservableCollection();
+            return SelectionState.Restore;
+        }
+
+        public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
+        {
+            if (Items.Count == 0 ||
+                Items[0].Name == NoFamilyTypes ||
+                SelectedIndex == -1)
+            {
+                return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), AstFactory.BuildNullNode()) };
+            }
+
+            var args = new List<AssociativeNode>
+            {
+                AstFactory.BuildStringNode(Items[SelectedIndex].Name)
+            };
+
+            var func = new Func<string, string>(FilterRuleTypes.ByName);
+            var functionCall = AstFactory.BuildFunctionCall(func, args);
+
+            return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), functionCall) };
+        }
+    }
+
     [NodeName("Numeric Rule Evaluators")]
     [NodeCategory("archilab.Revit.Select.Query")]
     [NodeDescription("Retrieve all available Numeric Rule Evaluators.")]
@@ -939,7 +998,7 @@ namespace archilabUI
             : base(OutputName, typeof(UnitSystem), inPorts, outPorts) { }
     }
 
-#if !Revit2018 && !Revit2020 && !Revit2021
+#if !Revit2018 && !Revit2019 && !Revit2020 && !Revit2021
     [NodeName("Forge Units")]
     [NodeCategory("archilab.Revit.Units.Query")]
     [NodeDescription("Retrieve all available Forge Units.")]

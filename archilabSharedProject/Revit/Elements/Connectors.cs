@@ -4,7 +4,6 @@ using Autodesk.DesignScript.Geometry;
 using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
-
 // ReSharper disable UnusedMember.Global
 
 namespace archilab.Revit.Elements

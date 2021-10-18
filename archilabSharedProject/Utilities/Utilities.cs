@@ -378,6 +378,59 @@ namespace archilab.Utilities
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    [IsVisibleInDynamoLibrary(false)]
+    public class FilterRuleTypes
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public Dictionary<string, string> Rules { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public FilterRuleTypes()
+        {
+            Rules = new Dictionary<string, string>
+            {
+                { "equals", "equals"},
+                { "does not equal", "does not equal"},
+                { "is greater than", "is greater than"},
+                { "is greater than or equal to", "is greater than or equal to"},
+                { "is less than", "is less than"},
+                { "is less than or equal to", "is less than or equal to"},
+                { "contains", "contains"},
+                { "does not contain", "does not contain"},
+                { "begins with", "begins with"},
+                { "does not begin with", "does not begin with"},
+                { "ends with", "ends with"},
+                { "does not end with", "does not end with"},
+#if !Revit2017 && !Revit2018 && !Revit2019
+                { "has a value", "has a value"},
+                { "has no value", "has no value"}
+#endif
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string ByName(string name)
+        {
+            if (name == null)
+            {
+                throw new ArgumentException("name");
+            }
+            var rule = new FilterRuleTypes().Rules[name];
+            return rule;
+        }
+    }
+
+    /// <summary>
     ///     Parameter Filter Numeric Rule Evaluator options.
     /// </summary>
     [IsVisibleInDynamoLibrary(false)]
@@ -459,7 +512,7 @@ namespace archilab.Utilities
             return viewType;
         }
     }
-#if !Revit2018 && !Revit2020 && !Revit2021
+#if !Revit2018 && !Revit2019 && !Revit2020 && !Revit2021
     /// <summary>
     /// 
     /// </summary>

@@ -11,7 +11,7 @@ namespace archilab.Revit.Units
         internal UnitUtils()
         {
         }
-#if !Revit2018 && !Revit2020 && !Revit2021
+#if !Revit2018 && !Revit2019 && !Revit2020 && !Revit2021
 
         /// <summary>
         /// 
