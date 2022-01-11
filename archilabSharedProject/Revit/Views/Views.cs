@@ -725,6 +725,32 @@ namespace archilab.Revit.Views
             return view;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="categoryId"></param>
+        /// <param name="overrides"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static View SetCategoryOverrides(View view, int categoryId, OverrideGraphicsSettings overrides)
+        {
+            if (view == null)
+                throw new ArgumentNullException(nameof(view));
+            if (overrides == null)
+                throw new ArgumentNullException(nameof(overrides));
+
+            var v = (Autodesk.Revit.DB.View)view.InternalElement;
+            var o = overrides.InternalOverrideGraphicSettings;
+
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            v.SetCategoryOverrides(new Autodesk.Revit.DB.ElementId(categoryId), o);
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return view;
+        }
+
         #endregion
 
         #region Query

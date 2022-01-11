@@ -67,5 +67,27 @@ namespace archilab.Core
         {
             return number.ToString(format);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static bool IsNullOrWhiteSpace(string str)
+        {
+            return string.IsNullOrWhiteSpace(str);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static bool IsNullOrEmpty(string str)
+        {
+            return string.IsNullOrEmpty(str);
+        }
     }
 }

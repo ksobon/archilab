@@ -49,21 +49,110 @@ namespace archilab.Revit.Elements
         /// <param name="room"></param>
         /// <param name="boundaryLocation"></param>
         /// <returns></returns>
-        public static List<Curve> Boundaries(Element room, string boundaryLocation = "Center")
+        [MultiReturn("Elements", "Curves")]
+        public static Dictionary<string, object> Boundaries(Element room, string boundaryLocation = "Center")
         {
             if (room == null)
                 throw new ArgumentNullException(nameof(room));
 
-            var bLoc = (Autodesk.Revit.DB.SpatialElementBoundaryLocation)Enum.Parse(typeof(Autodesk.Revit.DB.SpatialElementBoundaryLocation), boundaryLocation);
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var bLoc = (Autodesk.Revit.DB.SpatialElementBoundaryLocation) Enum.Parse(
+                typeof(Autodesk.Revit.DB.SpatialElementBoundaryLocation), boundaryLocation);
             var bOptions = new Autodesk.Revit.DB.SpatialElementBoundaryOptions
             {
                 SpatialElementBoundaryLocation = bLoc
             };
 
             var rm = (Autodesk.Revit.DB.SpatialElement)room.InternalElement;
-            var boundarySegments = rm.GetBoundarySegments(bOptions).First().ToList();
+            var offset = rm.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.ROOM_LOWER_OFFSET).AsDouble();
 
-            return boundarySegments.Select(x => x.GetCurve().ToProtoType()).ToList();
+            var calculator = new Autodesk.Revit.DB.SpatialElementGeometryCalculator(doc, bOptions);
+            var roomGeo = calculator.CalculateSpatialElementGeometry(rm);
+            var faces = new List<Autodesk.Revit.DB.Face>();
+            foreach (Autodesk.Revit.DB.Face face in roomGeo.GetGeometry().Faces)
+            {
+                faces.Add(face);
+            }
+            var boundarySegments = rm.GetBoundarySegments(bOptions);
+            var boundaryCurves = new List<List<Curve>>();
+            var boundaryElements = new List<List<Element>>();
+            foreach (var segments in boundarySegments)
+            {
+                var curvesList = new List<Curve>();
+                var elementsList = new List<Element>();
+                foreach (var segment in segments)
+                {
+                    var boundaryCurve = segment.GetCurve().Offset(offset);
+                    curvesList.Add(boundaryCurve.ToProtoType());
+
+                    var roomSeparationLine = doc.GetElement(segment.ElementId) as Autodesk.Revit.DB.ModelLine;
+                    if (roomSeparationLine != null)
+                    {
+                        elementsList.Add(roomSeparationLine.ToDSType(true));
+                        continue;
+                    }
+
+                    var face = FindFace(faces, roomGeo, boundaryCurve);
+                    if (face == null)
+                    {
+                        elementsList.Add(null);
+                        continue;
+                    }
+
+                    faces.Remove(face);
+
+                    var bFace = roomGeo.GetBoundaryFaceInfo(face).FirstOrDefault();
+                    if (bFace == null)
+                    {
+                        elementsList.Add(null);
+                        continue;
+                    }
+
+                    elementsList.Add(doc.GetElement(bFace.SpatialBoundaryElement.HostElementId).ToDSType(true));
+                }
+
+                boundaryCurves.Add(curvesList);
+                boundaryElements.Add(elementsList);
+            }
+
+            return new Dictionary<string, object>
+            {
+                {"Elements", boundaryElements},
+                {"Curves", boundaryCurves}
+            };
+        }
+
+        private static Autodesk.Revit.DB.Face FindFace(
+            IEnumerable faces,
+            Autodesk.Revit.DB.SpatialElementGeometryResults result,
+            Autodesk.Revit.DB.Curve bCurve)
+        {
+            foreach (Autodesk.Revit.DB.Face f in faces)
+            {
+                var boundaryFaces = result.GetBoundaryFaceInfo(f).FirstOrDefault();
+                if (boundaryFaces != null && (boundaryFaces.SubfaceType == Autodesk.Revit.DB.SubfaceType.Top ||
+                                              boundaryFaces.SubfaceType == Autodesk.Revit.DB.SubfaceType.Bottom))
+                {
+                    continue; // face is either Top/Bottom so we can skip
+                }
+
+                var normal = f.ComputeNormal(new Autodesk.Revit.DB.UV(0.5, 0.5));
+                if (normal.IsAlmostEqualTo(Autodesk.Revit.DB.XYZ.BasisZ) || normal.IsAlmostEqualTo(Autodesk.Revit.DB.XYZ.BasisZ.Negate()))
+                    continue; // face is either Top/Bottom so we can skip
+
+                var edges = f.GetEdgesAsCurveLoops().First(); // first loop is outer boundary
+                foreach (var edge in edges)
+                {
+                    if (edge.OverlapsWithIn2D(bCurve))
+                        return f;
+                }
+                //if (!edges.Any(x => x.OverlapsWithIn2D(bCurve))) // room's face might be off the floor/level above or offset. if XY matches, we are good.
+                //    continue; // none of the edges of that face match our curve so we can skip
+
+                //return f;
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -543,6 +632,8 @@ namespace archilab.Revit.Elements
             };
         }
 
+        #region Utilities
+
         private static List<Point> GetPoints(Autodesk.Revit.DB.Curve curve)
         {
             var curves = new List<Point>();
@@ -567,30 +658,33 @@ namespace archilab.Revit.Elements
             return curves;
         }
 
-        private static Autodesk.Revit.DB.Face FindFace(IEnumerable faces, Autodesk.Revit.DB.SpatialElementGeometryResults result, Autodesk.Revit.DB.Curve bCurve)
-        {
-            foreach (Autodesk.Revit.DB.Face f in faces)
-            {
-                var boundaryFaces = result.GetBoundaryFaceInfo(f).FirstOrDefault();
-                if (boundaryFaces != null && (boundaryFaces.SubfaceType == Autodesk.Revit.DB.SubfaceType.Top ||
-                                              boundaryFaces.SubfaceType == Autodesk.Revit.DB.SubfaceType.Bottom))
-                {
-                    continue; // face is either Top/Bottom so we can skip
-                }
+        //private static Autodesk.Revit.DB.Face FindFace(
+        //    IEnumerable faces, 
+        //    Autodesk.Revit.DB.SpatialElementGeometryResults result, 
+        //    Autodesk.Revit.DB.Curve bCurve)
+        //{
+        //    foreach (Autodesk.Revit.DB.Face f in faces)
+        //    {
+        //        var boundaryFaces = result.GetBoundaryFaceInfo(f).FirstOrDefault();
+        //        if (boundaryFaces != null && (boundaryFaces.SubfaceType == Autodesk.Revit.DB.SubfaceType.Top ||
+        //                                      boundaryFaces.SubfaceType == Autodesk.Revit.DB.SubfaceType.Bottom))
+        //        {
+        //            continue; // face is either Top/Bottom so we can skip
+        //        }
 
-                var normal = f.ComputeNormal(new Autodesk.Revit.DB.UV(0.5, 0.5));
-                if (normal.IsAlmostEqualTo(Autodesk.Revit.DB.XYZ.BasisZ) || normal.IsAlmostEqualTo(Autodesk.Revit.DB.XYZ.BasisZ.Negate()))
-                    continue; // face is either Top/Bottom so we can skip
+        //        var normal = f.ComputeNormal(new Autodesk.Revit.DB.UV(0.5, 0.5));
+        //        if (normal.IsAlmostEqualTo(Autodesk.Revit.DB.XYZ.BasisZ) || normal.IsAlmostEqualTo(Autodesk.Revit.DB.XYZ.BasisZ.Negate()))
+        //            continue; // face is either Top/Bottom so we can skip
 
-                var edges = f.GetEdgesAsCurveLoops().First(); // first loop is outer boundary
-                if (!edges.Any(x => x.OverlapsWithIn2D(bCurve))) // room's face might be off the floor/level above or offset. if XY matches, we are good.
-                    continue; // none of the edges of that face match our curve so we can skip
+        //        var edges = f.GetEdgesAsCurveLoops().First(); // first loop is outer boundary
+        //        if (!edges.Any(x => x.OverlapsWithIn2D(bCurve))) // room's face might be off the floor/level above or offset. if XY matches, we are good.
+        //            continue; // none of the edges of that face match our curve so we can skip
 
-                return f;
-            }
+        //        return f;
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
         private static void GetGlazingInfo(
             Autodesk.Revit.DB.Face face,
@@ -628,7 +722,12 @@ namespace archilab.Revit.Elements
             }
         }
 
-        private static void GetGlazingFromWindows(Autodesk.Revit.DB.Wall wall, Autodesk.Revit.DB.Face face, double tolerance, ref List<List<Autodesk.Revit.DB.XYZ>> glazingPts, ref List<double> glazingAreas)
+        private static void GetGlazingFromWindows(
+            Autodesk.Revit.DB.Wall wall, 
+            Autodesk.Revit.DB.Face face, 
+            double tolerance, 
+            ref List<List<Autodesk.Revit.DB.XYZ>> glazingPts, 
+            ref List<double> glazingAreas)
         {
             var doc = wall.Document;
             var inserts = wall.FindInserts(true, false, true, true).Select(doc.GetElement);
@@ -667,7 +766,12 @@ namespace archilab.Revit.Elements
             }
         }
 
-        private static void GetGlazingFromCurtainWall(Autodesk.Revit.DB.Wall wall, Autodesk.Revit.DB.Face face, double tolerance, ref List<List<Autodesk.Revit.DB.XYZ>> glazingPts, ref List<double> glazingAreas)
+        private static void GetGlazingFromCurtainWall(
+            Autodesk.Revit.DB.Wall wall, 
+            Autodesk.Revit.DB.Face face, 
+            double tolerance, 
+            ref List<List<Autodesk.Revit.DB.XYZ>> glazingPts, 
+            ref List<double> glazingAreas)
         {
             var doc = wall.Document;
             var cGrid = wall.CurtainGrid;
@@ -716,7 +820,11 @@ namespace archilab.Revit.Elements
             return pts;
         }
 
-        private static bool GetPointsOnFace(Autodesk.Revit.DB.Face face, List<Autodesk.Revit.DB.XYZ> pts, out List<Autodesk.Revit.DB.XYZ> ptsOnFace, out List<Autodesk.Revit.DB.UV> uvsOnFace)
+        private static bool GetPointsOnFace(
+            Autodesk.Revit.DB.Face face, 
+            List<Autodesk.Revit.DB.XYZ> pts, 
+            out List<Autodesk.Revit.DB.XYZ> ptsOnFace, 
+            out List<Autodesk.Revit.DB.UV> uvsOnFace)
         {
             var onFace = new HashSet<Autodesk.Revit.DB.XYZ>();
             var onFaceUvs = new HashSet<Autodesk.Revit.DB.UV>();
@@ -734,7 +842,6 @@ namespace archilab.Revit.Elements
 
             return ptsOnFace.Any() && uvsOnFace.Any();
         }
-#region Utilities
 
         private static double GetWindowArea(Autodesk.Revit.DB.Element insert)
         {
@@ -864,7 +971,10 @@ namespace archilab.Revit.Elements
             }
         }
 
-        private static void ExtractPtsRecursively(Autodesk.Revit.DB.GeometryElement geo, ref List<Autodesk.Revit.DB.XYZ> pts, bool includeLines = false)
+        private static void ExtractPtsRecursively(
+            Autodesk.Revit.DB.GeometryElement geo, 
+            ref List<Autodesk.Revit.DB.XYZ> pts, 
+            bool includeLines = false)
         {
             foreach (var g in geo)
             {
@@ -912,6 +1022,6 @@ namespace archilab.Revit.Elements
             }
         }
 
-#endregion
+        #endregion
     }
 }

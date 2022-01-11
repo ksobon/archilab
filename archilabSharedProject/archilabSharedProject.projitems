@@ -37,6 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\FilterSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Grids.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\ImageExportOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Rebars.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\RenderingBackgroundSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Categories.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\CurtainGridLines.cs" />

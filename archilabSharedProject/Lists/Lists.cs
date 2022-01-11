@@ -51,6 +51,27 @@ namespace archilab.Lists
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="list"></param>
+        /// <param name="replacement"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static List<List<object>> ReplaceEmptyList(List<List<object>> list, object replacement)
+        {
+            var results = new List<List<object>>();
+            for (var i = 0; i < list.Count; i++)
+            {
+                var current = list[i];
+                results.Add(current.Count == 0 
+                    ? new List<object> {replacement} 
+                    : current);
+            }
+
+            return results;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="condition"></param>
         /// <param name="ifTrue"></param>
         /// <param name="ifFalse"></param>
@@ -62,6 +83,19 @@ namespace archilab.Lists
             var falseQueue = new Queue(ifFalse);
 
             return condition.Select(x => x ? trueQueue.Dequeue() : falseQueue.Dequeue()).ToList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <param name="ifTrue"></param>
+        /// <param name="ifFalse"></param>
+        /// <returns></returns>
+        [NodeCategory("Action")]
+        public static object Weave2(List<bool> condition, List<object> ifTrue, List<object> ifFalse)
+        {
+            return condition.Select((t, i) => t ? ifTrue[i] : ifFalse[i]).ToList();
         }
 
         /// <summary>
