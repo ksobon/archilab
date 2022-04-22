@@ -217,9 +217,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="CopyFiles" AfterTargets="AfterBuild">
     <Message Text="Copy files..." Importance="high" />
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.12\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)RestSharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.12\packages\archi-lab.net\bin" ContinueOnError="true" />
-    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.Toolkit.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.12\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.13\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)RestSharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.13\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)Xceed.Wpf.Toolkit.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.13\packages\archi-lab.net\bin" ContinueOnError="true" />
   </Target>
   <PropertyGroup>
     <PostBuildEvent>
