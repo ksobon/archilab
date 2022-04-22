@@ -81,7 +81,10 @@ namespace archilab.Revit.Views
             {
                 v.SetFilterOverrides(rvtFilter.Id, overrides.InternalOverrideGraphicSettings);
                 v.SetFilterVisibility(rvtFilter.Id, show);
-                v.SetIsFilterEnabled(rvtFilter.Id, isEnabled);
+#if Revit2021 || Revit2022 || Revit2023
+                v.SetIsFilterEnabled(rvtFilter.Id, isEnabled);          
+#endif
+
             }
             TransactionManager.Instance.TransactionTaskDone();
 

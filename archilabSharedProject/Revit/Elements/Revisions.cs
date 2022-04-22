@@ -42,7 +42,7 @@ namespace archilab.Revit.Elements
         private void InitRevision()
         {
             var doc = DocumentManager.Instance.CurrentDBDocument;
-            
+
             //Phase 1 - Check to see if the object exists and should be rebound
             var oldEle = ElementBinder.GetElementFromTrace<Autodesk.Revit.DB.Revision>(doc);
 
@@ -72,8 +72,8 @@ namespace archilab.Revit.Elements
         /// <returns name="revisions">Revisions in new sequence.</returns>
         public static List<Element> SetSequence(List<Element> revisions)
         {
-            if(revisions == null) throw new ArgumentNullException(nameof(revisions));
-            if(!revisions.Any()) throw new ArgumentException(nameof(revisions));
+            if (revisions == null) throw new ArgumentNullException(nameof(revisions));
+            if (!revisions.Any()) throw new ArgumentException(nameof(revisions));
 
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var ids = revisions.Select(x => x.InternalElement.Id).ToList();
@@ -100,8 +100,8 @@ namespace archilab.Revit.Elements
             string revisionDate = "",
             string description = "",
             bool issued = false,
-            string issuedBy = "", 
-            string issuedTo = "", 
+            string issuedBy = "",
+            string issuedTo = "",
             string numberType = "Alphanumeric",
             string visibility = "CloudAndTagVisible")
         {
@@ -124,9 +124,11 @@ namespace archilab.Revit.Elements
             if (!string.IsNullOrWhiteSpace(issuedTo))
                 rev.IssuedTo = issuedTo;
             if (!string.IsNullOrWhiteSpace(numberType))
+#if !Revit2023
                 rev.NumberType = nType;
-            if (!string.IsNullOrWhiteSpace(visibility))
-                rev.Visibility = vis;
+#endif
+                if (!string.IsNullOrWhiteSpace(visibility))
+                    rev.Visibility = vis;
 
             TransactionManager.Instance.TransactionTaskDone();
 

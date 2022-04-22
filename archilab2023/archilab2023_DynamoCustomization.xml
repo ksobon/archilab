@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<doc>
+  <assembly>
+    <name>archilab</name>
+  </assembly>
+    <namespaces>
+      <namespace name="archilab.Revit.Elements">
+        <category>archilab.Revit</category>
+      </namespace>
+	  <namespace name="archilab.Revit.Geometry">
+		<category>archilab.Revit</category>
+	  </namespace>
+      <namespace name="archilab.Csv">
+        <category>archilab.Csv</category>
+      </namespace>
+      <namespace name="archilab.Excel">
+        <category>archilab.Excel</category>
+      </namespace>
+      <namespace name="archilab.Lists">
+        <category>archilab.Core</category>
+      </namespace>
+      <namespace name="archilab.Revit.Selection">
+        <category>archilab.Revit</category>
+      </namespace>
+      <namespace name="archilab.Revit.Views">
+        <category>archilab.Revit</category>
+      </namespace>
+      <namespace name="archilab.Revit.Units">
+        <category>archilab.Revit</category>
+      </namespace>
+      <namespace name="archilab.Http">
+        <category>archilab.Http</category>
+      </namespace>
+      <namespace name="archilab.GitHub">
+        <category>archilab.GitHub</category>
+      </namespace>
+      <namespace name="archilab.Core">
+        <category>archilab.Core</category>
+      </namespace> 
+      <namespace name="archilab.Pdf">
+        <category>archilab.PDF</category>
+      </namespace>
+      <namespace name="archilab.SpellCheck">
+        <category>archilab.SpellCheck</category>
+      </namespace>
+      <namespace name="archilab.Maps">
+        <category>archilab.Maps</category>
+      </namespace>
+      <namespace name="archilab.Utilities">
+        <category>archilab.Core.Utilities</category>
+      </namespace>
+    </namespaces>
+</doc>

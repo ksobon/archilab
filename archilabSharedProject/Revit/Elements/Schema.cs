@@ -118,7 +118,12 @@ namespace archilab.Revit.Elements
             {
                 var doc = DocumentManager.Instance.CurrentDBDocument;
                 TransactionManager.Instance.EnsureInTransaction(doc);
-                Autodesk.Revit.DB.ExtensibleStorage.Schema.EraseSchemaAndAllEntities(schema.InternalSchema, overridePermissions);
+#if !Revit2023
+Autodesk.Revit.DB.ExtensibleStorage.Schema.EraseSchemaAndAllEntities(schema.InternalSchema, overridePermissions);
+#endif
+#if Revit2023
+                doc.EraseSchemaAndAllEntities(schema.InternalSchema);
+#endif
                 TransactionManager.Instance.TransactionTaskDone();
             }
             catch (Exception e)
