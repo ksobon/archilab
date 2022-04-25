@@ -80,24 +80,19 @@ namespace archilabUI
     {
         private const string OutputName = "parameterType";
 
-        private object type;
-
-#if !Revit2023
+#if Revit2017 || Revit2018 || Revit2019 || Revit2020 || Revit2021 || Revit2022
         public ParameterTypeUi() : base(OutputName, typeof(Autodesk.Revit.DB.ParameterType)) { }
+#else
+        public ParameterTypeUi() : base(OutputName, typeof(ParameterTypeId)) { }
 #endif
-#if Revit2023
-        public ParameterTypeUi() : base(OutputName, typeof(Autodesk.Revit.DB.ParameterTypeId)) { }
-#endif
-
 
         [JsonConstructor]
-#if !Revit2023
+#if Revit2017 || Revit2018 || Revit2019 || Revit2020 || Revit2021 || Revit2022
         public ParameterTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
             : base(OutputName, typeof(Autodesk.Revit.DB.ParameterType), inPorts, outPorts) { }
-#endif
-#if Revit2023
+#else
         public ParameterTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
-            : base(OutputName, typeof(Autodesk.Revit.DB.ParameterTypeId), inPorts, outPorts) { }
+            : base(OutputName, typeof(ParameterTypeId), inPorts, outPorts) { }
 #endif
     }
 
