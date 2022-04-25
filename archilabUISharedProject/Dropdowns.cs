@@ -79,11 +79,21 @@ namespace archilabUI
     public class ParameterTypeUi : CustomGenericEnumerationDropDown
     {
         private const string OutputName = "parameterType";
+
+#if Revit2017 || Revit2018 || Revit2019 || Revit2020 || Revit2021 || Revit2022
         public ParameterTypeUi() : base(OutputName, typeof(Autodesk.Revit.DB.ParameterType)) { }
+#else
+        public ParameterTypeUi() : base(OutputName, typeof(ParameterTypeId)) { }
+#endif
 
         [JsonConstructor]
+#if Revit2017 || Revit2018 || Revit2019 || Revit2020 || Revit2021 || Revit2022
         public ParameterTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
             : base(OutputName, typeof(Autodesk.Revit.DB.ParameterType), inPorts, outPorts) { }
+#else
+        public ParameterTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
+            : base(OutputName, typeof(ParameterTypeId), inPorts, outPorts) { }
+#endif
     }
 
     [NodeName("Print Range")]

@@ -67,7 +67,7 @@ namespace archilab.Revit.Elements
 
             var doc = DocumentManager.Instance.CurrentDBDocument;
             var lec = (Autodesk.Revit.DB.LeaderEndCondition)Enum.Parse(typeof(Autodesk.Revit.DB.LeaderEndCondition), leaderEndCondition);
-            
+
             TransactionManager.Instance.EnsureInTransaction(doc);
             t.HasLeader = hasLeader;
             if (hasLeader)
@@ -76,8 +76,13 @@ namespace archilab.Revit.Elements
                     t.LeaderEndCondition = lec;
                 if (t.LeaderEndCondition == Autodesk.Revit.DB.LeaderEndCondition.Free)
                 {
+#if Revit2017 || Revit2018 || Revit2019 || Revit2020 || Revit2021 || Revit2022
                     t.LeaderEnd = leaderEnd.ToXyz();
                     t.LeaderElbow = leaderElbow.ToXyz();
+#else
+                    t.SetLeaderEnd(null, leaderEnd.ToXyz());
+                    t.SetLeaderElbow(null, leaderElbow.ToXyz());
+#endif
                 }
             }
             TransactionManager.Instance.TransactionTaskDone();
@@ -184,7 +189,7 @@ namespace archilab.Revit.Elements
 
                 if (l == null)
                     continue;
-                
+
                 var tag = Autodesk.Revit.DB.IndependentTag.Create(doc, v.Id, r, addLeader, m, o, l);
                 r.Dispose();
                 e.Dispose();
@@ -316,7 +321,12 @@ namespace archilab.Revit.Elements
             if (!(doc.GetElement(eId) is Autodesk.Revit.DB.IndependentTag t))
                 throw new ArgumentNullException(nameof(id));
 
-            return t.TaggedLocalElementId == Autodesk.Revit.DB.ElementId.InvalidElementId;
+#if Revit2017 || Revit2018 || Revit2019 || Revit2020 || Revit2021 || Revit2022
+            var result = t.TaggedLocalElementId == Autodesk.Revit.DB.ElementId.InvalidElementId;
+#else
+            var result = t.GetTaggedLocalElementIds().Any(i => i == Autodesk.Revit.DB.ElementId.InvalidElementId); 
+#endif
+            return result;
         }
 
         /// <summary>

@@ -1,6 +1,4 @@
-﻿ #region References
-
- using System;
+﻿using System;
  using System.Collections.Generic;
  using Dynamo.Engine;
  using Dynamo.Graph.Nodes;
@@ -9,8 +7,6 @@
  using Newtonsoft.Json;
  using ProtoCore.AST.AssociativeAST;
  using VMDataBridge;
-
- #endregion
 
 namespace archilabViewExtension.RelayUI
 {

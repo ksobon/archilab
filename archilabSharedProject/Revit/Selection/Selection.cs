@@ -389,7 +389,11 @@ namespace archilab.Revit.Selection
             {
                 case TypeCode.String:
                     var fsre = (Autodesk.Revit.DB.FilterStringRuleEvaluator)evaluator;
-                    filterRule = new Autodesk.Revit.DB.FilterStringRule(pvp, fsre, (string)value, true);
+#if Revit2017 || Revit2018 || Revit2019 || Revit2020 || Revit2021 || Revit2022
+                    filterRule = new Autodesk.Revit.DB.FilterStringRule(pvp, fsre, (string)value, true);                  
+#else
+                    filterRule = new Autodesk.Revit.DB.FilterStringRule(pvp, fsre, (string)value);
+#endif
                     break;
                 default:
                     var fnre = (Autodesk.Revit.DB.FilterNumericRuleEvaluator)evaluator;

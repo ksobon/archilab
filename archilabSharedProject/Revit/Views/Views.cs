@@ -8,11 +8,10 @@ using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
 using Revit.Elements;
-using Revit.Elements.Views;
 using archilab.Revit.Elements;
 using archilab.Utilities;
 using Autodesk.DesignScript.Runtime;
-using NUnit.Framework;
+using Revit.Elements.Views;
 using Revit.Filter;
 // ReSharper disable UnusedMember.Global
 
@@ -59,8 +58,33 @@ namespace archilab.Revit.Views
 
             return view;
         }
+#if Revit2017 || Revit2018 || Revit2019 || Revit2020
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="views"></param>
+        /// <param name="viewFilter"></param>
+        /// <param name="overrides"></param>
+        /// <param name="show"></param>
+        /// <returns></returns>
+        public static List<View> SetFilterOverrides(List<View> views, Element viewFilter,
+            OverrideGraphicsSettings overrides, bool show = true)
+        {
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var rvtViews = views.Select(x => (Autodesk.Revit.DB.View) x.InternalElement).ToList();
+            var rvtFilter = (Autodesk.Revit.DB.ParameterFilterElement) viewFilter.InternalElement;
 
-#if !Revit2017 && !Revit2018 && !Revit2019 && !Revit2020
+            TransactionManager.Instance.EnsureInTransaction(doc);
+            foreach (var v in rvtViews)
+            {
+                v.SetFilterOverrides(rvtFilter.Id, overrides.InternalOverrideGraphicSettings);
+                v.SetFilterVisibility(rvtFilter.Id, show);
+            }
+            TransactionManager.Instance.TransactionTaskDone();
+
+            return views;
+        }
+#else
         /// <summary>
         /// 
         /// </summary>
@@ -83,32 +107,6 @@ namespace archilab.Revit.Views
                 v.SetFilterOverrides(rvtFilter.Id, overrides.InternalOverrideGraphicSettings);
                 v.SetFilterVisibility(rvtFilter.Id, show);
                 v.SetIsFilterEnabled(rvtFilter.Id, isEnabled);
-            }
-            TransactionManager.Instance.TransactionTaskDone();
-
-            return views;
-        }
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="views"></param>
-        /// <param name="viewFilter"></param>
-        /// <param name="overrides"></param>
-        /// <param name="show"></param>
-        /// <returns></returns>
-        public static List<View> SetFilterOverrides(List<View> views, Element viewFilter,
-            OverrideGraphicsSettings overrides, bool show = true)
-        {
-            var doc = DocumentManager.Instance.CurrentDBDocument;
-            var rvtViews = views.Select(x => (Autodesk.Revit.DB.View) x.InternalElement).ToList();
-            var rvtFilter = (Autodesk.Revit.DB.ParameterFilterElement) viewFilter.InternalElement;
-
-            TransactionManager.Instance.EnsureInTransaction(doc);
-            foreach (var v in rvtViews)
-            {
-                v.SetFilterOverrides(rvtFilter.Id, overrides.InternalOverrideGraphicSettings);
-                v.SetFilterVisibility(rvtFilter.Id, show);
             }
             TransactionManager.Instance.TransactionTaskDone();
 
@@ -781,7 +779,7 @@ namespace archilab.Revit.Views
 
 #endregion
 
-#region Query
+        #region Query
 
         /// <summary>
         /// 
