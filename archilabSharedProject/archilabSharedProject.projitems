@@ -64,11 +64,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\RenderingSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Revisions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Room.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\RoomTags.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Schema.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\SunAndShadowSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Tags.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\TextNotes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\ThinLinesOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Trusses.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\ViewDisplayBackground.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\ViewDisplayDepthCueing.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\ViewFilter.cs" />

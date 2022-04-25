@@ -8,11 +8,10 @@ using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
 using Revit.Elements;
-using Revit.Elements.Views;
 using archilab.Revit.Elements;
 using archilab.Utilities;
 using Autodesk.DesignScript.Runtime;
-using NUnit.Framework;
+using Revit.Elements.Views;
 using Revit.Filter;
 // ReSharper disable UnusedMember.Global
 
@@ -780,7 +779,7 @@ namespace archilab.Revit.Views
 
 #endregion
 
-#region Query
+        #region Query
 
         /// <summary>
         /// 
