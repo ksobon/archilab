@@ -24,7 +24,7 @@ namespace archilab.Revit.Elements
         {
             InternalOverrideGraphicSettings = settings;
         }
-
+#if !Revit2018
         /// <summary>
         /// 
         /// </summary>
@@ -126,7 +126,7 @@ namespace archilab.Revit.Elements
 
             return new OverrideGraphicsSettings(ogs);
         }
-
+#endif
         /// <summary>
         /// 
         /// </summary>

@@ -258,20 +258,22 @@ namespace archilab.Revit.Elements
             var bb = geo.GetBoundingBox();
             var height = bb.Max.Z - bb.Min.Z;
 
+
             var fu = Autodesk.Revit.DB.UnitUtils.GetAllMeasurableSpecs()
                 .FirstOrDefault(x => x.TypeId.StartsWith("autodesk.spec.aec:length"));
+
             var units = doc.GetUnits().GetFormatOptions(fu);
 
             return Autodesk.Revit.DB.UnitUtils.ConvertFromInternalUnits(height, units.GetUnitTypeId());
         }
 #else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="room"></param>
-        /// <param name="boundaryLocation"></param>
-        /// <returns></returns>
-        public static double Height(Element room, string boundaryLocation = "Center")
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="room"></param>
+            /// <param name="boundaryLocation"></param>
+            /// <returns></returns>
+            public static double Height(Element room, string boundaryLocation = "Center")
         {
             if (room == null)
                 throw new ArgumentNullException(nameof(room));

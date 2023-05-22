@@ -201,12 +201,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\archilab2018\archilab2018.csproj">
-      <Project>{7b27ad73-ffde-4cdc-b073-d9d6f35b5603}</Project>
-      <Name>archilab2018</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="..\archilabUISharedProject\archilabUISharedProject.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="CopyFiles" AfterTargets="AfterBuild">
