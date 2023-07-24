@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using archilab.Utilities;
 using Autodesk.DesignScript.Geometry;
 using Dynamo.Graph.Nodes;
 using DynamoServices;
@@ -392,6 +390,34 @@ namespace archilab.Revit.Elements
                 default:
                     return new List<Element>();
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static bool HasSuperComponent(Element element)
+        {
+            if (!(element.InternalElement is Autodesk.Revit.DB.FamilyInstance e))
+                throw new ArgumentNullException(nameof(element));
+
+            return e.SuperComponent != null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        [NodeCategory("Query")]
+        public static Element SuperComponent(Element element)
+        {
+            if (!(element.InternalElement is Autodesk.Revit.DB.FamilyInstance e))
+                throw new ArgumentNullException(nameof(element));
+
+            return e.SuperComponent?.ToDSType(true);
         }
     }
 }

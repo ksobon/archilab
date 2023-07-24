@@ -2,9 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Windows.Controls;
+using System.Windows.Media;
+using archilab.Maps;
 using archilab.Revit.Utils;
+using Autodesk.DesignScript.Geometry;
 using Autodesk.DesignScript.Runtime;
+using Autodesk.Revit.DB.Structure;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DynamoServices;
+using NUnit.Framework.Constraints;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using Revit.Elements;
 using Revit.GeometryConversion;
 using RevitServices.Persistence;
@@ -119,6 +129,446 @@ namespace archilab.Revit.Elements
             {
                 {"Elements", boundaryElements},
                 {"Curves", boundaryCurves}
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="room"></param>
+        /// <param name="panel"></param>
+        /// <param name="type"></param>
+        /// <param name="boundaryLocation"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        [MultiReturn("Curves", "Surfaces", "GlazingPoints", "Planes")]
+        public static Dictionary<string, object> ExtrudeBoundary(Element room, Element panel, string type = "Window", string boundaryLocation = "Center", double height = 10.0)
+        {
+            if (room == null)
+                throw new ArgumentNullException(nameof(room));
+
+            var bLoc = (Autodesk.Revit.DB.SpatialElementBoundaryLocation)Enum.Parse(typeof(Autodesk.Revit.DB.SpatialElementBoundaryLocation), boundaryLocation);
+            var bOptions = new Autodesk.Revit.DB.SpatialElementBoundaryOptions
+            {
+                SpatialElementBoundaryLocation = bLoc
+            };
+            var rm = (Autodesk.Revit.DB.SpatialElement)room.InternalElement;
+            var segments = rm.GetBoundarySegments(bOptions);
+            var offset = rm.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.ROOM_LOWER_OFFSET).AsDouble();
+            var doc = DocumentManager.Instance.CurrentDBDocument;
+            var tolerance = 0.001;
+            var shortCurveTolerance = doc.Application.ShortCurveTolerance;
+
+            var result = new List<Surface>();
+            var curves = new List<Line>();
+            var apertures = new List<List<List<Point>>>();
+            var planes = new List<Plane>();
+
+            for (var i = 0; i < segments.Count; i++)
+            {
+                if (i == 0) // outer boundary
+                {
+                    var count = 0;
+                    foreach (var bs in segments[i])
+                    {
+                        //if (count != 4)
+                        //{
+                        //    count++;
+                        //    continue;
+                        //}
+                        
+                        var bottomCurve = bs.GetCurve().Offset(offset);
+                        if (bottomCurve.Length < tolerance || bottomCurve.Length < shortCurveTolerance)
+                        {
+                            continue; // Exclude tiny curves, they don't produce faces.
+                        }
+
+                        if (bottomCurve is Autodesk.Revit.DB.Arc arc)
+                        {
+                            var arcSegments = PlanarizeArc(arc, shortCurveTolerance);
+                            foreach (var arcSegment in arcSegments)
+                            {
+                                var upperCurve = arcSegment.Offset(height);
+                                var surface = Autodesk.Revit.DB.RuledSurface.Create(arcSegment, upperCurve);
+                                if (!(surface is Autodesk.Revit.DB.Plane plane))
+                                    continue;
+
+                                var dSurface = Surface.ByRuledLoft(new List<Line>
+                                    {arcSegment.ToProtoType() as Line, upperCurve.ToProtoType() as Line});
+                                result.Add(dSurface); 
+                                curves.Add(arcSegment.ToProtoType() as Line);
+
+                                var minPt = arcSegment.GetEndPoint(0);
+                                var maxPt = upperCurve.GetEndPoint(1);
+                                var minMax = new Tuple<Autodesk.Revit.DB.XYZ, Autodesk.Revit.DB.XYZ>(minPt, maxPt);
+
+                                var minPt1 = arcSegment.GetEndPoint(1);
+                                var maxPt1 = upperCurve.GetEndPoint(0);
+
+                                var c2 = Autodesk.Revit.DB.Line.CreateBound(minPt1, maxPt);
+                                var c3 = Autodesk.Revit.DB.Line.CreateBound(maxPt, maxPt1);
+                                var c4 = Autodesk.Revit.DB.Line.CreateBound(maxPt1, minPt);
+                                var edges =
+                                    new Tuple<Autodesk.Revit.DB.Line, Autodesk.Revit.DB.Line, Autodesk.Revit.DB.Line,
+                                        Autodesk.Revit.DB.Line>(arcSegment, c2, c3, c4);
+
+                                var glazingPts = new List<List<Point>>();
+                                var glazingAreas = new List<double>();
+                                var userDatas = new List<Dictionary<string, object>>();
+
+                                if (type == "Window")
+                                    AddWindows(panel.InternalElement, plane, minMax, edges, shortCurveTolerance, tolerance, ref glazingPts, ref glazingAreas, ref userDatas);
+                                else
+                                    AddCurtainWallPanel(panel.InternalElement, plane, minMax, edges, shortCurveTolerance, tolerance, ref glazingPts, ref glazingAreas, ref userDatas);
+
+                                if (glazingPts.Any())
+                                {
+                                    apertures.Add(glazingPts);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var upperCurve = bottomCurve.Offset(height);
+                            var surface = Autodesk.Revit.DB.RuledSurface.Create(bottomCurve, upperCurve);
+                            if (!(surface is Autodesk.Revit.DB.Plane plane))
+                                continue;
+
+                            var dPlane = plane.ToPlane();
+                            planes.Add(dPlane);
+
+                            var dSurface = Surface.ByRuledLoft(new List<Line>
+                                {bottomCurve.ToProtoType() as Line, upperCurve.ToProtoType() as Line});
+                            result.Add(dSurface);
+                            curves.Add(bottomCurve.ToProtoType() as Line);
+
+                            var minPt = bottomCurve.GetEndPoint(0);
+                            var maxPt = upperCurve.GetEndPoint(1);
+                            var minMax = new Tuple<Autodesk.Revit.DB.XYZ, Autodesk.Revit.DB.XYZ>(minPt, maxPt);
+
+                            var minPt1 = bottomCurve.GetEndPoint(1);
+                            var maxPt1 = upperCurve.GetEndPoint(0);
+
+                            var c2 = Autodesk.Revit.DB.Line.CreateBound(minPt1, maxPt);
+                            var c3 = Autodesk.Revit.DB.Line.CreateBound(maxPt, maxPt1);
+                            var c4 = Autodesk.Revit.DB.Line.CreateBound(maxPt1, minPt);
+                            var edges =
+                                new Tuple<Autodesk.Revit.DB.Line, Autodesk.Revit.DB.Line, Autodesk.Revit.DB.Line,
+                                    Autodesk.Revit.DB.Line>(bottomCurve as Autodesk.Revit.DB.Line, c2, c3, c4);
+
+                            var glazingPts = new List<List<Point>>();
+                            var glazingAreas = new List<double>();
+                            var userDatas = new List<Dictionary<string, object>>();
+
+                            if (type == "Window")
+                                AddWindows(panel.InternalElement, plane, minMax, edges, shortCurveTolerance, tolerance, ref glazingPts, ref glazingAreas, ref userDatas);
+                            else
+                                AddCurtainWallPanel(panel.InternalElement, plane, minMax, edges, shortCurveTolerance, tolerance, ref glazingPts, ref glazingAreas, ref userDatas);
+
+                            if (glazingPts.Any())
+                            {
+                                apertures.Add(glazingPts);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return new Dictionary<string, object>
+            {
+                { "Curves", curves },
+                { "Surfaces", result },
+                { "GlazingPoints", apertures},
+                { "Planes", planes}
+            };
+        }
+
+        private static double GetDoorWindowArea(Autodesk.Revit.DB.Element insert)
+        {
+            var winType = (Autodesk.Revit.DB.FamilySymbol)insert.Document.GetElement(insert.GetTypeId());
+
+            var furnitureWidthInstance = insert.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.FURNITURE_WIDTH)?.AsDouble() ?? 0;
+            var furnitureWidthType = winType.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.FURNITURE_WIDTH)?.AsDouble() ?? 0;
+            var furnWidth = furnitureWidthInstance > 0 ? furnitureWidthInstance : furnitureWidthType;
+            var familyWidthInstance = insert.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.FAMILY_WIDTH_PARAM)?.AsDouble() ?? 0;
+            var familyWidthType = winType.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.FAMILY_WIDTH_PARAM)?.AsDouble() ?? 0;
+            var famWidth = familyWidthInstance > 0 ? familyWidthInstance : familyWidthType;
+            //var roughWidthInstance = insert.get_Parameter(RVT.BuiltInParameter.FAMILY_ROUGH_WIDTH_PARAM)?.AsDouble() ?? 0;
+            //var roughWidthType = winType.get_Parameter(RVT.BuiltInParameter.FAMILY_ROUGH_WIDTH_PARAM)?.AsDouble() ?? 0;
+            //var rWidth = roughWidthInstance > 0 ? roughWidthInstance : roughWidthType;
+            //var width = rWidth > 0 ? rWidth : famWidth > 0 ? famWidth : furnWidth;
+            var width = famWidth > 0 ? famWidth : furnWidth;
+            if (width <= 0)
+                width = 0.5; // set min value to 6"
+
+            var furnitureHeightInstance = insert.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.FURNITURE_HEIGHT)?.AsDouble() ?? 0;
+            var furnitureHeightType = winType.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.FURNITURE_HEIGHT)?.AsDouble() ?? 0;
+            var furnHeight = furnitureHeightInstance > 0 ? furnitureHeightInstance : furnitureHeightType;
+            var familyHeightInstance = insert.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.FAMILY_HEIGHT_PARAM)?.AsDouble() ?? 0;
+            var familyHeightType = winType.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.FAMILY_HEIGHT_PARAM)?.AsDouble() ?? 0;
+            var famHeight = familyHeightInstance > 0 ? familyHeightInstance : familyHeightType;
+            //var roughHeightInstance = insert.get_Parameter(RVT.BuiltInParameter.FAMILY_ROUGH_HEIGHT_PARAM)?.AsDouble() ?? 0;
+            //var roughHeightType = winType.get_Parameter(RVT.BuiltInParameter.FAMILY_ROUGH_HEIGHT_PARAM)?.AsDouble() ?? 0;
+            //var rHeight = roughWidthInstance > 0 ? roughHeightInstance : roughHeightType;
+            //var height = rHeight > 0 ? rHeight : famHeight > 0 ? famHeight : furnHeight;
+            var height = famHeight > 0 ? famHeight : furnHeight;
+            if (height <= 0)
+                height = 0.5; // set min value to 6"
+
+            var winArea = width * height;
+
+            return winArea;
+        }
+
+        public static bool ValidatePointDistance(double tolerance, ref List<Autodesk.Revit.DB.XYZ> hPts)
+        {
+            var isValid = true;
+            for (var i = 0; i < hPts.Count; i++)
+            {
+                var current = hPts[i];
+                var next = hPts[i + 1 >= hPts.Count ? 0 : i + 1];
+                var distance = current.DistanceTo(next);
+                if (distance > tolerance)
+                    continue;
+
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        private static void AddWindows(
+            Autodesk.Revit.DB.Element w,
+            Autodesk.Revit.DB.Plane plane,
+            Tuple<Autodesk.Revit.DB.XYZ, Autodesk.Revit.DB.XYZ> minMax,
+            Tuple<Autodesk.Revit.DB.Line, Autodesk.Revit.DB.Line, Autodesk.Revit.DB.Line, Autodesk.Revit.DB.Line> edges,
+            double shortCurveTolerance,
+            double tolerance,
+            ref List<List<Point>> glazingPts,
+            ref List<double> glazingAreas,
+            ref List<Dictionary<string, object>> userDatas)
+        {
+            var location = (w.Location as Autodesk.Revit.DB.LocationPoint)?.Point;
+            var distance = plane.SignedDistanceTo(location);
+            if (Math.Abs(distance) > 1)
+                return;
+
+
+            var winPts = GetGeometryPoints(w);
+
+            //var dWinPts = winPts.Select(x => x.ToPoint()).ToList();
+            //glazingPts.Add(dWinPts);
+
+            if (!GetPointsOnFace(plane, minMax, edges, winPts, out var ptsOnFace, out var uvsOnFace))
+                return;
+
+            //var dptsOnFace = ptsOnFace.Select(x => x.ToPoint()).ToList();
+            //glazingPts.Add(dptsOnFace);
+
+            if (!GetHull(ptsOnFace, uvsOnFace, shortCurveTolerance, out var hPts, out var hUvs))
+                return;
+
+            var winArea = GetDoorWindowArea(w);
+            var hullArea = PolygonArea(hUvs);
+            if (hullArea < winArea * 0.1)
+                return;
+
+            if (hPts.Count < 3)
+                return;
+
+            ValidatePoints(plane, edges, ref hPts, ref hUvs);
+
+            if (!ValidatePointDistance(tolerance, ref hPts))
+                return;
+
+            //(Konrad)Make sure that we are not adding duplicate apertures.
+            var dPts = hPts.Select(x => x.ToPoint()).ToList();
+            glazingPts.Add(dPts);
+            glazingAreas.Add(PolygonArea(hUvs));
+            //userDatas.Add(GetUserData(w, AppSettings.Instance.StoredSettings.GeometrySettings.WindowParameters));
+        }
+
+        private static void AddCurtainWallPanel(
+            Autodesk.Revit.DB.Element panel,
+            Autodesk.Revit.DB.Plane plane,
+            Tuple<Autodesk.Revit.DB.XYZ, Autodesk.Revit.DB.XYZ> minMax,
+            Tuple<Autodesk.Revit.DB.Line, Autodesk.Revit.DB.Line, Autodesk.Revit.DB.Line, Autodesk.Revit.DB.Line> edges,
+            double shortCurveTolerance,
+            double tolerance,
+            ref List<List<Point>> glazingPts,
+            ref List<double> glazingAreas,
+            ref List<Dictionary<string, object>> userDatas)
+        {
+            // (Konrad) If user edited Wall Profile for a Curtain Wall, the Panels that were "edited out"
+            // still exist in the list of Panels for the CW. They are valid objects per se, but we should
+            // exclude them from glazing calculations. Technically they don't exist. They will have no Area.
+            var areaParam = panel.get_Parameter(Autodesk.Revit.DB.BuiltInParameter.HOST_AREA_COMPUTED);
+            if (!areaParam.HasValue)
+                return;
+
+            var points = GetGeometryPoints(panel);
+            if (!GetPointsOnFace(plane, minMax, edges, points, out var ptsOnFace, out var uvsOnFace))
+                return;
+
+            if (!GetHull(ptsOnFace, uvsOnFace, shortCurveTolerance, out var hPts, out var hUvs))
+                return;
+
+            if (hPts.Count < 3)
+                return;
+
+            ValidatePoints(plane, edges, ref hPts, ref hUvs);
+
+            // (Konrad) If Curtain Wall panel's area is smaller than 10% of original panel's area
+            // we can ignore it. It means we projected it onto the edge, and created a little sliver.
+            var area = areaParam.AsDouble();
+            var hullArea = PolygonArea(hUvs);
+            if (hullArea < area * 0.1)
+                return;
+
+            // (Konrad) Make sure that we are not adding duplicate apertures.
+            var dPts = hPts.Select(x => x.ToPoint()).ToList();
+            glazingPts.Add(dPts);
+            glazingAreas.Add(PolygonArea(hUvs));
+        }
+
+        private static void ValidatePoints(
+            Autodesk.Revit.DB.Plane plane,
+            Tuple<Autodesk.Revit.DB.Line, Autodesk.Revit.DB.Line, Autodesk.Revit.DB.Line, Autodesk.Revit.DB.Line> edges,
+            ref List<Autodesk.Revit.DB.XYZ> ptsOnFace,
+            ref List<Autodesk.Revit.DB.UV> uvsOnFace)
+        {
+            var (e1, e2, e3, e4) = edges;
+            var outerEdges = new List<Autodesk.Revit.DB.Line>
+            {
+                e1, e2, e3, e4
+            };
+
+            foreach (var edge in outerEdges)
+            {
+                for (var i = 0; i < ptsOnFace.Count; i++)
+                {
+                    var pt = ptsOnFace[i];
+                    if (edge.Distance(pt) >= 0.001)
+                        continue;
+
+                    var direction = (edge.GetEndPoint(1) - edge.GetEndPoint(0)).Normalize();
+                    var perpendicular = plane.Normal.CrossProduct(direction);
+                    var offset = 0.041 * perpendicular;
+                    var offsetPt = pt + offset;
+                    ptsOnFace[i] = offsetPt;
+                }
+            }
+
+            uvsOnFace.Clear();
+            uvsOnFace.AddRange(ptsOnFace.Select(plane.ProjectInto));
+        }
+
+        private static bool GetPointsOnFace(
+            Autodesk.Revit.DB.Plane plane,
+            Tuple<Autodesk.Revit.DB.XYZ, Autodesk.Revit.DB.XYZ> minMax,
+            Tuple<Autodesk.Revit.DB.Line, Autodesk.Revit.DB.Line, Autodesk.Revit.DB.Line, Autodesk.Revit.DB.Line> edges,
+            List<Autodesk.Revit.DB.XYZ> pts,
+            out List<Autodesk.Revit.DB.XYZ> ptsOnFace,
+            out List<Autodesk.Revit.DB.UV> uvsOnFace)
+        {
+            var (min, max) = minMax;
+            var (e1, e2, e3, e4) = edges;
+            var outerEdges = new List<Autodesk.Revit.DB.Line>
+            {
+                e1, e2, e3, e4
+            };
+
+            var onFace = new HashSet<Autodesk.Revit.DB.XYZ>();
+            var notOnFace = new HashSet<Autodesk.Revit.DB.XYZ>();
+            //var count = 0;
+            foreach (var pt in pts)
+            {
+                //if (count > 332)
+                //    continue;
+
+                //count++;
+
+                var pt1 = new Autodesk.Revit.DB.XYZ(pt.X, pt.Y, pt.Z);
+                //var distance = plane.SignedDistanceTo(pt1);
+                //if (Math.Abs(distance) > 1.5)
+                //{
+                //    //notOnFace.Add(pt1);
+                //    //onFace.Add(pt1);
+                //    //continue;
+                //}
+
+                var p = plane.ProjectOnto(pt1);
+                if (!p.IsWithinFace(min, max))
+                {
+                    notOnFace.Add(pt1);
+                    continue;
+                }
+
+                if (!onFace.Contains(p, new XyzComparer()))
+                    onFace.Add(p);
+            }
+
+            var onFaceList = onFace.ToList();
+            var notOnFaceList = notOnFace.ToList();
+
+            if (onFace.Any() && notOnFace.Any())
+            {
+                foreach (var pt in notOnFaceList)
+                {
+                    Autodesk.Revit.DB.Line closestEdge = outerEdges.First();
+                    var distance = double.MaxValue;
+                    foreach (var edge in outerEdges)
+                    {
+                        var d = edge.Distance(pt);
+                        if (!(d < distance))
+                            continue;
+
+                        distance = d;
+                        closestEdge = edge;
+                    }
+
+                    var ptOnEdge = closestEdge.Project(pt).XYZPoint;
+                    onFaceList.Add(ptOnEdge);
+                }
+            }
+
+            ptsOnFace = onFaceList;
+            uvsOnFace = onFaceList.Select(plane.ProjectInto).ToList();
+
+            return ptsOnFace.Any() && uvsOnFace.Any();
+        }
+
+        private static IEnumerable<Autodesk.Revit.DB.Line> PlanarizeArc(Autodesk.Revit.DB.Arc arc, double shortCurveTolerance)
+        {
+            var b1 = arc.Evaluate(0, true);
+            var b2 = arc.Evaluate(0.25, true);
+            var b3 = arc.Evaluate(0.5, true);
+            var b4 = arc.Evaluate(0.75, true);
+            var b5 = arc.Evaluate(1, true);
+
+            // (Konrad) It's possible that an Arc length is > shortCurveTolerance but when it's
+            // planarized it's line components are not. If that's the case, return a single line
+            // or an empty list.
+            if (b1.DistanceTo(b2) < shortCurveTolerance ||
+                b2.DistanceTo(b3) < shortCurveTolerance ||
+                b3.DistanceTo(b4) < shortCurveTolerance ||
+                b4.DistanceTo(b5) < shortCurveTolerance)
+            {
+                if (b1.DistanceTo(b5) < shortCurveTolerance)
+                    return new List<Autodesk.Revit.DB.Line>();
+
+                return new List<Autodesk.Revit.DB.Line>
+                {
+                    Autodesk.Revit.DB.Line.CreateBound(b1, b5)
+                };
+            }
+
+            return new List<Autodesk.Revit.DB.Line>
+            {
+                Autodesk.Revit.DB.Line.CreateBound(b1, b2),
+                Autodesk.Revit.DB.Line.CreateBound(b2, b3),
+                Autodesk.Revit.DB.Line.CreateBound(b3, b4),
+                Autodesk.Revit.DB.Line.CreateBound(b4, b5)
             };
         }
 
@@ -1023,5 +1473,165 @@ namespace archilab.Revit.Elements
         }
 
         #endregion
+    }
+
+    [SupressImportIntoVM]
+    public static class GeometryExtensions
+    {
+        public static double SignedDistanceTo(this Autodesk.Revit.DB.Plane plane, Autodesk.Revit.DB.XYZ p)
+        {
+            var v = p - plane.Origin;
+            return plane.Normal.DotProduct(v);
+        }
+
+        public static Autodesk.Revit.DB.XYZ ProjectOnto(this Autodesk.Revit.DB.Plane plane, Autodesk.Revit.DB.XYZ p)
+        {
+            var d = plane.SignedDistanceTo(p);
+            var q = p - d * plane.Normal;
+            return q;
+        }
+
+        public static Autodesk.Revit.DB.UV ProjectInto(this Autodesk.Revit.DB.Plane plane, Autodesk.Revit.DB.XYZ p)
+        {
+            var q = plane.ProjectOnto(p);
+            var o = plane.Origin;
+            var d = q - o;
+            var u = d.DotProduct(plane.XVec);
+            var v = d.DotProduct(plane.YVec);
+            return new Autodesk.Revit.DB.UV(u, v);
+        }
+
+        public static bool IsWithinFace(this Autodesk.Revit.DB.XYZ pt, Autodesk.Revit.DB.XYZ min, Autodesk.Revit.DB.XYZ max)
+        {
+            var epsilon = new DoubleExtensions.Epsilon(0.001);
+            var minX = min.X.LE(max.X, epsilon) ? min.X : max.X;
+            var minY = min.Y.LE(max.Y, epsilon) ? min.Y : max.Y;
+            var minZ = min.Z.LE(max.Z, epsilon) ? min.Z : max.Z;
+            var maxX = max.X.GE(min.X, epsilon) ? max.X : min.X;
+            var maxY = max.Y.GE(min.Y, epsilon) ? max.Y : min.Y;
+            var maxZ = max.Z.GE(min.Z, epsilon) ? max.Z : min.Z;
+
+            var xge = pt.X.GE(minX, epsilon);
+            var yge = pt.Y.GE(minY, epsilon);
+            var zge = pt.Z.GE(minZ, epsilon);
+            var xle = pt.X.LE(maxX, epsilon);
+            var yle = pt.Y.LE(maxY, epsilon);
+            var zle = pt.Z.LE(maxZ, epsilon);
+
+            return xge && yge && zge && xle && yle && zle;
+        }
+    }
+
+    public static class DoubleExtensions
+    {
+        public static bool AlmostEqualTo(this double value1, double value2)
+        {
+            var tolerance = 0.001;
+            return Math.Abs(value1 - value2) < tolerance;
+        }
+
+        public struct Epsilon
+        {
+            public Epsilon(double value)
+            {
+                _value = value;
+            }
+
+            private double _value;
+
+            internal bool IsEqual(double a, double b)
+            {
+                return (a == b) || (Math.Abs(a - b) < _value);
+
+            }
+
+            internal bool IsNotEqual(double a, double b)
+            {
+                return (a != b) && !(Math.Abs(a - b) < _value);
+            }
+        }
+
+        public static bool EQ(this double a, double b, Epsilon e)
+        {
+            return e.IsEqual(a, b);
+        }
+
+        public static bool LE(this double a, double b, Epsilon e)
+        {
+            return e.IsEqual(a, b) || (a < b);
+        }
+
+        public static bool GE(this double a, double b, Epsilon e)
+        {
+            return e.IsEqual(a, b) || (a > b);
+        }
+
+        public static bool NE(this double a, double b, Epsilon e)
+        {
+            return e.IsNotEqual(a, b);
+        }
+
+        public static bool LT(this double a, double b, Epsilon e)
+        {
+            return e.IsNotEqual(a, b) && (a < b);
+        }
+
+        public static bool GT(this double a, double b, Epsilon e)
+        {
+            return e.IsNotEqual(a, b) && (a > b);
+        }
+    }
+
+    [SupressImportIntoVM]
+    public static class ListExtensions
+    {
+        public static bool SafeAdd(this List<List<Autodesk.Revit.DB.XYZ>> list, List<Autodesk.Revit.DB.XYZ> toAdd)
+        {
+            if (list.Contains(toAdd, new ListOfXyzComparer()))
+                return false;
+
+            list.Add(toAdd);
+            return true;
+        }
+    }
+
+    [SupressImportIntoVM]
+    public class ListOfXyzComparer : IEqualityComparer<List<Autodesk.Revit.DB.XYZ>>
+    {
+        public bool Equals(List<Autodesk.Revit.DB.XYZ> x, List<Autodesk.Revit.DB.XYZ> y)
+        {
+            if (y == null && x == null)
+                return true;
+            else if (x == null || y == null)
+                return false;
+            else if (x.All(pt => y.Contains(pt, new XyzComparer())))
+                return true;
+            else
+                return false;
+        }
+
+        public int GetHashCode(List<Autodesk.Revit.DB.XYZ> obj)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [SupressImportIntoVM]
+    public class XyzComparer : IEqualityComparer<Autodesk.Revit.DB.XYZ>
+    {
+        public bool Equals(Autodesk.Revit.DB.XYZ x, Autodesk.Revit.DB.XYZ y)
+        {
+            if (ReferenceEquals(x, y)) return true;
+
+            if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
+                return false;
+
+            return x.X.AlmostEqualTo(y.X) && x.Y.AlmostEqualTo(y.Y) && x.Z.AlmostEqualTo(y.Z);
+        }
+
+        public int GetHashCode(Autodesk.Revit.DB.XYZ obj)
+        {
+            return obj.X.GetHashCode() ^ obj.Y.GetHashCode() ^ obj.Z.GetHashCode();
+        }
     }
 }
