@@ -31,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Assemblies.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\CompoundStructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\CompoundStructureLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\ConcaveHull.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Connectors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Documents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Ducts.cs" />
