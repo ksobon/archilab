@@ -34,6 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Connectors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Documents.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Ducts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\DuctTypes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\FilterRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\FilterSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Revit\Elements\Grids.cs" />
