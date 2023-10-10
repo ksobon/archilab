@@ -33,9 +33,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2023", "archilab202
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabUI2023", "archilabUI2023\archilabUI2023.csproj", "{E155F7B0-4FFF-4C6A-B21E-F4D184763BF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2024", "archilab2024\archilab2024.csproj", "{1B8C42FB-6D98-4076-8A46-26767C0A81EA}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		archilabSharedProject\archilabSharedProject.projitems*{0061929b-ba80-4417-ac9e-c474823d542f}*SharedItemsImports = 4
+		archilabSharedProject\archilabSharedProject.projitems*{1b8c42fb-6d98-4076-8a46-26767c0a81ea}*SharedItemsImports = 4
 		archilabSharedProject\archilabSharedProject.projitems*{27c10638-775c-4729-a41a-45fd7932d5ce}*SharedItemsImports = 4
 		archilabUISharedProject\archilabUISharedProject.projitems*{302cf4fa-a89a-4e4c-b7f4-7dbffd9c4eff}*SharedItemsImports = 4
 		archilabSharedProject\archilabSharedProject.projitems*{343e8899-7db7-407c-9b36-cd4cb3ff4a6c}*SharedItemsImports = 4
@@ -107,6 +110,10 @@ Global
 		{E155F7B0-4FFF-4C6A-B21E-F4D184763BF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E155F7B0-4FFF-4C6A-B21E-F4D184763BF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E155F7B0-4FFF-4C6A-B21E-F4D184763BF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B8C42FB-6D98-4076-8A46-26767C0A81EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B8C42FB-6D98-4076-8A46-26767C0A81EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B8C42FB-6D98-4076-8A46-26767C0A81EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B8C42FB-6D98-4076-8A46-26767C0A81EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
