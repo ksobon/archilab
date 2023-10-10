@@ -77,7 +77,7 @@ namespace archilab.Revit.Elements
         /// <param name="dimType"></param>
         /// <returns></returns>
         [NodeCategory("Create")]
-        public static Element Create(View view, Line line, List<References> references, Element dimType)
+        public static Element Create(View view, Autodesk.DesignScript.Geometry.Line line, List<References> references, Element dimType)
         {
             if (view == null)
                 throw new ArgumentNullException(nameof(view));

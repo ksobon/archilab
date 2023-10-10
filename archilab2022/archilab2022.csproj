@@ -575,7 +575,7 @@
     <AL SdkToolsPath="$(TargetFrameworkSDKToolsDirectory)" TargetType="library" EmbedResources="$(ProjectDir)archilab2022Images.resources" OutputAssembly="$(OutDir)archilab2022.customization.dll" Version="%(AssemblyInfo.Version)" />
   </Target>
   <Target Name="CopyFiles" AfterTargets="AfterBuild;NonWinFodyTarget">
-    <Message Text="Copy files..." Importance="high" />
+    <Message Text="Copy files...2.12" Importance="high" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.12\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)archilab2022.customization.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.12\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)archilab2022_DynamoCustomization.xml" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.12\packages\archi-lab.net\bin" ContinueOnError="true" />
@@ -597,5 +597,28 @@
     <Copy SourceFiles="$(TargetDir)EPPlus.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.12\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)en_US.aff" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.12\packages\archi-lab.net\extra" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)en_US.dic" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.12\packages\archi-lab.net\extra" ContinueOnError="true" />
+
+    <Message Text="Copy files...2.10" Importance="high" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)archilab2022.customization.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)archilab2022_DynamoCustomization.xml" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)archilab2022.xml" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)ClosedXML.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)DocumentFormat.OpenXml.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)ExcelNumberFormat.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)FastMember.Signed.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)HtmlAgilityPack.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)LumenWorks.Framework.IO.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)RestSharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)System.IO.Packaging.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)itextsharp.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)WeCantSpell.Hunspell.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)System.Memory.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)System.Buffers.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)System.Runtime.CompilerServices.Unsafe.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)System.Numerics.Vectors.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)EPPlus.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)en_US.aff" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\extra" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)en_US.dic" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\extra" ContinueOnError="true" />
   </Target>
 </Project>
