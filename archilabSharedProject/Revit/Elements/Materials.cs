@@ -186,125 +186,6 @@ namespace archilab.Revit.Elements
             return m.MaterialClass;
         }
 
-#if Revit2018
-
-        /// <summary>
-        /// Sets Surface Pattern properties for a Material.
-        /// </summary>
-        /// <param name="material">Material to set Surface Pattern for.</param>
-        /// <param name="surfacePattern">Fill Pattern to be used as Surface Pattern.</param>
-        /// <param name="surfacePatternColor">Color of the Surface Pattern.</param>
-        /// <returns name="material"></returns>
-        [NodeCategory("Action")]
-        public static Material SetSurfacePattern(
-            Material material,
-            [DefaultArgument("Selection.Select.GetNull()")] Element surfacePattern,
-            [DefaultArgument("Utilities.ColorUtilities.GetBlack()")] Color surfacePatternColor)
-        {
-            if (material == null)
-                throw new ArgumentNullException(nameof(material));
-
-            if (!(material.InternalElement is Autodesk.Revit.DB.Material m))
-                throw new ArgumentNullException(nameof(material));
-
-            var doc = DocumentManager.Instance.CurrentDBDocument;
-            TransactionManager.Instance.EnsureInTransaction(doc);
-
-            if (surfacePattern != null)
-            {
-                if (!(surfacePattern.InternalElement is Autodesk.Revit.DB.FillPatternElement fp))
-                    throw new ArgumentNullException(nameof(surfacePattern));
-
-                m.SurfacePatternId = fp.Id;
-            }
-
-            m.SurfacePatternColor = ColorUtilities.RevitColorByColor(surfacePatternColor);
-
-            TransactionManager.Instance.TransactionTaskDone();
-
-            return material;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="material"></param>
-        /// <returns></returns>
-        [NodeCategory("Query")]
-        public static Element GetSurfacePattern(Material material)
-        {
-            if (material == null)
-                throw new ArgumentNullException(nameof(material));
-
-            if (!(material.InternalElement is Autodesk.Revit.DB.Material m))
-                throw new ArgumentNullException(nameof(material));
-
-            var doc = DocumentManager.Instance.CurrentDBDocument;
-            var sp = doc.GetElement(m.SurfacePatternId);
-
-            return sp?.ToDSType(true);
-        }
-
-        /// <summary>
-        /// Sets Cut Pattern properties for a Material.
-        /// </summary>
-        /// <param name="material">Material to set Cut Pattern for.</param>
-        /// <param name="cutPattern">Fill Pattern to be used as Cut Pattern.</param>
-        /// <param name="cutPatternColor">Color of the Cut Pattern.</param>
-        /// <returns name="material"></returns>
-        public static Material SetCutPattern(
-            Material material,
-            [DefaultArgument("Selection.Select.GetNull()")] Element cutPattern,
-            [DefaultArgument("Utilities.ColorUtilities.GetBlack()")] Color cutPatternColor)
-        {
-            if (material == null)
-                throw new ArgumentNullException(nameof(material));
-
-            if (!(material.InternalElement is Autodesk.Revit.DB.Material m))
-                throw new ArgumentNullException(nameof(material));
-
-            var doc = DocumentManager.Instance.CurrentDBDocument;
-            TransactionManager.Instance.EnsureInTransaction(doc);
-
-            if (cutPattern != null)
-            {
-                if (!(cutPattern.InternalElement is Autodesk.Revit.DB.FillPatternElement fp))
-                    throw new ArgumentNullException(nameof(cutPattern));
-
-                m.CutPatternId = fp.Id;
-            }
-
-            m.CutPatternColor = ColorUtilities.RevitColorByColor(cutPatternColor);
-
-            TransactionManager.Instance.TransactionTaskDone();
-
-            return material;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="material"></param>
-        /// <returns></returns>
-        [NodeCategory("Query")]
-        public static Element GetCutPattern(Material material)
-        {
-            if (material == null)
-                throw new ArgumentNullException(nameof(material));
-
-            if (!(material.InternalElement is Autodesk.Revit.DB.Material m))
-                throw new ArgumentNullException(nameof(material));
-
-            var doc = DocumentManager.Instance.CurrentDBDocument;
-            var cp = doc.GetElement(m.CutPatternId);
-
-            return cp?.ToDSType(true);
-        }
-
-#endif
-
-#if !Revit2018
-
         /// <summary>
         /// Sets Surface Pattern properties for a Material.
         /// </summary>
@@ -455,8 +336,6 @@ namespace archilab.Revit.Elements
                 {"backgroundPattern", bp?.ToDSType(true)}
             };
         }
-
-#endif
 
         /// <summary>
         /// Sets the checkbox property on the Material that would force the Appearance Color to be used for Shading display in Revit.

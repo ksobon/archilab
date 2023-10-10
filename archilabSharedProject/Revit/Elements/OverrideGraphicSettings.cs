@@ -25,7 +25,6 @@ namespace archilab.Revit.Elements
             InternalOverrideGraphicSettings = settings;
         }
 
-#if !Revit2017 && !Revit2018
         /// <summary>
         /// 
         /// </summary>
@@ -127,7 +126,6 @@ namespace archilab.Revit.Elements
 
             return new OverrideGraphicsSettings(ogs);
         }
-#endif
 
         /// <summary>
         /// 
@@ -135,13 +133,10 @@ namespace archilab.Revit.Elements
         /// <returns></returns>
         [NodeCategory("Query")]
         [MultiReturn("Halftone", "Transparency", "ProjectionLineColor", "ProjectionLineWeight", "ProjectionLinePattern",
-            "CutLineColor", "CutLineWeight", "CutLinePattern"
-#if !Revit2018 && !Revit2017
-            ,"IsSurfaceForegroundPatternVisible", "SurfaceForegroundPattern", "SurfaceForegroundColor", "IsSurfaceBackgroundPatternVisible", 
+            "CutLineColor", "CutLineWeight", "CutLinePattern","IsSurfaceForegroundPatternVisible", "SurfaceForegroundPattern", "SurfaceForegroundColor", "IsSurfaceBackgroundPatternVisible", 
             "SurfaceBackgroundPattern", "SurfaceBackgroundColor", "IsCutForegroundPatternVisible", "CutForegroundPattern", "CutForegroundColor", 
             "IsCutBackgroundPatternVisible", "CutBackgroundPattern", "CutBackgroundColor"
-#endif
-            )]
+        )]
         public Dictionary<string, object> Properties()
         {
             return new Dictionary<string, object>
@@ -154,7 +149,6 @@ namespace archilab.Revit.Elements
                 {"CutLineColor", CutLineColor},
                 {"CutLineWeight", CutLineWeight},
                 {"CutLinePattern", CutLinePattern},
-#if !Revit2018 && !Revit2017
                 {"IsSurfaceForegroundPatternVisible", IsSurfaceForegroundPatternVisible},
                 {"SurfaceForegroundPattern", SurfaceForegroundPattern},
                 {"SurfaceForegroundColor", SurfaceForegroundColor},
@@ -167,7 +161,6 @@ namespace archilab.Revit.Elements
                 {"IsCutBackgroundPatternVisible", IsCutBackgroundPatternVisible},
                 {"CutBackgroundPattern", CutBackgroundPattern},
                 {"CutBackgroundColor", CutBackgroundColor}
-#endif
             };
         }
 
@@ -224,8 +217,6 @@ namespace archilab.Revit.Elements
         {
             get { return InternalOverrideGraphicSettings.ProjectionLineWeight; }
         }
-
-#if !Revit2018 && !Revit2017
 
         /// <summary>
         /// 
@@ -289,8 +280,6 @@ namespace archilab.Revit.Elements
             get { return ColorUtilities.DsColorByColor(InternalOverrideGraphicSettings.SurfaceBackgroundPatternColor); }
         }
 
-#endif
-
         /// <summary>
         /// 
         /// </summary>
@@ -326,8 +315,6 @@ namespace archilab.Revit.Elements
         {
             get { return InternalOverrideGraphicSettings.CutLineWeight; }
         }
-
-#if !Revit2018 && !Revit2017
 
         /// <summary>
         /// 
@@ -390,7 +377,5 @@ namespace archilab.Revit.Elements
         {
             get { return ColorUtilities.DsColorByColor(InternalOverrideGraphicSettings.CutBackgroundPatternColor); }
         }
-
-#endif
     }
 }

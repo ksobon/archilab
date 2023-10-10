@@ -85,7 +85,7 @@ namespace archilab.Revit.Elements
             return revisions;
         }
 
-#if Revit2017 || Revit2018 || Revit2019 || Revit2020 || Revit2021 || Revit2022
+#if Revit2019 || Revit2020 || Revit2021 || Revit2022
         /// <summary>
         /// Create a new Revision.
         /// </summary>

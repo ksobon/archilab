@@ -657,7 +657,7 @@ namespace archilab.Revit.Elements
                 case Autodesk.Revit.DB.ViewType.ColumnSchedule:
                 case Autodesk.Revit.DB.ViewType.Walkthrough:
                 case Autodesk.Revit.DB.ViewType.Rendering:
-#if !Revit2018 && !Revit2019
+#if !Revit2019
                 case Autodesk.Revit.DB.ViewType.SystemsAnalysisReport:
 #endif
                 case Autodesk.Revit.DB.ViewType.Internal:

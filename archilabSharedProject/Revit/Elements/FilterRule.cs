@@ -213,7 +213,7 @@ namespace archilab.Revit.Elements
                     return new FilterRule(
                         Autodesk.Revit.DB.ParameterFilterRuleFactory.CreateNotEndsWithRule(elementId,
                             parameterValue.ToString(), true));
-#if !Revit2017 && !Revit2018 && !Revit2019
+#if !Revit2019
                 case "has a value":
                     return new FilterRule(Autodesk.Revit.DB.ParameterFilterRuleFactory.CreateHasValueParameterRule(elementId));
                 case "has no value":

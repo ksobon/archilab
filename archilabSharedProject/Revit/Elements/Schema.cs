@@ -119,7 +119,7 @@ namespace archilab.Revit.Elements
                 var doc = DocumentManager.Instance.CurrentDBDocument;
                 TransactionManager.Instance.EnsureInTransaction(doc);
 
-#if !Revit2017 && !Revit2018 && !Revit2019 && !Revit2020 && !Revit2021 && !Revit2022
+#if !Revit2019 && !Revit2020 && !Revit2021 && !Revit2022
                 doc.EraseSchemaAndAllEntities(schema.InternalSchema);
 #else
                 Autodesk.Revit.DB.ExtensibleStorage.Schema.EraseSchemaAndAllEntities(schema.InternalSchema, overridePermissions);

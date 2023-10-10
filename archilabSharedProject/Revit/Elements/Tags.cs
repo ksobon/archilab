@@ -76,7 +76,7 @@ namespace archilab.Revit.Elements
                     t.LeaderEndCondition = lec;
                 if (t.LeaderEndCondition == Autodesk.Revit.DB.LeaderEndCondition.Free)
                 {
-#if Revit2017 || Revit2018 || Revit2019 || Revit2020 || Revit2021 || Revit2022
+#if Revit2019 || Revit2020 || Revit2021 || Revit2022
                     t.LeaderEnd = leaderEnd.ToXyz();
                     t.LeaderElbow = leaderElbow.ToXyz();
 #else
@@ -321,7 +321,7 @@ namespace archilab.Revit.Elements
             if (!(doc.GetElement(eId) is Autodesk.Revit.DB.IndependentTag t))
                 throw new ArgumentNullException(nameof(id));
 
-#if Revit2017 || Revit2018 || Revit2019 || Revit2020 || Revit2021 || Revit2022
+#if Revit2019 || Revit2020 || Revit2021 || Revit2022
             var result = t.TaggedLocalElementId == Autodesk.Revit.DB.ElementId.InvalidElementId;
 #else
             var result = t.GetTaggedLocalElementIds().Any(i => i == Autodesk.Revit.DB.ElementId.InvalidElementId); 

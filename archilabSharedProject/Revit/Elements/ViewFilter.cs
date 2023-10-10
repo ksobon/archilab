@@ -17,7 +17,6 @@ namespace archilab.Revit.Elements
         {
         }
 
-#if !Revit2017 && !Revit2018
         /// <summary>
         /// 
         /// </summary>
@@ -55,7 +54,6 @@ namespace archilab.Revit.Elements
 
             return result;
         }
-#endif
 
         /// <summary>
         /// Returns Views that View Filter is applied to.

@@ -1,4 +1,4 @@
-﻿#if !Revit2019 && !Revit2018 && !Revit2017
+﻿#if !Revit2019
 
 using DynamoServices;
 using Revit.Elements;

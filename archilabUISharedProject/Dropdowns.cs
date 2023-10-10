@@ -80,14 +80,14 @@ namespace archilabUI
     {
         private const string OutputName = "parameterType";
 
-#if Revit2017 || Revit2018 || Revit2019 || Revit2020 || Revit2021 || Revit2022
+#if Revit2019 || Revit2020 || Revit2021 || Revit2022
         public ParameterTypeUi() : base(OutputName, typeof(Autodesk.Revit.DB.ParameterType)) { }
 #else
         public ParameterTypeUi() : base(OutputName, typeof(ParameterTypeId)) { }
 #endif
 
         [JsonConstructor]
-#if Revit2017 || Revit2018 || Revit2019 || Revit2020 || Revit2021 || Revit2022
+#if Revit2019 || Revit2020 || Revit2021 || Revit2022
         public ParameterTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
             : base(OutputName, typeof(Autodesk.Revit.DB.ParameterType), inPorts, outPorts) { }
 #else
@@ -977,7 +977,7 @@ namespace archilabUI
             : base(OutputName, typeof(Method), inPorts, outPorts) { }
     }
 
-#if !Revit2018 && !Revit2021
+#if !Revit2021
     // (Konrad) This is replaced by Forge Unit in 2022 and up.
 #else
     [NodeName("Unit Type")]
@@ -1008,7 +1008,7 @@ namespace archilabUI
             : base(OutputName, typeof(UnitSystem), inPorts, outPorts) { }
     }
 
-#if !Revit2018 && !Revit2019 && !Revit2020 && !Revit2021
+#if !Revit2019 && !Revit2020 && !Revit2021
     [NodeName("Forge Units")]
     [NodeCategory("archilab.Revit.Units.Query")]
     [NodeDescription("Retrieve all available Forge Units.")]

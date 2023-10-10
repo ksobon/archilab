@@ -1,5 +1,4 @@
-﻿#if !Revit2017
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using archilab.Utilities;
@@ -447,5 +446,3 @@ namespace archilab.Revit.Elements
         #endregion
     }
 }
-
-#endif

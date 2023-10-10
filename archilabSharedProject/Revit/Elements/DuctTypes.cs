@@ -5,7 +5,6 @@ using Revit.Elements;
 
 namespace archilab.Revit.Elements
 {
-#if !Revit2017 && !Revit2018
     /// <summary>
     /// 
     /// </summary>
@@ -32,5 +31,4 @@ namespace archilab.Revit.Elements
             return e.Shape.ToString();
         }
     }
-#endif
 }

@@ -79,7 +79,6 @@ namespace archilab.Revit.Elements
             Elements = warningElements;
         }
 
-#if !Revit2017
         /// <summary>
         /// 
         /// </summary>
@@ -93,7 +92,6 @@ namespace archilab.Revit.Elements
                 ? new List<Warning>() 
                 : warnings.Select(x => new Warning(x)).ToList();
         }
-#endif
 
         /// <summary>
         /// Assigns a rating to warning based on custom library of ratings.

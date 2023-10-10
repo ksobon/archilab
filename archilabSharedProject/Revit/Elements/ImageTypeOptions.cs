@@ -1,4 +1,4 @@
-﻿#if !Revit2019 && !Revit2018 && !Revit2017
+﻿#if !Revit2019
 
 using System;
 using Autodesk.DesignScript.Runtime;
@@ -51,7 +51,7 @@ namespace archilab.Revit.Elements
             {
                 var doc = DocumentManager.Instance.CurrentDBDocument;
                 TransactionManager.Instance.EnsureInTransaction(doc);
-#if !Revit2018 && !Revit2019 && !Revit2020 && !Revit2021
+#if !Revit2019 && !Revit2020 && !Revit2021
                 var options = new Autodesk.Revit.DB.ImageTypeOptions(filePath, false, ImageTypeSource.Link);
 #else
                 var options = new Autodesk.Revit.DB.ImageTypeOptions(filePath);
@@ -80,7 +80,7 @@ namespace archilab.Revit.Elements
             {
                 var doc = DocumentManager.Instance.CurrentDBDocument;
                 TransactionManager.Instance.EnsureInTransaction(doc);
-#if !Revit2018 && !Revit2020 && !Revit2021
+#if !Revit2020 && !Revit2021
                 var options = new Autodesk.Revit.DB.ImageTypeOptions(filePath, false, ImageTypeSource.Link)
                 {
                     PageNumber = pageNumber,

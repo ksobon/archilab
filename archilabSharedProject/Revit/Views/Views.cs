@@ -58,7 +58,7 @@ namespace archilab.Revit.Views
 
             return view;
         }
-#if Revit2017 || Revit2018 || Revit2019 || Revit2020
+#if Revit2019 || Revit2020
         /// <summary>
         /// 
         /// </summary>

@@ -901,7 +901,7 @@ namespace archilab.Revit.Elements
                 { "Top", top } 
             };
         }
-#if !Revit2018 && !Revit2019 && !Revit2020 && !Revit2021
+#if !Revit2019 && !Revit2020 && !Revit2021
 
         /// <summary>
         /// 
