@@ -1,0 +1,92 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<RootNamespace>archilab</RootNamespace>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+		<GenerateDependencyFile>false</GenerateDependencyFile>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<Nullable>disable</Nullable>
+		<LangVersion>10.0</LangVersion>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<DocumentationFile>bin\Debug\archilab2025.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DefineConstants>$(DefineConstants);Revit2025</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <DefineConstants>$(DefineConstants);Revit2025</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="archilab2025_DynamoCustomization.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="archilab2025_DynamoCustomization.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="ClosedXML" Version="0.94.2" />
+	  <PackageReference Include="DocumentFormat.OpenXml" Version="2.9.1" />
+	  <PackageReference Include="DynamoVisualProgramming.Core" Version="3.0.3.7597" />
+	  <PackageReference Include="DynamoVisualProgramming.DynamoCoreNodes" Version="3.0.3.7597" />
+	  <PackageReference Include="DynamoVisualProgramming.DynamoServices" Version="3.0.3.7597" />
+	  <PackageReference Include="DynamoVisualProgramming.WpfUILibrary" Version="3.0.3.7597" />
+	  <PackageReference Include="DynamoVisualProgramming.ZeroTouchLibrary" Version="3.0.3.7597" />
+	  <PackageReference Include="EPPlus" Version="4.5.3.1" />
+	  <PackageReference Include="ExcelNumberFormat" Version="1.0.7" />
+	  <PackageReference Include="Extended.Wpf.Toolkit" Version="3.0.0" />
+	  <PackageReference Include="FastMember" Version="1.5.0" />
+	  <PackageReference Include="FastMember.Signed" Version="1.5.0" />
+	  <PackageReference Include="HtmlAgilityPack" Version="1.11.17" />
+	  <PackageReference Include="iTextSharp" Version="5.5.13.1" />
+	  <PackageReference Include="LumenWorksCsvReader" Version="4.0.0" />
+	  <PackageReference Include="Microsoft.CSharp" Version="4.0.1" />
+	  <PackageReference Include="Prism" Version="4.1.0" />
+	  <PackageReference Include="RestSharp" Version="105.2.3" />
+	  <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2025.0.0" />
+	  <PackageReference Include="System.Buffers" Version="4.5.1" GeneratePathProperty="true" />
+	  <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
+	  <PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />
+	  <PackageReference Include="System.IO.Packaging" Version="4.7.0" />
+	  <PackageReference Include="System.Memory" Version="4.5.4" GeneratePathProperty="true" />
+	  <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" GeneratePathProperty="true" />
+	  <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.3" GeneratePathProperty="true" />
+	  <PackageReference Include="WeCantSpell.Hunspell" Version="3.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="DSRevitNodesUI">
+	    <HintPath>..\_libs\3.0\DSRevitNodesUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="RevitNodes">
+	    <HintPath>..\_libs\3.0\RevitNodes.dll</HintPath>
+	  </Reference>
+	  <Reference Include="RevitServices">
+	    <HintPath>..\_libs\3.0\RevitServices.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="en_US.aff">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="en_US.dic">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+	<Import Project="..\archilabSharedProject\archilabSharedProject.projitems" Label="Shared" />
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="if not exist &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot; mkdir &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;if not exist &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\extra&quot; mkdir &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\extra&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetPath)&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)ClosedXML.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)DocumentFormat.OpenXml.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)EPPlus.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)ExcelNumberFormat.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)FastMember.Signed.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)HtmlAgilityPack.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)itextsharp.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)LumenWorks.Framework.IO.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)RestSharp.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(PkgSystem_Buffers)\lib\netstandard2.0\System.Buffers.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)System.IO.Packaging.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(PkgSystem_Memory)\lib\netstandard2.0\System.Memory.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(PkgSystem_Numerics_Vectors)\lib\netstandard2.0\System.Numerics.Vectors.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(PkgSystem_Runtime_CompilerServices_Unsafe)\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)WeCantSpell.Hunspell.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)*.aff&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\extra&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)*.dic&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\extra&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)*.xml&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin&quot;" />
+	</Target>
+
+</Project>

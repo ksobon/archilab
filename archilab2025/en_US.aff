@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<title>en_US.aff\en - libreoffice/dictionaries - main, development dictionaries repository</title>
+<meta name='generator' content='cgit v1.2.1'/>
+<meta name='robots' content='index, nofollow'/>
+<link rel='stylesheet' type='text/css' href='https://cgit.freedesktop.org/cgit.css'/>
+<link rel='shortcut icon' href='/favicon.ico'/>
+<link rel='alternate' title='Atom feed' href='https://cgit.freedesktop.org/libreoffice/dictionaries/atom/en/en_US.aff?h=master' type='application/atom+xml'/>
+<link rel='vcs-git' href='git://anongit.freedesktop.org/libreoffice/dictionaries' title='libreoffice/dictionaries Git repository'/>
+<link rel='vcs-git' href='ssh://git.freedesktop.org/git/libreoffice/dictionaries' title='libreoffice/dictionaries Git repository'/>
+<link rel='vcs-git' href='https://anongit.freedesktop.org/git/libreoffice/dictionaries.git' title='libreoffice/dictionaries Git repository'/>
+</head>
+<body>
+<div id='cgit'><table id='header'>
+<tr>
+<td class='logo' rowspan='2'><a href='/'><img src='https://cgit.freedesktop.org/logo.png' alt='cgit logo'/></a></td>
+<td class='main'><a href='/'>index</a> : <a title='libreoffice/dictionaries' href='/libreoffice/dictionaries/'>libreoffice/dictionaries</a></td><td class='form'><form method='get'>
+<select name='h' onchange='this.form.submit();'>
+<option value='distro/collabora/cd-5.3-3.4'>distro/collabora/cd-5.3-3.4</option>
+<option value='distro/collabora/cp-4.0'>distro/collabora/cp-4.0</option>
+<option value='distro/collabora/cp-4.1'>distro/collabora/cp-4.1</option>
+<option value='distro/collabora/cp-4.2'>distro/collabora/cp-4.2</option>
+<option value='distro/collabora/cp-4.3'>distro/collabora/cp-4.3</option>
+<option value='distro/collabora/cp-4.4'>distro/collabora/cp-4.4</option>
+<option value='distro/collabora/cp-5.0'>distro/collabora/cp-5.0</option>
+<option value='distro/collabora/cp-5.1'>distro/collabora/cp-5.1</option>
+<option value='distro/collabora/cp-5.3'>distro/collabora/cp-5.3</option>
+<option value='distro/collabora/cp-6.0'>distro/collabora/cp-6.0</option>
+<option value='distro/collabora/cp-6.2'>distro/collabora/cp-6.2</option>
+<option value='distro/collabora/cp-6.4'>distro/collabora/cp-6.4</option>
+<option value='distro/collabora/lof-4.3'>distro/collabora/lof-4.3</option>
+<option value='distro/collabora/lov-4.4'>distro/collabora/lov-4.4</option>
+<option value='distro/collabora/lov-5.0'>distro/collabora/lov-5.0</option>
+<option value='distro/collabora/lov-5.1'>distro/collabora/lov-5.1</option>
+<option value='distro/collabora/lov-5.2'>distro/collabora/lov-5.2</option>
+<option value='distro/nisz/libreoffice-6-4'>distro/nisz/libreoffice-6-4</option>
+<option value='distro/suse/suse-3.6'>distro/suse/suse-3.6</option>
+<option value='distro/suse/suse-3.6.3'>distro/suse/suse-3.6.3</option>
+<option value='distro/suse/suse-4.0'>distro/suse/suse-4.0</option>
+<option value='distro/suse/suse-4.0.3'>distro/suse/suse-4.0.3</option>
+<option value='feature/gbuild_dictionaries'>feature/gbuild_dictionaries</option>
+<option value='feature/submodules'>feature/submodules</option>
+<option value='libreoffice-3-5'>libreoffice-3-5</option>
+<option value='libreoffice-3-5-0'>libreoffice-3-5-0</option>
+<option value='libreoffice-3-5-1'>libreoffice-3-5-1</option>
+<option value='libreoffice-3-5-2'>libreoffice-3-5-2</option>
+<option value='libreoffice-3-5-3'>libreoffice-3-5-3</option>
+<option value='libreoffice-3-5-4'>libreoffice-3-5-4</option>
+<option value='libreoffice-3-5-5'>libreoffice-3-5-5</option>
+<option value='libreoffice-3-5-6'>libreoffice-3-5-6</option>
+<option value='libreoffice-3-5-7'>libreoffice-3-5-7</option>
+<option value='libreoffice-3-6'>libreoffice-3-6</option>
+<option value='libreoffice-3-6-0'>libreoffice-3-6-0</option>
+<option value='libreoffice-3-6-1'>libreoffice-3-6-1</option>
+<option value='libreoffice-3-6-2'>libreoffice-3-6-2</option>
+<option value='libreoffice-3-6-3'>libreoffice-3-6-3</option>
+<option value='libreoffice-3-6-4'>libreoffice-3-6-4</option>
+<option value='libreoffice-3-6-5'>libreoffice-3-6-5</option>
+<option value='libreoffice-3-6-6'>libreoffice-3-6-6</option>
+<option value='libreoffice-3-6-7'>libreoffice-3-6-7</option>
+<option value='libreoffice-3.5.3.1'>libreoffice-3.5.3.1</option>
+<option value='libreoffice-3.5.5.1'>libreoffice-3.5.5.1</option>
+<option value='libreoffice-3.5.6.1'>libreoffice-3.5.6.1</option>
+<option value='libreoffice-3.5.99.1'>libreoffice-3.5.99.1</option>
+<option value='libreoffice-4-0'>libreoffice-4-0</option>
+<option value='libreoffice-4-0-0'>libreoffice-4-0-0</option>
+<option value='libreoffice-4-0-1'>libreoffice-4-0-1</option>
+<option value='libreoffice-4-0-2'>libreoffice-4-0-2</option>
+<option value='libreoffice-4-0-3'>libreoffice-4-0-3</option>
+<option value='libreoffice-4-0-4'>libreoffice-4-0-4</option>
+<option value='libreoffice-4-0-5'>libreoffice-4-0-5</option>
+<option value='libreoffice-4-0-6'>libreoffice-4-0-6</option>
+<option value='libreoffice-4-1'>libreoffice-4-1</option>
+<option value='libreoffice-4-1-0'>libreoffice-4-1-0</option>
+<option value='libreoffice-4-1-1'>libreoffice-4-1-1</option>
+<option value='libreoffice-4-1-2'>libreoffice-4-1-2</option>
+<option value='libreoffice-4-1-3'>libreoffice-4-1-3</option>
+<option value='libreoffice-4-1-4'>libreoffice-4-1-4</option>
+<option value='libreoffice-4-1-5'>libreoffice-4-1-5</option>
+<option value='libreoffice-4-1-6'>libreoffice-4-1-6</option>
+<option value='libreoffice-4-2'>libreoffice-4-2</option>
+<option value='libreoffice-4-2-0'>libreoffice-4-2-0</option>
+<option value='libreoffice-4-2-1'>libreoffice-4-2-1</option>
+<option value='libreoffice-4-2-2'>libreoffice-4-2-2</option>
+<option value='libreoffice-4-2-3'>libreoffice-4-2-3</option>
+<option value='libreoffice-4-2-4'>libreoffice-4-2-4</option>
+<option value='libreoffice-4-2-5'>libreoffice-4-2-5</option>
+<option value='libreoffice-4-2-6'>libreoffice-4-2-6</option>
+<option value='libreoffice-4-2-7'>libreoffice-4-2-7</option>
+<option value='libreoffice-4-2-8'>libreoffice-4-2-8</option>
+<option value='libreoffice-4-3'>libreoffice-4-3</option>
+<option value='libreoffice-4-3-0'>libreoffice-4-3-0</option>
+<option value='libreoffice-4-3-1'>libreoffice-4-3-1</option>
+<option value='libreoffice-4-3-2'>libreoffice-4-3-2</option>
+<option value='libreoffice-4-3-3'>libreoffice-4-3-3</option>
+<option value='libreoffice-4-3-4'>libreoffice-4-3-4</option>
+<option value='libreoffice-4-3-5'>libreoffice-4-3-5</option>
+<option value='libreoffice-4-3-6'>libreoffice-4-3-6</option>
+<option value='libreoffice-4-3-7'>libreoffice-4-3-7</option>
+<option value='libreoffice-4-4'>libreoffice-4-4</option>
+<option value='libreoffice-4-4-0'>libreoffice-4-4-0</option>
+<option value='libreoffice-4-4-1'>libreoffice-4-4-1</option>
+<option value='libreoffice-4-4-2'>libreoffice-4-4-2</option>
+<option value='libreoffice-4-4-3'>libreoffice-4-4-3</option>
+<option value='libreoffice-4-4-4'>libreoffice-4-4-4</option>
+<option value='libreoffice-4-4-5'>libreoffice-4-4-5</option>
+<option value='libreoffice-4-4-6'>libreoffice-4-4-6</option>
+<option value='libreoffice-4-4-7'>libreoffice-4-4-7</option>
+<option value='libreoffice-5-0'>libreoffice-5-0</option>
+<option value='libreoffice-5-0-0'>libreoffice-5-0-0</option>
+<option value='libreoffice-5-0-1'>libreoffice-5-0-1</option>
+<option value='libreoffice-5-0-2'>libreoffice-5-0-2</option>
+<option value='libreoffice-5-0-3'>libreoffice-5-0-3</option>
+<option value='libreoffice-5-0-4'>libreoffice-5-0-4</option>
+<option value='libreoffice-5-0-5'>libreoffice-5-0-5</option>
+<option value='libreoffice-5-0-6'>libreoffice-5-0-6</option>
+<option value='libreoffice-5-1'>libreoffice-5-1</option>
+<option value='libreoffice-5-1-0'>libreoffice-5-1-0</option>
+<option value='libreoffice-5-1-1'>libreoffice-5-1-1</option>
+<option value='libreoffice-5-1-2'>libreoffice-5-1-2</option>
+<option value='libreoffice-5-1-3'>libreoffice-5-1-3</option>
+<option value='libreoffice-5-1-4'>libreoffice-5-1-4</option>
+<option value='libreoffice-5-1-5'>libreoffice-5-1-5</option>
+<option value='libreoffice-5-1-6'>libreoffice-5-1-6</option>
+<option value='libreoffice-5-2'>libreoffice-5-2</option>
+<option value='libreoffice-5-2-0'>libreoffice-5-2-0</option>
+<option value='libreoffice-5-2-1'>libreoffice-5-2-1</option>
+<option value='libreoffice-5-2-2'>libreoffice-5-2-2</option>
+<option value='libreoffice-5-2-3'>libreoffice-5-2-3</option>
+<option value='libreoffice-5-2-4'>libreoffice-5-2-4</option>
+<option value='libreoffice-5-2-5'>libreoffice-5-2-5</option>
+<option value='libreoffice-5-2-6'>libreoffice-5-2-6</option>
+<option value='libreoffice-5-2-7'>libreoffice-5-2-7</option>
+<option value='libreoffice-5-3'>libreoffice-5-3</option>
+<option value='libreoffice-5-3-0'>libreoffice-5-3-0</option>
+<option value='libreoffice-5-3-1'>libreoffice-5-3-1</option>
+<option value='libreoffice-5-3-2'>libreoffice-5-3-2</option>
+<option value='libreoffice-5-3-3'>libreoffice-5-3-3</option>
+<option value='libreoffice-5-3-4'>libreoffice-5-3-4</option>
+<option value='libreoffice-5-3-5'>libreoffice-5-3-5</option>
+<option value='libreoffice-5-3-6'>libreoffice-5-3-6</option>
+<option value='libreoffice-5-3-7'>libreoffice-5-3-7</option>
+<option value='libreoffice-5-4'>libreoffice-5-4</option>
+<option value='libreoffice-5-4-0'>libreoffice-5-4-0</option>
+<option value='libreoffice-5-4-1'>libreoffice-5-4-1</option>
+<option value='libreoffice-5-4-2'>libreoffice-5-4-2</option>
+<option value='libreoffice-5-4-3'>libreoffice-5-4-3</option>
+<option value='libreoffice-5-4-4'>libreoffice-5-4-4</option>
+<option value='libreoffice-5-4-5'>libreoffice-5-4-5</option>
+<option value='libreoffice-5-4-6'>libreoffice-5-4-6</option>
+<option value='libreoffice-5-4-7'>libreoffice-5-4-7</option>
+<option value='libreoffice-6-0'>libreoffice-6-0</option>
+<option value='libreoffice-6-0-0'>libreoffice-6-0-0</option>
+<option value='libreoffice-6-0-1'>libreoffice-6-0-1</option>
+<option value='libreoffice-6-0-2'>libreoffice-6-0-2</option>
+<option value='libreoffice-6-0-3'>libreoffice-6-0-3</option>
+<option value='libreoffice-6-0-4'>libreoffice-6-0-4</option>
+<option value='libreoffice-6-0-5'>libreoffice-6-0-5</option>
+<option value='libreoffice-6-0-6'>libreoffice-6-0-6</option>
+<option value='libreoffice-6-0-7'>libreoffice-6-0-7</option>
+<option value='libreoffice-6-1'>libreoffice-6-1</option>
+<option value='libreoffice-6-1-0'>libreoffice-6-1-0</option>
+<option value='libreoffice-6-1-1'>libreoffice-6-1-1</option>
+<option value='libreoffice-6-1-2'>libreoffice-6-1-2</option>
+<option value='libreoffice-6-1-3'>libreoffice-6-1-3</option>
+<option value='libreoffice-6-1-4'>libreoffice-6-1-4</option>
+<option value='libreoffice-6-1-5'>libreoffice-6-1-5</option>
+<option value='libreoffice-6-1-6'>libreoffice-6-1-6</option>
+<option value='libreoffice-6-2'>libreoffice-6-2</option>
+<option value='libreoffice-6-2-0'>libreoffice-6-2-0</option>
+<option value='libreoffice-6-2-1'>libreoffice-6-2-1</option>
+<option value='libreoffice-6-2-2'>libreoffice-6-2-2</option>
+<option value='libreoffice-6-2-3'>libreoffice-6-2-3</option>
+<option value='libreoffice-6-2-4'>libreoffice-6-2-4</option>
+<option value='libreoffice-6-2-5'>libreoffice-6-2-5</option>
+<option value='libreoffice-6-2-6'>libreoffice-6-2-6</option>
+<option value='libreoffice-6-2-7'>libreoffice-6-2-7</option>
+<option value='libreoffice-6-2-8'>libreoffice-6-2-8</option>
+<option value='libreoffice-6-3'>libreoffice-6-3</option>
+<option value='libreoffice-6-3-0'>libreoffice-6-3-0</option>
+<option value='libreoffice-6-3-1'>libreoffice-6-3-1</option>
+<option value='libreoffice-6-3-2'>libreoffice-6-3-2</option>
+<option value='libreoffice-6-3-3'>libreoffice-6-3-3</option>
+<option value='libreoffice-6-3-4'>libreoffice-6-3-4</option>
+<option value='libreoffice-6-3-5'>libreoffice-6-3-5</option>
+<option value='libreoffice-6-3-6'>libreoffice-6-3-6</option>
+<option value='libreoffice-6-4'>libreoffice-6-4</option>
+<option value='libreoffice-6-4-0'>libreoffice-6-4-0</option>
+<option value='libreoffice-6-4-1'>libreoffice-6-4-1</option>
+<option value='libreoffice-6-4-2'>libreoffice-6-4-2</option>
+<option value='libreoffice-6-4-3'>libreoffice-6-4-3</option>
+<option value='libreoffice-6-4-4'>libreoffice-6-4-4</option>
+<option value='libreoffice-6-4-5'>libreoffice-6-4-5</option>
+<option value='libreoffice-6-4-6'>libreoffice-6-4-6</option>
+<option value='libreoffice-7-0'>libreoffice-7-0</option>
+<option value='libreoffice-7-0-0'>libreoffice-7-0-0</option>
+<option value='master' selected='selected'>master</option>
+</select> <input type='submit' value='switch'/></form></td></tr>
+<tr><td class='sub'>main, development dictionaries repository</td><td class='sub right'>root</td></tr></table>
+<table class='tabs'><tr><td>
+<a href='/libreoffice/dictionaries/'>summary</a><a href='/libreoffice/dictionaries/refs/'>refs</a><a href='/libreoffice/dictionaries/log/en/en_US.aff'>log</a><a class='active' href='/libreoffice/dictionaries/tree/en/en_US.aff'>tree</a><a href='/libreoffice/dictionaries/commit/en/en_US.aff'>commit</a><a href='/libreoffice/dictionaries/diff/en/en_US.aff'>diff</a></td><td class='form'><form class='right' method='get' action='/libreoffice/dictionaries/log/en/en_US.aff'>
+<select name='qt'>
+<option value='grep'>log msg</option>
+<option value='author'>author</option>
+<option value='committer'>committer</option>
+<option value='range'>range</option>
+</select>
+<input class='txt' type='search' size='10' name='q' value=''/>
+<input type='submit' value='search'/>
+</form>
+</td></tr></table>
+<div class='path'>path: <a href='/libreoffice/dictionaries/tree/'>root</a>/<a href='/libreoffice/dictionaries/tree/en'>en</a>/<a href='/libreoffice/dictionaries/tree/en/en_US.aff'>en_US.aff</a></div><div class='content'>blob: d0cccb3dc7fbffc25be0e0677b16270e79fe7796 (<a href='/libreoffice/dictionaries/plain/en/en_US.aff'>plain</a>)
+<table summary='blob content' class='blob'>
+<tr><td class='linenumbers'><pre><a id='n1' href='#n1'>1</a>
+<a id='n2' href='#n2'>2</a>
+<a id='n3' href='#n3'>3</a>
+<a id='n4' href='#n4'>4</a>
+<a id='n5' href='#n5'>5</a>
+<a id='n6' href='#n6'>6</a>
+<a id='n7' href='#n7'>7</a>
+<a id='n8' href='#n8'>8</a>
+<a id='n9' href='#n9'>9</a>
+<a id='n10' href='#n10'>10</a>
+<a id='n11' href='#n11'>11</a>
+<a id='n12' href='#n12'>12</a>
+<a id='n13' href='#n13'>13</a>
+<a id='n14' href='#n14'>14</a>
+<a id='n15' href='#n15'>15</a>
+<a id='n16' href='#n16'>16</a>
+<a id='n17' href='#n17'>17</a>
+<a id='n18' href='#n18'>18</a>
+<a id='n19' href='#n19'>19</a>
+<a id='n20' href='#n20'>20</a>
+<a id='n21' href='#n21'>21</a>
+<a id='n22' href='#n22'>22</a>
+<a id='n23' href='#n23'>23</a>
+<a id='n24' href='#n24'>24</a>
+<a id='n25' href='#n25'>25</a>
+<a id='n26' href='#n26'>26</a>
+<a id='n27' href='#n27'>27</a>
+<a id='n28' href='#n28'>28</a>
+<a id='n29' href='#n29'>29</a>
+<a id='n30' href='#n30'>30</a>
+<a id='n31' href='#n31'>31</a>
+<a id='n32' href='#n32'>32</a>
+<a id='n33' href='#n33'>33</a>
+<a id='n34' href='#n34'>34</a>
+<a id='n35' href='#n35'>35</a>
+<a id='n36' href='#n36'>36</a>
+<a id='n37' href='#n37'>37</a>
+<a id='n38' href='#n38'>38</a>
+<a id='n39' href='#n39'>39</a>
+<a id='n40' href='#n40'>40</a>
+<a id='n41' href='#n41'>41</a>
+<a id='n42' href='#n42'>42</a>
+<a id='n43' href='#n43'>43</a>
+<a id='n44' href='#n44'>44</a>
+<a id='n45' href='#n45'>45</a>
+<a id='n46' href='#n46'>46</a>
+<a id='n47' href='#n47'>47</a>
+<a id='n48' href='#n48'>48</a>
+<a id='n49' href='#n49'>49</a>
+<a id='n50' href='#n50'>50</a>
+<a id='n51' href='#n51'>51</a>
+<a id='n52' href='#n52'>52</a>
+<a id='n53' href='#n53'>53</a>
+<a id='n54' href='#n54'>54</a>
+<a id='n55' href='#n55'>55</a>
+<a id='n56' href='#n56'>56</a>
+<a id='n57' href='#n57'>57</a>
+<a id='n58' href='#n58'>58</a>
+<a id='n59' href='#n59'>59</a>
+<a id='n60' href='#n60'>60</a>
+<a id='n61' href='#n61'>61</a>
+<a id='n62' href='#n62'>62</a>
+<a id='n63' href='#n63'>63</a>
+<a id='n64' href='#n64'>64</a>
+<a id='n65' href='#n65'>65</a>
+<a id='n66' href='#n66'>66</a>
+<a id='n67' href='#n67'>67</a>
+<a id='n68' href='#n68'>68</a>
+<a id='n69' href='#n69'>69</a>
+<a id='n70' href='#n70'>70</a>
+<a id='n71' href='#n71'>71</a>
+<a id='n72' href='#n72'>72</a>
+<a id='n73' href='#n73'>73</a>
+<a id='n74' href='#n74'>74</a>
+<a id='n75' href='#n75'>75</a>
+<a id='n76' href='#n76'>76</a>
+<a id='n77' href='#n77'>77</a>
+<a id='n78' href='#n78'>78</a>
+<a id='n79' href='#n79'>79</a>
+<a id='n80' href='#n80'>80</a>
+<a id='n81' href='#n81'>81</a>
+<a id='n82' href='#n82'>82</a>
+<a id='n83' href='#n83'>83</a>
+<a id='n84' href='#n84'>84</a>
+<a id='n85' href='#n85'>85</a>
+<a id='n86' href='#n86'>86</a>
+<a id='n87' href='#n87'>87</a>
+<a id='n88' href='#n88'>88</a>
+<a id='n89' href='#n89'>89</a>
+<a id='n90' href='#n90'>90</a>
+<a id='n91' href='#n91'>91</a>
+<a id='n92' href='#n92'>92</a>
+<a id='n93' href='#n93'>93</a>
+<a id='n94' href='#n94'>94</a>
+<a id='n95' href='#n95'>95</a>
+<a id='n96' href='#n96'>96</a>
+<a id='n97' href='#n97'>97</a>
+<a id='n98' href='#n98'>98</a>
+<a id='n99' href='#n99'>99</a>
+<a id='n100' href='#n100'>100</a>
+<a id='n101' href='#n101'>101</a>
+<a id='n102' href='#n102'>102</a>
+<a id='n103' href='#n103'>103</a>
+<a id='n104' href='#n104'>104</a>
+<a id='n105' href='#n105'>105</a>
+<a id='n106' href='#n106'>106</a>
+<a id='n107' href='#n107'>107</a>
+<a id='n108' href='#n108'>108</a>
+<a id='n109' href='#n109'>109</a>
+<a id='n110' href='#n110'>110</a>
+<a id='n111' href='#n111'>111</a>
+<a id='n112' href='#n112'>112</a>
+<a id='n113' href='#n113'>113</a>
+<a id='n114' href='#n114'>114</a>
+<a id='n115' href='#n115'>115</a>
+<a id='n116' href='#n116'>116</a>
+<a id='n117' href='#n117'>117</a>
+<a id='n118' href='#n118'>118</a>
+<a id='n119' href='#n119'>119</a>
+<a id='n120' href='#n120'>120</a>
+<a id='n121' href='#n121'>121</a>
+<a id='n122' href='#n122'>122</a>
+<a id='n123' href='#n123'>123</a>
+<a id='n124' href='#n124'>124</a>
+<a id='n125' href='#n125'>125</a>
+<a id='n126' href='#n126'>126</a>
+<a id='n127' href='#n127'>127</a>
+<a id='n128' href='#n128'>128</a>
+<a id='n129' href='#n129'>129</a>
+<a id='n130' href='#n130'>130</a>
+<a id='n131' href='#n131'>131</a>
+<a id='n132' href='#n132'>132</a>
+<a id='n133' href='#n133'>133</a>
+<a id='n134' href='#n134'>134</a>
+<a id='n135' href='#n135'>135</a>
+<a id='n136' href='#n136'>136</a>
+<a id='n137' href='#n137'>137</a>
+<a id='n138' href='#n138'>138</a>
+<a id='n139' href='#n139'>139</a>
+<a id='n140' href='#n140'>140</a>
+<a id='n141' href='#n141'>141</a>
+<a id='n142' href='#n142'>142</a>
+<a id='n143' href='#n143'>143</a>
+<a id='n144' href='#n144'>144</a>
+<a id='n145' href='#n145'>145</a>
+<a id='n146' href='#n146'>146</a>
+<a id='n147' href='#n147'>147</a>
+<a id='n148' href='#n148'>148</a>
+<a id='n149' href='#n149'>149</a>
+<a id='n150' href='#n150'>150</a>
+<a id='n151' href='#n151'>151</a>
+<a id='n152' href='#n152'>152</a>
+<a id='n153' href='#n153'>153</a>
+<a id='n154' href='#n154'>154</a>
+<a id='n155' href='#n155'>155</a>
+<a id='n156' href='#n156'>156</a>
+<a id='n157' href='#n157'>157</a>
+<a id='n158' href='#n158'>158</a>
+<a id='n159' href='#n159'>159</a>
+<a id='n160' href='#n160'>160</a>
+<a id='n161' href='#n161'>161</a>
+<a id='n162' href='#n162'>162</a>
+<a id='n163' href='#n163'>163</a>
+<a id='n164' href='#n164'>164</a>
+<a id='n165' href='#n165'>165</a>
+<a id='n166' href='#n166'>166</a>
+<a id='n167' href='#n167'>167</a>
+<a id='n168' href='#n168'>168</a>
+<a id='n169' href='#n169'>169</a>
+<a id='n170' href='#n170'>170</a>
+<a id='n171' href='#n171'>171</a>
+<a id='n172' href='#n172'>172</a>
+<a id='n173' href='#n173'>173</a>
+<a id='n174' href='#n174'>174</a>
+<a id='n175' href='#n175'>175</a>
+<a id='n176' href='#n176'>176</a>
+<a id='n177' href='#n177'>177</a>
+<a id='n178' href='#n178'>178</a>
+<a id='n179' href='#n179'>179</a>
+<a id='n180' href='#n180'>180</a>
+<a id='n181' href='#n181'>181</a>
+<a id='n182' href='#n182'>182</a>
+<a id='n183' href='#n183'>183</a>
+<a id='n184' href='#n184'>184</a>
+<a id='n185' href='#n185'>185</a>
+<a id='n186' href='#n186'>186</a>
+<a id='n187' href='#n187'>187</a>
+<a id='n188' href='#n188'>188</a>
+<a id='n189' href='#n189'>189</a>
+<a id='n190' href='#n190'>190</a>
+<a id='n191' href='#n191'>191</a>
+<a id='n192' href='#n192'>192</a>
+<a id='n193' href='#n193'>193</a>
+<a id='n194' href='#n194'>194</a>
+<a id='n195' href='#n195'>195</a>
+<a id='n196' href='#n196'>196</a>
+<a id='n197' href='#n197'>197</a>
+<a id='n198' href='#n198'>198</a>
+<a id='n199' href='#n199'>199</a>
+<a id='n200' href='#n200'>200</a>
+<a id='n201' href='#n201'>201</a>
+<a id='n202' href='#n202'>202</a>
+<a id='n203' href='#n203'>203</a>
+<a id='n204' href='#n204'>204</a>
+<a id='n205' href='#n205'>205</a>
+</pre></td>
+<td class='lines'><pre><code>SET UTF-8
+TRY esianrtolcdugmphbyfvkwzESIANRTOLCDUGMPHBYFVKWZ'
+ICONV 1
+ICONV ’ '
+NOSUGGEST !
+
+# ordinal numbers
+COMPOUNDMIN 1
+# only in compounds: 1th, 2th, 3th
+ONLYINCOMPOUND c
+# compound rules:
+# 1. [0-9]*1[0-9]th (10th, 11th, 12th, 56714th, etc.)
+# 2. [0-9]*[02-9](1st|2nd|3rd|[4-9]th) (21st, 22nd, 123rd, 1234th, etc.)
+COMPOUNDRULE 2
+COMPOUNDRULE n*1t
+COMPOUNDRULE n*mp
+WORDCHARS 0123456789
+
+PFX A Y 1
+PFX A   0     re         .
+
+PFX I Y 1
+PFX I   0     in         .
+
+PFX U Y 1
+PFX U   0     un         .
+
+PFX C Y 1
+PFX C   0     de          .
+
+PFX E Y 1
+PFX E   0     dis         .
+
+PFX F Y 1
+PFX F   0     con         .
+
+PFX K Y 1
+PFX K   0     pro         .
+
+SFX V N 2
+SFX V   e     ive        e
+SFX V   0     ive        [^e]
+
+SFX N Y 3
+SFX N   e     ion        e
+SFX N   y     ication    y 
+SFX N   0     en         [^ey] 
+
+SFX X Y 3
+SFX X   e     ions       e
+SFX X   y     ications   y
+SFX X   0     ens        [^ey]
+
+SFX H N 2
+SFX H   y     ieth       y
+SFX H   0     th         [^y] 
+
+SFX Y Y 1
+SFX Y   0     ly         .
+
+SFX G Y 2
+SFX G   e     ing        e
+SFX G   0     ing        [^e] 
+
+SFX J Y 2
+SFX J   e     ings       e
+SFX J   0     ings       [^e]
+
+SFX D Y 4
+SFX D   0     d          e
+SFX D   y     ied        [^aeiou]y
+SFX D   0     ed         [^ey]
+SFX D   0     ed         [aeiou]y
+
+SFX T N 4
+SFX T   0     st         e
+SFX T   y     iest       [^aeiou]y
+SFX T   0     est        [aeiou]y
+SFX T   0     est        [^ey]
+
+SFX R Y 4
+SFX R   0     r          e
+SFX R   y     ier        [^aeiou]y
+SFX R   0     er         [aeiou]y
+SFX R   0     er         [^ey]
+
+SFX Z Y 4
+SFX Z   0     rs         e
+SFX Z   y     iers       [^aeiou]y
+SFX Z   0     ers        [aeiou]y
+SFX Z   0     ers        [^ey]
+
+SFX S Y 4
+SFX S   y     ies        [^aeiou]y
+SFX S   0     s          [aeiou]y
+SFX S   0     es         [sxzh]
+SFX S   0     s          [^sxzhy]
+
+SFX P Y 3
+SFX P   y     iness      [^aeiou]y
+SFX P   0     ness       [aeiou]y
+SFX P   0     ness       [^y]
+
+SFX M Y 1
+SFX M   0     's         .
+
+SFX B Y 3
+SFX B   0     able       [^aeiou]
+SFX B   0     able       ee
+SFX B   e     able       [^aeiou]e
+
+SFX L Y 1
+SFX L   0     ment       .
+
+REP 90
+REP a ei
+REP ei a
+REP a ey
+REP ey a
+REP ai ie
+REP ie ai
+REP alot a_lot
+REP are air
+REP are ear
+REP are eir
+REP air are
+REP air ere
+REP ere air
+REP ere ear
+REP ere eir
+REP ear are
+REP ear air
+REP ear ere
+REP eir are
+REP eir ere
+REP ch te
+REP te ch
+REP ch ti
+REP ti ch
+REP ch tu
+REP tu ch
+REP ch s
+REP s ch
+REP ch k
+REP k ch
+REP f ph
+REP ph f
+REP gh f
+REP f gh
+REP i igh
+REP igh i
+REP i uy
+REP uy i
+REP i ee
+REP ee i
+REP j di
+REP di j
+REP j gg
+REP gg j
+REP j ge
+REP ge j
+REP s ti
+REP ti s
+REP s ci
+REP ci s
+REP k cc
+REP cc k
+REP k qu
+REP qu k
+REP kw qu
+REP o eau
+REP eau o
+REP o ew
+REP ew o
+REP oo ew
+REP ew oo
+REP ew ui
+REP ui ew
+REP oo ui
+REP ui oo
+REP ew u
+REP u ew
+REP oo u
+REP u oo
+REP u oe
+REP oe u
+REP u ieu
+REP ieu u
+REP ue ew
+REP ew ue
+REP uff ough
+REP oo ieu
+REP ieu oo
+REP ier ear
+REP ear ier
+REP ear air
+REP air ear
+REP w qu
+REP qu w
+REP z ss
+REP ss z
+REP shun tion
+REP shun sion
+REP shun cion
+REP size cise
+</code></pre></td></tr></table>
+</div> <!-- class=content -->
+<div class='footer'>generated by <a href='https://git.zx2c4.com/cgit/about/'>cgit v1.2.1</a> (<a href='https://git-scm.com/'>git 2.18.0</a>) at 2020-07-23 15:59:28 +0000</div>
+</div> <!-- id=cgit -->
+</body>
+</html>

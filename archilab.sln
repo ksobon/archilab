@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31205.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "archilabSharedProject", "archilabSharedProject\archilabSharedProject.shproj", "{96867A82-3E80-42B3-92C3-259A231817ED}"
 EndProject
@@ -33,23 +33,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2024", "archilab202
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabUI2024", "archilabUI2024\archilabUI2024.csproj", "{52BE4BCF-1AAB-40D4-A54A-151866171C99}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2025", "archilab2025\archilab2025.csproj", "{E9C1B5E7-0481-409C-BAF6-FD9F39C86E0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabUI2025", "archilabUI2025\archilabUI2025.csproj", "{7A01E833-F804-49D5-87DE-2D202811BB33}"
+EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		archilabSharedProject\archilabSharedProject.projitems*{0061929b-ba80-4417-ac9e-c474823d542f}*SharedItemsImports = 4
-		archilabSharedProject\archilabSharedProject.projitems*{1b8c42fb-6d98-4076-8a46-26767c0a81ea}*SharedItemsImports = 4
-		archilabSharedProject\archilabSharedProject.projitems*{27c10638-775c-4729-a41a-45fd7932d5ce}*SharedItemsImports = 4
-		archilabUISharedProject\archilabUISharedProject.projitems*{302cf4fa-a89a-4e4c-b7f4-7dbffd9c4eff}*SharedItemsImports = 4
-		archilabSharedProject\archilabSharedProject.projitems*{343e8899-7db7-407c-9b36-cd4cb3ff4a6c}*SharedItemsImports = 4
-		archilabUISharedProject\archilabUISharedProject.projitems*{4da505ab-ce78-4fde-b728-0532640f259c}*SharedItemsImports = 13
-		archilabUISharedProject\archilabUISharedProject.projitems*{52be4bcf-1aab-40d4-a54a-151866171c99}*SharedItemsImports = 4
-		archilabUISharedProject\archilabUISharedProject.projitems*{7f959765-2f5b-4faf-84cd-898a1c81dbb5}*SharedItemsImports = 4
-		archilabSharedProject\archilabSharedProject.projitems*{90056c10-1447-46c8-8f9e-2329e651f3c9}*SharedItemsImports = 4
-		archilabSharedProject\archilabSharedProject.projitems*{96867a82-3e80-42b3-92c3-259a231817ed}*SharedItemsImports = 13
-		archilabUISharedProject\archilabUISharedProject.projitems*{b07f95f2-4af8-4759-ba69-9786d24111fc}*SharedItemsImports = 4
-		archilabUISharedProject\archilabUISharedProject.projitems*{b2cf4ff2-1883-46fd-8cb2-72d91d7dbd2f}*SharedItemsImports = 4
-		archilabUISharedProject\archilabUISharedProject.projitems*{e155f7b0-4fff-4c6a-b21e-f4d184763bf1}*SharedItemsImports = 4
-		archilabSharedProject\archilabSharedProject.projitems*{e412996e-712b-4bcb-9925-9c594f317dac}*SharedItemsImports = 4
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -107,11 +95,37 @@ Global
 		{52BE4BCF-1AAB-40D4-A54A-151866171C99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52BE4BCF-1AAB-40D4-A54A-151866171C99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52BE4BCF-1AAB-40D4-A54A-151866171C99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9C1B5E7-0481-409C-BAF6-FD9F39C86E0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9C1B5E7-0481-409C-BAF6-FD9F39C86E0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9C1B5E7-0481-409C-BAF6-FD9F39C86E0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9C1B5E7-0481-409C-BAF6-FD9F39C86E0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A01E833-F804-49D5-87DE-2D202811BB33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A01E833-F804-49D5-87DE-2D202811BB33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A01E833-F804-49D5-87DE-2D202811BB33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A01E833-F804-49D5-87DE-2D202811BB33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8520BFDC-9405-4734-9F42-B28FA4F5BF49}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		archilabSharedProject\archilabSharedProject.projitems*{0061929b-ba80-4417-ac9e-c474823d542f}*SharedItemsImports = 4
+		archilabSharedProject\archilabSharedProject.projitems*{1b8c42fb-6d98-4076-8a46-26767c0a81ea}*SharedItemsImports = 4
+		archilabSharedProject\archilabSharedProject.projitems*{27c10638-775c-4729-a41a-45fd7932d5ce}*SharedItemsImports = 4
+		archilabUISharedProject\archilabUISharedProject.projitems*{302cf4fa-a89a-4e4c-b7f4-7dbffd9c4eff}*SharedItemsImports = 4
+		archilabSharedProject\archilabSharedProject.projitems*{343e8899-7db7-407c-9b36-cd4cb3ff4a6c}*SharedItemsImports = 4
+		archilabUISharedProject\archilabUISharedProject.projitems*{4da505ab-ce78-4fde-b728-0532640f259c}*SharedItemsImports = 13
+		archilabUISharedProject\archilabUISharedProject.projitems*{52be4bcf-1aab-40d4-a54a-151866171c99}*SharedItemsImports = 4
+		archilabUISharedProject\archilabUISharedProject.projitems*{7a01e833-f804-49d5-87de-2d202811bb33}*SharedItemsImports = 5
+		archilabUISharedProject\archilabUISharedProject.projitems*{7f959765-2f5b-4faf-84cd-898a1c81dbb5}*SharedItemsImports = 4
+		archilabSharedProject\archilabSharedProject.projitems*{90056c10-1447-46c8-8f9e-2329e651f3c9}*SharedItemsImports = 4
+		archilabSharedProject\archilabSharedProject.projitems*{96867a82-3e80-42b3-92c3-259a231817ed}*SharedItemsImports = 13
+		archilabUISharedProject\archilabUISharedProject.projitems*{b07f95f2-4af8-4759-ba69-9786d24111fc}*SharedItemsImports = 4
+		archilabUISharedProject\archilabUISharedProject.projitems*{b2cf4ff2-1883-46fd-8cb2-72d91d7dbd2f}*SharedItemsImports = 4
+		archilabUISharedProject\archilabUISharedProject.projitems*{e155f7b0-4fff-4c6a-b21e-f4d184763bf1}*SharedItemsImports = 4
+		archilabSharedProject\archilabSharedProject.projitems*{e412996e-712b-4bcb-9925-9c594f317dac}*SharedItemsImports = 4
+		archilabSharedProject\archilabSharedProject.projitems*{e9c1b5e7-0481-409c-baf6-fd9f39c86e0e}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

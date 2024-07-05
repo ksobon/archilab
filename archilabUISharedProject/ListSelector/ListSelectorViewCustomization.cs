@@ -37,11 +37,11 @@ namespace archilabUI.ListSelector
         private void UpdateCollection()
         {
             // (Konrad) We pass a list of items already selected so that we can update them rather than create a new list.
-            var selected = _view.ListBox.SelectedItems;
+            // var selected = _view.ListBox.SelectedItems;
             var scheduler = _dynamoViewmodel.Model.Scheduler;
             var delegateBasedAsyncTask = new DelegateBasedAsyncTask(scheduler, delegate
             {
-                _viewModel.PopulateItems(selected);
+                // _viewModel.PopulateItems(selected);
             });
             delegateBasedAsyncTask.ThenSend(delegate { }, _syncContext);
             scheduler.ScheduleForExecution(delegateBasedAsyncTask);

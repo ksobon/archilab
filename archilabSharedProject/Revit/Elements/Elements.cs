@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using archilab.Revit.Utils;
+﻿using archilab.Revit.Utils;
 using Autodesk.DesignScript.Geometry;
 using Autodesk.DesignScript.Runtime;
+using Autodesk.Revit.DB;
 using Dynamo.Graph.Nodes;
 using Revit.Elements;
 using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using RevitServices.Transactions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Category = Revit.Elements.Category;
+using Curve = Autodesk.DesignScript.Geometry.Curve;
 using Element = Revit.Elements.Element;
 using Point = Autodesk.DesignScript.Geometry.Point;
 using View = Revit.Elements.Views.View;
@@ -24,6 +26,31 @@ namespace archilab.Revit.Elements
     {
         internal Elements()
         {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static List<Autodesk.DesignScript.Geometry.Surface> GetTopFaces(Element element)
+        {
+            if (!(element?.InternalElement is ExtrusionRoof er))
+                return null;
+
+            var results = new List<Autodesk.DesignScript.Geometry.Surface>();
+            var topFaces = HostObjectUtils.GetTopFaces(er);
+            foreach (var reference in topFaces)
+            {
+                var face = er.GetGeometryObjectFromReference(reference) as Autodesk.Revit.DB.Face;
+                if (face == null)
+                    continue;
+
+                var dsFace = face.ToProtoType();
+                results.AddRange(dsFace);
+            }
+
+            return results;
         }
 
         /// <summary>

@@ -1,6 +1,8 @@
 ﻿using archilab.Revit.Utils;
 using Autodesk.DesignScript.Geometry;
 using Autodesk.DesignScript.Runtime;
+using Autodesk.Revit.DB.Architecture;
+using DocumentFormat.OpenXml.Wordprocessing;
 using DynamoServices;
 using Revit.Elements;
 using Revit.GeometryConversion;
@@ -9,6 +11,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Autodesk.Revit.DB.Structure;
 using Curve = Autodesk.DesignScript.Geometry.Curve;
 using Element = Revit.Elements.Element;
 using Point = Autodesk.DesignScript.Geometry.Point;
@@ -287,7 +290,54 @@ namespace archilab.Revit.Elements
                 { "Planes", planes}
             };
         }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="window"></param>
+        /// <returns></returns>
+        public static IEnumerable<Surface> GetHostFace(Element window)
+        {
+            if (window == null)
+                throw new ArgumentNullException(nameof(window));
+
+            var rWin = window.InternalElement as Autodesk.Revit.DB.FamilyInstance;
+            var location = (rWin?.Location as Autodesk.Revit.DB.LocationPoint)?.Point;
+
+            Autodesk.Revit.DB.HostObject roof = null;
+            var host = rWin?.Host;
+            if (host?.Category.Id.IntegerValue == (int)Autodesk.Revit.DB.BuiltInCategory.OST_Roofs)
+                roof = host as Autodesk.Revit.DB.HostObject;
+
+            Autodesk.Revit.DB.Face roofFace = null;
+
+            if (roof != null)
+            {
+                Autodesk.Revit.DB.PlanarFace closesFace = null;
+                var distance = double.MaxValue;
+                var topFaces = Autodesk.Revit.DB.HostObjectUtils.GetTopFaces(roof);
+                foreach (var tf in topFaces)
+                {
+                    var f = roof.GetGeometryObjectFromReference(tf) as Autodesk.Revit.DB.PlanarFace;
+                    if (f == null)
+                        continue;
+
+                    var plane = Autodesk.Revit.DB.Plane.CreateByNormalAndOrigin(f.FaceNormal, f.Origin);
+                    plane.Project(location, out _, out var d);
+
+                    if (!(d < distance))
+                        continue;
+
+                    closesFace = f;
+                    distance = d;
+                }
+
+                roofFace = closesFace;
+            }
+
+            return roofFace?.ToProtoType();
+        }
+
         /// <summary>
         /// 
         /// </summary>

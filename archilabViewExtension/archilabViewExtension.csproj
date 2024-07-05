@@ -149,5 +149,7 @@
     <Copy SourceFiles="$(TargetDir)archilabViewExtension_ViewExtensionDefinition.xml" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.12\packages\archi-lab.net\extra" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)archilabViewExtension_ViewExtensionDefinition.xml" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\extra" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\bin" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetDir)archilabViewExtension_ViewExtensionDefinition.xml" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\3.0\packages\archi-lab.net\extra" ContinueOnError="true" />
   </Target>
 </Project>

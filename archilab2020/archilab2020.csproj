@@ -7,7 +7,7 @@
     <ProjectGuid>{E412996E-712B-4BCB-9925-9C594F317DAC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>archilab2020</RootNamespace>
+    <RootNamespace>archilab</RootNamespace>
     <AssemblyName>archilab2020</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

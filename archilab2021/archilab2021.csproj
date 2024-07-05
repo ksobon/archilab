@@ -7,7 +7,7 @@
     <ProjectGuid>{90056C10-1447-46C8-8F9E-2329E651F3C9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>archilab2021</RootNamespace>
+    <RootNamespace>archilab</RootNamespace>
     <AssemblyName>archilab2021</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

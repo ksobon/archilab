@@ -7,7 +7,7 @@
     <ProjectGuid>{27C10638-775C-4729-A41A-45FD7932D5CE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>archilab2022</RootNamespace>
+    <RootNamespace>archilab</RootNamespace>
     <AssemblyName>archilab2022</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -597,7 +597,6 @@
     <Copy SourceFiles="$(TargetDir)EPPlus.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.12\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)en_US.aff" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.12\packages\archi-lab.net\extra" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)en_US.dic" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.12\packages\archi-lab.net\extra" ContinueOnError="true" />
-
     <Message Text="Copy files...2.10" Importance="high" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />
     <Copy SourceFiles="$(TargetDir)archilab2022.customization.dll" DestinationFolder="$(APPDATA)\Dynamo\Dynamo Revit\2.10\packages\archi-lab.net\bin" ContinueOnError="true" />

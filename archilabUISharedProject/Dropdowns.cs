@@ -44,6 +44,7 @@ namespace archilabUI
             : base(OutputName, typeof(BoxPlacement), inPorts, outPorts) { }
     }
 
+#if Revit2019 || Revit2020 || Revit2021 || Revit2022 || Revit2023 || Revit2024
     [NodeName("Parameter Groups")]
     [NodeCategory("archilab.Revit.Parameter.Query")]
     [NodeDescription("Retrieve all available Parameter Groups.")]
@@ -57,6 +58,7 @@ namespace archilabUI
         public ParameterGroupUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
             : base(OutputName, typeof(Autodesk.Revit.DB.BuiltInParameterGroup), inPorts, outPorts) { }
     }
+#endif
 
     [NodeName("Fill Pattern Target")]
     [NodeCategory("archilab.Revit.Select.Query")]

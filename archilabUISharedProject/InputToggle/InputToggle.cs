@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Autodesk.DesignScript.Runtime;
+using CommunityToolkit.Mvvm.Input;
 using Dynamo.Graph.Nodes;
 using Dynamo.ViewModels;
-using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
 using ProtoCore.AST.AssociativeAST;
 

@@ -6,7 +6,7 @@
     <SharedGUID>4da505ab-ce78-4fde-b728-0532640f259c</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>archilabUISharedProject</Import_RootNamespace>
+    <Import_RootNamespace>archilabUI</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)BuiltInParamSelector\BuiltInParamSelector.cs" />
