@@ -59,33 +59,6 @@ namespace archilab.Revit.Views
 
             return view;
         }
-#if Revit2019 || Revit2020
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="views"></param>
-        /// <param name="viewFilter"></param>
-        /// <param name="overrides"></param>
-        /// <param name="show"></param>
-        /// <returns></returns>
-        public static List<View> SetFilterOverrides(List<View> views, Element viewFilter,
-            OverrideGraphicsSettings overrides, bool show = true)
-        {
-            var doc = DocumentManager.Instance.CurrentDBDocument;
-            var rvtViews = views.Select(x => (Autodesk.Revit.DB.View) x.InternalElement).ToList();
-            var rvtFilter = (Autodesk.Revit.DB.ParameterFilterElement) viewFilter.InternalElement;
-
-            TransactionManager.Instance.EnsureInTransaction(doc);
-            foreach (var v in rvtViews)
-            {
-                v.SetFilterOverrides(rvtFilter.Id, overrides.InternalOverrideGraphicSettings);
-                v.SetFilterVisibility(rvtFilter.Id, show);
-            }
-            TransactionManager.Instance.TransactionTaskDone();
-
-            return views;
-        }
-#else
         /// <summary>
         /// 
         /// </summary>
@@ -113,7 +86,6 @@ namespace archilab.Revit.Views
 
             return views;
         }
-#endif
 
         /// <summary>
         /// Set View Template for a View.
@@ -936,7 +908,11 @@ namespace archilab.Revit.Views
                 case Autodesk.Revit.DB.ViewType.Report:
                 case Autodesk.Revit.DB.ViewType.CostReport:
                 case Autodesk.Revit.DB.ViewType.LoadsReport:
+#if REVIT2027_OR_GREATER
+                case Autodesk.Revit.DB.ViewType.PressureLossReport:
+#else
                 case Autodesk.Revit.DB.ViewType.PresureLossReport:
+#endif
                 case Autodesk.Revit.DB.ViewType.Walkthrough:
                 case Autodesk.Revit.DB.ViewType.Rendering:
 

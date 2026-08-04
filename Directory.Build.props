@@ -1,0 +1,23 @@
+<Project>
+
+	<!-- Properties common to every archilab project. Per-Revit-version projects
+	     set only what actually differs: TargetFramework, RootNamespace,
+	     ArchilabRevitYear, DefineConstants, and their Revit/Dynamo versions.
+	     The package version is derived in Directory.Build.targets. -->
+	<PropertyGroup>
+		<LangVersion>10.0</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+		<GenerateDependencyFile>false</GenerateDependencyFile>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Company>archi-lab.net</Company>
+		<Product>archilab</Product>
+		<Authors>Konrad K Sobon</Authors>
+		<Copyright>Copyright (c) archi-lab.net</Copyright>
+	</PropertyGroup>
+
+</Project>

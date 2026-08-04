@@ -165,7 +165,6 @@ namespace archilab.Revit.Elements
 
             return RadiansToDegrees(grids[0].Angle);
         }
-#if !Revit2019 && !Revit2020 && !Revit2021
         /// <summary>
         /// 
         /// </summary>
@@ -211,51 +210,6 @@ namespace archilab.Revit.Elements
 
             return Autodesk.Revit.DB.UnitUtils.ConvertFromInternalUnits(grids[1].Offset, fu);
         }
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fillPattern"></param>
-        /// <returns></returns>
-        [NodeCategory("Query")]
-        public static double LineSpacing1(Element fillPattern)
-        {
-            if (fillPattern == null)
-                throw new ArgumentException(nameof(fillPattern));
-
-            if (!(fillPattern.InternalElement is Autodesk.Revit.DB.FillPatternElement fpe))
-                throw new ArgumentException(nameof(fillPattern));
-
-            var fp = fpe.GetFillPattern();
-            var grids = fp.GetFillGrids();
-
-            return Autodesk.Revit.DB.UnitUtils.ConvertFromInternalUnits(grids[0].Offset, Autodesk.Revit.DB.DisplayUnitType.DUT_MILLIMETERS);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fillPattern"></param>
-        /// <returns></returns>
-        [NodeCategory("Query")]
-        public static double LineSpacing2(Element fillPattern)
-        {
-            if (fillPattern == null)
-                throw new ArgumentException(nameof(fillPattern));
-
-            if (!(fillPattern.InternalElement is Autodesk.Revit.DB.FillPatternElement fpe))
-                throw new ArgumentException(nameof(fillPattern));
-
-            var fp = fpe.GetFillPattern();
-            var count = fp.GridCount;
-            if (count < 2)
-                throw new Exception("Fill Pattern doesn't have Line spacing 2 specified.");
-
-            var grids = fp.GetFillGrids();
-
-            return Autodesk.Revit.DB.UnitUtils.ConvertFromInternalUnits(grids[1].Offset, Autodesk.Revit.DB.DisplayUnitType.DUT_MILLIMETERS);
-        }
-#endif
         /// <summary>
         /// 
         /// </summary>

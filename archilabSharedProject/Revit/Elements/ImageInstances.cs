@@ -1,5 +1,4 @@
-﻿#if !Revit2019
-
+﻿
 using DynamoServices;
 using Revit.Elements;
 using Revit.Elements.Views;
@@ -85,4 +84,3 @@ namespace archilab.Revit.Elements
     }
 }
 
-#endif

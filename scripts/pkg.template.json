@@ -1,0 +1,22 @@
+{
+  "license": "MIT",
+  "file_hash": null,
+  "name": "archi-lab.net",
+  "version": "{{VERSION}}",
+  "description": "archi-lab.net is a collection of nodes for Dynamo that extend its Revit capabilities. Authored by Konrad K Sobon (@archi-lab).",
+  "group": "archi-lab",
+  "keywords": ["archilab", "revit", "excel", "views", "sheets", "parameters", "rooms"],
+  "dependencies": [],
+  "host_dependencies": ["Revit"],
+  "contents": "",
+  "engine_version": "{{ENGINE_VERSION}}",
+  "engine": "dynamo",
+  "engine_metadata": "",
+  "site_url": "https://archi-lab.net",
+  "repository_url": "https://github.com/ksobon/archilab",
+  "contains_binaries": true,
+  "node_libraries": [
+    "archilab, Version={{ASSEMBLY_VERSION}}, Culture=neutral, PublicKeyToken=null",
+    "archilabUI, Version={{ASSEMBLY_VERSION}}, Culture=neutral, PublicKeyToken=null"
+  ]
+}

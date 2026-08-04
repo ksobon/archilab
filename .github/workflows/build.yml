@@ -1,0 +1,59 @@
+name: Build
+
+on:
+  push:
+    branches: [master]
+    paths-ignore: ['**/*.md', '_graphics/**']
+  pull_request:
+    branches: [master]
+    paths-ignore: ['**/*.md', '_graphics/**']
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    name: Revit ${{ matrix.revit }} (Dynamo ${{ matrix.dynamo }})
+    runs-on: windows-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { revit: 2025, dynamo: '3.2' }
+          - { revit: 2026, dynamo: '3.6' }
+          - { revit: 2027, dynamo: '27.0' }
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # The .NET 10 SDK also builds the net8.0-windows targets, so one SDK
+      # covers every Revit version.
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~\.nuget\packages
+          key: nuget-${{ matrix.revit }}-${{ hashFiles('**/*.csproj', 'nuget.config') }}
+          restore-keys: nuget-${{ matrix.revit }}-
+
+      # Deliberately building the UI project rather than archilab.sln: the
+      # solution contains shared projects (.shproj), which `dotnet build` does
+      # not handle reliably. The UI project pulls in the core project via
+      # ProjectReference, so this covers both.
+      - name: Restore
+        run: dotnet restore archilabUI${{ matrix.revit }}/archilabUI${{ matrix.revit }}.csproj
+
+      - name: Build
+        run: dotnet build archilabUI${{ matrix.revit }}/archilabUI${{ matrix.revit }}.csproj -c Release --no-restore
+
+      # package.ps1 keeps a hand-maintained allowlist and fails when an
+      # expected assembly is missing. Running it here means a dependency
+      # change breaks a PR rather than a release that has already been tagged.
+      - name: Verify packaging
+        shell: pwsh
+        run: ./scripts/package.ps1 -RevitYear ${{ matrix.revit }}

@@ -1045,7 +1045,6 @@ namespace archilab.Revit.Elements
                 { "Top", top } 
             };
         }
-#if !Revit2019 && !Revit2020 && !Revit2021
 
         /// <summary>
         /// 
@@ -1077,36 +1076,6 @@ namespace archilab.Revit.Elements
 
             return Autodesk.Revit.DB.UnitUtils.ConvertFromInternalUnits(height, units.GetUnitTypeId());
         }
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="room"></param>
-        /// <param name="boundaryLocation"></param>
-        /// <returns></returns>
-        public static double Height(Element room, string boundaryLocation = "Center")
-        {
-            if (room == null)
-                throw new ArgumentNullException(nameof(room));
-
-            var bLoc = (Autodesk.Revit.DB.SpatialElementBoundaryLocation)Enum.Parse(typeof(Autodesk.Revit.DB.SpatialElementBoundaryLocation), boundaryLocation);
-            var bOptions = new Autodesk.Revit.DB.SpatialElementBoundaryOptions
-            {
-                SpatialElementBoundaryLocation = bLoc
-            };
-            var doc = DocumentManager.Instance.CurrentDBDocument;
-            var rm = (Autodesk.Revit.DB.SpatialElement)room.InternalElement;
-            var calculator = new Autodesk.Revit.DB.SpatialElementGeometryCalculator(doc, bOptions);
-            var result = calculator.CalculateSpatialElementGeometry(rm);
-            var geo = result.GetGeometry();
-            var bb = geo.GetBoundingBox();
-            var height = bb.Max.Z - bb.Min.Z;
-
-            var units = doc.GetUnits().GetFormatOptions(Autodesk.Revit.DB.UnitType.UT_Length);
-
-            return Autodesk.Revit.DB.UnitUtils.ConvertFromInternalUnits(height, units.DisplayUnits);
-        }
-#endif
 
         /// <summary>
         /// 

@@ -407,10 +407,8 @@ namespace archilab.Utilities
                 { "does not begin with", "does not begin with"},
                 { "ends with", "ends with"},
                 { "does not end with", "does not end with"},
-#if !Revit2019
                 { "has a value", "has a value"},
                 { "has no value", "has no value"}
-#endif
             };
         }
 
@@ -512,7 +510,6 @@ namespace archilab.Utilities
             return viewType;
         }
     }
-#if !Revit2019 && !Revit2020 && !Revit2021
     /// <summary>
     /// 
     /// </summary>
@@ -583,5 +580,4 @@ namespace archilab.Utilities
             return new Specs().ForgeSpecs[name];
         }
     }
-#endif
 }

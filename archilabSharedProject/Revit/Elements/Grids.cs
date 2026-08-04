@@ -3,7 +3,6 @@ using Revit.Elements;
 using Revit.Elements.Views;
 using System;
 using System.Collections.Generic;
-using NUnit.Framework;
 using Revit.GeometryConversion;
 using RevitServices.Persistence;
 using RevitServices.Transactions;

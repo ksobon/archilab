@@ -85,54 +85,6 @@ namespace archilab.Revit.Elements
             return revisions;
         }
 
-#if Revit2019 || Revit2020 || Revit2021 || Revit2022
-        /// <summary>
-        /// Create a new Revision.
-        /// </summary>
-        /// <param name="revisionDate">Revision Date.</param>
-        /// <param name="description">Revision Description.</param>
-        /// <param name="issued">Revision Issued.</param>
-        /// <param name="issuedBy">Revision Issued By.</param>
-        /// <param name="issuedTo">Revision Issued To.</param>
-        /// <param name="numberType">Revision Number Type.</param>
-        /// <param name="visibility">Revision Visibility.</param>
-        /// <returns name="revision">Newly created Revision.</returns>
-        public static Element Create(
-            string revisionDate = "",
-            string description = "",
-            bool issued = false,
-            string issuedBy = "",
-            string issuedTo = "",
-            string numberType = "Alphanumeric",
-            string visibility = "CloudAndTagVisible")
-        {
-            var doc = DocumentManager.Instance.CurrentDBDocument;
-            var vis = (Autodesk.Revit.DB.RevisionVisibility)Enum.Parse(typeof(Autodesk.Revit.DB.RevisionVisibility), visibility);
-            var nType = (Autodesk.Revit.DB.RevisionNumberType)Enum.Parse(typeof(Autodesk.Revit.DB.RevisionNumberType), numberType);
-
-            TransactionManager.Instance.EnsureInTransaction(doc);
-
-            var rev = new Revisions().InternalRevision;
-            rev.Issued = issued;
-
-            if (!string.IsNullOrWhiteSpace(revisionDate))
-                rev.RevisionDate = revisionDate;
-            if (!string.IsNullOrWhiteSpace(description))
-                rev.Description = description;
-            if (!string.IsNullOrWhiteSpace(issuedBy))
-                rev.IssuedBy = issuedBy;
-            if (!string.IsNullOrWhiteSpace(issuedTo))
-                rev.IssuedTo = issuedTo;
-            if (!string.IsNullOrWhiteSpace(visibility))
-                rev.Visibility = vis;
-            if (!string.IsNullOrWhiteSpace(numberType))
-                rev.NumberType = nType;
-
-            TransactionManager.Instance.TransactionTaskDone();
-
-            return rev.ToDSType(true);
-        }
-#else
         /// <summary>
         /// Create a new Revision.
         /// </summary>
@@ -174,6 +126,5 @@ namespace archilab.Revit.Elements
 
             return rev.ToDSType(true);
         }
-#endif
     }
 }

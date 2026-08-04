@@ -1,5 +1,4 @@
-﻿#if !Revit2019
-
+﻿
 using System;
 using System.Linq;
 using Autodesk.DesignScript.Runtime;
@@ -102,4 +101,3 @@ namespace archilab.Revit.Elements
     }
 }
 
-#endif

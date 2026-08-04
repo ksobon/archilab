@@ -5,33 +5,7 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "archilabSharedProject", "archilabSharedProject\archilabSharedProject.shproj", "{96867A82-3E80-42B3-92C3-259A231817ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabViewExtension", "archilabViewExtension\archilabViewExtension.csproj", "{7DC0FB00-E3E8-414D-B05C-88F06A55594D}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "archilabUISharedProject", "archilabUISharedProject\archilabUISharedProject.shproj", "{4DA505AB-CE78-4FDE-B728-0532640F259C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabUI2021", "archilabUI2021\archilabUI2021.csproj", "{B2CF4FF2-1883-46FD-8CB2-72D91D7DBD2F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2021", "archilab2021\archilab2021.csproj", "{90056C10-1447-46C8-8F9E-2329E651F3C9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2022", "archilab2022\archilab2022.csproj", "{27C10638-775C-4729-A41A-45FD7932D5CE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabUI2022", "archilabUI2022\archilabUI2022.csproj", "{7F959765-2F5B-4FAF-84CD-898A1C81DBB5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2020", "archilab2020\archilab2020.csproj", "{E412996E-712B-4BCB-9925-9C594F317DAC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabUI2020", "archilabUI2020\archilabUI2020.csproj", "{B07F95F2-4AF8-4759-BA69-9786D24111FC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2019", "archilab2019\archilab2019.csproj", "{343E8899-7DB7-407C-9B36-CD4CB3FF4A6C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabUI2019", "archilabUI2019\archilabUI2019.csproj", "{302CF4FA-A89A-4E4C-B7F4-7DBFFD9C4EFF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2023", "archilab2023\archilab2023.csproj", "{0061929B-BA80-4417-AC9E-C474823D542F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabUI2023", "archilabUI2023\archilabUI2023.csproj", "{E155F7B0-4FFF-4C6A-B21E-F4D184763BF1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2024", "archilab2024\archilab2024.csproj", "{1B8C42FB-6D98-4076-8A46-26767C0A81EA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabUI2024", "archilabUI2024\archilabUI2024.csproj", "{52BE4BCF-1AAB-40D4-A54A-151866171C99}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2025", "archilab2025\archilab2025.csproj", "{E9C1B5E7-0481-409C-BAF6-FD9F39C86E0E}"
 EndProject
@@ -41,64 +15,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2026", "archilab202
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabUI2026", "archilabUI2026\archilabUI2026.csproj", "{D8E9F0A1-3B4C-5D6E-A9F0-2B3C4D5E6F70}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilab2027", "archilab2027\archilab2027.csproj", "{3F2A8C41-9B5D-4E67-A1C2-8D4E6F0B2A91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "archilabUI2027", "archilabUI2027\archilabUI2027.csproj", "{5B7C9D63-2E4F-4A81-B3D5-9F6A0C1E4B72}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7DC0FB00-E3E8-414D-B05C-88F06A55594D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7DC0FB00-E3E8-414D-B05C-88F06A55594D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7DC0FB00-E3E8-414D-B05C-88F06A55594D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7DC0FB00-E3E8-414D-B05C-88F06A55594D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2CF4FF2-1883-46FD-8CB2-72D91D7DBD2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2CF4FF2-1883-46FD-8CB2-72D91D7DBD2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2CF4FF2-1883-46FD-8CB2-72D91D7DBD2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2CF4FF2-1883-46FD-8CB2-72D91D7DBD2F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90056C10-1447-46C8-8F9E-2329E651F3C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90056C10-1447-46C8-8F9E-2329E651F3C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90056C10-1447-46C8-8F9E-2329E651F3C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90056C10-1447-46C8-8F9E-2329E651F3C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27C10638-775C-4729-A41A-45FD7932D5CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27C10638-775C-4729-A41A-45FD7932D5CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27C10638-775C-4729-A41A-45FD7932D5CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27C10638-775C-4729-A41A-45FD7932D5CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7F959765-2F5B-4FAF-84CD-898A1C81DBB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F959765-2F5B-4FAF-84CD-898A1C81DBB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F959765-2F5B-4FAF-84CD-898A1C81DBB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F959765-2F5B-4FAF-84CD-898A1C81DBB5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E412996E-712B-4BCB-9925-9C594F317DAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E412996E-712B-4BCB-9925-9C594F317DAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E412996E-712B-4BCB-9925-9C594F317DAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E412996E-712B-4BCB-9925-9C594F317DAC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B07F95F2-4AF8-4759-BA69-9786D24111FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B07F95F2-4AF8-4759-BA69-9786D24111FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B07F95F2-4AF8-4759-BA69-9786D24111FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B07F95F2-4AF8-4759-BA69-9786D24111FC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{343E8899-7DB7-407C-9B36-CD4CB3FF4A6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{343E8899-7DB7-407C-9B36-CD4CB3FF4A6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{343E8899-7DB7-407C-9B36-CD4CB3FF4A6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{343E8899-7DB7-407C-9B36-CD4CB3FF4A6C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{302CF4FA-A89A-4E4C-B7F4-7DBFFD9C4EFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{302CF4FA-A89A-4E4C-B7F4-7DBFFD9C4EFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{302CF4FA-A89A-4E4C-B7F4-7DBFFD9C4EFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{302CF4FA-A89A-4E4C-B7F4-7DBFFD9C4EFF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0061929B-BA80-4417-AC9E-C474823D542F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0061929B-BA80-4417-AC9E-C474823D542F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0061929B-BA80-4417-AC9E-C474823D542F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0061929B-BA80-4417-AC9E-C474823D542F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E155F7B0-4FFF-4C6A-B21E-F4D184763BF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E155F7B0-4FFF-4C6A-B21E-F4D184763BF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E155F7B0-4FFF-4C6A-B21E-F4D184763BF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E155F7B0-4FFF-4C6A-B21E-F4D184763BF1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1B8C42FB-6D98-4076-8A46-26767C0A81EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1B8C42FB-6D98-4076-8A46-26767C0A81EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1B8C42FB-6D98-4076-8A46-26767C0A81EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1B8C42FB-6D98-4076-8A46-26767C0A81EA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{52BE4BCF-1AAB-40D4-A54A-151866171C99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52BE4BCF-1AAB-40D4-A54A-151866171C99}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52BE4BCF-1AAB-40D4-A54A-151866171C99}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52BE4BCF-1AAB-40D4-A54A-151866171C99}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E9C1B5E7-0481-409C-BAF6-FD9F39C86E0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E9C1B5E7-0481-409C-BAF6-FD9F39C86E0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9C1B5E7-0481-409C-BAF6-FD9F39C86E0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -115,6 +41,14 @@ Global
 		{D8E9F0A1-3B4C-5D6E-A9F0-2B3C4D5E6F70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8E9F0A1-3B4C-5D6E-A9F0-2B3C4D5E6F70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8E9F0A1-3B4C-5D6E-A9F0-2B3C4D5E6F70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F2A8C41-9B5D-4E67-A1C2-8D4E6F0B2A91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F2A8C41-9B5D-4E67-A1C2-8D4E6F0B2A91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F2A8C41-9B5D-4E67-A1C2-8D4E6F0B2A91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F2A8C41-9B5D-4E67-A1C2-8D4E6F0B2A91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B7C9D63-2E4F-4A81-B3D5-9F6A0C1E4B72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B7C9D63-2E4F-4A81-B3D5-9F6A0C1E4B72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B7C9D63-2E4F-4A81-B3D5-9F6A0C1E4B72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B7C9D63-2E4F-4A81-B3D5-9F6A0C1E4B72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,23 +57,13 @@ Global
 		SolutionGuid = {8520BFDC-9405-4734-9F42-B28FA4F5BF49}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		archilabSharedProject\archilabSharedProject.projitems*{0061929b-ba80-4417-ac9e-c474823d542f}*SharedItemsImports = 4
-		archilabSharedProject\archilabSharedProject.projitems*{1b8c42fb-6d98-4076-8a46-26767c0a81ea}*SharedItemsImports = 4
-		archilabSharedProject\archilabSharedProject.projitems*{27c10638-775c-4729-a41a-45fd7932d5ce}*SharedItemsImports = 4
-		archilabUISharedProject\archilabUISharedProject.projitems*{302cf4fa-a89a-4e4c-b7f4-7dbffd9c4eff}*SharedItemsImports = 4
-		archilabSharedProject\archilabSharedProject.projitems*{343e8899-7db7-407c-9b36-cd4cb3ff4a6c}*SharedItemsImports = 4
-		archilabUISharedProject\archilabUISharedProject.projitems*{4da505ab-ce78-4fde-b728-0532640f259c}*SharedItemsImports = 13
-		archilabUISharedProject\archilabUISharedProject.projitems*{52be4bcf-1aab-40d4-a54a-151866171c99}*SharedItemsImports = 4
-		archilabUISharedProject\archilabUISharedProject.projitems*{7a01e833-f804-49d5-87de-2d202811bb33}*SharedItemsImports = 5
-		archilabUISharedProject\archilabUISharedProject.projitems*{7f959765-2f5b-4faf-84cd-898a1c81dbb5}*SharedItemsImports = 4
-		archilabSharedProject\archilabSharedProject.projitems*{90056c10-1447-46c8-8f9e-2329e651f3c9}*SharedItemsImports = 4
 		archilabSharedProject\archilabSharedProject.projitems*{96867a82-3e80-42b3-92c3-259a231817ed}*SharedItemsImports = 13
-		archilabUISharedProject\archilabUISharedProject.projitems*{b07f95f2-4af8-4759-ba69-9786d24111fc}*SharedItemsImports = 4
-		archilabUISharedProject\archilabUISharedProject.projitems*{b2cf4ff2-1883-46fd-8cb2-72d91d7dbd2f}*SharedItemsImports = 4
-		archilabUISharedProject\archilabUISharedProject.projitems*{e155f7b0-4fff-4c6a-b21e-f4d184763bf1}*SharedItemsImports = 4
-		archilabSharedProject\archilabSharedProject.projitems*{e412996e-712b-4bcb-9925-9c594f317dac}*SharedItemsImports = 4
 		archilabSharedProject\archilabSharedProject.projitems*{e9c1b5e7-0481-409c-baf6-fd9f39c86e0e}*SharedItemsImports = 5
 		archilabSharedProject\archilabSharedProject.projitems*{c7d8e9f0-2a3b-4c5d-9e8f-1a2b3c4d5e6f}*SharedItemsImports = 5
+		archilabUISharedProject\archilabUISharedProject.projitems*{4da505ab-ce78-4fde-b728-0532640f259c}*SharedItemsImports = 13
+		archilabUISharedProject\archilabUISharedProject.projitems*{7a01e833-f804-49d5-87de-2d202811bb33}*SharedItemsImports = 5
 		archilabUISharedProject\archilabUISharedProject.projitems*{d8e9f0a1-3b4c-5d6e-a9f0-2b3c4d5e6f70}*SharedItemsImports = 5
+		archilabSharedProject\archilabSharedProject.projitems*{3f2a8c41-9b5d-4e67-a1c2-8d4e6f0b2a91}*SharedItemsImports = 5
+		archilabUISharedProject\archilabUISharedProject.projitems*{5b7c9d63-2e4f-4a81-b3d5-9f6a0c1e4b72}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

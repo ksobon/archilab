@@ -76,7 +76,6 @@ namespace archilab.Revit.Units
 
             return new Units(us);
         }
-#if !Revit2019 && !Revit2020 && !Revit2021
 
         /// <summary>
         /// 
@@ -101,31 +100,6 @@ namespace archilab.Revit.Units
 
             return units;
         }
-#else
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="units"></param>
-        /// <param name="unitType"></param>
-        /// <param name="formatOptions"></param>
-        /// <returns></returns>
-        public static Units SetFormatOptions(Units units, string unitType, FormatOptions formatOptions)
-        {
-            if (units == null)
-                throw new ArgumentException(nameof(units));
-            if (string.IsNullOrWhiteSpace(unitType))
-                throw new ArgumentException(nameof(unitType));
-            if (formatOptions == null)
-                throw new ArgumentException(nameof(formatOptions));
-
-            var ut = (Autodesk.Revit.DB.UnitType)Enum.Parse(typeof(Autodesk.Revit.DB.UnitType), unitType);
-            var fo = formatOptions.InternalFormatOptions;
-
-            units.InternalUnits.SetFormatOptions(ut, fo);
-
-            return units;
-        }
-#endif
         /// <summary>
         /// 
         /// </summary>

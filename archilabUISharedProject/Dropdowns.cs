@@ -44,21 +44,6 @@ namespace archilabUI
             : base(OutputName, typeof(BoxPlacement), inPorts, outPorts) { }
     }
 
-#if Revit2019 || Revit2020 || Revit2021 || Revit2022 || Revit2023 || Revit2024
-    [NodeName("Parameter Groups")]
-    [NodeCategory("archilab.Revit.Parameter.Query")]
-    [NodeDescription("Retrieve all available Parameter Groups.")]
-    [IsDesignScriptCompatible]
-    public class ParameterGroupUi : CustomGenericEnumerationDropDown
-    {
-        private const string OutputName = "parameterGroup";
-        public ParameterGroupUi() : base(OutputName, typeof(Autodesk.Revit.DB.BuiltInParameterGroup)) { }
-
-        [JsonConstructor]
-        public ParameterGroupUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Autodesk.Revit.DB.BuiltInParameterGroup), inPorts, outPorts) { }
-    }
-#endif
 
     [NodeName("Fill Pattern Target")]
     [NodeCategory("archilab.Revit.Select.Query")]
@@ -82,20 +67,11 @@ namespace archilabUI
     {
         private const string OutputName = "parameterType";
 
-#if Revit2019 || Revit2020 || Revit2021 || Revit2022
-        public ParameterTypeUi() : base(OutputName, typeof(Autodesk.Revit.DB.ParameterType)) { }
-#else
         public ParameterTypeUi() : base(OutputName, typeof(ParameterTypeId)) { }
-#endif
 
         [JsonConstructor]
-#if Revit2019 || Revit2020 || Revit2021 || Revit2022
-        public ParameterTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) 
-            : base(OutputName, typeof(Autodesk.Revit.DB.ParameterType), inPorts, outPorts) { }
-#else
         public ParameterTypeUi(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
             : base(OutputName, typeof(ParameterTypeId), inPorts, outPorts) { }
-#endif
     }
 
     [NodeName("Print Range")]
@@ -979,23 +955,7 @@ namespace archilabUI
             : base(OutputName, typeof(Method), inPorts, outPorts) { }
     }
 
-#if !Revit2021
     // (Konrad) This is replaced by Forge Unit in 2022 and up.
-#else
-    [NodeName("Unit Type")]
-    [NodeCategory("archilab.Revit.Units.Query")]
-    [NodeDescription("Retrieve all available Unit Types.")]
-    [IsDesignScriptCompatible]
-    public class UnitTypeUI : CustomGenericEnumerationDropDown
-    {
-        private const string OutputName = "unitType";
-        public UnitTypeUI() : base(OutputName, typeof(UnitType)) { }
-
-        [JsonConstructor]
-        public UnitTypeUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
-            : base(OutputName, typeof(UnitType), inPorts, outPorts) { }
-    }
-#endif
     [NodeName("Unit Systems")]
     [NodeCategory("archilab.Revit.Units.Query")]
     [NodeDescription("Retrieve all available Unit Systems.")]
@@ -1010,7 +970,6 @@ namespace archilabUI
             : base(OutputName, typeof(UnitSystem), inPorts, outPorts) { }
     }
 
-#if !Revit2019 && !Revit2020 && !Revit2021
     [NodeName("Forge Units")]
     [NodeCategory("archilab.Revit.Units.Query")]
     [NodeDescription("Retrieve all available Forge Units.")]
@@ -1128,21 +1087,6 @@ namespace archilabUI
             return new[] { AstFactory.BuildAssignment(GetAstIdentifierForOutputIndex(0), functionCall) };
         }
     }
-#else
-    [NodeName("Display Unit Types")]
-    [NodeCategory("archilab.Revit.Units.Query")]
-    [NodeDescription("Retrieve all available Display Unit Types.")]
-    [IsDesignScriptCompatible]
-    public class DisplayUnitTypeUI : CustomGenericEnumerationDropDown
-    {
-        private const string OutputName = "unitSystem";
-        public DisplayUnitTypeUI() : base(OutputName, typeof(DisplayUnitType)) { }
-
-        [JsonConstructor]
-        public DisplayUnitTypeUI(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts)
-            : base(OutputName, typeof(DisplayUnitType), inPorts, outPorts) { }
-    }
-#endif
 
     [NodeName("Revision Number Type")]
     [NodeCategory("archilab.Revit.Revisions.Query")]

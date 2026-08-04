@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<RootNamespace>archilabUI</RootNamespace>
+		<AssemblyName>archilabUI</AssemblyName>
+		<ArchilabRevitYear>2027</ArchilabRevitYear>
+		<ArchilabTargetOrdinal>270</ArchilabTargetOrdinal>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+
+	<PropertyGroup>
+	  <DefineConstants>$(DefineConstants);Revit2027;REVIT2026_OR_GREATER;REVIT2027_OR_GREATER</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+	  <PackageReference Include="DynamoVisualProgramming.Core" Version="4.0.2.3852" />
+	  <PackageReference Include="DynamoVisualProgramming.DynamoCoreNodes" Version="4.0.2.3852" />
+	  <PackageReference Include="DynamoVisualProgramming.DynamoServices" Version="4.0.2.3852" />
+	  <PackageReference Include="DynamoVisualProgramming.WpfUILibrary" Version="4.0.2.3852" />
+	  <PackageReference Include="DynamoVisualProgramming.ZeroTouchLibrary" Version="4.0.2.3852" />
+	  <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
+	  <PackageReference Include="Prism" Version="4.1.0" />
+	  <PackageReference Include="RestSharp" Version="105.2.3" />
+	  <PackageReference Include="Revit_All_Main_Versions_API_x64" Version="2027.0.2" />
+	  <PackageReference Include="System.Buffers" Version="4.5.1" />
+	  <PackageReference Include="System.Drawing.Common" Version="8.0.6" />
+	  <PackageReference Include="System.Memory" Version="4.5.4" />
+	  <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+	  <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\archilab2027\archilab2027.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="DSRevitNodesUI">
+	    <HintPath>..\_libs\27.0\DSRevitNodesUI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="RevitNodes">
+	    <HintPath>..\_libs\27.0\RevitNodes.dll</HintPath>
+	  </Reference>
+	  <Reference Include="RevitServices">
+	    <HintPath>..\_libs\27.0\RevitServices.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+	<Import Project="..\archilabUISharedProject\archilabUISharedProject.projitems" Label="Shared" />
+
+	<!-- Local developer convenience: deploy straight into the Dynamo packages
+	     folder. Skipped on CI, which packages from the build output instead.
+	     Non-fatal: Revit holds these assemblies open while it is running, so a
+	     locked file warns rather than failing the build. -->
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CI)' != 'true'">
+	  <Exec Command="if not exist &quot;%25AppData%25\Dynamo\Dynamo Revit\27.0\packages\archi-lab.net\bin&quot; mkdir &quot;%25AppData%25\Dynamo\Dynamo Revit\27.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetPath)&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\27.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)Xceed.Wpf.Toolkit.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\27.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)CommunityToolkit.Mvvm.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\27.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)System.Drawing.Common.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\27.0\packages\archi-lab.net\bin&quot;&#xD;&#xA;xcopy /Q/Y &quot;$(TargetDir)Microsoft.Xaml.Behaviors.dll&quot; &quot;%25AppData%25\Dynamo\Dynamo Revit\27.0\packages\archi-lab.net\bin&quot;" ContinueOnError="WarnAndContinue" />
+	</Target>
+
+	<!-- Drop a ready-to-install Dynamo package in dist\. Release only, so Debug
+	     iteration stays fast, and skipped on CI, which packages explicitly with
+	     a pinned version date. -->
+	<Target Name="PackageForDistribution" AfterTargets="PostBuild" Condition="'$(CI)' != 'true' AND '$(Configuration)' == 'Release'">
+	  <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildThisFileDirectory)..\scripts\package.ps1&quot; -RevitYear 2027" />
+	</Target>
+
+</Project>

@@ -679,14 +679,16 @@ namespace archilab.Revit.Elements
                 case Autodesk.Revit.DB.ViewType.SystemBrowser:
                 case Autodesk.Revit.DB.ViewType.CostReport:
                 case Autodesk.Revit.DB.ViewType.LoadsReport:
+#if REVIT2027_OR_GREATER
+                case Autodesk.Revit.DB.ViewType.PressureLossReport:
+#else
                 case Autodesk.Revit.DB.ViewType.PresureLossReport:
+#endif
                 case Autodesk.Revit.DB.ViewType.PanelSchedule:
                 case Autodesk.Revit.DB.ViewType.ColumnSchedule:
                 case Autodesk.Revit.DB.ViewType.Walkthrough:
                 case Autodesk.Revit.DB.ViewType.Rendering:
-#if !Revit2019
                 case Autodesk.Revit.DB.ViewType.SystemsAnalysisReport:
-#endif
                 case Autodesk.Revit.DB.ViewType.Internal:
                     return false;
                 default:

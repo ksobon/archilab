@@ -1,0 +1,91 @@
+﻿name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Override the version datestamp as yyyy-MM-dd (blank = today). Dry run: uploads artifacts, creates no release.'
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+
+jobs:
+  release:
+    runs-on: windows-latest
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~\.nuget\packages
+          key: nuget-all-${{ hashFiles('**/*.csproj', 'nuget.config') }}
+          restore-keys: nuget-all-
+
+      # The dispatch input reaches the shell through env, never through
+      # expression interpolation, so it cannot run as PowerShell before the
+      # format check rejects it.
+      - name: Determine version date
+        id: ver
+        shell: pwsh
+        env:
+          INPUT_DATE: ${{ inputs.date }}
+        run: |
+          $d = if ($env:INPUT_DATE) {
+              [datetime]::ParseExact($env:INPUT_DATE, 'yyyy-MM-dd', $null)
+          } else {
+              Get-Date
+          }
+          "date=$($d.ToString('yyyy-MM-dd'))" >> $env:GITHUB_OUTPUT
+          Write-Host "Version date: $($d.ToString('yyyy-MM-dd'))"
+
+      # One build round produces three packages, each with its own version.
+      # The build derives the version from ArchilabBuildDate; packaging reads it
+      # back off the compiled assemblies.
+      - name: Build all Revit versions
+        shell: pwsh
+        env:
+          VERSION_DATE: ${{ steps.ver.outputs.date }}
+        run: |
+          foreach ($y in 2025, 2026, 2027) {
+              dotnet build "archilabUI$y/archilabUI$y.csproj" -c Release -p:ArchilabBuildDate=$env:VERSION_DATE
+              if ($LASTEXITCODE -ne 0) { throw "Build failed for Revit $y" }
+          }
+
+      # Versions are reported from the built assemblies rather than recomputed,
+      # so what is logged is what actually shipped.
+      - name: Package
+        shell: pwsh
+        run: |
+          foreach ($y in 2025, 2026, 2027) {
+              ./scripts/package.ps1 -RevitYear $y
+          }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dynamo-packages-${{ steps.ver.outputs.date }}
+          path: dist/*.zip
+          if-no-files-found: error
+
+      # Publishing to the Dynamo Package Manager stays manual -- it has no
+      # publish API. Download these zips and upload them through Dynamo.
+      - name: Create GitHub release
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+
